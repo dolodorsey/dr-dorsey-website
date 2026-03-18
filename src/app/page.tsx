@@ -46,7 +46,7 @@ const DIVISIONS = [
     body: 'Casper Group operates multi-concept food and beverage venues with an active prospect pipeline across 15 cities. Forever Futbol is an immersive museum destination celebrating the world\'s game.',
     tags: ['Casper Group','Forever Futbol','Living Legends','Bodegea Archive'],
     visual: 'food',
-    bgImg: `${SB}/casper_group/logos/casper-logo-white.png`,
+    bgImg: `${SB}/casper_group/logos/casper-white.png`,
   },
   {
     num: '006', label: 'Division Three', name: 'Products & Technology',
@@ -270,46 +270,29 @@ export default function Home() {
 
       {/* ═══ 001 — HERO ═══ */}
       <section style={{ position: 'relative', height: '100vh', minHeight: 800, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', overflow: 'hidden', background: 'var(--void)' }}>
-        {/* FULL SCREEN VIDEO per SOP */}
+        {/* FULL SCREEN VIDEO — BRIGHTENED as center focus */}
         <video
           autoPlay muted loop playsInline
           onLoadedData={() => setHeroLoaded(true)}
           className="hero-video"
-          style={{ opacity: heroLoaded ? 0.3 : 0, transition: 'opacity 2.5s cubic-bezier(0.16,1,0.3,1)', zIndex: 1 }}
+          style={{ opacity: heroLoaded ? 0.55 : 0, transition: 'opacity 2.5s cubic-bezier(0.16,1,0.3,1)', zIndex: 1 }}
         >
           <source src="/videos/hero-animation.mp4" type="video/mp4" />
         </video>
 
-        {/* Depth overlays */}
-        <div style={{ position: 'absolute', inset: 0, zIndex: 2, background: 'radial-gradient(ellipse 80% 70% at 60% 30%,rgba(29,21,8,0.5) 0%,transparent 65%), radial-gradient(ellipse 40% 50% at 15% 75%,rgba(4,4,4,0.8) 0%,transparent 55%)' }} />
-        <div style={{ position: 'absolute', inset: 0, zIndex: 2, background: 'linear-gradient(to top,var(--void) 0%,transparent 35%,transparent 65%,rgba(4,4,4,0.5) 100%)' }} />
+        {/* Light vignette — edges only, center stays bright for video */}
+        <div style={{ position: 'absolute', inset: 0, zIndex: 2, background: 'radial-gradient(ellipse 70% 60% at 50% 45%,transparent 0%,rgba(4,4,4,0.35) 55%,rgba(4,4,4,0.85) 100%)' }} />
+        {/* Bottom fade for text legibility */}
+        <div style={{ position: 'absolute', inset: 0, zIndex: 2, background: 'linear-gradient(to top,var(--void) 0%,rgba(4,4,4,0.6) 20%,transparent 45%,transparent 80%,rgba(4,4,4,0.3) 100%)' }} />
         
         {/* Grain layer */}
-        <div style={{ position: 'absolute', inset: 0, zIndex: 3, opacity: 0.04, backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'1\'/%3E%3C/svg%3E")', backgroundSize: '128px' }} />
-        
-        {/* Architectural grid lines */}
-        <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', opacity: 0.05, zIndex: 3 }}>
-          <svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" style={{ width: '100%', height: '100%' }}>
-            <line x1="0" y1="300" x2="1400" y2="300" stroke="#C8A96E" strokeWidth="0.3" />
-            <line x1="0" y1="600" x2="1400" y2="600" stroke="#C8A96E" strokeWidth="0.15" />
-            <line x1="350" y1="0" x2="350" y2="900" stroke="#C8A96E" strokeWidth="0.2" />
-            <line x1="1050" y1="0" x2="1050" y2="900" stroke="#C8A96E" strokeWidth="0.15" />
-            <circle cx="1050" cy="300" r="200" stroke="#C8A96E" strokeWidth="0.3" fill="none" />
-            <circle cx="1050" cy="300" r="80" stroke="#C8A96E" strokeWidth="0.2" fill="none" />
-            <circle cx="1050" cy="300" r="4" fill="#C8A96E" opacity="0.4" />
-          </svg>
-        </div>
+        <div style={{ position: 'absolute', inset: 0, zIndex: 3, opacity: 0.03, backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'1\'/%3E%3C/svg%3E")', backgroundSize: '128px' }} />
 
-        {/* KHG Logo — large on first load per SOP */}
-        <div className="logo-entry" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', zIndex: 3, opacity: 0.035, pointerEvents: 'none' }}>
-          <Img src={dorseyAssets.kollectiveGoldWhite} alt="" style={{ width: 'clamp(300px,40vw,600px)', height: 'auto' }} />
-        </div>
-
-        {/* Ghost numeral */}
-        <div style={{ position: 'absolute', right: '-0.05em', bottom: '-0.15em', fontFamily: "'Playfair Display',serif", fontSize: 'clamp(200px,40vw,600px)', fontWeight: 300, color: 'rgba(200,169,110,0.025)', lineHeight: 1, pointerEvents: 'none', zIndex: 3 }}>I</div>
+        {/* Ghost numeral — subtle corner accent */}
+        <div style={{ position: 'absolute', right: '-0.05em', bottom: '-0.15em', fontFamily: "'Playfair Display',serif", fontSize: 'clamp(200px,40vw,600px)', fontWeight: 300, color: 'rgba(200,169,110,0.02)', lineHeight: 1, pointerEvents: 'none', zIndex: 3 }}>I</div>
         
-        {/* Section indicator */}
-        <div style={{ position: 'absolute', top: '50%', right: 'var(--gutter)', transform: 'translateY(-50%)', fontFamily: "'DM Mono',monospace", fontSize: 'var(--text-micro)', letterSpacing: '0.2em', color: 'rgba(200,169,110,0.2)', writingMode: 'vertical-rl', zIndex: 4 }}>001 / 012 — EMPIRE HQ</div>
+        {/* Section indicator — top right */}
+        <div style={{ position: 'absolute', top: '50%', right: 'var(--gutter)', transform: 'translateY(-50%)', fontFamily: "'DM Mono',monospace", fontSize: 'var(--text-micro)', letterSpacing: '0.2em', color: 'rgba(200,169,110,0.15)', writingMode: 'vertical-rl', zIndex: 4 }}>001 / 012 — EMPIRE HQ</div>
 
         {/* Scroll indicator */}
         <div style={{ position: 'absolute', bottom: 32, left: '50%', transform: 'translateX(-50%)', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
@@ -317,19 +300,20 @@ export default function Home() {
           <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 6, letterSpacing: '0.4em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.2)' }}>Scroll</div>
         </div>
 
-        {/* Hero content */}
-        <div style={{ position: 'relative', zIndex: 10, padding: '0 var(--gutter) 80px', maxWidth: 1400 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 28, opacity: 0, animation: 'fadeRight 1s 0.6s cubic-bezier(0.16,1,0.3,1) forwards' }}>
-            <div style={{ width: 48, height: 1, background: 'var(--gold)', opacity: 0.5 }} />
-            <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 'var(--text-micro)', letterSpacing: '0.45em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.6)' }}>The Kollective Hospitality Group · Est. by Dr. Dorsey</span>
+        {/* Hero content — bottom-left perimeter, off the video center */}
+        <div style={{ position: 'relative', zIndex: 10, padding: '0 var(--gutter) 72px', maxWidth: 700 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20, opacity: 0, animation: 'fadeRight 1s 0.6s cubic-bezier(0.16,1,0.3,1) forwards' }}>
+            <Img src={dorseyAssets.kollectiveGoldWhite} alt="KHG" style={{ height: 22, width: 'auto', opacity: 0.7 }} />
+            <div style={{ width: 32, height: 1, background: 'var(--gold)', opacity: 0.4 }} />
+            <span style={{ fontFamily: "'DM Mono',monospace", fontSize: 'var(--text-micro)', letterSpacing: '0.4em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.5)' }}>Est. by Dr. Dorsey</span>
           </div>
-          <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'var(--text-hero)', fontWeight: 300, lineHeight: 0.88, letterSpacing: '-0.03em', color: 'var(--ivory)', opacity: 0, animation: 'heroReveal 1.4s 0.3s cubic-bezier(0.16,1,0.3,1) forwards', maxWidth: '80%' }}>
+          <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(48px, 8vw, 120px)', fontWeight: 300, lineHeight: 0.92, letterSpacing: '-0.02em', color: 'var(--ivory)', opacity: 0, animation: 'heroReveal 1.4s 0.3s cubic-bezier(0.16,1,0.3,1) forwards' }}>
             The Architecture<br />of a Modern<br /><em style={{ color: 'var(--gold)', fontStyle: 'italic' }}>Empire</em>
           </h1>
-          <p style={{ fontSize: 'var(--text-body-lg)', color: 'var(--muted)', maxWidth: 520, marginTop: 32, lineHeight: 1.8, opacity: 0, animation: 'fadeUp 1s 1s cubic-bezier(0.16,1,0.3,1) forwards' }}>
-            A founder-led multi-brand ecosystem spanning hospitality, nightlife, events, food & beverage, museums, products, media, and technology across 8 cities and 50+ ventures.
+          <p style={{ fontSize: 'var(--text-body)', color: 'rgba(242,237,227,0.5)', maxWidth: 420, marginTop: 24, lineHeight: 1.8, opacity: 0, animation: 'fadeUp 1s 1s cubic-bezier(0.16,1,0.3,1) forwards' }}>
+            A founder-led multi-brand ecosystem across hospitality, events, food & beverage, museums, products, and technology — 8 cities, 50+ ventures.
           </p>
-          <div style={{ display: 'flex', gap: 16, marginTop: 40, opacity: 0, animation: 'fadeUp 1s 1.2s cubic-bezier(0.16,1,0.3,1) forwards' }}>
+          <div style={{ display: 'flex', gap: 16, marginTop: 32, opacity: 0, animation: 'fadeUp 1s 1.2s cubic-bezier(0.16,1,0.3,1) forwards' }}>
             <a href="#manifesto" className="cta-primary"><span>Enter the Ecosystem</span></a>
           </div>
         </div>
@@ -500,9 +484,10 @@ export default function Home() {
           <div className="rev brands-masonry">
             {filteredBrands.map(b => (
               <div key={b.name} className="interactive" style={{ breakInside: 'avoid', padding: '20px', background: 'rgba(255,255,255,0.01)', border: '1px solid rgba(200,169,110,0.04)', marginBottom: 2, cursor: b.website ? 'pointer' : 'default' }} onClick={() => b.website && window.open(b.website, '_blank')}>
-                {(b.logo || b.flyer) && (
-                  <div style={{ marginBottom: 12, overflow: 'hidden', aspectRatio: b.flyer ? '3/4' : '3/2', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.3)' }}>
-                    <Img src={b.flyer || b.logo || ''} alt={b.name} style={{ width: '100%', height: '100%', objectFit: b.flyer ? 'cover' : 'contain', padding: b.flyer ? 0 : 16 }} />
+                {/* LOGO DISPLAY — always show logo, never flyer here */}
+                {b.logo && (
+                  <div style={{ marginBottom: 14, overflow: 'hidden', aspectRatio: '3/2', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent' }}>
+                    <Img src={b.logo} alt={b.name} style={{ maxWidth: '70%', maxHeight: '70%', objectFit: 'contain', opacity: 0.85 }} />
                   </div>
                 )}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
