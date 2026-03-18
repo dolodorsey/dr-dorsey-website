@@ -218,7 +218,7 @@ export default function Home() {
         {casperBrands.slice(0, 6).map(b => (
           <div key={b.name} className="interactive" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, padding: '16px 6px', background: 'rgba(255,255,255,0.015)', border: '1px solid rgba(200,169,110,0.05)', cursor: 'pointer' }}>
             <div style={{ width: 52, height: 52, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Img src={b.mascot || b.logo} alt={b.name} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+              <Img src={b.logo} alt={b.name} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
             </div>
             <div style={{ fontSize: 'var(--text-micro)', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.4)', textAlign: 'center', fontFamily: "'DM Mono',monospace" }}>{b.name}</div>
           </div>

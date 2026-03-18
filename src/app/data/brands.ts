@@ -16,7 +16,7 @@ const SB = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/br
 export const brands: Brand[] = [
   { name: 'HugLife Events', division: 'Events', status: 'flagship', featured: true, logo: `${SB}/huglife_events/00-brand-assets/logos/huglife-logo-buddha-black.png`, website: 'https://huglife.vercel.app' },
   { name: 'Forever Futbol', division: 'Museums', status: 'flagship', featured: true, logo: `${SB}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png`, website: 'https://forever-futbol.vercel.app' },
-  { name: 'Casper Group', division: 'F&B', status: 'flagship', featured: true, logo: `${SB}/casper_group/logos/casper-logo-white.png`, website: 'https://casper-group.vercel.app' },
+  { name: 'Casper Group', division: 'F&B', status: 'flagship', featured: true, logo: `${SB}/casper_group/logos/casper-white.png`, website: 'https://casper-group.vercel.app' },
   { name: 'Good Times', division: 'Technology', status: 'active', logo: `${SB}/good_times/00-brand-assets/logos/good-times-logo-gold-black.png`, website: 'https://good-times-app.vercel.app' },
   { name: 'Mind Studio', division: 'Wellness', status: 'active', website: 'https://themindstudioworldwide.com' },
   { name: 'Infinity Water', division: 'Products', status: 'active', website: 'https://infinity-water-website.vercel.app' },
@@ -56,15 +56,15 @@ export const statusColors: Record<BrandStatus, string> = {
 };
 
 export const casperBrands = [
-  { name: 'Sweet Tooth', logo: `${SB}/sweet_tooth/logos/sweet-tooth-logo.png`, mascot: `${SB}/sweet_tooth/mascots/sweet-tooth.png` },
-  { name: 'Pasta Bish', logo: `${SB}/pasta_bish/logos/pasta-bish-logo.png`, mascot: `${SB}/pasta_bish/mascots/mac-daddy.png` },
-  { name: 'Patty Daddy', logo: `${SB}/patty_daddy/logos/patty-daddy-logo.png`, mascot: `${SB}/patty_daddy/mascots/paddy-daddy.png` },
-  { name: 'Mr. Oyster', logo: `${SB}/mr_oyster/logos/mr-oyster-logo.png`, mascot: `${SB}/mr_oyster/mascots/mr-miss-oyster.png` },
-  { name: 'TOSSD', logo: `${SB}/tossd/logos/tossd-logo.png`, mascot: `${SB}/tossd/mascots/king-kale.png` },
-  { name: 'Taco Yaki', logo: `${SB}/taco_yaki/logos/taco-yaki-logo.png`, mascot: `${SB}/taco_yaki/mascots/yaki.png` },
-  { name: 'Mojo Juice', logo: `${SB}/mojo_juice/logos/mojo-juice-logo.png`, mascot: `${SB}/mojo_juice/mascots/mojo-the-mango.png` },
-  { name: 'Morning After', logo: `${SB}/morning_after/logos/morning-after-logo.png`, mascot: `${SB}/morning_after/mascots/eggavier.png` },
-  { name: 'Angel Wings', logo: `${SB}/angel_wings/logos/angel-wings-logo.png`, mascot: `${SB}/angel_wings/mascots/loudini.png` },
+  { name: 'Angel Wings', logo: `${SB}/casper_group/logos/angel-wings.png` },
+  { name: 'Pasta Bish', logo: `${SB}/casper_group/logos/pasta-bish.png` },
+  { name: 'Patty Daddy', logo: `${SB}/casper_group/logos/patty-daddy.png` },
+  { name: 'Mr. Oyster', logo: `${SB}/casper_group/logos/mr-oyster.png` },
+  { name: 'TOSSD', logo: `${SB}/casper_group/logos/tossd.png` },
+  { name: 'Taco Yaki', logo: `${SB}/casper_group/logos/taco-yaki.png` },
+  { name: 'Mojo Juice', logo: `${SB}/casper_group/logos/casper-group.png` },
+  { name: 'Morning After', logo: `${SB}/casper_group/logos/casper-group.png` },
+  { name: 'Sweet Tooth', logo: `${SB}/casper_group/logos/casper-group.png` },
 ];
 
 export const dorseyAssets = {
