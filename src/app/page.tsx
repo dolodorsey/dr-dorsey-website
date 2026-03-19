@@ -202,13 +202,13 @@ export default function Home() {
   /* ─── SLIDE VISUALS ────────────────────────────────────────── */
   const SlideVisual = ({ type }: { type: string }) => {
     if (type === 'events') return (
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, width: 'clamp(220px,22vw,340px)' }}>
-        {eventShowcase.slice(0, 4).map(e => (
-          <div key={e.brand} style={{ position: 'relative', aspectRatio: '3/4', overflow: 'hidden', border: '1px solid rgba(200,169,110,0.06)' }}>
-            <Img src={e.img} alt={e.brand} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85, transition: 'transform 0.6s var(--ease-out)' }} />
-            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '20px 10px 8px', background: 'linear-gradient(transparent,rgba(0,0,0,0.85))' }}>
-              <div style={{ fontSize: 'var(--text-micro)', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.7)', fontFamily: "'DM Mono',monospace" }}>{e.brand}</div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10, width: 'clamp(240px,24vw,380px)' }}>
+        {eventShowcase.filter(e => e.logo).slice(0, 6).map(e => (
+          <div key={e.brand} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, padding: '16px 8px', background: 'rgba(255,255,255,0.015)', border: '1px solid rgba(200,169,110,0.06)' }}>
+            <div style={{ width: 56, height: 56, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Img src={e.logo!} alt={e.brand} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', opacity: 0.85 }} />
             </div>
+            <div style={{ fontSize: 'var(--text-micro)', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.45)', textAlign: 'center', fontFamily: "'DM Mono',monospace", lineHeight: 1.3 }}>{e.brand}</div>
           </div>
         ))}
       </div>
@@ -445,24 +445,29 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ═══ 008 — EVENT SHOWCASE ═══ */}
-      <section style={{ background: 'var(--ink)', padding: 'var(--pad) 0', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ padding: '0 var(--gutter)', maxWidth: 1400, margin: '0 auto 48px' }}>
-          <div className="rev">
-            <SectionNum num="008" label="Event Showcase" />
+      {/* ═══ 008 — EVENT BRANDS ═══ */}
+      <section style={{ background: 'var(--ink)', padding: 'var(--pad) var(--gutter)', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ maxWidth: 1400, margin: '0 auto' }}>
+          <div className="rev" style={{ marginBottom: 48 }}>
+            <SectionNum num="008" label="Event Brands" />
             <h2 className="heading-empire" style={{ fontSize: 'var(--text-section)' }}>The world we<br /><em>curate.</em></h2>
           </div>
-        </div>
-        <div className="rev-scale" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 3, padding: '0 3px' }}>
-          {eventShowcase.map((e, i) => (
-            <div key={e.brand} className="interactive" style={{ position: 'relative', aspectRatio: i === 0 || i === 3 ? '4/5' : '3/4', overflow: 'hidden', cursor: 'pointer' }}>
-              <Img src={e.img} alt={e.brand} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.8s var(--ease-out)' }} />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 50%, rgba(0,0,0,0.8))' }} />
-              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '24px 16px' }}>
-                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 'var(--text-micro)', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.7)' }}>{e.brand}</div>
+          <div className="rev stagger" style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 2 }}>
+            {eventShowcase.map(e => (
+              <div key={e.brand} className="interactive" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 12, padding: 'clamp(20px,3vw,40px) 12px', background: 'rgba(255,255,255,0.01)', border: '1px solid rgba(200,169,110,0.04)', textAlign: 'center', minHeight: 140 }}>
+                {e.logo ? (
+                  <div style={{ width: 72, height: 72, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Img src={e.logo} alt={e.brand} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', opacity: 0.8 }} />
+                  </div>
+                ) : (
+                  <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(200,169,110,0.06)', border: '1px solid rgba(200,169,110,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, color: 'rgba(200,169,110,0.4)', fontStyle: 'italic' }}>{e.brand[0]}</span>
+                  </div>
+                )}
+                <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 'var(--text-micro)', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(200,169,110,0.5)' }}>{e.brand}</div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 

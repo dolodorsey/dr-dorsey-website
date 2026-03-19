@@ -85,14 +85,16 @@ export const dorseyAssets = {
 };
 
 export const eventShowcase = [
-  { brand: 'REMIX', img: `${SB}/remix_event/03-event-flyers/remix-dj-dates-cities.png` },
-  { brand: 'NOIR', img: `${SB}/noir_event/03_event_flyers/NOIR_NEWS.png` },
-  { brand: 'Taste of Art', img: `${SB}/taste_of_art/03_event_flyers/TASTE_MAIN2.JPEG` },
-  { brand: 'Gangsta Gospel', img: `${SB}/gangsta_gospel/03_event_flyers/GANGSTA_DATE.png` },
-  { brand: 'WRST BHVR', img: `${SB}/wrst_bhvr_event/03-event-flyers/wrst-bhvr-napkin-wars-crime-scene.png` },
-  { brand: "Sunday's Best", img: `${SB}/sundays_best/03_event_flyers/SUNDAYS_BEST_MAIN2.JPEG` },
-  { brand: 'Paparazzi', img: `${SB}/paparazzi/03_event_flyers/PAPARAZZI_NEWS.png` },
-  { brand: 'Pawchella', img: `${SB}/pawchella/03_event_flyers/PAWCHELLA_MAIN.JPEG` },
+  { brand: 'REMIX', logo: `${SB}/remix_event/01_logos/REMIX_LOGO.png`, img: `${SB}/remix_event/03-event-flyers/remix-dj-dates-cities.png` },
+  { brand: 'NOIR', logo: `${SB}/noir_event/01_logos/NOIR_LOGO.png`, img: `${SB}/noir_event/03_event_flyers/NOIR_NEWS.png` },
+  { brand: 'Taste of Art', logo: `${SB}/taste_of_art/01_logos/TASTE_OF_ART_LOGO.png`, img: `${SB}/taste_of_art/03_event_flyers/TASTE_MAIN2.JPEG` },
+  { brand: 'Gangsta Gospel', logo: `${SB}/gangsta_gospel/01_logos/GANGSTA_GOSPEL_LOGO.png`, img: `${SB}/gangsta_gospel/03_event_flyers/GANGSTA_DATE.png` },
+  { brand: 'WRST BHVR', logo: `${SB}/wrst_bhvr_event/03_event_flyers/WRST_generic_logo.png`, img: `${SB}/wrst_bhvr_event/03-event-flyers/wrst-bhvr-napkin-wars-crime-scene.png` },
+  { brand: 'HugLife', logo: `${SB}/huglife_events/00-brand-assets/logos/huglife-logo-buddha-black.png` },
+  { brand: 'Forever Futbol', logo: `${SB}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png` },
+  { brand: 'The Kulture' },
+  { brand: 'Cravings' },
+  { brand: 'Stella' },
 ];
 
 export const productShots = {
