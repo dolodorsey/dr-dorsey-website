@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 
 const SB = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics';
 const WEB = `${SB}/dr_dorsey/website`;
+const KHG_LOGO = `${SB}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
 
 const LOGOS = [
   { n:'HugLife', src:`${SB}/huglife_events/00-brand-assets/logos/huglife-logo-buddha-black.png`, url:'https://huglife.vercel.app' },
@@ -15,19 +16,20 @@ const LOGOS = [
   { n:'Taste of Art', src:`${SB}/taste_of_art/01_logos/TASTE_OF_ART_LOGO.png` },
 ];
 
+/* Division logos added per request */
 const DIVISIONS = [
-  { num:'01', name:'HugLife Events', desc:'15+ event brands across nightlife, culture, food experiences, and lifestyle.', tags:['NOIR','REMIX','Taste of Art','WRST BHVR'], bg:`${WEB}/luxury-venue.jpg` },
-  { num:'02', name:'Casper Group', desc:'Food & beverage empire — restaurants, bars, and culinary experiences.', tags:['Bodegea','Casper'] },
-  { num:'03', name:'Forever Futbol', desc:'The world\'s first immersive futbol museum. Atlanta. May 29 — Jul 6, 2026.', tags:['Museum','ATL'] },
-  { num:'04', name:'Good Times', desc:'837 venues. 10 cities. The nightlife & events discovery platform.', tags:['App','Technology'] },
-  { num:'05', name:'Mind Studio', desc:'Telemed wellness MSO — clinic, consumer, and personal injury verticals.', tags:['Wellness','MSO'], bg:`${WEB}/garden-district.jpg` },
-  { num:'06', name:'Products', desc:'Consumer goods engineered for lifestyle — energy, hydration, merchandise.', tags:['Infinity Water','Pronto','Stush'] },
-  { num:'07', name:'Technology', desc:'AI-first platforms — 34 departments, 198 agents, full autonomous operation.', tags:['Rule Radar','UTube U'] },
-  { num:'08', name:'Services', desc:'Umbrella Group — legal, roadside, on-call infrastructure services.', tags:['Umbrella','S.O.S'] },
+  { num:'01', name:'HugLife Events', desc:'15+ event brands across nightlife, culture, food experiences, and lifestyle.', tags:['NOIR','REMIX','Taste of Art','WRST BHVR'], logo:`${SB}/huglife_events/00-brand-assets/logos/huglife-logo-buddha-black.png` },
+  { num:'02', name:'Casper Group', desc:'Food & beverage empire — restaurants, bars, and culinary experiences.', tags:['Bodegea','Casper'], logo:`${SB}/casper_group/logos/casper-white.png` },
+  { num:'03', name:'Forever Futbol', desc:'The world\'s first immersive futbol museum. Atlanta. May 29 — Jul 6, 2026.', tags:['Museum','ATL'], logo:`${SB}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png` },
+  { num:'04', name:'Good Times', desc:'837 venues. 10 cities. The nightlife & events discovery platform.', tags:['App','Technology'], logo:`${SB}/good_times/00-brand-assets/logos/good-times-logo-gold-black.png` },
+  { num:'05', name:'Mind Studio', desc:'Telemed wellness MSO — clinic, consumer, and personal injury verticals.', tags:['Wellness','MSO'], logo:`${SB}/mind_studio/gt_card_mind_studio.png` },
+  { num:'06', name:'Products', desc:'Consumer goods engineered for lifestyle — energy, hydration, merchandise.', tags:['Infinity Water','Pronto','Stush'], logo:`${SB}/casper_group/logos/casper-white.png` },
+  { num:'07', name:'Technology', desc:'AI-first platforms — 34 departments, 198 agents, full autonomous operation.', tags:['Rule Radar','UTube U'], logo:`${SB}/good_times/00-brand-assets/logos/good-times-logo-gold-black.png` },
+  { num:'08', name:'Services', desc:'Umbrella Group — legal, roadside, on-call infrastructure services.', tags:['Umbrella','S.O.S'], logo:`${SB}/umbrella_injury/00-brand-assets/logos/hurt-911-logo-black.png` },
 ];
 
 const PILLARS = [
-  { num:'01', title:'Compound Vision', body:'Every brand is designed to make the next one stronger. Events drive products, products fund technology, technology automates everything. The ecosystem feeds itself.' },
+  { num:'01', title:'Compound Vision', body:'Every brand is designed to make the next one stronger. Events drive products, products fund technology, technology automates everything.' },
   { num:'02', title:'Build in Silence', body:'Greatness is earned in silence, not performed for an audience. The results arrive when the work is done, not when it\'s announced.' },
   { num:'03', title:'Extraordinary is the Baseline', body:'"Good enough" is disqualifying. Every output — every flyer, every event, every product — is held to a standard most people save for their best work.' },
   { num:'04', title:'Systems Over Hustle', body:'198 AI agents run 34 departments across 57+ entities. The empire doesn\'t depend on one person being in the room. It depends on the system being right.' },
@@ -40,15 +42,16 @@ const METRICS = [
   { val:'8', label:'Cities', desc:'Atlanta, Houston, Miami, LA, Dallas, DC, Charlotte, New York — with expansion targets already in pipeline.' },
 ];
 
+/* Cities with background images */
 const CITIES = [
-  { name:'Atlanta', state:'Georgia', count:'25+ active brands', hq:true },
-  { name:'Houston', state:'Texas', count:'10+ brands' },
-  { name:'Miami', state:'Florida', count:'Expanding' },
-  { name:'Los Angeles', state:'California', count:'Active' },
-  { name:'Dallas', state:'Texas', count:'Active' },
-  { name:'Washington', state:'D.C.', count:'Active' },
-  { name:'Charlotte', state:'N. Carolina', count:'Active' },
-  { name:'New York', state:'New York', count:'Pipeline' },
+  { name:'Atlanta', state:'Georgia', count:'25+ active brands', hq:true, bg:`${WEB}/hero-bg.jpg` },
+  { name:'Houston', state:'Texas', count:'10+ brands', bg:`${WEB}/luxury-venue.jpg` },
+  { name:'Miami', state:'Florida', count:'Expanding', bg:`${WEB}/rooftop-lounge.jpg` },
+  { name:'Los Angeles', state:'California', count:'Active', bg:`${WEB}/penthouse-skyline.jpg` },
+  { name:'Dallas', state:'Texas', count:'Active', bg:`${WEB}/garden-district.jpg` },
+  { name:'Washington', state:'D.C.', count:'Active', bg:`${WEB}/thesis-bg.jpg` },
+  { name:'Charlotte', state:'N. Carolina', count:'Active', bg:`${WEB}/luxury-venue.jpg` },
+  { name:'New York', state:'New York', count:'Pipeline', bg:`${WEB}/rooftop-lounge.jpg` },
 ];
 
 const TIMELINE = [
@@ -69,13 +72,12 @@ function useReveal() {
   useEffect(() => {
     const el = ref.current; if (!el) return;
     const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVis(true); obs.disconnect(); } }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
-    obs.observe(el);
-    return () => obs.disconnect();
+    obs.observe(el); return () => obs.disconnect();
   }, []);
   return { ref, vis };
 }
 
-function useCounter(target: number, duration = 2000) {
+function useCounter(target: number, dur = 2000) {
   const ref = useRef<HTMLDivElement>(null);
   const [val, setVal] = useState(0);
   const started = useRef(false);
@@ -84,191 +86,37 @@ function useCounter(target: number, duration = 2000) {
     const obs = new IntersectionObserver(([e]) => {
       if (e.isIntersecting && !started.current) {
         started.current = true;
-        const start = performance.now();
-        function up(t: number) {
-          const p = Math.min((t - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - p, 4);
-          setVal(Math.floor(eased * target));
-          if (p < 1) requestAnimationFrame(up);
-        }
-        requestAnimationFrame(up);
-        obs.disconnect();
+        const s = performance.now();
+        function up(t: number) { const p = Math.min((t-s)/dur,1); setVal(Math.floor((1-Math.pow(1-p,4))*target)); if(p<1)requestAnimationFrame(up); }
+        requestAnimationFrame(up); obs.disconnect();
       }
     }, { threshold: 0.5 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [target, duration]);
+    obs.observe(el); return () => obs.disconnect();
+  }, [target, dur]);
   return { ref, val };
 }
 
-/* ═══ COMPONENTS ═══ */
-function Reveal({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+function Reveal({ children, className='', delay=0, style={} }: { children: React.ReactNode; className?: string; delay?: number; style?: React.CSSProperties }) {
   const { ref, vis } = useReveal();
-  return (
-    <div ref={ref} className={className} style={{
-      opacity: vis ? 1 : 0,
-      transform: vis ? 'translateY(0)' : 'translateY(40px)',
-      transition: `opacity 0.8s cubic-bezier(0.16,1,0.3,1) ${delay}s, transform 0.8s cubic-bezier(0.16,1,0.3,1) ${delay}s`,
-    }}>{children}</div>
-  );
+  return <div ref={ref} className={className} style={{ opacity:vis?1:0, transform:vis?'translateY(0)':'translateY(40px)', transition:`opacity 0.8s cubic-bezier(0.16,1,0.3,1) ${delay}s, transform 0.8s cubic-bezier(0.16,1,0.3,1) ${delay}s`, ...style }}>{children}</div>;
 }
 
-function StatNum({ target, suffix = '' }: { target: number; suffix?: string }) {
+function StatNum({ target, suffix='' }: { target:number; suffix?:string }) {
   const { ref, val } = useCounter(target);
-  return <div ref={ref} style={S.heroStatNum}>{val}{suffix}</div>;
+  return <div ref={ref} className="stat-num">{val}{suffix}</div>;
 }
 
-/* ═══ STYLES (inline for single-file) ═══ */
-const S: Record<string, React.CSSProperties> = {
-  /* Preloader */
-  preloader: { position:'fixed',top:0,left:0,width:'100%',height:'100%',background:'#060607',zIndex:10000,display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',transition:'opacity 1s cubic-bezier(0.16,1,0.3,1), visibility 1s' },
-  preloaderHidden: { opacity:0,visibility:'hidden' as const,pointerEvents:'none' as const },
-  preloaderMark: { width:72,height:72,border:'1px solid rgba(200,169,110,0.3)',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center' },
-  preloaderMarkImg: { width:40,height:40,objectFit:'contain' as const,filter:'brightness(1.2)' },
-  
-  /* Nav */
-  nav: { position:'fixed' as const,top:0,left:0,width:'100%',zIndex:1000,padding:'24px clamp(20px,4vw,80px)',display:'flex',alignItems:'center',justifyContent:'space-between',transition:'background 0.4s, backdrop-filter 0.4s' },
-  navScrolled: { background:'rgba(6,6,7,0.88)',backdropFilter:'blur(24px)',WebkitBackdropFilter:'blur(24px)' },
-  navBrand: { display:'flex',alignItems:'center',gap:12,textDecoration:'none' },
-  navMark: { width:36,height:36,border:'1px solid rgba(200,169,110,0.3)',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center' },
-  navMarkImg: { width:20,height:20,objectFit:'contain' as const },
-  navLabel: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase' as const,color:'rgba(245,240,232,0.6)' },
-  navLinks: { display:'flex',gap:40,listStyle:'none' },
-  navLink: { fontSize:'clamp(10px,0.85vw,12px)',fontWeight:400,color:'rgba(245,240,232,0.6)',textDecoration:'none',letterSpacing:'0.15em',textTransform:'uppercase' as const,transition:'color 0.3s' },
-  navCta: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.2em',textTransform:'uppercase' as const,color:'#060607',background:'#C8A96E',padding:'10px 24px',textDecoration:'none',border:'none',cursor:'pointer',transition:'all 0.3s' },
-  navToggle: { display:'none',background:'none',border:'none',cursor:'pointer',width:28,height:20 },
+/* ═══ COLORS ═══ */
+const DARK = '#060607';
+const DARK_EL = '#0C0C0E';
+const LIGHT_BG = '#F5F0E8';
+const LIGHT_SURFACE = '#FFFFFF';
+const GOLD = '#C8A96E';
+const GOLD_BRIGHT = '#D4BC8A';
+const TEXT_DARK = '#1A1A1E';
+const TEXT_MID = '#555555';
+const TEXT_LIGHT_DIM = 'rgba(245,240,232,0.25)';
 
-  /* Hero */
-  hero: { minHeight:'100vh',position:'relative' as const,overflow:'hidden',display:'flex',alignItems:'flex-end',padding:'0 clamp(20px,4vw,80px) clamp(48px,10vh,96px)' },
-  heroVideoWrap: { position:'absolute' as const,top:0,left:0,width:'100%',height:'100%',zIndex:0 },
-  heroFallback: { position:'absolute' as const,top:0,left:0,width:'100%',height:'100%',objectFit:'cover' as const,opacity:0.2,filter:'grayscale(20%) contrast(1.1)' },
-  heroVideo: { width:'100%',height:'100%',objectFit:'cover' as const,transition:'opacity 1.5s' },
-  heroOverlay: { position:'absolute' as const,top:0,left:0,width:'100%',height:'100%',zIndex:1,background:'radial-gradient(ellipse at 65% 25%,rgba(200,169,110,0.07) 0%,transparent 55%),radial-gradient(ellipse at 20% 80%,rgba(200,169,110,0.04) 0%,transparent 50%),linear-gradient(180deg,rgba(6,6,7,0.3) 0%,rgba(6,6,7,0.1) 40%,rgba(6,6,7,0.6) 75%,#060607 100%)' },
-  heroContent: { position:'relative' as const,zIndex:2,maxWidth:1400,width:'100%' },
-  heroTag: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.4em',textTransform:'uppercase' as const,color:'#C8A96E',marginBottom:24 },
-  heroH1: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(52px,11vw,160px)',fontWeight:300,lineHeight:0.92,letterSpacing:'-0.03em' },
-  heroEm: { fontStyle:'italic' as const,color:'#C8A96E' },
-  heroSub: { fontSize:'clamp(14px,1.3vw,18px)',fontWeight:300,color:'rgba(245,240,232,0.6)',maxWidth:520,lineHeight:1.7,marginTop:40 },
-  heroBottom: { display:'flex',alignItems:'flex-end',justifyContent:'space-between',marginTop:64 },
-  heroStats: { display:'flex',gap:64 },
-  heroStatNum: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(28px,3.5vw,52px)',fontWeight:300,color:'#C8A96E',lineHeight:1 },
-  heroStatLabel: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase' as const,color:'rgba(245,240,232,0.25)',marginTop:4 },
-
-  /* Section shared */
-  sec: { padding:'128px clamp(20px,4vw,80px)',position:'relative' as const },
-  secInner: { maxWidth:1400,margin:'0 auto' },
-  secTag: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.4em',textTransform:'uppercase' as const,color:'#C8A96E',marginBottom:16 },
-  secTitle: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(26px,4.5vw,64px)',fontWeight:300,lineHeight:1.1,letterSpacing:'-0.02em',marginBottom:64 },
-
-  /* Logo row */
-  logoRow: { padding:'64px clamp(20px,4vw,80px)',borderTop:'1px solid rgba(245,240,232,0.08)',borderBottom:'1px solid rgba(245,240,232,0.08)' },
-  logoRowInner: { maxWidth:1400,margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'space-between',gap:40,flexWrap:'wrap' as const },
-  logoItem: { opacity:0.35,transition:'opacity 0.4s',flex:'0 0 auto' },
-  logoImg: { height:'clamp(40px,5vw,64px)',width:'auto',objectFit:'contain' as const,filter:'brightness(1.5)' },
-
-  /* Thesis */
-  thesisLayout: { display:'grid',gridTemplateColumns:'1fr 1fr',gap:96,alignItems:'center' },
-  thesisQuote: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(30px,5vw,72px)',fontWeight:300,lineHeight:1.2,marginBottom:40 },
-  thesisBody: { fontSize:'clamp(14px,1.3vw,18px)',color:'rgba(245,240,232,0.6)',lineHeight:1.8,marginBottom:24 },
-  thesisSig: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(18px,2.5vw,32px)',fontWeight:300,fontStyle:'italic' as const,color:'#C8A96E',marginTop:40 },
-  thesisImgWrap: { position:'relative' as const,height:'clamp(280px,50vw,580px)',overflow:'hidden',border:'1px solid rgba(245,240,232,0.08)' },
-  thesisImg: { width:'100%',height:'100%',objectFit:'cover' as const,filter:'contrast(1.05)',transition:'transform 8s cubic-bezier(0.37,0,0.63,1)' },
-  thesisImgLabel: { position:'absolute' as const,bottom:-12,right:40,fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase' as const,color:'#8A7650',background:'#060607',padding:'0 16px' },
-
-  /* Divisions */
-  divGrid: { display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:1,background:'rgba(245,240,232,0.08)',border:'1px solid rgba(245,240,232,0.08)' },
-  divCard: { background:'#0C0C0E',padding:'64px 40px',position:'relative' as const,overflow:'hidden',cursor:'pointer',transition:'background 0.5s' },
-  divNum: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(40px,4vw,72px)',fontWeight:300,color:'rgba(245,240,232,0.08)',lineHeight:1,marginBottom:24,position:'relative' as const },
-  divName: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(18px,2.5vw,32px)',fontWeight:400,marginBottom:8,position:'relative' as const },
-  divDesc: { fontSize:'clamp(10px,0.85vw,12px)',color:'rgba(245,240,232,0.25)',lineHeight:1.5,marginBottom:24,position:'relative' as const },
-  divTags: { display:'flex',gap:6,flexWrap:'wrap' as const,position:'relative' as const },
-  divTag: { fontFamily:'DM Mono,monospace',fontSize:8,letterSpacing:'0.15em',textTransform:'uppercase' as const,color:'#C8A96E',border:'1px solid rgba(200,169,110,0.3)',padding:'3px 8px' },
-
-  /* Image band */
-  imgBand: { display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:0,borderTop:'1px solid rgba(245,240,232,0.08)',borderBottom:'1px solid rgba(245,240,232,0.08)' },
-  imgBandCell: { position:'relative' as const,height:'clamp(200px,30vw,400px)',overflow:'hidden' },
-  imgBandImg: { width:'100%',height:'100%',objectFit:'cover' as const,opacity:0.5,transition:'opacity 0.6s, transform 6s cubic-bezier(0.37,0,0.63,1)' },
-  imgBandLabel: { position:'absolute' as const,bottom:24,left:24,fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase' as const,color:'#C8A96E',background:'rgba(6,6,7,0.7)',padding:'4px 12px',backdropFilter:'blur(8px)' },
-
-  /* Marquee */
-  marquee: { padding:'64px 0',overflow:'hidden',borderTop:'1px solid rgba(245,240,232,0.08)',borderBottom:'1px solid rgba(245,240,232,0.08)' },
-  marqueeTrack: { display:'flex',gap:64,width:'max-content' },
-  marqueeItem: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(20px,3vw,44px)',fontWeight:300,color:'rgba(245,240,232,0.25)',whiteSpace:'nowrap' as const,display:'flex',alignItems:'center',gap:24 },
-  marqueeDot: { width:6,height:6,background:'#C8A96E',borderRadius:'50%',flexShrink:0 },
-
-  /* Philosophy */
-  philLayout: { display:'grid',gridTemplateColumns:'1fr 1fr',gap:128 },
-  pillar: { padding:'40px 0',borderBottom:'1px solid rgba(245,240,232,0.08)' },
-  pillarFirst: { borderTop:'1px solid rgba(245,240,232,0.08)' },
-  pillarHead: { display:'flex',alignItems:'baseline',gap:24,marginBottom:16 },
-  pillarNum: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',color:'#C8A96E',letterSpacing:'0.2em' },
-  pillarTitle: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(18px,2.5vw,32px)',fontWeight:400 },
-  pillarBody: { fontSize:'clamp(13px,1.1vw,16px)',color:'rgba(245,240,232,0.25)',lineHeight:1.7,paddingLeft:48 },
-  philRight: { display:'flex',flexDirection:'column' as const,gap:40 },
-  metric: { padding:40,border:'1px solid rgba(245,240,232,0.08)',position:'relative' as const,overflow:'hidden',transition:'border-color 0.4s' },
-  metricVal: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(36px,4.5vw,60px)',fontWeight:300,color:'#C8A96E',lineHeight:1 },
-  metricLabel: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase' as const,color:'rgba(245,240,232,0.25)',marginTop:6 },
-  metricDesc: { fontSize:'clamp(13px,1.1vw,16px)',color:'rgba(245,240,232,0.6)',marginTop:16,lineHeight:1.6 },
-
-  /* Full-bleed image */
-  fullImg: { position:'relative' as const,height:'clamp(300px,50vw,600px)',overflow:'hidden' },
-  fullImgImg: { width:'100%',height:'100%',objectFit:'cover' as const,opacity:0.4,filter:'contrast(1.05)' },
-  fullImgOverlay: { position:'absolute' as const,top:0,left:0,width:'100%',height:'100%',background:'linear-gradient(180deg,#060607 0%,transparent 30%,transparent 70%,#060607 100%)',display:'flex',alignItems:'center',justifyContent:'center' },
-  fullImgText: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(24px,4vw,56px)',fontWeight:300,fontStyle:'italic' as const,color:'#C8A96E',textAlign:'center' as const,maxWidth:700,padding:'0 clamp(20px,4vw,80px)',lineHeight:1.3 },
-
-  /* Cities */
-  citiesGrid: { display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:1,background:'rgba(245,240,232,0.08)' },
-  city: { background:'#0C0C0E',padding:'64px 40px',position:'relative' as const,overflow:'hidden',transition:'background 0.4s' },
-  cityHq: { gridColumn:'span 2',gridRow:'span 2',display:'flex',flexDirection:'column' as const,justifyContent:'flex-end' },
-  cityHqTag: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.2em',textTransform:'uppercase' as const,color:'rgba(200,169,110,0.3)',marginBottom:24,position:'relative' as const },
-  cityName: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(18px,2.5vw,32px)',fontWeight:400,position:'relative' as const },
-  cityNameHq: { fontSize:'clamp(26px,4.5vw,64px)' },
-  cityState: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase' as const,color:'#C8A96E',position:'relative' as const },
-  cityCount: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',color:'rgba(245,240,232,0.25)',marginTop:8,position:'relative' as const },
-  cityBg: { position:'absolute' as const,top:0,left:0,width:'100%',height:'100%',opacity:0.08 },
-  cityBgImg: { width:'100%',height:'100%',objectFit:'cover' as const },
-
-  /* Timeline */
-  tlTrack: { position:'relative' as const,paddingLeft:96 },
-  tlLine: { position:'absolute' as const,top:0,left:24,width:1,height:'100%',background:'linear-gradient(180deg,#C8A96E,rgba(245,240,232,0.08),transparent)' },
-  tlItem: { position:'relative' as const,paddingBottom:64 },
-  tlDot: { position:'absolute' as const,left:-76,top:8,width:9,height:9,border:'1px solid #C8A96E',borderRadius:'50%',background:'#060607' },
-  tlYear: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',color:'#C8A96E',marginBottom:8 },
-  tlTitle: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(18px,2.5vw,32px)',fontWeight:400,marginBottom:8 },
-  tlDesc: { fontSize:'clamp(13px,1.1vw,16px)',color:'rgba(245,240,232,0.25)',maxWidth:500,lineHeight:1.6 },
-
-  /* Connect */
-  connectLayout: { display:'grid',gridTemplateColumns:'1.2fr 1fr',gap:96,alignItems:'center',position:'relative' as const },
-  connectHL: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(30px,5vw,72px)',fontWeight:300,lineHeight:1.15,marginBottom:40 },
-  connectBody: { fontSize:'clamp(14px,1.3vw,18px)',color:'rgba(245,240,232,0.6)',lineHeight:1.7,marginBottom:64,maxWidth:480 },
-  connectBtns: { display:'flex',gap:24,flexWrap:'wrap' as const },
-  btnGold: { fontFamily:'DM Mono,monospace',fontSize:'clamp(10px,0.85vw,12px)',letterSpacing:'0.2em',textTransform:'uppercase' as const,color:'#060607',background:'#C8A96E',padding:'16px 40px',textDecoration:'none',border:'1px solid #C8A96E',transition:'all 0.3s',display:'inline-block' },
-  btnOutline: { fontFamily:'DM Mono,monospace',fontSize:'clamp(10px,0.85vw,12px)',letterSpacing:'0.2em',textTransform:'uppercase' as const,color:'#F5F0E8',background:'transparent',padding:'16px 40px',textDecoration:'none',border:'1px solid rgba(245,240,232,0.25)',transition:'all 0.3s',display:'inline-block' },
-  cdItem: { padding:'24px 0',borderBottom:'1px solid rgba(245,240,232,0.08)' },
-  cdLabel: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase' as const,color:'#C8A96E',marginBottom:6 },
-  cdValue: { fontSize:'clamp(14px,1.3vw,18px)' },
-  cdLink: { textDecoration:'none',borderBottom:'1px solid rgba(245,240,232,0.08)',transition:'all 0.3s',color:'inherit' },
-
-  /* Eco links */
-  ecoLinks: { padding:'96px clamp(20px,4vw,80px)',borderTop:'1px solid rgba(245,240,232,0.08)' },
-  ecoGrid: { display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:64 },
-  ecoH4: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase' as const,color:'#C8A96E',marginBottom:24 },
-  ecoA: { display:'block',fontSize:'clamp(13px,1.1vw,16px)',color:'rgba(245,240,232,0.25)',textDecoration:'none',padding:'6px 0',transition:'color 0.3s' },
-
-  /* Footer */
-  footer: { padding:'64px clamp(20px,4vw,80px)',borderTop:'1px solid rgba(245,240,232,0.08)',display:'flex',alignItems:'center',justifyContent:'space-between' },
-  footerL: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.2em',color:'rgba(245,240,232,0.25)' },
-  footerR: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase' as const,color:'rgba(245,240,232,0.25)' },
-
-  /* Mobile menu */
-  mobMenu: { position:'fixed' as const,top:0,right:'-100%',width:'100%',height:'100%',background:'#060607',zIndex:999,display:'flex',flexDirection:'column' as const,justifyContent:'center',padding:'96px clamp(20px,4vw,80px)',transition:'right 0.6s cubic-bezier(0.16,1,0.3,1)' },
-  mobMenuOpen: { right:0 },
-  mobMenuLink: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(30px,5vw,72px)',fontWeight:300,textDecoration:'none',display:'block',padding:'16px 0',borderBottom:'1px solid rgba(245,240,232,0.08)',transition:'color 0.3s',color:'#F5F0E8' },
-};
-
-const KHG_LOGO = `${SB}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
-
-/* ═══ MAIN PAGE ═══ */
 export default function Home() {
   const [loaded, setLoaded] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -276,160 +124,136 @@ export default function Home() {
   const [mobOpen, setMobOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  useEffect(() => {
-    setTimeout(() => setLoaded(true), 1800);
-    const onScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    const onReady = () => setVideoReady(true);
-    v.addEventListener('canplaythrough', onReady);
-    v.addEventListener('playing', onReady);
-    const fallback = setTimeout(() => setVideoReady(true), 3000);
-    return () => { v.removeEventListener('canplaythrough', onReady); v.removeEventListener('playing', onReady); clearTimeout(fallback); };
-  }, []);
-
-  const scrollTo = useCallback((id: string) => {
-    setMobOpen(false);
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  }, []);
+  useEffect(() => { setTimeout(() => setLoaded(true), 1800); const fn = () => setScrolled(window.scrollY > 60); window.addEventListener('scroll', fn); return () => window.removeEventListener('scroll', fn); }, []);
+  useEffect(() => { const v = videoRef.current; if (!v) return; const r = () => setVideoReady(true); v.addEventListener('canplaythrough',r); v.addEventListener('playing',r); const t = setTimeout(()=>setVideoReady(true),3000); return()=>{v.removeEventListener('canplaythrough',r);v.removeEventListener('playing',r);clearTimeout(t)}; }, []);
+  const scrollTo = useCallback((id:string) => { setMobOpen(false); document.getElementById(id)?.scrollIntoView({behavior:'smooth'}); }, []);
 
   return (
     <>
-      {/* Preloader */}
-      <div style={{ ...S.preloader, ...(loaded ? S.preloaderHidden : {}) }}>
-        <div style={S.preloaderMark}><img src={KHG_LOGO} alt="KHG" style={S.preloaderMarkImg} /></div>
-        <div style={{ width:100,height:1,background:'rgba(245,240,232,0.08)',marginTop:24,position:'relative',overflow:'hidden' }}>
-          <div style={{ position:'absolute',left:'-100%',top:0,width:'100%',height:'100%',background:'#C8A96E',animation:'pSlide 1s cubic-bezier(0.16,1,0.3,1) infinite' }} />
+      {/* PRELOADER */}
+      <div style={{ position:'fixed',top:0,left:0,width:'100%',height:'100%',background:DARK,zIndex:10000,display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',transition:'opacity 1s cubic-bezier(0.16,1,0.3,1),visibility 1s',...(loaded?{opacity:0,visibility:'hidden' as const,pointerEvents:'none' as const}:{}) }}>
+        <div style={{ width:72,height:72,border:`1px solid rgba(200,169,110,0.3)`,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center' }}>
+          <img src={KHG_LOGO} alt="KHG" style={{ width:40,height:40,objectFit:'contain',filter:'brightness(1.2)' }} />
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      <div style={{ ...S.mobMenu, ...(mobOpen ? S.mobMenuOpen : {}) }}>
+      {/* MOBILE MENU */}
+      <div style={{ position:'fixed',top:0,right:mobOpen?0:'-100%',width:'100%',height:'100%',background:DARK,zIndex:999,display:'flex',flexDirection:'column',justifyContent:'center',padding:'96px clamp(20px,4vw,80px)',transition:'right 0.6s cubic-bezier(0.16,1,0.3,1)' }}>
         {['about','empire','philosophy','cities','journey','connect'].map(id => (
-          <a key={id} href={`#${id}`} style={S.mobMenuLink} onClick={(e) => { e.preventDefault(); scrollTo(id); }}>{id.charAt(0).toUpperCase() + id.slice(1)}</a>
+          <a key={id} href={`#${id}`} style={{ fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(30px,5vw,72px)',fontWeight:300,textDecoration:'none',display:'block',padding:'16px 0',borderBottom:'1px solid rgba(245,240,232,0.08)',color:'#F5F0E8' }}
+            onClick={e=>{e.preventDefault();scrollTo(id)}}>{id.charAt(0).toUpperCase()+id.slice(1)}</a>
         ))}
-        <a href="/events" style={{...S.mobMenuLink, color:'#C8A96E'}}>Events</a>
       </div>
 
-      {/* Nav */}
-      <nav style={{ ...S.nav, ...(scrolled ? S.navScrolled : {}) }}>
-        <a href="#" style={S.navBrand}>
-          <div style={S.navMark}><img src={KHG_LOGO} alt="KHG" style={S.navMarkImg} /></div>
-          <span style={S.navLabel}>Dr. Dorsey</span>
+      {/* NAV */}
+      <nav style={{ position:'fixed',top:0,left:0,width:'100%',zIndex:1000,padding:'24px clamp(20px,4vw,80px)',display:'flex',alignItems:'center',justifyContent:'space-between',transition:'background 0.4s,backdrop-filter 0.4s',...(scrolled?{background:'rgba(6,6,7,0.88)',backdropFilter:'blur(24px)'}:{}) }}>
+        <a href="#" style={{ display:'flex',alignItems:'center',gap:12,textDecoration:'none',color:'#F5F0E8' }}>
+          <div style={{ width:36,height:36,border:'1px solid rgba(200,169,110,0.3)',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center' }}>
+            <img src={KHG_LOGO} alt="" style={{ width:20,height:20,objectFit:'contain' }} />
+          </div>
+          <span style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase',color:'rgba(245,240,232,0.6)' }}>Dr. Dorsey</span>
         </a>
-        <ul style={S.navLinks} className="nav-links">
+        <ul className="nav-links-desktop" style={{ display:'flex',gap:40,listStyle:'none' }}>
           {['about','empire','philosophy','cities','journey'].map(id => (
-            <li key={id}><a href={`#${id}`} style={S.navLink} onClick={(e) => { e.preventDefault(); scrollTo(id); }}>{id.charAt(0).toUpperCase() + id.slice(1)}</a></li>
+            <li key={id}><a href={`#${id}`} className="nav-a" style={{ fontSize:'clamp(10px,0.85vw,12px)',fontWeight:400,color:'rgba(245,240,232,0.6)',textDecoration:'none',letterSpacing:'0.15em',textTransform:'uppercase' }}
+              onClick={e=>{e.preventDefault();scrollTo(id)}}>{id}</a></li>
           ))}
-          <li><a href="/events" style={{...S.navLink, color:'#C8A96E'}}>Events</a></li>
         </ul>
-        <a href="#connect" className="nav-cta" style={S.navCta} onClick={(e) => { e.preventDefault(); scrollTo('connect'); }}>Connect</a>
-        <button className="nav-toggle" style={S.navToggle} onClick={() => setMobOpen(!mobOpen)}>
-          <span style={{ display:'block',width:'100%',height:1,background:'#F5F0E8',position:'absolute' as const,left:0,top:3,transition:'all 0.3s',transform:mobOpen?'translateY(6px) rotate(45deg)':'none' }} />
-          <span style={{ display:'block',width:'100%',height:1,background:'#F5F0E8',position:'absolute' as const,left:0,top:9,transition:'all 0.3s',opacity:mobOpen?0:1 }} />
-          <span style={{ display:'block',width:'100%',height:1,background:'#F5F0E8',position:'absolute' as const,left:0,top:15,transition:'all 0.3s',transform:mobOpen?'translateY(-6px) rotate(-45deg)':'none' }} />
+        <a href="#connect" className="nav-cta-desktop" style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.2em',textTransform:'uppercase',color:DARK,background:GOLD,padding:'10px 24px',textDecoration:'none',border:'none',cursor:'pointer' }}
+          onClick={e=>{e.preventDefault();scrollTo('connect')}}>Connect</a>
+        <button className="nav-toggle-mobile" style={{ display:'none',background:'none',border:'none',cursor:'pointer',width:28,height:20,position:'relative' }} onClick={()=>setMobOpen(!mobOpen)}>
+          <span style={{ display:'block',width:'100%',height:1,background:'#F5F0E8',position:'absolute',left:0,top:3,transition:'all 0.3s',transform:mobOpen?'translateY(6px) rotate(45deg)':'none' }} />
+          <span style={{ display:'block',width:'100%',height:1,background:'#F5F0E8',position:'absolute',left:0,top:9,transition:'all 0.3s',opacity:mobOpen?0:1 }} />
+          <span style={{ display:'block',width:'100%',height:1,background:'#F5F0E8',position:'absolute',left:0,top:15,transition:'all 0.3s',transform:mobOpen?'translateY(-6px) rotate(-45deg)':'none' }} />
         </button>
       </nav>
 
-      {/* HERO */}
-      <section style={S.hero}>
-        <div style={S.heroVideoWrap}>
-          <img src={`${WEB}/hero-bg.jpg`} alt="" style={S.heroFallback} />
-          <video ref={videoRef} style={{ ...S.heroVideo, opacity: videoReady ? 0.35 : 0 }} autoPlay muted loop playsInline preload="auto">
+      {/* ═══ HERO (DARK) — SMALLER HEADLINE ═══ */}
+      <section style={{ minHeight:'100vh',position:'relative',overflow:'hidden',display:'flex',alignItems:'flex-end',padding:'0 clamp(20px,4vw,80px) 96px' }}>
+        <div style={{ position:'absolute',top:0,left:0,width:'100%',height:'100%',zIndex:0 }}>
+          <img src={`${WEB}/hero-bg.jpg`} alt="" style={{ position:'absolute',top:0,left:0,width:'100%',height:'100%',objectFit:'cover',opacity:0.2 }} />
+          <video ref={videoRef} style={{ width:'100%',height:'100%',objectFit:'cover',opacity:videoReady?0.4:0,transition:'opacity 1.5s',position:'relative',zIndex:1 }} autoPlay muted loop playsInline preload="auto">
             <source src={`${WEB}/hero-video.mp4`} type="video/mp4" />
           </video>
-          <div style={S.heroOverlay} />
+          <div style={{ position:'absolute',top:0,left:0,width:'100%',height:'100%',zIndex:2,background:'radial-gradient(ellipse at 65% 25%,rgba(200,169,110,0.07) 0%,transparent 55%),radial-gradient(ellipse at 20% 80%,rgba(200,169,110,0.04) 0%,transparent 50%),linear-gradient(180deg,rgba(6,6,7,0.2) 0%,rgba(6,6,7,0.05) 40%,rgba(6,6,7,0.5) 75%,#060607 100%)' }} />
         </div>
-        <div style={S.heroContent}>
-          <div style={{ ...S.heroTag, animation: 'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 2s both' }}>Founder — CEO — Architect</div>
-          <h1 style={S.heroH1}>
+        <div style={{ position:'relative',zIndex:3,maxWidth:1400,width:'100%' }}>
+          <div style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.4em',textTransform:'uppercase',color:GOLD,marginBottom:24,animation:'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 2s both' }}>Founder — CEO — Architect</div>
+          {/* SMALLER hero headline per request */}
+          <h1 style={{ fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(36px,7vw,100px)',fontWeight:300,lineHeight:0.95,letterSpacing:'-0.03em' }}>
             <span style={{ display:'block',overflow:'hidden' }}><span style={{ display:'block',animation:'lineUp 1s cubic-bezier(0.16,1,0.3,1) 2.1s both' }}>Live for today.</span></span>
-            <span style={{ display:'block',overflow:'hidden' }}><span style={{ display:'block',animation:'lineUp 1s cubic-bezier(0.16,1,0.3,1) 2.25s both' }}>Plan for <em style={S.heroEm}>tomorrow.</em></span></span>
-            <span style={{ display:'block',overflow:'hidden' }}><span style={{ display:'block',animation:'lineUp 1s cubic-bezier(0.16,1,0.3,1) 2.4s both' }}>Party <em style={S.heroEm}>tonight.</em></span></span>
+            <span style={{ display:'block',overflow:'hidden' }}><span style={{ display:'block',animation:'lineUp 1s cubic-bezier(0.16,1,0.3,1) 2.25s both' }}>Plan for <em style={{ fontStyle:'italic',color:GOLD }}>tomorrow.</em></span></span>
+            <span style={{ display:'block',overflow:'hidden' }}><span style={{ display:'block',animation:'lineUp 1s cubic-bezier(0.16,1,0.3,1) 2.4s both' }}>Party <em style={{ fontStyle:'italic',color:GOLD }}>tonight.</em></span></span>
           </h1>
-          <p style={{ ...S.heroSub, animation: 'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 2.7s both' }}>
-            The mind behind 57+ ventures, 8 cities, and an ecosystem engineered to compound. Dr. DoLo Dorsey builds empires in silence.
+          <p style={{ fontSize:'clamp(13px,1.2vw,17px)',fontWeight:300,color:'rgba(245,240,232,0.6)',maxWidth:480,lineHeight:1.7,marginTop:32,animation:'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 2.7s both' }}>
+            The mind behind 57+ ventures, 8 cities, and an ecosystem engineered to compound.
           </p>
-          <div className="hero-bottom" style={{ ...S.heroBottom, animation: 'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 3s both' }}>
-            <div style={S.heroStats} className="hero-stats">
-              <div><StatNum target={57} suffix="+" /><div style={S.heroStatLabel}>Ventures</div></div>
-              <div><StatNum target={8} /><div style={S.heroStatLabel}>Cities</div></div>
-              <div><StatNum target={198} /><div style={S.heroStatLabel}>AI Agents</div></div>
+          <div style={{ display:'flex',alignItems:'flex-end',justifyContent:'space-between',marginTop:48,animation:'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 3s both' }}>
+            <div style={{ display:'flex',gap:48 }}>
+              <div><StatNum target={57} suffix="+" /><div className="stat-label">Ventures</div></div>
+              <div><StatNum target={8} /><div className="stat-label">Cities</div></div>
+              <div><StatNum target={198} /><div className="stat-label">AI Agents</div></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* LOGO ROW */}
-      <div style={S.logoRow}>
-        <div style={S.logoRowInner}>
+      {/* ═══ LOGO ROW (DARK) — UNIFORM SIZE ═══ */}
+      <div style={{ padding:'48px clamp(20px,4vw,80px)',borderTop:'1px solid rgba(245,240,232,0.08)',borderBottom:'1px solid rgba(245,240,232,0.08)',background:DARK }}>
+        <div style={{ maxWidth:1400,margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'space-between',gap:32,flexWrap:'wrap' }}>
           {LOGOS.map(l => (
-            <a key={l.n} href={l.url || '#'} target={l.url ? '_blank' : undefined} rel="noopener noreferrer" style={S.logoItem}
-              onMouseEnter={e => (e.currentTarget.style.opacity = '0.8')} onMouseLeave={e => (e.currentTarget.style.opacity = '0.35')}>
-              <img src={l.src} alt={l.n} style={S.logoImg} />
+            <a key={l.n} href={l.url||'#'} target={l.url?'_blank':undefined} rel="noopener noreferrer" className="logo-item" style={{ opacity:0.4,transition:'opacity 0.4s',flex:'0 0 auto' }}>
+              {/* Uniform logo size: fixed 40px height container */}
+              <div style={{ width:80,height:40,display:'flex',alignItems:'center',justifyContent:'center' }}>
+                <img src={l.src} alt={l.n} style={{ maxWidth:80,maxHeight:40,width:'auto',height:'auto',objectFit:'contain',filter:'brightness(1.5)' }} />
+              </div>
             </a>
           ))}
         </div>
       </div>
 
-      {/* SPONSOR BAR */}
-      <div style={{ padding:'16px clamp(20px,4vw,80px)',background:'#0C0C0E',borderBottom:'1px solid rgba(245,240,232,0.08)' }}>
-        <div style={{ maxWidth:1400,margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'center',gap:'clamp(24px,4vw,64px)',flexWrap:'wrap' }}>
-          <span style={{ fontFamily:'DM Mono,monospace',fontSize:8,letterSpacing:'0.3em',textTransform:'uppercase',color:'rgba(245,240,232,0.25)' }}>Sponsored by</span>
-          {[
-            { name:'Hurt 911', src:`${SB}/umbrella_injury/00-brand-assets/logos/hurt-911-logo-black.png` },
-            { name:'Pronto Energy', src:`${SB}/pronto_energy/logos/pronto-logo.png` },
-            { name:'Infinity Water', src:`${SB}/infinity_water/website/gold.jpg` },
-          ].map(s => (
-            <div key={s.name} style={{ opacity:0.45,display:'flex',alignItems:'center',gap:8 }}>
-              <img src={s.src} alt={s.name} style={{ height:'clamp(28px,3.5vw,44px)',width:'auto',objectFit:'contain',filter:'brightness(1.5)' }} />
-            </div>
-          ))}
-          <span style={{ fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(16px,2vw,24px)',fontWeight:300,color:'rgba(245,240,232,0.35)',letterSpacing:'0.1em' }}>STUSH</span>
-        </div>
-      </div>
-
-      {/* THESIS */}
-      <section className="sec" style={S.sec} id="about">
-        <div style={S.secInner}>
-          <div style={S.thesisLayout} className="grid-thesis">
+      {/* ═══ THESIS (WHITE SECTION) ═══ */}
+      <section style={{ padding:'128px clamp(20px,4vw,80px)',background:LIGHT_BG,color:TEXT_DARK }} id="about">
+        <div style={{ maxWidth:1400,margin:'0 auto' }}>
+          <div className="thesis-grid" style={{ display:'grid',gridTemplateColumns:'1fr 1fr',gap:96,alignItems:'center' }}>
             <Reveal>
-              <div style={S.secTag}>The Founder</div>
-              <blockquote style={S.thesisQuote}>&ldquo;Everybody wants to eat at night — nobody wants to <em style={S.heroEm}>hunt in the morning.</em>&rdquo;</blockquote>
-              <p style={S.thesisBody}>Dr. DoLo Dorsey is the founder and CEO of The Kollective Hospitality Group — a multi-brand enterprise spanning events, food &amp; beverage, museums, consumer products, technology, and wellness. What started as a single event has compounded into an autonomous empire: 57+ entities, 34 AI-powered departments, 198 agents, 8 cities deep.</p>
-              <p style={S.thesisBody}>The philosophy is simple: build systems that outlast trends. Build brands that mean something. Build in silence and let the results speak.</p>
-              <div style={S.thesisSig}>— Dr. DoLo Dorsey</div>
+              <div style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.4em',textTransform:'uppercase',color:GOLD,marginBottom:16 }}>The Founder</div>
+              <blockquote style={{ fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(28px,4.5vw,64px)',fontWeight:300,lineHeight:1.2,marginBottom:40,color:TEXT_DARK }}>
+                &ldquo;Everybody wants to eat at night — nobody wants to <em style={{ fontStyle:'italic',color:GOLD }}>hunt in the morning.</em>&rdquo;
+              </blockquote>
+              <p style={{ fontSize:'clamp(14px,1.3vw,18px)',color:TEXT_MID,lineHeight:1.8,marginBottom:24 }}>Dr. DoLo Dorsey is the founder and CEO of The Kollective Hospitality Group — a multi-brand enterprise spanning events, food &amp; beverage, museums, consumer products, technology, and wellness.</p>
+              <p style={{ fontSize:'clamp(14px,1.3vw,18px)',color:TEXT_MID,lineHeight:1.8,marginBottom:40 }}>What started as a single event has compounded into an autonomous empire: 57+ entities, 34 AI-powered departments, 198 agents, 8 cities deep.</p>
+              <div style={{ fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(18px,2.5vw,32px)',fontWeight:300,fontStyle:'italic',color:GOLD }}>— Dr. DoLo Dorsey</div>
             </Reveal>
             <Reveal delay={0.2}>
-              <div style={S.thesisImgWrap}>
-                <img src={`${WEB}/thesis-bg.jpg`} alt="Atlanta nightlife" style={S.thesisImg} />
-                <span style={S.thesisImgLabel}>Atlanta, GA</span>
+              <div style={{ position:'relative',height:500,overflow:'hidden',border:`1px solid rgba(0,0,0,0.08)` }}>
+                <img src={`${WEB}/thesis-bg.jpg`} alt="Atlanta nightlife" style={{ width:'100%',height:'100%',objectFit:'cover',transition:'transform 8s cubic-bezier(0.37,0,0.63,1)' }} />
+                <span style={{ position:'absolute',bottom:-12,right:40,fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase',color:'#8A7650',background:LIGHT_BG,padding:'0 16px' }}>Atlanta, GA</span>
               </div>
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* DIVISIONS */}
-      <section className="sec" style={{ ...S.sec, background:'#0C0C0E' }} id="empire">
-        <div style={S.secInner}>
-          <Reveal><div style={S.secTag}>The Empire</div></Reveal>
-          <Reveal><h2 style={S.secTitle}>Eight divisions. One <em style={S.heroEm}>machine.</em></h2></Reveal>
+      {/* ═══ DIVISIONS (DARK) — WITH LOGOS ═══ */}
+      <section style={{ padding:'128px clamp(20px,4vw,80px)',background:DARK_EL }} id="empire">
+        <div style={{ maxWidth:1400,margin:'0 auto' }}>
+          <Reveal><div style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.4em',textTransform:'uppercase',color:GOLD,marginBottom:16 }}>The Empire</div></Reveal>
+          <Reveal><h2 style={{ fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(26px,4.5vw,64px)',fontWeight:300,lineHeight:1.1,marginBottom:64,color:'#F5F0E8' }}>Eight divisions. One <em style={{ fontStyle:'italic',color:GOLD }}>machine.</em></h2></Reveal>
           <Reveal delay={0.2}>
-            <div style={S.divGrid} className="grid-divisions">
+            <div className="div-grid" style={{ display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:1,background:'rgba(245,240,232,0.08)',border:'1px solid rgba(245,240,232,0.08)' }}>
               {DIVISIONS.map(d => (
-                <div key={d.num} style={S.divCard}
-                  onMouseEnter={e => { e.currentTarget.style.background='#111114'; const n=e.currentTarget.querySelector('.dn') as HTMLElement; if(n)n.style.color='rgba(200,169,110,0.3)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.background='#0C0C0E'; const n=e.currentTarget.querySelector('.dn') as HTMLElement; if(n)n.style.color='rgba(245,240,232,0.08)'; }}>
-                  <div className="dn" style={S.divNum}>{d.num}</div>
-                  <div style={S.divName}>{d.name}</div>
-                  <div style={S.divDesc}>{d.desc}</div>
-                  <div style={S.divTags}>{d.tags.map(t => <span key={t} style={S.divTag}>{t}</span>)}</div>
+                <div key={d.num} className="div-card" style={{ background:DARK_EL,padding:'48px 32px',position:'relative',overflow:'hidden',cursor:'pointer',transition:'background 0.5s' }}>
+                  {/* Division logo */}
+                  <div style={{ width:48,height:48,marginBottom:20,display:'flex',alignItems:'center',justifyContent:'flex-start',opacity:0.5 }}>
+                    <img src={d.logo} alt="" style={{ maxWidth:48,maxHeight:48,objectFit:'contain',filter:'brightness(1.3)' }} />
+                  </div>
+                  <div style={{ fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(40px,4vw,72px)',fontWeight:300,color:'rgba(245,240,232,0.06)',lineHeight:1,marginBottom:16,position:'absolute',top:16,right:20 }}>{d.num}</div>
+                  <div style={{ fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(18px,2vw,28px)',fontWeight:400,marginBottom:8,color:'#F5F0E8' }}>{d.name}</div>
+                  <div style={{ fontSize:'clamp(10px,0.85vw,12px)',color:'rgba(245,240,232,0.3)',lineHeight:1.5,marginBottom:20 }}>{d.desc}</div>
+                  <div style={{ display:'flex',gap:6,flexWrap:'wrap' }}>
+                    {d.tags.map(t => <span key={t} style={{ fontFamily:'DM Mono,monospace',fontSize:8,letterSpacing:'0.15em',textTransform:'uppercase',color:GOLD,border:'1px solid rgba(200,169,110,0.3)',padding:'3px 8px' }}>{t}</span>)}
+                  </div>
                 </div>
               ))}
             </div>
@@ -437,56 +261,42 @@ export default function Home() {
         </div>
       </section>
 
-      {/* IMAGE BAND */}
-      <div style={S.imgBand} className="grid-imgband">
-        {[
-          { src:`${WEB}/luxury-venue.jpg`, label:'Events' },
-          { src:`${WEB}/penthouse-skyline.jpg`, label:'Hospitality' },
-          { src:`${WEB}/rooftop-lounge.jpg`, label:'Nightlife' },
-        ].map(i => (
-          <div key={i.label} className="imgband-cell" style={S.imgBandCell}
-            onMouseEnter={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; if(img){img.style.opacity='0.8';img.style.transform='scale(1.03)'} }}
-            onMouseLeave={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; if(img){img.style.opacity='0.5';img.style.transform='scale(1)'} }}>
-            <img src={i.src} alt={i.label} style={S.imgBandImg} />
-            <span style={S.imgBandLabel}>{i.label}</span>
+      {/* ═══ IMAGE BAND ═══ */}
+      <div className="img-band" style={{ display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:0 }}>
+        {[{src:`${WEB}/luxury-venue.jpg`,label:'Events'},{src:`${WEB}/penthouse-skyline.jpg`,label:'Hospitality'},{src:`${WEB}/rooftop-lounge.jpg`,label:'Nightlife'}].map(i => (
+          <div key={i.label} style={{ position:'relative',height:'clamp(200px,30vw,400px)',overflow:'hidden' }}>
+            <img src={i.src} alt={i.label} style={{ width:'100%',height:'100%',objectFit:'cover',opacity:0.6 }} />
+            <span style={{ position:'absolute',bottom:24,left:24,fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase',color:GOLD,background:'rgba(6,6,7,0.7)',padding:'4px 12px',backdropFilter:'blur(8px)' }}>{i.label}</span>
           </div>
         ))}
       </div>
 
-      {/* MARQUEE */}
-      <div style={S.marquee}>
-        <div style={{ ...S.marqueeTrack, animation:'mScroll 35s linear infinite' }}>
-          {[...MARQUEE_BRANDS,...MARQUEE_BRANDS].map((b,i) => (
-            <span key={`${b}-${i}`} style={S.marqueeItem}><span style={S.marqueeDot} />{b}</span>
-          ))}
-        </div>
-      </div>
-
-      {/* PHILOSOPHY */}
-      <section style={S.sec} id="philosophy">
-        <div style={S.secInner}>
-          <Reveal><div style={S.secTag}>Operating System</div></Reveal>
-          <Reveal><h2 style={S.secTitle}>The principles behind <em style={S.heroEm}>the machine.</em></h2></Reveal>
-          <div style={S.philLayout} className="grid-philosophy">
+      {/* ═══ PHILOSOPHY (WHITE SECTION) ═══ */}
+      <section style={{ padding:'128px clamp(20px,4vw,80px)',background:LIGHT_BG,color:TEXT_DARK }} id="philosophy">
+        <div style={{ maxWidth:1400,margin:'0 auto' }}>
+          <Reveal><div style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.4em',textTransform:'uppercase',color:GOLD,marginBottom:16 }}>Operating System</div></Reveal>
+          <Reveal><h2 style={{ fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(26px,4.5vw,64px)',fontWeight:300,lineHeight:1.1,marginBottom:64,color:TEXT_DARK }}>The principles behind <em style={{ fontStyle:'italic',color:GOLD }}>the machine.</em></h2></Reveal>
+          <div className="phil-layout" style={{ display:'grid',gridTemplateColumns:'1fr 1fr',gap:96 }}>
             <div>
-              {PILLARS.map((p, i) => (
-                <Reveal key={p.num} delay={i * 0.1}>
-                  <div style={{ ...S.pillar, ...(i === 0 ? S.pillarFirst : {}) }}>
-                    <div style={S.pillarHead}><span style={S.pillarNum}>{p.num}</span><h3 style={S.pillarTitle}>{p.title}</h3></div>
-                    <p style={S.pillarBody} className="pillar-body">{p.body}</p>
+              {PILLARS.map((p,i) => (
+                <Reveal key={p.num} delay={i*0.1}>
+                  <div style={{ padding:'32px 0',borderBottom:'1px solid rgba(0,0,0,0.08)',...(i===0?{borderTop:'1px solid rgba(0,0,0,0.08)'}:{}) }}>
+                    <div style={{ display:'flex',alignItems:'baseline',gap:24,marginBottom:12 }}>
+                      <span style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',color:GOLD,letterSpacing:'0.2em' }}>{p.num}</span>
+                      <h3 style={{ fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(18px,2.5vw,32px)',fontWeight:400,color:TEXT_DARK }}>{p.title}</h3>
+                    </div>
+                    <p style={{ fontSize:'clamp(13px,1.1vw,16px)',color:TEXT_MID,lineHeight:1.7,paddingLeft:48 }}>{p.body}</p>
                   </div>
                 </Reveal>
               ))}
             </div>
-            <div style={S.philRight}>
-              {METRICS.map((m, i) => (
-                <Reveal key={m.label} delay={i * 0.1}>
-                  <div style={S.metric}
-                    onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.3)')}
-                    onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(245,240,232,0.08)')}>
-                    <div style={S.metricVal}>{m.val}</div>
-                    <div style={S.metricLabel}>{m.label}</div>
-                    <div style={S.metricDesc}>{m.desc}</div>
+            <div style={{ display:'flex',flexDirection:'column',gap:32 }}>
+              {METRICS.map((m,i) => (
+                <Reveal key={m.label} delay={i*0.1}>
+                  <div style={{ padding:32,border:'1px solid rgba(0,0,0,0.08)',background:LIGHT_SURFACE,transition:'border-color 0.4s' }}>
+                    <div style={{ fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(36px,4.5vw,60px)',fontWeight:300,color:GOLD,lineHeight:1 }}>{m.val}</div>
+                    <div style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase',color:TEXT_MID,marginTop:6 }}>{m.label}</div>
+                    <div style={{ fontSize:'clamp(13px,1.1vw,16px)',color:TEXT_MID,marginTop:12,lineHeight:1.6 }}>{m.desc}</div>
                   </div>
                 </Reveal>
               ))}
@@ -495,28 +305,34 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FULL-BLEED QUOTE */}
-      <div style={S.fullImg} className="full-img-section">
-        <img src={`${WEB}/garden-district.jpg`} alt="" style={S.fullImgImg} />
-        <div style={S.fullImgOverlay}><div style={S.fullImgText}>&ldquo;Don&rsquo;t let lame people make you do lame shit.&rdquo;</div></div>
+      {/* ═══ FULL-BLEED QUOTE (DARK) ═══ */}
+      <div style={{ position:'relative',height:'clamp(300px,45vw,500px)',overflow:'hidden' }}>
+        <img src={`${WEB}/garden-district.jpg`} alt="" style={{ width:'100%',height:'100%',objectFit:'cover',opacity:0.4 }} />
+        <div style={{ position:'absolute',top:0,left:0,width:'100%',height:'100%',background:'linear-gradient(180deg,#060607 0%,transparent 30%,transparent 70%,#060607 100%)',display:'flex',alignItems:'center',justifyContent:'center' }}>
+          <div style={{ fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(22px,3.5vw,48px)',fontWeight:300,fontStyle:'italic',color:GOLD,textAlign:'center',maxWidth:600,padding:'0 clamp(20px,4vw,80px)',lineHeight:1.3 }}>
+            &ldquo;Don&rsquo;t let lame people make you do lame shit.&rdquo;
+          </div>
+        </div>
       </div>
 
-      {/* CITIES */}
-      <section style={{ ...S.sec, background:'#0C0C0E' }} id="cities">
-        <div style={S.secInner}>
-          <Reveal><div style={S.secTag}>Geography</div></Reveal>
-          <Reveal><h2 style={S.secTitle}>Eight cities. One <em style={S.heroEm}>frequency.</em></h2></Reveal>
+      {/* ═══ CITIES (WHITE) — WITH BACKGROUND IMAGES ═══ */}
+      <section style={{ padding:'128px clamp(20px,4vw,80px)',background:LIGHT_BG,color:TEXT_DARK }} id="cities">
+        <div style={{ maxWidth:1400,margin:'0 auto' }}>
+          <Reveal><div style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.4em',textTransform:'uppercase',color:GOLD,marginBottom:16 }}>Geography</div></Reveal>
+          <Reveal><h2 style={{ fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(26px,4.5vw,64px)',fontWeight:300,lineHeight:1.1,marginBottom:64,color:TEXT_DARK }}>Eight cities. One <em style={{ fontStyle:'italic',color:GOLD }}>frequency.</em></h2></Reveal>
           <Reveal delay={0.2}>
-            <div style={S.citiesGrid} className="grid-cities">
-              {CITIES.map((c, i) => (
-                <div key={c.name} className={c.hq ? "city-hq" : "city-cell"} style={{ ...S.city, ...(c.hq ? S.cityHq : {}) }}
-                  onMouseEnter={e => (e.currentTarget.style.background='#111114')}
-                  onMouseLeave={e => (e.currentTarget.style.background='#0C0C0E')}>
-                  {c.hq && <div style={S.cityBg}><img src={`${WEB}/hero-bg.jpg`} alt="" style={S.cityBgImg} /></div>}
-                  {c.hq && <span style={S.cityHqTag}>Headquarters</span>}
-                  <div style={{ ...S.cityName, ...(c.hq ? S.cityNameHq : {}) }}>{c.name}</div>
-                  <div style={S.cityState}>{c.state}</div>
-                  <div style={S.cityCount}>{c.count}</div>
+            <div className="cities-grid" style={{ display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:2 }}>
+              {CITIES.map(c => (
+                <div key={c.name} className="city-card" style={{ position:'relative',overflow:'hidden',padding:c.hq?'64px 40px':'40px 32px',background:'#000',minHeight:c.hq?280:160,...(c.hq?{gridColumn:'span 2',gridRow:'span 2',display:'flex',flexDirection:'column',justifyContent:'flex-end'}:{}),transition:'transform 0.4s' }}>
+                  {/* Background image for every city */}
+                  <img src={c.bg} alt="" style={{ position:'absolute',top:0,left:0,width:'100%',height:'100%',objectFit:'cover',opacity:0.35,transition:'opacity 0.6s,transform 6s cubic-bezier(0.37,0,0.63,1)' }} />
+                  <div style={{ position:'absolute',top:0,left:0,width:'100%',height:'100%',background:'linear-gradient(180deg,rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.6) 100%)' }} />
+                  <div style={{ position:'relative',zIndex:1 }}>
+                    {c.hq && <span style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.2em',textTransform:'uppercase',color:GOLD,marginBottom:16,display:'block' }}>Headquarters</span>}
+                    <div style={{ fontFamily:'Cormorant Garamond,serif',fontSize:c.hq?'clamp(32px,5vw,64px)':'clamp(20px,2.5vw,32px)',fontWeight:400,color:'#F5F0E8' }}>{c.name}</div>
+                    <div style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase',color:GOLD }}>{c.state}</div>
+                    <div style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',color:'rgba(245,240,232,0.5)',marginTop:8 }}>{c.count}</div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -524,20 +340,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TIMELINE */}
-      <section style={S.sec} id="journey">
-        <div style={S.secInner}>
-          <Reveal><div style={S.secTag}>The Journey</div></Reveal>
-          <Reveal><h2 style={S.secTitle}>Built in chapters, <em style={S.heroEm}>not overnight.</em></h2></Reveal>
-          <div style={S.tlTrack} className="tl-track">
-            <div style={S.tlLine} />
-            {TIMELINE.map((t, i) => (
-              <Reveal key={t.year} delay={i * 0.1}>
-                <div style={S.tlItem}>
-                  <div style={S.tlDot} />
-                  <div style={S.tlYear}>{t.year}</div>
-                  <div style={S.tlTitle}>{t.title}</div>
-                  <div style={S.tlDesc}>{t.desc}</div>
+      {/* ═══ MARQUEE (DARK) ═══ */}
+      <div style={{ padding:'48px 0',overflow:'hidden',borderTop:'1px solid rgba(245,240,232,0.08)',borderBottom:'1px solid rgba(245,240,232,0.08)',background:DARK }}>
+        <div style={{ display:'flex',gap:64,animation:'mScroll 35s linear infinite',width:'max-content' }}>
+          {[...MARQUEE_BRANDS,...MARQUEE_BRANDS].map((b,i) => (
+            <span key={`${b}-${i}`} style={{ fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(20px,3vw,44px)',fontWeight:300,color:'rgba(245,240,232,0.25)',whiteSpace:'nowrap',display:'flex',alignItems:'center',gap:24 }}>
+              <span style={{ width:6,height:6,background:GOLD,borderRadius:'50%',flexShrink:0 }} />{b}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ═══ TIMELINE (WHITE) ═══ */}
+      <section style={{ padding:'128px clamp(20px,4vw,80px)',background:LIGHT_BG,color:TEXT_DARK }} id="journey">
+        <div style={{ maxWidth:1400,margin:'0 auto' }}>
+          <Reveal><div style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.4em',textTransform:'uppercase',color:GOLD,marginBottom:16 }}>The Journey</div></Reveal>
+          <Reveal><h2 style={{ fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(26px,4.5vw,64px)',fontWeight:300,lineHeight:1.1,marginBottom:64,color:TEXT_DARK }}>Built in chapters, <em style={{ fontStyle:'italic',color:GOLD }}>not overnight.</em></h2></Reveal>
+          <div style={{ position:'relative',paddingLeft:96 }}>
+            <div style={{ position:'absolute',top:0,left:24,width:1,height:'100%',background:`linear-gradient(180deg,${GOLD},rgba(0,0,0,0.1),transparent)` }} />
+            {TIMELINE.map((t,i) => (
+              <Reveal key={t.year} delay={i*0.1}>
+                <div style={{ position:'relative',paddingBottom:48 }}>
+                  <div style={{ position:'absolute',left:-76,top:8,width:9,height:9,border:`1px solid ${GOLD}`,borderRadius:'50%',background:LIGHT_BG }} />
+                  <div style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',color:GOLD,marginBottom:8 }}>{t.year}</div>
+                  <div style={{ fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(18px,2.5vw,32px)',fontWeight:400,marginBottom:8,color:TEXT_DARK }}>{t.title}</div>
+                  <div style={{ fontSize:'clamp(13px,1.1vw,16px)',color:TEXT_MID,maxWidth:500,lineHeight:1.6 }}>{t.desc}</div>
                 </div>
               </Reveal>
             ))}
@@ -545,53 +372,48 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FULL-BLEED QUOTE 2 */}
-      <div style={S.fullImg}>
-        <img src={`${WEB}/penthouse-skyline.jpg`} alt="" style={S.fullImgImg} />
-        <div style={S.fullImgOverlay}><div style={S.fullImgText}>&ldquo;Greatness is earned in silence.&rdquo;</div></div>
+      {/* ═══ FULL-BLEED QUOTE 2 ═══ */}
+      <div style={{ position:'relative',height:'clamp(250px,40vw,450px)',overflow:'hidden' }}>
+        <img src={`${WEB}/penthouse-skyline.jpg`} alt="" style={{ width:'100%',height:'100%',objectFit:'cover',opacity:0.4 }} />
+        <div style={{ position:'absolute',top:0,left:0,width:'100%',height:'100%',background:'linear-gradient(180deg,#060607 0%,transparent 30%,transparent 70%,#060607 100%)',display:'flex',alignItems:'center',justifyContent:'center' }}>
+          <div style={{ fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(22px,3.5vw,48px)',fontWeight:300,fontStyle:'italic',color:GOLD,textAlign:'center',maxWidth:600,padding:'0 clamp(20px,4vw,80px)',lineHeight:1.3 }}>
+            &ldquo;Greatness is earned in silence.&rdquo;
+          </div>
+        </div>
       </div>
 
-      {/* CONNECT */}
-      <section className="sec" style={{ ...S.sec, minHeight:'80vh',display:'flex',alignItems:'center',borderTop:'1px solid rgba(245,240,232,0.08)',position:'relative',overflow:'hidden' }} id="connect">
+      {/* ═══ CONNECT (DARK) ═══ */}
+      <section style={{ padding:'128px clamp(20px,4vw,80px)',background:DARK,minHeight:'80vh',display:'flex',alignItems:'center',position:'relative',overflow:'hidden' }} id="connect">
         <div style={{ position:'absolute',top:0,left:0,width:'100%',height:'100%',opacity:0.05 }}>
           <img src={`${WEB}/rooftop-lounge.jpg`} alt="" style={{ width:'100%',height:'100%',objectFit:'cover' }} />
         </div>
-        <div style={S.secInner}>
-          <div style={S.connectLayout} className="grid-connect">
+        <div style={{ maxWidth:1400,margin:'0 auto',width:'100%' }}>
+          <div className="connect-grid" style={{ display:'grid',gridTemplateColumns:'1.2fr 1fr',gap:96,alignItems:'center',position:'relative' }}>
             <Reveal>
-              <div style={S.secTag}>Let&rsquo;s Build</div>
-              <h2 style={S.connectHL}>The ecosystem is <em style={S.heroEm}>designed</em> for collaboration.</h2>
-              <p style={S.connectBody}>Whether it&rsquo;s sponsorship, investment, venue partnership, brand collaboration, or something nobody&rsquo;s thought of yet — the door is open for those who build at this level.</p>
-              <div style={S.connectBtns}>
-                <a href="mailto:thekollectiveworldwide@gmail.com?subject=Partnership — Dr. Dorsey" style={S.btnGold}
-                  onMouseEnter={e => { e.currentTarget.style.background='#D4BC8A'; e.currentTarget.style.transform='translateY(-2px)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.background='#C8A96E'; e.currentTarget.style.transform='translateY(0)'; }}>Start a Conversation</a>
-                <a href="https://instagram.com/dolodorsey" target="_blank" rel="noopener noreferrer" style={S.btnOutline}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor='#C8A96E'; e.currentTarget.style.color='#C8A96E'; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor='rgba(245,240,232,0.25)'; e.currentTarget.style.color='#F5F0E8'; }}>@dolodorsey</a>
+              <div style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.4em',textTransform:'uppercase',color:GOLD,marginBottom:16 }}>Let&rsquo;s Build</div>
+              <h2 style={{ fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(30px,5vw,72px)',fontWeight:300,lineHeight:1.15,marginBottom:40,color:'#F5F0E8' }}>The ecosystem is <em style={{ fontStyle:'italic',color:GOLD }}>designed</em> for collaboration.</h2>
+              <p style={{ fontSize:'clamp(14px,1.3vw,18px)',color:'rgba(245,240,232,0.6)',lineHeight:1.7,marginBottom:48,maxWidth:480 }}>Whether it&rsquo;s sponsorship, investment, venue partnership, brand collaboration, or something nobody&rsquo;s thought of yet.</p>
+              <div style={{ display:'flex',gap:24,flexWrap:'wrap' }}>
+                <a href="mailto:thekollectiveworldwide@gmail.com?subject=Partnership — Dr. Dorsey" style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(10px,0.85vw,12px)',letterSpacing:'0.2em',textTransform:'uppercase',color:DARK,background:GOLD,padding:'16px 40px',textDecoration:'none',border:`1px solid ${GOLD}`,display:'inline-block' }}>Start a Conversation</a>
+                <a href="https://instagram.com/dolodorsey" target="_blank" rel="noopener noreferrer" style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(10px,0.85vw,12px)',letterSpacing:'0.2em',textTransform:'uppercase',color:'#F5F0E8',background:'transparent',padding:'16px 40px',textDecoration:'none',border:'1px solid rgba(245,240,232,0.25)',display:'inline-block' }}>@dolodorsey</a>
               </div>
             </Reveal>
             <Reveal delay={0.2}>
               <div>
                 {[
-                  { label:'Email', value:'thekollectiveworldwide@gmail.com', href:'mailto:thekollectiveworldwide@gmail.com' },
-                  { label:'Instagram', value:'@dolodorsey', href:'https://instagram.com/dolodorsey' },
-                  { label:'The Kollective', value:'@thekollectiveworldwide', href:'https://instagram.com/thekollectiveworldwide' },
-                  { label:'Headquarters', value:'Atlanta, Georgia' },
+                  {label:'Email',value:'thekollectiveworldwide@gmail.com',href:'mailto:thekollectiveworldwide@gmail.com'},
+                  {label:'Instagram',value:'@dolodorsey',href:'https://instagram.com/dolodorsey'},
+                  {label:'The Kollective',value:'@thekollectiveworldwide',href:'https://instagram.com/thekollectiveworldwide'},
+                  {label:'Headquarters',value:'Atlanta, Georgia'},
                 ].map(d => (
-                  <div key={d.label} style={S.cdItem}>
-                    <div style={S.cdLabel}>{d.label}</div>
-                    <div style={S.cdValue}>{d.href ? <a href={d.href} target={d.href.startsWith('http')?'_blank':undefined} rel="noopener noreferrer" style={S.cdLink}>{d.value}</a> : d.value}</div>
+                  <div key={d.label} style={{ padding:'24px 0',borderBottom:'1px solid rgba(245,240,232,0.08)' }}>
+                    <div style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase',color:GOLD,marginBottom:6 }}>{d.label}</div>
+                    <div style={{ fontSize:'clamp(14px,1.3vw,18px)',color:'#F5F0E8' }}>{d.href ? <a href={d.href} target={d.href.startsWith('http')?'_blank':undefined} rel="noopener noreferrer" style={{ textDecoration:'none',borderBottom:'1px solid rgba(245,240,232,0.08)',color:'inherit' }}>{d.value}</a> : d.value}</div>
                   </div>
                 ))}
                 <div style={{ display:'flex',gap:24,marginTop:24 }}>
-                  {[
-                    { n:'Instagram', u:'https://instagram.com/dolodorsey' },
-                    { n:'Twitter', u:'https://twitter.com/mrdolodorsey' },
-                    { n:'Facebook', u:'https://facebook.com/DoLoDorsey' },
-                  ].map(s => (
-                    <a key={s.n} href={s.u} target="_blank" rel="noopener noreferrer" style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(10px,0.85vw,12px)',color:'rgba(245,240,232,0.25)',textDecoration:'none',letterSpacing:'0.1em',transition:'color 0.3s' }}
-                      onMouseEnter={e => (e.currentTarget.style.color='#C8A96E')} onMouseLeave={e => (e.currentTarget.style.color='rgba(245,240,232,0.25)')}>{s.n}</a>
+                  {[{n:'Instagram',u:'https://instagram.com/dolodorsey'},{n:'Twitter',u:'https://twitter.com/mrdolodorsey'},{n:'Facebook',u:'https://facebook.com/DoLoDorsey'}].map(s => (
+                    <a key={s.n} href={s.u} target="_blank" rel="noopener noreferrer" style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(10px,0.85vw,12px)',color:'rgba(245,240,232,0.25)',textDecoration:'none',letterSpacing:'0.1em' }}>{s.n}</a>
                   ))}
                 </div>
               </div>
@@ -600,126 +422,61 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ECOSYSTEM LINKS */}
-      <div style={S.ecoLinks} className="eco-links-section">
+      {/* ═══ ECOSYSTEM LINKS (WHITE) ═══ */}
+      <div style={{ padding:'96px clamp(20px,4vw,80px)',background:LIGHT_BG,borderTop:'1px solid rgba(0,0,0,0.06)',color:TEXT_DARK }}>
         <div style={{ maxWidth:1400,margin:'0 auto' }}>
-          <div style={S.ecoGrid} className="grid-eco">
-            <div>
-              <h4 style={S.ecoH4}>Navigate</h4>
-              {['about','empire','philosophy','cities','journey','connect'].map(id => (
-                <a key={id} href={`#${id}`} style={S.ecoA} onClick={(e) => { e.preventDefault(); scrollTo(id); }}
-                  onMouseEnter={e => (e.currentTarget.style.color='#C8A96E')} onMouseLeave={e => (e.currentTarget.style.color='rgba(245,240,232,0.25)')}>
-                  {id.charAt(0).toUpperCase() + id.slice(1)}
-                </a>
-              ))}
-              <a href="/events" style={{...S.ecoA, color:'#C8A96E'}}
-                onMouseEnter={e => (e.currentTarget.style.color='#D4BC8A')} onMouseLeave={e => (e.currentTarget.style.color='#C8A96E')}>
-                Events Calendar →
-              </a>
-            </div>
-            <div>
-              <h4 style={S.ecoH4}>Flagship Brands</h4>
-              {[{n:'HugLife Events',u:'https://huglife.vercel.app'},{n:'Forever Futbol Museum',u:'https://forever-futbol.vercel.app'},{n:'Casper Group',u:'https://casper-group.vercel.app'},{n:'Good Times App',u:'https://good-times-app.vercel.app'}].map(l => (
-                <a key={l.n} href={l.u} target="_blank" rel="noopener noreferrer" style={S.ecoA}
-                  onMouseEnter={e => (e.currentTarget.style.color='#C8A96E')} onMouseLeave={e => (e.currentTarget.style.color='rgba(245,240,232,0.25)')}>{l.n}</a>
-              ))}
-            </div>
-            <div>
-              <h4 style={S.ecoH4}>Products</h4>
-              {[{n:'Pronto Energy',u:'https://pronto-energy-website.vercel.app'},{n:'Infinity Water',u:'https://infinity-water.vercel.app'},{n:'Stush',u:'https://stushusa.myshopify.com'},{n:'MAGA Merch',u:'https://makeatlantagreatagain.myshopify.com'}].map(l => (
-                <a key={l.n} href={l.u} target="_blank" rel="noopener noreferrer" style={S.ecoA}
-                  onMouseEnter={e => (e.currentTarget.style.color='#C8A96E')} onMouseLeave={e => (e.currentTarget.style.color='rgba(245,240,232,0.25)')}>{l.n}</a>
-              ))}
-            </div>
-            <div>
-              <h4 style={S.ecoH4}>Connect</h4>
-              {[{n:'Email',u:'mailto:thekollectiveworldwide@gmail.com'},{n:'Instagram',u:'https://instagram.com/dolodorsey'},{n:'KHG Instagram',u:'https://instagram.com/thekollectiveworldwide'},{n:'Twitter',u:'https://twitter.com/mrdolodorsey'}].map(l => (
-                <a key={l.n} href={l.u} target={l.u.startsWith('http')?'_blank':undefined} rel="noopener noreferrer" style={S.ecoA}
-                  onMouseEnter={e => (e.currentTarget.style.color='#C8A96E')} onMouseLeave={e => (e.currentTarget.style.color='rgba(245,240,232,0.25)')}>{l.n}</a>
-              ))}
-            </div>
+          <div className="eco-grid" style={{ display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:64 }}>
+            {[
+              {h:'Navigate',links:[{n:'About',u:'#about'},{n:'Empire',u:'#empire'},{n:'Philosophy',u:'#philosophy'},{n:'Cities',u:'#cities'},{n:'Journey',u:'#journey'},{n:'Connect',u:'#connect'}]},
+              {h:'Flagship Brands',links:[{n:'HugLife Events',u:'https://huglife.vercel.app'},{n:'Forever Futbol Museum',u:'https://forever-futbol.vercel.app'},{n:'Casper Group',u:'https://casper-group.vercel.app'},{n:'Good Times App',u:'https://good-times-app.vercel.app'}]},
+              {h:'Products',links:[{n:'Pronto Energy',u:'https://pronto-energy-website.vercel.app'},{n:'Infinity Water',u:'https://infinity-water.vercel.app'},{n:'Stush',u:'https://stushusa.myshopify.com'},{n:'MAGA Merch',u:'https://makeatlantagreatagain.myshopify.com'}]},
+              {h:'Connect',links:[{n:'Email',u:'mailto:thekollectiveworldwide@gmail.com'},{n:'Instagram',u:'https://instagram.com/dolodorsey'},{n:'KHG Instagram',u:'https://instagram.com/thekollectiveworldwide'},{n:'Twitter',u:'https://twitter.com/mrdolodorsey'}]},
+            ].map(col => (
+              <div key={col.h}>
+                <h4 style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase',color:GOLD,marginBottom:24 }}>{col.h}</h4>
+                {col.links.map(l => (
+                  <a key={l.n} href={l.u} target={l.u.startsWith('http')?'_blank':undefined} rel="noopener noreferrer" style={{ display:'block',fontSize:'clamp(13px,1.1vw,16px)',color:TEXT_MID,textDecoration:'none',padding:'6px 0' }}
+                    onClick={l.u.startsWith('#')?e=>{e.preventDefault();scrollTo(l.u.slice(1))}:undefined}>{l.n}</a>
+                ))}
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* FOOTER */}
-      <footer style={S.footer} className="site-footer">
-        <div style={S.footerL}>&copy; 2026 Dr. DoLo Dorsey — The Kollective Hospitality Group</div>
-        <div style={S.footerR}>Live for today. Plan for tomorrow. Party tonight.</div>
+      {/* ═══ FOOTER (DARK) ═══ */}
+      <footer className="footer-bar" style={{ padding:'48px clamp(20px,4vw,80px)',borderTop:'1px solid rgba(245,240,232,0.08)',display:'flex',alignItems:'center',justifyContent:'space-between',background:DARK }}>
+        <div style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.2em',color:'rgba(245,240,232,0.25)' }}>&copy; 2026 Dr. DoLo Dorsey — The Kollective Hospitality Group</div>
+        <div style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase',color:'rgba(245,240,232,0.25)' }}>Live for today. Plan for tomorrow. Party tonight.</div>
       </footer>
 
-      {/* CSS Animations + Responsive */}
+      {/* CSS */}
       <style>{`
-        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes lineUp { from{opacity:0;transform:translateY(100%)} to{opacity:1;transform:translateY(0)} }
-        @keyframes pSlide { from{left:-100%} to{left:100%} }
-        @keyframes mScroll { to{transform:translateX(-50%)} }
-        @keyframes scrollPulse { 0%,100%{opacity:.3;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.2)} }
-
-        /* ═══ TABLET (≤1024px) ═══ */
+        @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes lineUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
+        @keyframes mScroll{to{transform:translateX(-50%)}}
+        .stat-num{font-family:Cormorant Garamond,serif;font-size:clamp(28px,3.5vw,52px);font-weight:300;color:#C8A96E;line-height:1}
+        .stat-label{font-family:DM Mono,monospace;font-size:clamp(8px,0.7vw,10px);letter-spacing:0.3em;text-transform:uppercase;color:rgba(245,240,232,0.25);margin-top:4px}
+        .logo-item:hover{opacity:0.8!important}
+        .div-card:hover{background:#111114!important}
+        .nav-a:hover{color:#F5F0E8!important}
+        .city-card:hover img{opacity:0.5!important;transform:scale(1.03)!important}
         @media(max-width:1024px){
-          .grid-thesis{grid-template-columns:1fr!important;gap:48px!important}
-          .grid-divisions{grid-template-columns:repeat(2,1fr)!important}
-          .grid-philosophy{grid-template-columns:1fr!important;gap:48px!important}
-          .grid-cities{grid-template-columns:repeat(2,1fr)!important}
-          .grid-connect{grid-template-columns:1fr!important;gap:48px!important}
-          .grid-eco{grid-template-columns:repeat(2,1fr)!important;gap:40px!important}
+          .thesis-grid,.phil-layout,.connect-grid{grid-template-columns:1fr!important}
+          .div-grid{grid-template-columns:repeat(2,1fr)!important}
+          .cities-grid{grid-template-columns:repeat(2,1fr)!important}
+          .eco-grid{grid-template-columns:repeat(2,1fr)!important}
         }
-
-        /* ═══ MOBILE (≤768px) ═══ */
         @media(max-width:768px){
-          /* Nav */
-          .nav-links{display:none!important}
-          .nav-cta{display:none!important}
-          .nav-toggle{display:block!important;position:relative;width:28px;height:20px}
-
-          /* Hero */
-          .hero-bottom{flex-direction:column!important;gap:32px!important;align-items:flex-start!important}
-          .hero-stats{gap:32px!important}
-
-          /* Sections */
-          .sec{padding:64px 20px!important}
-
-          /* Grids collapse to 1 column */
-          .grid-thesis{grid-template-columns:1fr!important;gap:32px!important}
-          .grid-divisions{grid-template-columns:1fr!important}
-          .grid-imgband{grid-template-columns:1fr!important}
-          .grid-philosophy{grid-template-columns:1fr!important;gap:40px!important}
-          .grid-cities{grid-template-columns:1fr!important}
-          .grid-connect{grid-template-columns:1fr!important;gap:40px!important}
-          .grid-eco{grid-template-columns:1fr 1fr!important;gap:32px!important}
-
-          /* City HQ no longer spans */
-          .city-hq{grid-column:span 1!important;grid-row:span 1!important}
-
-          /* Pillar body less padding */
-          .pillar-body{padding-left:24px!important}
-
-          /* Timeline */
-          .tl-track{padding-left:48px!important}
-
-          /* Footer stacks */
-          .site-footer{flex-direction:column!important;gap:12px!important;text-align:center!important}
-
-          /* Full-bleed images shorter on mobile */
-          .full-img-section{height:250px!important}
-
-          /* Eco links section */
-          .eco-links-section{padding:48px 20px!important}
-
-          /* Image band cells shorter */
-          .imgband-cell{height:180px!important}
-
-          /* Thesis image shorter */
-          .grid-thesis > div:last-child > div{height:300px!important}
-        }
-
-        /* ═══ SMALL MOBILE (≤480px) ═══ */
-        @media(max-width:480px){
-          .hero-stats{flex-wrap:wrap!important;gap:24px!important}
-          .grid-eco{grid-template-columns:1fr!important}
-          .imgband-cell{height:150px!important}
-          .full-img-section{height:200px!important}
+          .nav-links-desktop{display:none!important}
+          .nav-cta-desktop{display:none!important}
+          .nav-toggle-mobile{display:block!important}
+          .div-grid{grid-template-columns:1fr!important}
+          .img-band{grid-template-columns:1fr!important}
+          .cities-grid{grid-template-columns:1fr!important}
+          .city-card[style*="grid-column"]{grid-column:span 1!important;grid-row:span 1!important}
+          .eco-grid{grid-template-columns:1fr!important}
+          .footer-bar{flex-direction:column!important;gap:16px!important;text-align:center!important}
         }
       `}</style>
     </>
