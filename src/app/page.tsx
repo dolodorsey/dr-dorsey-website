@@ -193,7 +193,7 @@ export default function Home() {
       <div style={{position:'relative',zIndex:3,maxWidth:900,padding:'0 clamp(20px,4vw,80px)'}}>
         <div style={{...tag(),marginBottom:20,animation:'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 1.8s both'}}>Dr. Dorsey + The Kollective</div>
         <h1 style={{fontFamily:serif,fontSize:'clamp(32px,6vw,80px)',fontWeight:300,lineHeight:1.1,letterSpacing:'-0.02em',animation:'fadeUp 1s cubic-bezier(0.16,1,0.3,1) 2s both'}}>
-          Where Culture Becomes<br/><em style={{fontStyle:'italic',color:GOLD}}>Infrastructure.</em>
+          Live for today.<br/>Plan for <em style={{fontStyle:'italic',color:GOLD}}>tomorrow.</em><br/>Party <em style={{fontStyle:'italic',color:GOLD}}>tonight!</em>
         </h1>
         <a href="#ecosystem" style={{display:'inline-block',fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.25em',textTransform:'uppercase',color:GOLD,border:`1px solid ${GOLD}`,padding:'14px 40px',textDecoration:'none',marginTop:40,animation:'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 2.4s both',transition:'all 0.3s'}}
           onClick={e=>{e.preventDefault();go('ecosystem')}}>Enter the Ecosystem</a>
