@@ -10,7 +10,7 @@ const FF_BG = `${SB}/forever_futbol/website/ff-museum-interior.png`;
 
 /* ═══ ALL BRAND LOGOS — MARQUEE (ENLARGED) ═══ */
 const ALL_LOGOS = [
-  { n:'HugLife', s:`${SB}/huglife_events/00-brand-assets/logos/huglife-logo-buddha-black.png`, u:'https://huglife.vercel.app' },
+  { n:'HugLife', s:`${SB}/huglife/logos/huglife-white.png`, u:'https://huglife.vercel.app' },
   { n:'Forever Futbol', s:`${SB}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png`, u:'https://foreverfutbol.museum' },
   { n:'Casper Group', s:`${CG}/casper-logo-white.png`, u:'https://casper-group.vercel.app' },
   { n:'Good Times', s:`${SB}/good_times/00-brand-assets/logos/good-times-logo-gold-black.png`, u:'https://good-times-app.vercel.app' },
@@ -47,7 +47,7 @@ const ALL_LOGOS = [
 
 /* ═══ UPDATED DISTRICTS ═══ */
 const DISTRICTS = [
-  { title:'Night District', sub:'Opium · HugLife × ICONIC', brands:['NOIR','REMIX','Taste of Art','Soul Sessions','Secret Society','WRST BHVR','Gangsta Gospel','Underground King','Cravings','Kulture','Pawchella','Paparazzi','Black Ball','Beauty & Beast','Sundays Best'], img:`${W}/rooftop-lounge.jpg`, logo:`${SB}/huglife_events/00-brand-assets/logos/huglife-logo-buddha-black.png` },
+  { title:'Night District', sub:'Opium · HugLife × ICONIC', brands:['NOIR','REMIX','Taste of Art','Soul Sessions','Secret Society','WRST BHVR','Gangsta Gospel','Underground King','Cravings','Kulture','Pawchella','Paparazzi','Black Ball','Beauty & Beast','Sundays Best'], img:`${W}/rooftop-lounge.jpg`, logo:`${SB}/huglife/logos/huglife-white.png` },
   { title:'Culinary District', sub:'Sea Salt · Hungry AF · Tulum · Angel Wings · Espresso Co · Goodfellas Pizza', brands:['Patty Daddy','Taco Yaki','Morning After','Sweet Tooth','Mojo Juice','Pasta Bish','Mr. Oyster','TOSSD'], img:`${W}/luxury-venue.jpg`, logo:`${CG}/casper-logo-white.png` },
   { title:'Museum Quarter', sub:'Forever Futbol · Scented Flowers', brands:['Immersive Rooms','45 DJs','May 29 — Jul 6','Culture × Sport'], img:FF_BG, logo:`${SB}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png` },
   { title:'Shopping District', sub:'Bodega Bodega Bodega · Stush · MAGA', brands:['Streetwear','Culture','ATL Merch'], img:`${W}/penthouse-skyline.jpg`, logo:'https://make-atlanta-great-again.vercel.app/brand/MAGA_hawks.png' },
