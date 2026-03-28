@@ -139,7 +139,7 @@ const S: Record<string, React.CSSProperties> = {
   navToggle: { display:'none',background:'none',border:'none',cursor:'pointer',width:28,height:20 },
 
   /* Hero */
-  hero: { minHeight:'100vh',position:'relative' as const,overflow:'hidden',display:'flex',alignItems:'flex-end',padding:'0 clamp(20px,4vw,80px) 96px' },
+  hero: { minHeight:'100vh',position:'relative' as const,overflow:'hidden',display:'flex',alignItems:'flex-end',padding:'0 clamp(20px,4vw,80px) clamp(48px,10vh,96px)' },
   heroVideoWrap: { position:'absolute' as const,top:0,left:0,width:'100%',height:'100%',zIndex:0 },
   heroFallback: { position:'absolute' as const,top:0,left:0,width:'100%',height:'100%',objectFit:'cover' as const,opacity:0.2,filter:'grayscale(20%) contrast(1.1)' },
   heroVideo: { width:'100%',height:'100%',objectFit:'cover' as const,transition:'opacity 1.5s' },
@@ -171,7 +171,7 @@ const S: Record<string, React.CSSProperties> = {
   thesisQuote: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(30px,5vw,72px)',fontWeight:300,lineHeight:1.2,marginBottom:40 },
   thesisBody: { fontSize:'clamp(14px,1.3vw,18px)',color:'rgba(245,240,232,0.6)',lineHeight:1.8,marginBottom:24 },
   thesisSig: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(18px,2.5vw,32px)',fontWeight:300,fontStyle:'italic' as const,color:'#C8A96E',marginTop:40 },
-  thesisImgWrap: { position:'relative' as const,height:580,overflow:'hidden',border:'1px solid rgba(245,240,232,0.08)' },
+  thesisImgWrap: { position:'relative' as const,height:'clamp(280px,50vw,580px)',overflow:'hidden',border:'1px solid rgba(245,240,232,0.08)' },
   thesisImg: { width:'100%',height:'100%',objectFit:'cover' as const,filter:'contrast(1.05)',transition:'transform 8s cubic-bezier(0.37,0,0.63,1)' },
   thesisImgLabel: { position:'absolute' as const,bottom:-12,right:40,fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase' as const,color:'#8A7650',background:'#060607',padding:'0 16px' },
 
@@ -321,13 +321,13 @@ export default function Home() {
           <div style={S.navMark}><img src={KHG_LOGO} alt="KHG" style={S.navMarkImg} /></div>
           <span style={S.navLabel}>Dr. Dorsey</span>
         </a>
-        <ul style={S.navLinks}>
+        <ul style={S.navLinks} className="nav-links">
           {['about','empire','philosophy','cities','journey'].map(id => (
             <li key={id}><a href={`#${id}`} style={S.navLink} onClick={(e) => { e.preventDefault(); scrollTo(id); }}>{id.charAt(0).toUpperCase() + id.slice(1)}</a></li>
           ))}
         </ul>
-        <a href="#connect" style={S.navCta} onClick={(e) => { e.preventDefault(); scrollTo('connect'); }}>Connect</a>
-        <button style={S.navToggle} onClick={() => setMobOpen(!mobOpen)}>
+        <a href="#connect" className="nav-cta" style={S.navCta} onClick={(e) => { e.preventDefault(); scrollTo('connect'); }}>Connect</a>
+        <button className="nav-toggle" style={S.navToggle} onClick={() => setMobOpen(!mobOpen)}>
           <span style={{ display:'block',width:'100%',height:1,background:'#F5F0E8',position:'absolute' as const,left:0,top:3,transition:'all 0.3s',transform:mobOpen?'translateY(6px) rotate(45deg)':'none' }} />
           <span style={{ display:'block',width:'100%',height:1,background:'#F5F0E8',position:'absolute' as const,left:0,top:9,transition:'all 0.3s',opacity:mobOpen?0:1 }} />
           <span style={{ display:'block',width:'100%',height:1,background:'#F5F0E8',position:'absolute' as const,left:0,top:15,transition:'all 0.3s',transform:mobOpen?'translateY(-6px) rotate(-45deg)':'none' }} />
@@ -353,8 +353,8 @@ export default function Home() {
           <p style={{ ...S.heroSub, animation: 'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 2.7s both' }}>
             The mind behind 57+ ventures, 8 cities, and an ecosystem engineered to compound. Dr. DoLo Dorsey builds empires in silence.
           </p>
-          <div style={{ ...S.heroBottom, animation: 'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 3s both' }}>
-            <div style={S.heroStats}>
+          <div className="hero-bottom" style={{ ...S.heroBottom, animation: 'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 3s both' }}>
+            <div style={S.heroStats} className="hero-stats">
               <div><StatNum target={57} suffix="+" /><div style={S.heroStatLabel}>Ventures</div></div>
               <div><StatNum target={8} /><div style={S.heroStatLabel}>Cities</div></div>
               <div><StatNum target={198} /><div style={S.heroStatLabel}>AI Agents</div></div>
@@ -376,9 +376,9 @@ export default function Home() {
       </div>
 
       {/* THESIS */}
-      <section style={S.sec} id="about">
+      <section className="sec" style={S.sec} id="about">
         <div style={S.secInner}>
-          <div style={S.thesisLayout}>
+          <div style={S.thesisLayout} className="grid-thesis">
             <Reveal>
               <div style={S.secTag}>The Founder</div>
               <blockquote style={S.thesisQuote}>&ldquo;Everybody wants to eat at night — nobody wants to <em style={S.heroEm}>hunt in the morning.</em>&rdquo;</blockquote>
@@ -397,12 +397,12 @@ export default function Home() {
       </section>
 
       {/* DIVISIONS */}
-      <section style={{ ...S.sec, background:'#0C0C0E' }} id="empire">
+      <section className="sec" style={{ ...S.sec, background:'#0C0C0E' }} id="empire">
         <div style={S.secInner}>
           <Reveal><div style={S.secTag}>The Empire</div></Reveal>
           <Reveal><h2 style={S.secTitle}>Eight divisions. One <em style={S.heroEm}>machine.</em></h2></Reveal>
           <Reveal delay={0.2}>
-            <div style={S.divGrid}>
+            <div style={S.divGrid} className="grid-divisions">
               {DIVISIONS.map(d => (
                 <div key={d.num} style={S.divCard}
                   onMouseEnter={e => { e.currentTarget.style.background='#111114'; const n=e.currentTarget.querySelector('.dn') as HTMLElement; if(n)n.style.color='rgba(200,169,110,0.3)'; }}
@@ -419,13 +419,13 @@ export default function Home() {
       </section>
 
       {/* IMAGE BAND */}
-      <div style={S.imgBand}>
+      <div style={S.imgBand} className="grid-imgband">
         {[
           { src:`${WEB}/luxury-venue.jpg`, label:'Events' },
           { src:`${WEB}/penthouse-skyline.jpg`, label:'Hospitality' },
           { src:`${WEB}/rooftop-lounge.jpg`, label:'Nightlife' },
         ].map(i => (
-          <div key={i.label} style={S.imgBandCell}
+          <div key={i.label} className="imgband-cell" style={S.imgBandCell}
             onMouseEnter={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; if(img){img.style.opacity='0.8';img.style.transform='scale(1.03)'} }}
             onMouseLeave={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; if(img){img.style.opacity='0.5';img.style.transform='scale(1)'} }}>
             <img src={i.src} alt={i.label} style={S.imgBandImg} />
@@ -448,13 +448,13 @@ export default function Home() {
         <div style={S.secInner}>
           <Reveal><div style={S.secTag}>Operating System</div></Reveal>
           <Reveal><h2 style={S.secTitle}>The principles behind <em style={S.heroEm}>the machine.</em></h2></Reveal>
-          <div style={S.philLayout}>
+          <div style={S.philLayout} className="grid-philosophy">
             <div>
               {PILLARS.map((p, i) => (
                 <Reveal key={p.num} delay={i * 0.1}>
                   <div style={{ ...S.pillar, ...(i === 0 ? S.pillarFirst : {}) }}>
                     <div style={S.pillarHead}><span style={S.pillarNum}>{p.num}</span><h3 style={S.pillarTitle}>{p.title}</h3></div>
-                    <p style={S.pillarBody}>{p.body}</p>
+                    <p style={S.pillarBody} className="pillar-body">{p.body}</p>
                   </div>
                 </Reveal>
               ))}
@@ -477,7 +477,7 @@ export default function Home() {
       </section>
 
       {/* FULL-BLEED QUOTE */}
-      <div style={S.fullImg}>
+      <div style={S.fullImg} className="full-img-section">
         <img src={`${WEB}/garden-district.jpg`} alt="" style={S.fullImgImg} />
         <div style={S.fullImgOverlay}><div style={S.fullImgText}>&ldquo;Don&rsquo;t let lame people make you do lame shit.&rdquo;</div></div>
       </div>
@@ -488,9 +488,9 @@ export default function Home() {
           <Reveal><div style={S.secTag}>Geography</div></Reveal>
           <Reveal><h2 style={S.secTitle}>Eight cities. One <em style={S.heroEm}>frequency.</em></h2></Reveal>
           <Reveal delay={0.2}>
-            <div style={S.citiesGrid}>
+            <div style={S.citiesGrid} className="grid-cities">
               {CITIES.map((c, i) => (
-                <div key={c.name} style={{ ...S.city, ...(c.hq ? S.cityHq : {}) }}
+                <div key={c.name} className={c.hq ? "city-hq" : "city-cell"} style={{ ...S.city, ...(c.hq ? S.cityHq : {}) }}
                   onMouseEnter={e => (e.currentTarget.style.background='#111114')}
                   onMouseLeave={e => (e.currentTarget.style.background='#0C0C0E')}>
                   {c.hq && <div style={S.cityBg}><img src={`${WEB}/hero-bg.jpg`} alt="" style={S.cityBgImg} /></div>}
@@ -510,7 +510,7 @@ export default function Home() {
         <div style={S.secInner}>
           <Reveal><div style={S.secTag}>The Journey</div></Reveal>
           <Reveal><h2 style={S.secTitle}>Built in chapters, <em style={S.heroEm}>not overnight.</em></h2></Reveal>
-          <div style={S.tlTrack}>
+          <div style={S.tlTrack} className="tl-track">
             <div style={S.tlLine} />
             {TIMELINE.map((t, i) => (
               <Reveal key={t.year} delay={i * 0.1}>
@@ -533,12 +533,12 @@ export default function Home() {
       </div>
 
       {/* CONNECT */}
-      <section style={{ ...S.sec, minHeight:'80vh',display:'flex',alignItems:'center',borderTop:'1px solid rgba(245,240,232,0.08)',position:'relative',overflow:'hidden' }} id="connect">
+      <section className="sec" style={{ ...S.sec, minHeight:'80vh',display:'flex',alignItems:'center',borderTop:'1px solid rgba(245,240,232,0.08)',position:'relative',overflow:'hidden' }} id="connect">
         <div style={{ position:'absolute',top:0,left:0,width:'100%',height:'100%',opacity:0.05 }}>
           <img src={`${WEB}/rooftop-lounge.jpg`} alt="" style={{ width:'100%',height:'100%',objectFit:'cover' }} />
         </div>
         <div style={S.secInner}>
-          <div style={S.connectLayout}>
+          <div style={S.connectLayout} className="grid-connect">
             <Reveal>
               <div style={S.secTag}>Let&rsquo;s Build</div>
               <h2 style={S.connectHL}>The ecosystem is <em style={S.heroEm}>designed</em> for collaboration.</h2>
@@ -582,9 +582,9 @@ export default function Home() {
       </section>
 
       {/* ECOSYSTEM LINKS */}
-      <div style={S.ecoLinks}>
+      <div style={S.ecoLinks} className="eco-links-section">
         <div style={{ maxWidth:1400,margin:'0 auto' }}>
-          <div style={S.ecoGrid}>
+          <div style={S.ecoGrid} className="grid-eco">
             <div>
               <h4 style={S.ecoH4}>Navigate</h4>
               {['about','empire','philosophy','cities','journey','connect'].map(id => (
@@ -620,7 +620,7 @@ export default function Home() {
       </div>
 
       {/* FOOTER */}
-      <footer style={S.footer}>
+      <footer style={S.footer} className="site-footer">
         <div style={S.footerL}>&copy; 2026 Dr. DoLo Dorsey — The Kollective Hospitality Group</div>
         <div style={S.footerR}>Live for today. Plan for tomorrow. Party tonight.</div>
       </footer>
@@ -631,14 +631,72 @@ export default function Home() {
         @keyframes lineUp { from{opacity:0;transform:translateY(100%)} to{opacity:1;transform:translateY(0)} }
         @keyframes pSlide { from{left:-100%} to{left:100%} }
         @keyframes mScroll { to{transform:translateX(-50%)} }
+        @keyframes scrollPulse { 0%,100%{opacity:.3;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.2)} }
+
+        /* ═══ TABLET (≤1024px) ═══ */
         @media(max-width:1024px){
-          .thesis-layout-resp{grid-template-columns:1fr!important}
-          .phil-layout-resp{grid-template-columns:1fr!important}
+          .grid-thesis{grid-template-columns:1fr!important;gap:48px!important}
+          .grid-divisions{grid-template-columns:repeat(2,1fr)!important}
+          .grid-philosophy{grid-template-columns:1fr!important;gap:48px!important}
+          .grid-cities{grid-template-columns:repeat(2,1fr)!important}
+          .grid-connect{grid-template-columns:1fr!important;gap:48px!important}
+          .grid-eco{grid-template-columns:repeat(2,1fr)!important;gap:40px!important}
         }
+
+        /* ═══ MOBILE (≤768px) ═══ */
         @media(max-width:768px){
-          nav ul{display:none!important}
-          nav > a:last-of-type{display:none!important}
-          nav button{display:block!important}
+          /* Nav */
+          .nav-links{display:none!important}
+          .nav-cta{display:none!important}
+          .nav-toggle{display:block!important;position:relative;width:28px;height:20px}
+
+          /* Hero */
+          .hero-bottom{flex-direction:column!important;gap:32px!important;align-items:flex-start!important}
+          .hero-stats{gap:32px!important}
+
+          /* Sections */
+          .sec{padding:64px 20px!important}
+
+          /* Grids collapse to 1 column */
+          .grid-thesis{grid-template-columns:1fr!important;gap:32px!important}
+          .grid-divisions{grid-template-columns:1fr!important}
+          .grid-imgband{grid-template-columns:1fr!important}
+          .grid-philosophy{grid-template-columns:1fr!important;gap:40px!important}
+          .grid-cities{grid-template-columns:1fr!important}
+          .grid-connect{grid-template-columns:1fr!important;gap:40px!important}
+          .grid-eco{grid-template-columns:1fr 1fr!important;gap:32px!important}
+
+          /* City HQ no longer spans */
+          .city-hq{grid-column:span 1!important;grid-row:span 1!important}
+
+          /* Pillar body less padding */
+          .pillar-body{padding-left:24px!important}
+
+          /* Timeline */
+          .tl-track{padding-left:48px!important}
+
+          /* Footer stacks */
+          .site-footer{flex-direction:column!important;gap:12px!important;text-align:center!important}
+
+          /* Full-bleed images shorter on mobile */
+          .full-img-section{height:250px!important}
+
+          /* Eco links section */
+          .eco-links-section{padding:48px 20px!important}
+
+          /* Image band cells shorter */
+          .imgband-cell{height:180px!important}
+
+          /* Thesis image shorter */
+          .grid-thesis > div:last-child > div{height:300px!important}
+        }
+
+        /* ═══ SMALL MOBILE (≤480px) ═══ */
+        @media(max-width:480px){
+          .hero-stats{flex-wrap:wrap!important;gap:24px!important}
+          .grid-eco{grid-template-columns:1fr!important}
+          .imgband-cell{height:150px!important}
+          .full-img-section{height:200px!important}
         }
       `}</style>
     </>
