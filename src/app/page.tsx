@@ -49,11 +49,11 @@ const ALL_LOGOS = [
 const DISTRICTS = [
   { title:'Night District', sub:'Opium · HugLife × ICONIC', brands:['NOIR','REMIX','Taste of Art','Soul Sessions','Secret Society','WRST BHVR','Gangsta Gospel','Underground King','Cravings','Kulture','Pawchella','Paparazzi','Black Ball','Beauty & Beast','Sundays Best'], img:`${W}/rooftop-lounge.jpg`, logo:`${SB}/huglife_events/00-brand-assets/logos/huglife-logo-buddha-black.png` },
   { title:'Culinary District', sub:'Sea Salt · Hungry AF · Tulum · Angel Wings · Espresso Co · Goodfellas Pizza', brands:['Patty Daddy','Taco Yaki','Morning After','Sweet Tooth','Mojo Juice','Pasta Bish','Mr. Oyster','TOSSD'], img:`${W}/luxury-venue.jpg`, logo:`${CG}/casper-logo-white.png` },
-  { title:'Museum Quarter', sub:'Forever Futbol Museum', brands:['Immersive Rooms','45 DJs','May 29 — Jul 6'], img:FF_BG, logo:`${SB}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png` },
+  { title:'Museum Quarter', sub:'Forever Futbol · Scented Flowers', brands:['Immersive Rooms','45 DJs','May 29 — Jul 6','Culture × Sport'], img:FF_BG, logo:`${SB}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png` },
   { title:'Shopping District', sub:'Bodega Bodega Bodega · Stush · MAGA', brands:['Streetwear','Culture','ATL Merch'], img:`${W}/penthouse-skyline.jpg`, logo:'https://make-atlanta-great-again.vercel.app/brand/MAGA_hawks.png' },
   { title:'Technology Hub', sub:'Good Times · The Brand Studio · The Automation Agency', brands:['837 Venues','10 Cities','198 AI Agents','34 Departments'], img:`${W}/hero-bg.jpg`, logo:`${SB}/good_times/00-brand-assets/logos/good-times-logo-gold-black.png` },
-  { title:'Wellness Wing', sub:'The Mind Studio · Let\'s Talk About It', brands:['Clinic','Consumer','Personal Injury','Telemed'], img:`${W}/thesis-bg.jpg`, logo:`${SB}/mind_studio/gt_card_mind_studio.png` },
-  { title:'Service Exchange', sub:'Umbrella Group', brands:['HURT 911','S.O.S Roadside','On Call Services','Umbrella Realty','Umbrella Injury'], img:`${W}/garden-district.jpg`, logo:`${SB}/umbrella_injury/00-brand-assets/logos/hurt-911-logo-black.png` },
+  { title:'Wellness Wing', sub:'HURT 911 · Umbrella Injury Network · The Mind Studio · Let\'s Talk About It', brands:['Personal Injury','Telemed','Mental Health','Clinic','Consumer'], img:`${W}/thesis-bg.jpg`, logo:`${SB}/mind_studio/gt_card_mind_studio.png` },
+  { title:'Service Exchange', sub:'Umbrella Auto Exchange · Umbrella Realty Group · Umbrella Clean Services · The People\'s Dept.', brands:['Auto Exchange','Realty','Clean Services','People\'s Dept.'], img:`${W}/garden-district.jpg`, logo:`${SB}/umbrella_injury/00-brand-assets/logos/hurt-911-logo-black.png` },
 ];
 
 const CITIES = [
