@@ -1,393 +1,646 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
-import { brands, statusColors, casperBrands, dorseyAssets, eventShowcase, productShots, type BrandStatus } from './data/brands';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 const SB = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics';
+const WEB = `${SB}/dr_dorsey/website`;
 
-const PARTNERS = [
-  { n:'HugLife', logo:`${SB}/huglife_events/00-brand-assets/logos/huglife-logo-buddha-black.png` },
-  { n:'Forever Futbol', logo:`${SB}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png` },
-  { n:'NOIR', logo:`${SB}/noir_event/01_logos/NOIR_LOGO.png` },
-  { n:'REMIX', logo:`${SB}/remix_event/01_logos/REMIX_LOGO.png` },
-  { n:'Taste of Art', logo:`${SB}/taste_of_art/01_logos/TASTE_OF_ART_LOGO.png` },
-  { n:'Gangsta Gospel', logo:`${SB}/gangsta_gospel/01_logos/GANGSTA_GOSPEL_LOGO.png` },
-  { n:'WRST BHVR', logo:`${SB}/wrst_bhvr_event/03_event_flyers/WRST_generic_logo.png` },
-  { n:'Pronto', logo:`${SB}/pronto_energy/logos/pronto-logo.png` },
-  { n:'Good Times', logo:`${SB}/good_times/00-brand-assets/logos/good-times-logo-gold-black.png` },
-  { n:'Casper', logo:`${SB}/casper_group/logos/casper-white.png` },
+const LOGOS = [
+  { n:'HugLife', src:`${SB}/huglife_events/00-brand-assets/logos/huglife-logo-buddha-black.png`, url:'https://huglife.vercel.app' },
+  { n:'Forever Futbol', src:`${SB}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png`, url:'https://forever-futbol.vercel.app' },
+  { n:'Casper', src:`${SB}/casper_group/logos/casper-white.png`, url:'https://casper-group.vercel.app' },
+  { n:'Good Times', src:`${SB}/good_times/00-brand-assets/logos/good-times-logo-gold-black.png`, url:'https://good-times-app.vercel.app' },
+  { n:'NOIR', src:`${SB}/noir_event/01_logos/NOIR_LOGO.png` },
+  { n:'Pronto', src:`${SB}/pronto_energy/logos/pronto-logo.png`, url:'https://pronto-energy-website.vercel.app' },
+  { n:'REMIX', src:`${SB}/remix_event/01_logos/REMIX_LOGO.png` },
+  { n:'Taste of Art', src:`${SB}/taste_of_art/01_logos/TASTE_OF_ART_LOGO.png` },
 ];
 
-/* Portfolio — magic5 style with LARGE images */
-const PORTFOLIO = [
-  { name:'NOIR', sub:'Premier nightlife experience', year:'2026', type:'Event Brand', img:`${SB}/noir_event/03_event_flyers/NOIR_NEWS.png`, url:'https://noir-event.vercel.app', big:true },
-  { name:'Taste of Art', sub:'Art meets nightlife', year:'2026', type:'Event Brand', img:`${SB}/taste_of_art/03_event_flyers/TASTE_MAIN2.JPEG`, url:'https://taste-of-art-event.vercel.app', big:true },
-  { name:'REMIX', sub:'DJ culture redefined', year:'2026', type:'Event Brand', img:`${SB}/remix_event/03-event-flyers/remix-dj-dates-cities.png`, url:'https://remix-event.vercel.app', big:false },
-  { name:'Gangsta Gospel', sub:'Where faith meets the streets', year:'2026', type:'Event Brand', img:`${SB}/gangsta_gospel/03_event_flyers/GANGSTA_DATE.png`, url:'https://gangsta-gospel-event.vercel.app', big:false },
-  { name:'Pronto Energy', sub:'6 bold flavors', year:'2026', type:'Consumer Product', img:`${SB}/pronto-energy/product-shots/all-flavors-lineup.png`, url:'https://pronto-energy-website.vercel.app', big:false },
-  { name:'Forever Futbol', sub:'The beautiful game, preserved', year:'2026', type:'Museum', img:`${SB}/forever_futbol/07_packaging_merch/MERCH_1.jpeg`, url:'https://forever-futbol.vercel.app', big:false },
+const DIVISIONS = [
+  { num:'01', name:'HugLife Events', desc:'15+ event brands across nightlife, culture, food experiences, and lifestyle.', tags:['NOIR','REMIX','Taste of Art','WRST BHVR'], bg:`${WEB}/luxury-venue.jpg` },
+  { num:'02', name:'Casper Group', desc:'Food & beverage empire — restaurants, bars, and culinary experiences.', tags:['Bodegea','Casper'] },
+  { num:'03', name:'Forever Futbol', desc:'The world\'s first immersive futbol museum. Atlanta. May 29 — Jul 6, 2026.', tags:['Museum','ATL'] },
+  { num:'04', name:'Good Times', desc:'837 venues. 10 cities. The nightlife & events discovery platform.', tags:['App','Technology'] },
+  { num:'05', name:'Mind Studio', desc:'Telemed wellness MSO — clinic, consumer, and personal injury verticals.', tags:['Wellness','MSO'], bg:`${WEB}/garden-district.jpg` },
+  { num:'06', name:'Products', desc:'Consumer goods engineered for lifestyle — energy, hydration, merchandise.', tags:['Infinity Water','Pronto','Stush'] },
+  { num:'07', name:'Technology', desc:'AI-first platforms — 34 departments, 198 agents, full autonomous operation.', tags:['Rule Radar','UTube U'] },
+  { num:'08', name:'Services', desc:'Umbrella Group — legal, roadside, on-call infrastructure services.', tags:['Umbrella','S.O.S'] },
 ];
 
-const PRINCIPLES = [
-  { n:'01', title:'Vision', desc:'Long-view thinking across every venture — building for decades, not quarters. Every brand is designed to compound.', img:`${SB}/dr_dorsey/04-social-posts/feed/quote-everybody-wants-to-eat-night.png` },
-  { n:'02', title:'Systems', desc:'198 AI agents. 34 departments. Infrastructure that scales across 57+ entities and 8 cities autonomously.', img:`${SB}/dr_dorsey/04-social-posts/feed/quote-greatness-earned-silence.png` },
-  { n:'03', title:'Culture', desc:'Brands rooted in authentic experience, community identity, and the architecture of real influence — not clout.', img:`${SB}/dr_dorsey/04-social-posts/feed/quote-hustle-louder-talk-less.png` },
-  { n:'04', title:'Ownership', desc:'Physical, digital, and intellectual property designed for long-term equity. Every asset is owned, not rented.', img:`${SB}/dr_dorsey/04-social-posts/feed/quote-better-than-good-enough.png` },
+const PILLARS = [
+  { num:'01', title:'Compound Vision', body:'Every brand is designed to make the next one stronger. Events drive products, products fund technology, technology automates everything. The ecosystem feeds itself.' },
+  { num:'02', title:'Build in Silence', body:'Greatness is earned in silence, not performed for an audience. The results arrive when the work is done, not when it\'s announced.' },
+  { num:'03', title:'Extraordinary is the Baseline', body:'"Good enough" is disqualifying. Every output — every flyer, every event, every product — is held to a standard most people save for their best work.' },
+  { num:'04', title:'Systems Over Hustle', body:'198 AI agents run 34 departments across 57+ entities. The empire doesn\'t depend on one person being in the room. It depends on the system being right.' },
 ];
 
-const STATS = [{n:57,s:'+',l:'Ventures'},{n:8,s:'',l:'Cities'},{n:15,s:'+',l:'Event Brands'},{n:198,s:'',l:'AI Agents'},{n:34,s:'',l:'Departments'}];
-
-const PIPE = [
-  { st:'Live', nm:'Good Times App', d:'837 venues, 10 cities.', url:'https://good-times-app.vercel.app' },
-  { st:'Live', nm:'Mind Studio', d:'Telemed + wellness MSO.', url:'https://themindstudioworldwide.com' },
-  { st:'Building', nm:'Rule Radar', d:'Legal intelligence.', url:null },
-  { st:'Building', nm:'UTube University', d:'Education platform.', url:null },
-  { st:'Expanding', nm:'City Markets', d:'NY, PHX, Scottsdale.', url:null },
-  { st:'Incubating', nm:'Living Legends', d:'Cultural destination.', url:null },
+const METRICS = [
+  { val:'57+', label:'Active Ventures', desc:'Events, restaurants, museums, products, apps, and services — each with its own brand, audience, and revenue model.' },
+  { val:'198', label:'AI Agents', desc:'Autonomous agents managing content, outreach, analytics, operations, and CX across every brand.' },
+  { val:'34', label:'Departments', desc:'Each department has its own SOP, agent team, and quality tier — from design to legal to growth to intelligence.' },
+  { val:'8', label:'Cities', desc:'Atlanta, Houston, Miami, LA, Dallas, DC, Charlotte, New York — with expansion targets already in pipeline.' },
 ];
 
-const NAV = [['#portfolio','Portfolio'],['#principles','Principles'],['#brands','Brands'],['#pipeline','Pipeline'],['#connect','Connect']];
+const CITIES = [
+  { name:'Atlanta', state:'Georgia', count:'25+ active brands', hq:true },
+  { name:'Houston', state:'Texas', count:'10+ brands' },
+  { name:'Miami', state:'Florida', count:'Expanding' },
+  { name:'Los Angeles', state:'California', count:'Active' },
+  { name:'Dallas', state:'Texas', count:'Active' },
+  { name:'Washington', state:'D.C.', count:'Active' },
+  { name:'Charlotte', state:'N. Carolina', count:'Active' },
+  { name:'New York', state:'New York', count:'Pipeline' },
+];
 
-function Img({src,alt,style}:{src:string;alt:string;style?:React.CSSProperties}){const[e,se]=useState(false);if(e||!src)return null;return <img src={src} alt={alt} style={style} onError={()=>se(true)} loading="lazy"/>;}
+const TIMELINE = [
+  { year:'THE BEGINNING', title:'First Event', desc:'One party. One idea. The realization that nightlife could be architected, not improvised.' },
+  { year:'EXPANSION', title:'HugLife Events', desc:'From one brand to fifteen. NOIR, Taste of Art, REMIX, Gangsta Gospel — each its own world.' },
+  { year:'DIVERSIFICATION', title:'The Kollective Forms', desc:'Events alone weren\'t the vision. F&B, products, technology, services — the multi-brand empire takes shape.' },
+  { year:'CULTURE', title:'Forever Futbol Museum', desc:'The world\'s first immersive futbol museum. Culture meets sport. Atlanta, May 29 — Jul 6, 2026.' },
+  { year:'AUTOMATION', title:'AI-First Infrastructure', desc:'198 agents. 34 departments. The empire runs on systems — content, outreach, operations, analytics — all autonomous.' },
+  { year:'NOW', title:'57+ Ventures. 8 Cities.', desc:'The machine compounds. New brands, new cities, new technology. The next chapter is already in motion.' },
+];
 
-function useCounter(target:number,dur=1400){const[v,sv]=useState(0);const[go,sg]=useState(false);const ref=useRef<HTMLDivElement>(null);useEffect(()=>{const io=new IntersectionObserver(([e])=>{if(e.isIntersecting){sg(true);io.disconnect();}},{threshold:.4});if(ref.current)io.observe(ref.current);return()=>io.disconnect();},[]);useEffect(()=>{if(!go)return;let s=0;const f=(t:number)=>{if(!s)s=t;const p=Math.min((t-s)/dur,1);sv(Math.round(p*target));if(p<1)requestAnimationFrame(f);};requestAnimationFrame(f);},[go,target,dur]);return{v,ref};}
+const MARQUEE_BRANDS = ['NOIR','HugLife','Forever Futbol','Casper Group','Good Times','REMIX','Taste of Art','Mind Studio','Pronto Energy','Infinity Water','WRST BHVR','Gangsta Gospel'];
 
-export default function Home(){
-  const[filter,setF]=useState<'all'|import('./data/brands').BrandStatus>('all');
-  const[qi,setQi]=useState(0);
-  const[navS,setNS]=useState(false);
-  const[mob,setMob]=useState(false);
-  const[vR,setVR]=useState(false);
-  const[pi,setPi]=useState(0);
-  const dR=useRef<HTMLDivElement>(null);const rR=useRef<HTMLDivElement>(null);
-  const fb=filter==='all'?brands:brands.filter(b=>b.status===filter);
+/* ═══ HOOKS ═══ */
+function useReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [vis, setVis] = useState(false);
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVis(true); obs.disconnect(); } }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return { ref, vis };
+}
 
-  useEffect(()=>{const t=setInterval(()=>setQi(i=>(i+1)%dorseyAssets.quotes.length),4500);return()=>clearInterval(t);},[]);
+function useCounter(target: number, duration = 2000) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [val, setVal] = useState(0);
+  const started = useRef(false);
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !started.current) {
+        started.current = true;
+        const start = performance.now();
+        function up(t: number) {
+          const p = Math.min((t - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 4);
+          setVal(Math.floor(eased * target));
+          if (p < 1) requestAnimationFrame(up);
+        }
+        requestAnimationFrame(up);
+        obs.disconnect();
+      }
+    }, { threshold: 0.5 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [target, duration]);
+  return { ref, val };
+}
 
-  useEffect(()=>{
-    let mx=0,my=0,cx=0,cy=0;
-    const om=(e:MouseEvent)=>{mx=e.clientX;my=e.clientY;if(dR.current){dR.current.style.left=mx+'px';dR.current.style.top=my+'px';}};
-    const af=()=>{cx+=(mx-cx)*.08;cy+=(my-cy)*.08;if(rR.current){rR.current.style.left=cx+'px';rR.current.style.top=cy+'px';}requestAnimationFrame(af);};
-    document.addEventListener('mousemove',om);af();
-    const os=()=>{const p=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;const el=document.getElementById('sp');if(el)el.style.width=p+'%';setNS(window.scrollY>50);};
-    window.addEventListener('scroll',os,{passive:true});
-    const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.05,rootMargin:'0px 0px -40px 0px'});
-    setTimeout(()=>document.querySelectorAll('.rv,.stg').forEach(el=>io.observe(el)),100);
-    return()=>{document.removeEventListener('mousemove',om);window.removeEventListener('scroll',os);io.disconnect();};
-  },[]);
+/* ═══ COMPONENTS ═══ */
+function Reveal({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const { ref, vis } = useReveal();
+  return (
+    <div ref={ref} className={className} style={{
+      opacity: vis ? 1 : 0,
+      transform: vis ? 'translateY(0)' : 'translateY(40px)',
+      transition: `opacity 0.8s cubic-bezier(0.16,1,0.3,1) ${delay}s, transform 0.8s cubic-bezier(0.16,1,0.3,1) ${delay}s`,
+    }}>{children}</div>
+  );
+}
 
-  const navTo=(h:string)=>{setMob(false);setTimeout(()=>{document.querySelector(h)?.scrollIntoView({behavior:'smooth'});},200);};
+function StatNum({ target, suffix = '' }: { target: number; suffix?: string }) {
+  const { ref, val } = useCounter(target);
+  return <div ref={ref} style={S.heroStatNum}>{val}{suffix}</div>;
+}
 
-  return(<>
-    <div id="cd" ref={dR}/><div id="cr" ref={rR}/><div id="sp"/>
-    <div className={`mn ${mob?'on':''}`}>{NAV.map(([h,l])=><a key={l} onClick={()=>navTo(h)}>{l}</a>)}</div>
+/* ═══ STYLES (inline for single-file) ═══ */
+const S: Record<string, React.CSSProperties> = {
+  /* Preloader */
+  preloader: { position:'fixed',top:0,left:0,width:'100%',height:'100%',background:'#060607',zIndex:10000,display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',transition:'opacity 1s cubic-bezier(0.16,1,0.3,1), visibility 1s' },
+  preloaderHidden: { opacity:0,visibility:'hidden' as const,pointerEvents:'none' as const },
+  preloaderMark: { width:72,height:72,border:'1px solid rgba(200,169,110,0.3)',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center' },
+  preloaderMarkImg: { width:40,height:40,objectFit:'contain' as const,filter:'brightness(1.2)' },
+  
+  /* Nav */
+  nav: { position:'fixed' as const,top:0,left:0,width:'100%',zIndex:1000,padding:'24px clamp(20px,4vw,80px)',display:'flex',alignItems:'center',justifyContent:'space-between',transition:'background 0.4s, backdrop-filter 0.4s' },
+  navScrolled: { background:'rgba(6,6,7,0.88)',backdropFilter:'blur(24px)',WebkitBackdropFilter:'blur(24px)' },
+  navBrand: { display:'flex',alignItems:'center',gap:12,textDecoration:'none' },
+  navMark: { width:36,height:36,border:'1px solid rgba(200,169,110,0.3)',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center' },
+  navMarkImg: { width:20,height:20,objectFit:'contain' as const },
+  navLabel: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase' as const,color:'rgba(245,240,232,0.6)' },
+  navLinks: { display:'flex',gap:40,listStyle:'none' },
+  navLink: { fontSize:'clamp(10px,0.85vw,12px)',fontWeight:400,color:'rgba(245,240,232,0.6)',textDecoration:'none',letterSpacing:'0.15em',textTransform:'uppercase' as const,transition:'color 0.3s' },
+  navCta: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.2em',textTransform:'uppercase' as const,color:'#060607',background:'#C8A96E',padding:'10px 24px',textDecoration:'none',border:'none',cursor:'pointer',transition:'all 0.3s' },
+  navToggle: { display:'none',background:'none',border:'none',cursor:'pointer',width:28,height:20 },
 
-    {/* NAV */}
-    <nav className="nv"><div className="nv-in">
-      <div style={{display:'flex',alignItems:'center',gap:12}}>
-        <Img src={dorseyAssets.kollectiveGoldWhite} alt="KHG" style={{height:22,width:'auto',opacity:.85}}/>
-        <span className="mono mh" style={{fontSize:10,letterSpacing:'.4em',textTransform:'uppercase',color:'var(--t3)'}}>Dr. Dorsey</span>
-      </div>
-      <div className="ndsk" style={{display:'flex',gap:36}}>{NAV.map(([h,l])=><a key={l} href={h} className="nl">{l}</a>)}</div>
-      <div className="ndsk"><a href="#connect" className="cta" style={{padding:'10px 28px',fontSize:11}}>Contact</a></div>
-      <div className={`mbtn ${mob?'on':''}`} onClick={()=>setMob(!mob)}><span/><span/><span/></div>
-    </div></nav>
+  /* Hero */
+  hero: { minHeight:'100vh',position:'relative' as const,overflow:'hidden',display:'flex',alignItems:'flex-end',padding:'0 clamp(20px,4vw,80px) 96px' },
+  heroVideoWrap: { position:'absolute' as const,top:0,left:0,width:'100%',height:'100%',zIndex:0 },
+  heroFallback: { position:'absolute' as const,top:0,left:0,width:'100%',height:'100%',objectFit:'cover' as const,opacity:0.2,filter:'grayscale(20%) contrast(1.1)' },
+  heroVideo: { width:'100%',height:'100%',objectFit:'cover' as const,transition:'opacity 1.5s' },
+  heroOverlay: { position:'absolute' as const,top:0,left:0,width:'100%',height:'100%',zIndex:1,background:'radial-gradient(ellipse at 65% 25%,rgba(200,169,110,0.07) 0%,transparent 55%),radial-gradient(ellipse at 20% 80%,rgba(200,169,110,0.04) 0%,transparent 50%),linear-gradient(180deg,rgba(6,6,7,0.3) 0%,rgba(6,6,7,0.1) 40%,rgba(6,6,7,0.6) 75%,#060607 100%)' },
+  heroContent: { position:'relative' as const,zIndex:2,maxWidth:1400,width:'100%' },
+  heroTag: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.4em',textTransform:'uppercase' as const,color:'#C8A96E',marginBottom:24 },
+  heroH1: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(52px,11vw,160px)',fontWeight:300,lineHeight:0.92,letterSpacing:'-0.03em' },
+  heroEm: { fontStyle:'italic' as const,color:'#C8A96E' },
+  heroSub: { fontSize:'clamp(14px,1.3vw,18px)',fontWeight:300,color:'rgba(245,240,232,0.6)',maxWidth:520,lineHeight:1.7,marginTop:40 },
+  heroBottom: { display:'flex',alignItems:'flex-end',justifyContent:'space-between',marginTop:64 },
+  heroStats: { display:'flex',gap:64 },
+  heroStatNum: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(28px,3.5vw,52px)',fontWeight:300,color:'#C8A96E',lineHeight:1 },
+  heroStatLabel: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase' as const,color:'rgba(245,240,232,0.25)',marginTop:4 },
 
-    {/* ═══ 1. HERO — magic5 centered + big video ═══ */}
-    <section style={{background:'var(--bg)',paddingTop:120,position:'relative',overflow:'hidden'}}>
-      {/* Giant watermark text — like magic5's red SVG */}
-      <div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-60%)',fontFamily:"'Cormorant Garamond',serif",fontSize:'clamp(80px,18vw,280px)',fontWeight:700,color:'rgba(212,184,122,.03)',whiteSpace:'nowrap',pointerEvents:'none',letterSpacing:'-.04em',lineHeight:1,zIndex:0}}>THE KOLLECTIVE</div>
+  /* Section shared */
+  sec: { padding:'128px clamp(20px,4vw,80px)',position:'relative' as const },
+  secInner: { maxWidth:1400,margin:'0 auto' },
+  secTag: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.4em',textTransform:'uppercase' as const,color:'#C8A96E',marginBottom:16 },
+  secTitle: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(26px,4.5vw,64px)',fontWeight:300,lineHeight:1.1,letterSpacing:'-0.02em',marginBottom:64 },
 
-      <div style={{maxWidth:'var(--mx)',margin:'0 auto',padding:'0 var(--g)',textAlign:'center',position:'relative',zIndex:2}}>
-        <div style={{opacity:0,animation:'fr .7s .1s var(--e) forwards',display:'flex',alignItems:'center',justifyContent:'center',gap:12,marginBottom:24}}>
-          <Img src={dorseyAssets.kollectiveGoldWhite} alt="" style={{height:20,width:'auto',opacity:.6}}/>
-          <span className="label">The Kollective Hospitality Group</span>
+  /* Logo row */
+  logoRow: { padding:'64px clamp(20px,4vw,80px)',borderTop:'1px solid rgba(245,240,232,0.08)',borderBottom:'1px solid rgba(245,240,232,0.08)' },
+  logoRowInner: { maxWidth:1400,margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'space-between',gap:40,flexWrap:'wrap' as const },
+  logoItem: { opacity:0.35,transition:'opacity 0.4s',flex:'0 0 auto' },
+  logoImg: { height:'clamp(24px,3vw,40px)',width:'auto',objectFit:'contain' as const,filter:'brightness(1.5)' },
+
+  /* Thesis */
+  thesisLayout: { display:'grid',gridTemplateColumns:'1fr 1fr',gap:96,alignItems:'center' },
+  thesisQuote: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(30px,5vw,72px)',fontWeight:300,lineHeight:1.2,marginBottom:40 },
+  thesisBody: { fontSize:'clamp(14px,1.3vw,18px)',color:'rgba(245,240,232,0.6)',lineHeight:1.8,marginBottom:24 },
+  thesisSig: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(18px,2.5vw,32px)',fontWeight:300,fontStyle:'italic' as const,color:'#C8A96E',marginTop:40 },
+  thesisImgWrap: { position:'relative' as const,height:580,overflow:'hidden',border:'1px solid rgba(245,240,232,0.08)' },
+  thesisImg: { width:'100%',height:'100%',objectFit:'cover' as const,filter:'contrast(1.05)',transition:'transform 8s cubic-bezier(0.37,0,0.63,1)' },
+  thesisImgLabel: { position:'absolute' as const,bottom:-12,right:40,fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase' as const,color:'#8A7650',background:'#060607',padding:'0 16px' },
+
+  /* Divisions */
+  divGrid: { display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:1,background:'rgba(245,240,232,0.08)',border:'1px solid rgba(245,240,232,0.08)' },
+  divCard: { background:'#0C0C0E',padding:'64px 40px',position:'relative' as const,overflow:'hidden',cursor:'pointer',transition:'background 0.5s' },
+  divNum: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(40px,4vw,72px)',fontWeight:300,color:'rgba(245,240,232,0.08)',lineHeight:1,marginBottom:24,position:'relative' as const },
+  divName: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(18px,2.5vw,32px)',fontWeight:400,marginBottom:8,position:'relative' as const },
+  divDesc: { fontSize:'clamp(10px,0.85vw,12px)',color:'rgba(245,240,232,0.25)',lineHeight:1.5,marginBottom:24,position:'relative' as const },
+  divTags: { display:'flex',gap:6,flexWrap:'wrap' as const,position:'relative' as const },
+  divTag: { fontFamily:'DM Mono,monospace',fontSize:8,letterSpacing:'0.15em',textTransform:'uppercase' as const,color:'#C8A96E',border:'1px solid rgba(200,169,110,0.3)',padding:'3px 8px' },
+
+  /* Image band */
+  imgBand: { display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:0,borderTop:'1px solid rgba(245,240,232,0.08)',borderBottom:'1px solid rgba(245,240,232,0.08)' },
+  imgBandCell: { position:'relative' as const,height:'clamp(200px,30vw,400px)',overflow:'hidden' },
+  imgBandImg: { width:'100%',height:'100%',objectFit:'cover' as const,opacity:0.5,transition:'opacity 0.6s, transform 6s cubic-bezier(0.37,0,0.63,1)' },
+  imgBandLabel: { position:'absolute' as const,bottom:24,left:24,fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase' as const,color:'#C8A96E',background:'rgba(6,6,7,0.7)',padding:'4px 12px',backdropFilter:'blur(8px)' },
+
+  /* Marquee */
+  marquee: { padding:'64px 0',overflow:'hidden',borderTop:'1px solid rgba(245,240,232,0.08)',borderBottom:'1px solid rgba(245,240,232,0.08)' },
+  marqueeTrack: { display:'flex',gap:64,width:'max-content' },
+  marqueeItem: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(20px,3vw,44px)',fontWeight:300,color:'rgba(245,240,232,0.25)',whiteSpace:'nowrap' as const,display:'flex',alignItems:'center',gap:24 },
+  marqueeDot: { width:6,height:6,background:'#C8A96E',borderRadius:'50%',flexShrink:0 },
+
+  /* Philosophy */
+  philLayout: { display:'grid',gridTemplateColumns:'1fr 1fr',gap:128 },
+  pillar: { padding:'40px 0',borderBottom:'1px solid rgba(245,240,232,0.08)' },
+  pillarFirst: { borderTop:'1px solid rgba(245,240,232,0.08)' },
+  pillarHead: { display:'flex',alignItems:'baseline',gap:24,marginBottom:16 },
+  pillarNum: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',color:'#C8A96E',letterSpacing:'0.2em' },
+  pillarTitle: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(18px,2.5vw,32px)',fontWeight:400 },
+  pillarBody: { fontSize:'clamp(13px,1.1vw,16px)',color:'rgba(245,240,232,0.25)',lineHeight:1.7,paddingLeft:48 },
+  philRight: { display:'flex',flexDirection:'column' as const,gap:40 },
+  metric: { padding:40,border:'1px solid rgba(245,240,232,0.08)',position:'relative' as const,overflow:'hidden',transition:'border-color 0.4s' },
+  metricVal: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(36px,4.5vw,60px)',fontWeight:300,color:'#C8A96E',lineHeight:1 },
+  metricLabel: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase' as const,color:'rgba(245,240,232,0.25)',marginTop:6 },
+  metricDesc: { fontSize:'clamp(13px,1.1vw,16px)',color:'rgba(245,240,232,0.6)',marginTop:16,lineHeight:1.6 },
+
+  /* Full-bleed image */
+  fullImg: { position:'relative' as const,height:'clamp(300px,50vw,600px)',overflow:'hidden' },
+  fullImgImg: { width:'100%',height:'100%',objectFit:'cover' as const,opacity:0.4,filter:'contrast(1.05)' },
+  fullImgOverlay: { position:'absolute' as const,top:0,left:0,width:'100%',height:'100%',background:'linear-gradient(180deg,#060607 0%,transparent 30%,transparent 70%,#060607 100%)',display:'flex',alignItems:'center',justifyContent:'center' },
+  fullImgText: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(24px,4vw,56px)',fontWeight:300,fontStyle:'italic' as const,color:'#C8A96E',textAlign:'center' as const,maxWidth:700,padding:'0 clamp(20px,4vw,80px)',lineHeight:1.3 },
+
+  /* Cities */
+  citiesGrid: { display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:1,background:'rgba(245,240,232,0.08)' },
+  city: { background:'#0C0C0E',padding:'64px 40px',position:'relative' as const,overflow:'hidden',transition:'background 0.4s' },
+  cityHq: { gridColumn:'span 2',gridRow:'span 2',display:'flex',flexDirection:'column' as const,justifyContent:'flex-end' },
+  cityHqTag: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.2em',textTransform:'uppercase' as const,color:'rgba(200,169,110,0.3)',marginBottom:24,position:'relative' as const },
+  cityName: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(18px,2.5vw,32px)',fontWeight:400,position:'relative' as const },
+  cityNameHq: { fontSize:'clamp(26px,4.5vw,64px)' },
+  cityState: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase' as const,color:'#C8A96E',position:'relative' as const },
+  cityCount: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',color:'rgba(245,240,232,0.25)',marginTop:8,position:'relative' as const },
+  cityBg: { position:'absolute' as const,top:0,left:0,width:'100%',height:'100%',opacity:0.08 },
+  cityBgImg: { width:'100%',height:'100%',objectFit:'cover' as const },
+
+  /* Timeline */
+  tlTrack: { position:'relative' as const,paddingLeft:96 },
+  tlLine: { position:'absolute' as const,top:0,left:24,width:1,height:'100%',background:'linear-gradient(180deg,#C8A96E,rgba(245,240,232,0.08),transparent)' },
+  tlItem: { position:'relative' as const,paddingBottom:64 },
+  tlDot: { position:'absolute' as const,left:-76,top:8,width:9,height:9,border:'1px solid #C8A96E',borderRadius:'50%',background:'#060607' },
+  tlYear: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',color:'#C8A96E',marginBottom:8 },
+  tlTitle: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(18px,2.5vw,32px)',fontWeight:400,marginBottom:8 },
+  tlDesc: { fontSize:'clamp(13px,1.1vw,16px)',color:'rgba(245,240,232,0.25)',maxWidth:500,lineHeight:1.6 },
+
+  /* Connect */
+  connectLayout: { display:'grid',gridTemplateColumns:'1.2fr 1fr',gap:96,alignItems:'center',position:'relative' as const },
+  connectHL: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(30px,5vw,72px)',fontWeight:300,lineHeight:1.15,marginBottom:40 },
+  connectBody: { fontSize:'clamp(14px,1.3vw,18px)',color:'rgba(245,240,232,0.6)',lineHeight:1.7,marginBottom:64,maxWidth:480 },
+  connectBtns: { display:'flex',gap:24,flexWrap:'wrap' as const },
+  btnGold: { fontFamily:'DM Mono,monospace',fontSize:'clamp(10px,0.85vw,12px)',letterSpacing:'0.2em',textTransform:'uppercase' as const,color:'#060607',background:'#C8A96E',padding:'16px 40px',textDecoration:'none',border:'1px solid #C8A96E',transition:'all 0.3s',display:'inline-block' },
+  btnOutline: { fontFamily:'DM Mono,monospace',fontSize:'clamp(10px,0.85vw,12px)',letterSpacing:'0.2em',textTransform:'uppercase' as const,color:'#F5F0E8',background:'transparent',padding:'16px 40px',textDecoration:'none',border:'1px solid rgba(245,240,232,0.25)',transition:'all 0.3s',display:'inline-block' },
+  cdItem: { padding:'24px 0',borderBottom:'1px solid rgba(245,240,232,0.08)' },
+  cdLabel: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase' as const,color:'#C8A96E',marginBottom:6 },
+  cdValue: { fontSize:'clamp(14px,1.3vw,18px)' },
+  cdLink: { textDecoration:'none',borderBottom:'1px solid rgba(245,240,232,0.08)',transition:'all 0.3s',color:'inherit' },
+
+  /* Eco links */
+  ecoLinks: { padding:'96px clamp(20px,4vw,80px)',borderTop:'1px solid rgba(245,240,232,0.08)' },
+  ecoGrid: { display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:64 },
+  ecoH4: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase' as const,color:'#C8A96E',marginBottom:24 },
+  ecoA: { display:'block',fontSize:'clamp(13px,1.1vw,16px)',color:'rgba(245,240,232,0.25)',textDecoration:'none',padding:'6px 0',transition:'color 0.3s' },
+
+  /* Footer */
+  footer: { padding:'64px clamp(20px,4vw,80px)',borderTop:'1px solid rgba(245,240,232,0.08)',display:'flex',alignItems:'center',justifyContent:'space-between' },
+  footerL: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.2em',color:'rgba(245,240,232,0.25)' },
+  footerR: { fontFamily:'DM Mono,monospace',fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.3em',textTransform:'uppercase' as const,color:'rgba(245,240,232,0.25)' },
+
+  /* Mobile menu */
+  mobMenu: { position:'fixed' as const,top:0,right:'-100%',width:'100%',height:'100%',background:'#060607',zIndex:999,display:'flex',flexDirection:'column' as const,justifyContent:'center',padding:'96px clamp(20px,4vw,80px)',transition:'right 0.6s cubic-bezier(0.16,1,0.3,1)' },
+  mobMenuOpen: { right:0 },
+  mobMenuLink: { fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(30px,5vw,72px)',fontWeight:300,textDecoration:'none',display:'block',padding:'16px 0',borderBottom:'1px solid rgba(245,240,232,0.08)',transition:'color 0.3s',color:'#F5F0E8' },
+};
+
+const KHG_LOGO = `${SB}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
+
+/* ═══ MAIN PAGE ═══ */
+export default function Home() {
+  const [loaded, setLoaded] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
+  const [mobOpen, setMobOpen] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    setTimeout(() => setLoaded(true), 1800);
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    const onReady = () => setVideoReady(true);
+    v.addEventListener('canplaythrough', onReady);
+    v.addEventListener('playing', onReady);
+    const fallback = setTimeout(() => setVideoReady(true), 3000);
+    return () => { v.removeEventListener('canplaythrough', onReady); v.removeEventListener('playing', onReady); clearTimeout(fallback); };
+  }, []);
+
+  const scrollTo = useCallback((id: string) => {
+    setMobOpen(false);
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  }, []);
+
+  return (
+    <>
+      {/* Preloader */}
+      <div style={{ ...S.preloader, ...(loaded ? S.preloaderHidden : {}) }}>
+        <div style={S.preloaderMark}><img src={KHG_LOGO} alt="KHG" style={S.preloaderMarkImg} /></div>
+        <div style={{ width:100,height:1,background:'rgba(245,240,232,0.08)',marginTop:24,position:'relative',overflow:'hidden' }}>
+          <div style={{ position:'absolute',left:'-100%',top:0,width:'100%',height:'100%',background:'#C8A96E',animation:'pSlide 1s cubic-bezier(0.16,1,0.3,1) infinite' }} />
         </div>
-        <h1 style={{fontSize:'clamp(48px,9vw,130px)',fontWeight:700,lineHeight:.9,letterSpacing:'-.03em',marginBottom:28,opacity:0,animation:'hi 1s .05s var(--e) forwards'}}>
-          The Architecture<br/>of a Modern <em>Empire</em>
-        </h1>
-        <p style={{fontSize:'clamp(16px,1.3vw,20px)',color:'var(--t2)',maxWidth:560,margin:'0 auto 36px',lineHeight:1.7,opacity:0,animation:'fu .8s .3s var(--e) forwards'}}>
-          A founder-led ecosystem — hospitality, events, food & beverage, museums, products, and technology across 8 cities and 57+ ventures.
-        </p>
-        <div style={{display:'flex',gap:12,justifyContent:'center',opacity:0,animation:'fu .8s .45s var(--e) forwards',flexWrap:'wrap'}}>
-          <a href="#portfolio" className="cta">Explore Our Work</a>
-          <a href="#brands" className="cta-g">All Brands</a>
-        </div>
       </div>
 
-      {/* BIG ROUNDED VIDEO — magic5 hero */}
-      <div style={{maxWidth:1100,margin:'60px auto 0',padding:'0 var(--g)',position:'relative'}}>
-        <div style={{position:'relative',borderRadius:'var(--rx)',overflow:'hidden',aspectRatio:'16/9',background:'var(--bg2)',border:'1px solid rgba(245,241,234,.04)'}}>
-          <video autoPlay muted loop playsInline onLoadedData={()=>setVR(true)} style={{width:'100%',height:'100%',objectFit:'cover',opacity:vR?.85:0,transition:'opacity 1.5s var(--e)'}}>
-            <source src="/videos/hero-animation.mp4" type="video/mp4"/>
+      {/* Mobile Menu */}
+      <div style={{ ...S.mobMenu, ...(mobOpen ? S.mobMenuOpen : {}) }}>
+        {['about','empire','philosophy','cities','journey','connect'].map(id => (
+          <a key={id} href={`#${id}`} style={S.mobMenuLink} onClick={(e) => { e.preventDefault(); scrollTo(id); }}>{id.charAt(0).toUpperCase() + id.slice(1)}</a>
+        ))}
+      </div>
+
+      {/* Nav */}
+      <nav style={{ ...S.nav, ...(scrolled ? S.navScrolled : {}) }}>
+        <a href="#" style={S.navBrand}>
+          <div style={S.navMark}><img src={KHG_LOGO} alt="KHG" style={S.navMarkImg} /></div>
+          <span style={S.navLabel}>Dr. Dorsey</span>
+        </a>
+        <ul style={S.navLinks}>
+          {['about','empire','philosophy','cities','journey'].map(id => (
+            <li key={id}><a href={`#${id}`} style={S.navLink} onClick={(e) => { e.preventDefault(); scrollTo(id); }}>{id.charAt(0).toUpperCase() + id.slice(1)}</a></li>
+          ))}
+        </ul>
+        <a href="#connect" style={S.navCta} onClick={(e) => { e.preventDefault(); scrollTo('connect'); }}>Connect</a>
+        <button style={S.navToggle} onClick={() => setMobOpen(!mobOpen)}>
+          <span style={{ display:'block',width:'100%',height:1,background:'#F5F0E8',position:'absolute' as const,left:0,top:3,transition:'all 0.3s',transform:mobOpen?'translateY(6px) rotate(45deg)':'none' }} />
+          <span style={{ display:'block',width:'100%',height:1,background:'#F5F0E8',position:'absolute' as const,left:0,top:9,transition:'all 0.3s',opacity:mobOpen?0:1 }} />
+          <span style={{ display:'block',width:'100%',height:1,background:'#F5F0E8',position:'absolute' as const,left:0,top:15,transition:'all 0.3s',transform:mobOpen?'translateY(-6px) rotate(-45deg)':'none' }} />
+        </button>
+      </nav>
+
+      {/* HERO */}
+      <section style={S.hero}>
+        <div style={S.heroVideoWrap}>
+          <img src={`${WEB}/hero-bg.jpg`} alt="" style={S.heroFallback} />
+          <video ref={videoRef} style={{ ...S.heroVideo, opacity: videoReady ? 0.35 : 0 }} autoPlay muted loop playsInline preload="auto">
+            <source src={`${WEB}/hero-video.mp4`} type="video/mp4" />
           </video>
-          {/* PLACEHOLDER overlay for better video */}
-          {!vR && <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',background:'var(--card)'}}>
-            <div style={{textAlign:'center'}}>
-              <div style={{width:64,height:64,borderRadius:'50%',border:'2px solid rgba(212,184,122,.2)',display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 16px'}}><span style={{fontSize:24,color:'var(--gold)',marginLeft:4}}>▶</span></div>
-              <div className="mono" style={{fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',color:'var(--t4)'}}>Sizzle Reel</div>
-            </div>
-          </div>}
-          <div style={{position:'absolute',inset:0,background:'linear-gradient(to top,var(--bg) 0%,transparent 25%)',pointerEvents:'none'}}/>
+          <div style={S.heroOverlay} />
         </div>
-      </div>
-    </section>
-
-    {/* ═══ 2. PARTNER LOGOS — magic5 strip ═══ */}
-    <section style={{background:'var(--bg)',padding:'48px 0 56px',overflow:'hidden',borderBottom:'1px solid rgba(245,241,234,.04)'}}>
-      <p className="rv" style={{textAlign:'center',fontSize:'clamp(14px,1.1vw,17px)',color:'var(--t3)',marginBottom:28,padding:'0 var(--g)'}}>Building brands and experiences for ventures with the courage to be different.</p>
-      <div className="ps">
-        {[...PARTNERS,...PARTNERS,...PARTNERS].map((p,i)=>(
-          <div key={i} style={{display:'flex',alignItems:'center',justifyContent:'center',padding:'0 clamp(24px,3vw,48px)',flexShrink:0,height:44}}>
-            <Img src={p.logo} alt={p.n} style={{height:32,width:'auto',opacity:.3,filter:'brightness(1.5) contrast(.8)',objectFit:'contain',transition:'opacity .3s'}}/>
+        <div style={S.heroContent}>
+          <div style={{ ...S.heroTag, animation: 'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 2s both' }}>Founder — CEO — Architect</div>
+          <h1 style={S.heroH1}>
+            <span style={{ display:'block',overflow:'hidden' }}><span style={{ display:'block',animation:'lineUp 1s cubic-bezier(0.16,1,0.3,1) 2.1s both' }}>Live for today.</span></span>
+            <span style={{ display:'block',overflow:'hidden' }}><span style={{ display:'block',animation:'lineUp 1s cubic-bezier(0.16,1,0.3,1) 2.25s both' }}>Plan for <em style={S.heroEm}>tomorrow.</em></span></span>
+            <span style={{ display:'block',overflow:'hidden' }}><span style={{ display:'block',animation:'lineUp 1s cubic-bezier(0.16,1,0.3,1) 2.4s both' }}>Party <em style={S.heroEm}>tonight.</em></span></span>
+          </h1>
+          <p style={{ ...S.heroSub, animation: 'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 2.7s both' }}>
+            The mind behind 57+ ventures, 8 cities, and an ecosystem engineered to compound. Dr. DoLo Dorsey builds empires in silence.
+          </p>
+          <div style={{ ...S.heroBottom, animation: 'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 3s both' }}>
+            <div style={S.heroStats}>
+              <div><StatNum target={57} suffix="+" /><div style={S.heroStatLabel}>Ventures</div></div>
+              <div><StatNum target={8} /><div style={S.heroStatLabel}>Cities</div></div>
+              <div><StatNum target={198} /><div style={S.heroStatLabel}>AI Agents</div></div>
+            </div>
           </div>
-        ))}
-      </div>
-    </section>
-
-    {/* ═══ 3. PORTFOLIO — magic5 project grid ═══ */}
-    <section id="portfolio" style={{background:'var(--bg2)',padding:'var(--pad) var(--g)'}}>
-      <div style={{maxWidth:'var(--mx)',margin:'0 auto'}}>
-        <div className="rv" style={{textAlign:'center',marginBottom:56}}>
-          <span className="label" style={{display:'block',marginBottom:14}}>Our Portfolio</span>
-          <h2 style={{fontSize:'clamp(36px,5.5vw,76px)'}}>Brands we've <em>built.</em></h2>
         </div>
+      </section>
 
-        {/* Top 2 — BIG cards like magic5 */}
-        <div className="rv stg" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:12}} >
-          {PORTFOLIO.filter(p=>p.big).map(p=>(
-            <div key={p.name} className="pcard" style={{aspectRatio:'16/10',position:'relative'}} onClick={()=>window.open(p.url,'_blank')}>
-              <Img src={p.img} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>
-              <div className="pinfo">
-                <div>
-                  <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'clamp(22px,2.5vw,36px)',fontWeight:600,color:'var(--w)'}}>{p.name}</div>
-                  <div style={{fontSize:'clamp(12px,1vw,14px)',color:'var(--t2)',marginTop:4}}>{p.sub}</div>
-                </div>
-                <div style={{display:'flex',gap:8}}>
-                  <span className="tag">{p.year}</span>
-                  <span className="tag">{p.type}</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Bottom 4 — smaller grid */}
-        <div className="rv stg" style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12}} >
-          {PORTFOLIO.filter(p=>!p.big).map(p=>(
-            <div key={p.name} className="pcard" style={{aspectRatio:'4/5',position:'relative'}} onClick={()=>window.open(p.url,'_blank')}>
-              <Img src={p.img} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>
-              <div className="pinfo" style={{padding:20}}>
-                <div>
-                  <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'clamp(16px,1.5vw,24px)',fontWeight:600,color:'var(--w)'}}>{p.name}</div>
-                  <div className="mono" style={{fontSize:9,letterSpacing:'.15em',textTransform:'uppercase',color:'var(--t3)',marginTop:4}}>{p.type}</div>
-                </div>
-              </div>
-            </div>
+      {/* LOGO ROW */}
+      <div style={S.logoRow}>
+        <div style={S.logoRowInner}>
+          {LOGOS.map(l => (
+            <a key={l.n} href={l.url || '#'} target={l.url ? '_blank' : undefined} rel="noopener noreferrer" style={S.logoItem}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '0.8')} onMouseLeave={e => (e.currentTarget.style.opacity = '0.35')}>
+              <img src={l.src} alt={l.n} style={S.logoImg} />
+            </a>
           ))}
         </div>
       </div>
-    </section>
 
-    {/* ═══ 4. PRINCIPLES — magic5 numbered tabs ═══ */}
-    <section id="principles" style={{background:'var(--bg)',padding:'var(--pad) var(--g)'}}>
-      <div style={{maxWidth:'var(--mx)',margin:'0 auto'}}>
-        <div className="rv" style={{textAlign:'center',marginBottom:56}}>
-          <span className="label" style={{display:'block',marginBottom:14}}>Our Principles</span>
-          <h2 style={{fontSize:'clamp(36px,5.5vw,76px)'}}>What drives the <em>machine.</em></h2>
-        </div>
-        {/* Number tabs — magic5 exact pattern */}
-        <div className="rv" style={{display:'flex',gap:8,justifyContent:'center',marginBottom:48}}>
-          {PRINCIPLES.map((p,i)=>(<button key={p.n} onClick={()=>setPi(i)} style={{width:56,height:56,borderRadius:'50%',background:pi===i?'var(--gold)':'transparent',border:`1.5px solid ${pi===i?'var(--gold)':'rgba(245,241,234,.08)'}`,color:pi===i?'var(--bg)':'var(--t3)',fontFamily:"'DM Mono',monospace",fontSize:14,fontWeight:600,transition:'all .3s var(--e)'}}>{p.n}</button>))}
-        </div>
-        {/* Content card */}
-        <div className="card" style={{borderRadius:'var(--rl)',overflow:'hidden'}}>
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',minHeight:400}} className="g2">
-            {/* Image side */}
-            <div style={{position:'relative',overflow:'hidden',minHeight:300}}>
-              {PRINCIPLES.map((p,i)=>(<Img key={p.n} src={p.img} alt={p.title} style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'cover',opacity:pi===i?1:0,transition:'opacity .6s ease',filter:'brightness(.85) contrast(1.1)'}}/>))}
-              <div style={{position:'absolute',inset:0,background:'linear-gradient(to right,transparent 60%,var(--card) 100%)'}} className="mh"/>
-            </div>
-            {/* Text side */}
-            <div style={{padding:'clamp(32px,4vw,64px)',display:'flex',flexDirection:'column',justifyContent:'center'}}>
-              <div className="mono" style={{fontSize:11,letterSpacing:'.3em',color:'var(--gold)',marginBottom:16}}>{PRINCIPLES[pi].n}</div>
-              <h3 style={{fontSize:'clamp(28px,3.5vw,52px)',marginBottom:20}}>{PRINCIPLES[pi].title}</h3>
-              <p style={{fontSize:'clamp(15px,1.2vw,18px)',color:'var(--t2)',lineHeight:1.9}}>{PRINCIPLES[pi].desc}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {/* ═══ 5. SOCIAL PROOF / STATS — magic5 "180+ reviews" ═══ */}
-    <section style={{background:'var(--bg2)',padding:'var(--pad) var(--g)'}}>
-      <div style={{maxWidth:'var(--mx)',margin:'0 auto'}}>
-        <div className="rv" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'clamp(40px,6vw,100px)',alignItems:'center'}} className="g2 rv">
-          <div>
-            <div style={{display:'flex',gap:20,marginBottom:32}}>
-              {STATS.slice(0,2).map(s=>{const{v,ref}=useCounter(s.n);return(
-                <div key={s.l} ref={ref}>
-                  <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'clamp(56px,7vw,96px)',fontWeight:700,color:'var(--gold)',lineHeight:1}}>{v}{s.s}</div>
-                  <div className="mono" style={{fontSize:11,letterSpacing:'.3em',textTransform:'uppercase',color:'var(--t3)',marginTop:6}}>{s.l}</div>
-                </div>
-              );})}
-            </div>
-            <p style={{fontSize:'clamp(15px,1.2vw,18px)',color:'var(--t2)',lineHeight:1.9,maxWidth:480}}>The results confirm the vision. 57+ active ventures across 8 cities, powered by 198 AI agents and 34 autonomous departments — all engineered by a single founder.</p>
-          </div>
-          {/* Remaining stats in cards */}
-          <div className="stg" style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8}}>
-            {STATS.slice(2).map(s=>{const{v,ref}=useCounter(s.n);return(
-              <div key={s.l} ref={ref} className="card" style={{textAlign:'center',padding:'clamp(20px,2.5vw,36px) 12px'}}>
-                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'clamp(32px,4vw,56px)',fontWeight:700,color:'var(--gold)',lineHeight:1}}>{v}{s.s}</div>
-                <div className="mono" style={{fontSize:9,letterSpacing:'.25em',textTransform:'uppercase',color:'var(--t3)',marginTop:8}}>{s.l}</div>
+      {/* THESIS */}
+      <section style={S.sec} id="about">
+        <div style={S.secInner}>
+          <div style={S.thesisLayout}>
+            <Reveal>
+              <div style={S.secTag}>The Founder</div>
+              <blockquote style={S.thesisQuote}>&ldquo;Everybody wants to eat at night — nobody wants to <em style={S.heroEm}>hunt in the morning.</em>&rdquo;</blockquote>
+              <p style={S.thesisBody}>Dr. DoLo Dorsey is the founder and CEO of The Kollective Hospitality Group — a multi-brand enterprise spanning events, food &amp; beverage, museums, consumer products, technology, and wellness. What started as a single event has compounded into an autonomous empire: 57+ entities, 34 AI-powered departments, 198 agents, 8 cities deep.</p>
+              <p style={S.thesisBody}>The philosophy is simple: build systems that outlast trends. Build brands that mean something. Build in silence and let the results speak.</p>
+              <div style={S.thesisSig}>— Dr. DoLo Dorsey</div>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <div style={S.thesisImgWrap}>
+                <img src={`${WEB}/thesis-bg.jpg`} alt="Atlanta nightlife" style={S.thesisImg} />
+                <span style={S.thesisImgLabel}>Atlanta, GA</span>
               </div>
-            );})}
+            </Reveal>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    {/* ═══ 6. MANIFESTO STRIP — magic5 "Websites from another world!" ═══ */}
-    <section style={{background:'var(--bg)',padding:'clamp(48px,8vh,100px) 0',overflow:'hidden',borderTop:'1px solid rgba(245,241,234,.04)',borderBottom:'1px solid rgba(245,241,234,.04)'}}>
-      <div className="mstrip">
-        {['Brands from another','dimension!','We build empires','that compound.','Brands from another','dimension!','We build empires','that compound.'].map((t,i)=>(
-          <span key={i}>{t.includes('dimension')||t.includes('compound')?<em>{t}</em>:t}</span>
+      {/* DIVISIONS */}
+      <section style={{ ...S.sec, background:'#0C0C0E' }} id="empire">
+        <div style={S.secInner}>
+          <Reveal><div style={S.secTag}>The Empire</div></Reveal>
+          <Reveal><h2 style={S.secTitle}>Eight divisions. One <em style={S.heroEm}>machine.</em></h2></Reveal>
+          <Reveal delay={0.2}>
+            <div style={S.divGrid}>
+              {DIVISIONS.map(d => (
+                <div key={d.num} style={S.divCard}
+                  onMouseEnter={e => { e.currentTarget.style.background='#111114'; const n=e.currentTarget.querySelector('.dn') as HTMLElement; if(n)n.style.color='rgba(200,169,110,0.3)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background='#0C0C0E'; const n=e.currentTarget.querySelector('.dn') as HTMLElement; if(n)n.style.color='rgba(245,240,232,0.08)'; }}>
+                  <div className="dn" style={S.divNum}>{d.num}</div>
+                  <div style={S.divName}>{d.name}</div>
+                  <div style={S.divDesc}>{d.desc}</div>
+                  <div style={S.divTags}>{d.tags.map(t => <span key={t} style={S.divTag}>{t}</span>)}</div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* IMAGE BAND */}
+      <div style={S.imgBand}>
+        {[
+          { src:`${WEB}/luxury-venue.jpg`, label:'Events' },
+          { src:`${WEB}/penthouse-skyline.jpg`, label:'Hospitality' },
+          { src:`${WEB}/rooftop-lounge.jpg`, label:'Nightlife' },
+        ].map(i => (
+          <div key={i.label} style={S.imgBandCell}
+            onMouseEnter={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; if(img){img.style.opacity='0.8';img.style.transform='scale(1.03)'} }}
+            onMouseLeave={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; if(img){img.style.opacity='0.5';img.style.transform='scale(1)'} }}>
+            <img src={i.src} alt={i.label} style={S.imgBandImg} />
+            <span style={S.imgBandLabel}>{i.label}</span>
+          </div>
         ))}
       </div>
-    </section>
 
-    {/* ═══ 7. BRANDS ═══ */}
-    <section id="brands" style={{background:'var(--bg2)',padding:'var(--pad) var(--g)'}}>
-      <div style={{maxWidth:'var(--mx)',margin:'0 auto'}}>
-        <div className="rv" style={{display:'flex',justifyContent:'space-between',alignItems:'flex-end',marginBottom:48,flexWrap:'wrap',gap:20}}>
-          <div>
-            <span className="label" style={{display:'block',marginBottom:14}}>Brand Universe</span>
-            <h2 style={{fontSize:'clamp(36px,5vw,72px)'}}>Every brand. One <em>ecosystem.</em></h2>
+      {/* MARQUEE */}
+      <div style={S.marquee}>
+        <div style={{ ...S.marqueeTrack, animation:'mScroll 35s linear infinite' }}>
+          {[...MARQUEE_BRANDS,...MARQUEE_BRANDS].map((b,i) => (
+            <span key={`${b}-${i}`} style={S.marqueeItem}><span style={S.marqueeDot} />{b}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* PHILOSOPHY */}
+      <section style={S.sec} id="philosophy">
+        <div style={S.secInner}>
+          <Reveal><div style={S.secTag}>Operating System</div></Reveal>
+          <Reveal><h2 style={S.secTitle}>The principles behind <em style={S.heroEm}>the machine.</em></h2></Reveal>
+          <div style={S.philLayout}>
+            <div>
+              {PILLARS.map((p, i) => (
+                <Reveal key={p.num} delay={i * 0.1}>
+                  <div style={{ ...S.pillar, ...(i === 0 ? S.pillarFirst : {}) }}>
+                    <div style={S.pillarHead}><span style={S.pillarNum}>{p.num}</span><h3 style={S.pillarTitle}>{p.title}</h3></div>
+                    <p style={S.pillarBody}>{p.body}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+            <div style={S.philRight}>
+              {METRICS.map((m, i) => (
+                <Reveal key={m.label} delay={i * 0.1}>
+                  <div style={S.metric}
+                    onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(200,169,110,0.3)')}
+                    onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(245,240,232,0.08)')}>
+                    <div style={S.metricVal}>{m.val}</div>
+                    <div style={S.metricLabel}>{m.label}</div>
+                    <div style={S.metricDesc}>{m.desc}</div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
           </div>
-          <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
-            {(['all','flagship','active','seasonal','dev','legacy'] as const).map(f=>(
-              <button key={f} onClick={()=>setF(f)} style={{padding:'8px 18px',background:filter===f?'rgba(212,184,122,.08)':'transparent',border:`1px solid ${filter===f?'rgba(212,184,122,.3)':'rgba(245,241,234,.06)'}`,color:filter===f?'var(--gold)':'var(--t3)',borderRadius:60,fontSize:11,fontWeight:500,letterSpacing:'.12em',textTransform:'uppercase',transition:'all .3s'}}>{f}</button>
+        </div>
+      </section>
+
+      {/* FULL-BLEED QUOTE */}
+      <div style={S.fullImg}>
+        <img src={`${WEB}/garden-district.jpg`} alt="" style={S.fullImgImg} />
+        <div style={S.fullImgOverlay}><div style={S.fullImgText}>&ldquo;Don&rsquo;t let lame people make you do lame shit.&rdquo;</div></div>
+      </div>
+
+      {/* CITIES */}
+      <section style={{ ...S.sec, background:'#0C0C0E' }} id="cities">
+        <div style={S.secInner}>
+          <Reveal><div style={S.secTag}>Geography</div></Reveal>
+          <Reveal><h2 style={S.secTitle}>Eight cities. One <em style={S.heroEm}>frequency.</em></h2></Reveal>
+          <Reveal delay={0.2}>
+            <div style={S.citiesGrid}>
+              {CITIES.map((c, i) => (
+                <div key={c.name} style={{ ...S.city, ...(c.hq ? S.cityHq : {}) }}
+                  onMouseEnter={e => (e.currentTarget.style.background='#111114')}
+                  onMouseLeave={e => (e.currentTarget.style.background='#0C0C0E')}>
+                  {c.hq && <div style={S.cityBg}><img src={`${WEB}/hero-bg.jpg`} alt="" style={S.cityBgImg} /></div>}
+                  {c.hq && <span style={S.cityHqTag}>Headquarters</span>}
+                  <div style={{ ...S.cityName, ...(c.hq ? S.cityNameHq : {}) }}>{c.name}</div>
+                  <div style={S.cityState}>{c.state}</div>
+                  <div style={S.cityCount}>{c.count}</div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* TIMELINE */}
+      <section style={S.sec} id="journey">
+        <div style={S.secInner}>
+          <Reveal><div style={S.secTag}>The Journey</div></Reveal>
+          <Reveal><h2 style={S.secTitle}>Built in chapters, <em style={S.heroEm}>not overnight.</em></h2></Reveal>
+          <div style={S.tlTrack}>
+            <div style={S.tlLine} />
+            {TIMELINE.map((t, i) => (
+              <Reveal key={t.year} delay={i * 0.1}>
+                <div style={S.tlItem}>
+                  <div style={S.tlDot} />
+                  <div style={S.tlYear}>{t.year}</div>
+                  <div style={S.tlTitle}>{t.title}</div>
+                  <div style={S.tlDesc}>{t.desc}</div>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
-        <div className="stg" style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:10}}>
-          {fb.map(b=>(
-            <div key={b.name} className={b.featured?'fcard':'card'} style={{padding:24,cursor:b.website?'pointer':'default'}} onClick={()=>b.website&&window.open(b.website,'_blank')}>
-              {b.logo&&<div style={{marginBottom:14,height:64,display:'flex',alignItems:'center',justifyContent:'center',background:'rgba(245,241,234,.02)',borderRadius:'var(--r)',padding:12}}><Img src={b.logo} alt={b.name} style={{maxWidth:'55%',maxHeight:'100%',objectFit:'contain',opacity:.85}}/></div>}
-              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:8}}>
-                <div>
-                  <div style={{fontSize:'clamp(13px,1vw,15px)',fontWeight:500,color:'var(--t1)'}}>{b.name}</div>
-                  <div className="mono" style={{fontSize:9,letterSpacing:'.15em',textTransform:'uppercase',color:'var(--t4)',marginTop:3}}>{b.division}</div>
+      </section>
+
+      {/* FULL-BLEED QUOTE 2 */}
+      <div style={S.fullImg}>
+        <img src={`${WEB}/penthouse-skyline.jpg`} alt="" style={S.fullImgImg} />
+        <div style={S.fullImgOverlay}><div style={S.fullImgText}>&ldquo;Greatness is earned in silence.&rdquo;</div></div>
+      </div>
+
+      {/* CONNECT */}
+      <section style={{ ...S.sec, minHeight:'80vh',display:'flex',alignItems:'center',borderTop:'1px solid rgba(245,240,232,0.08)',position:'relative',overflow:'hidden' }} id="connect">
+        <div style={{ position:'absolute',top:0,left:0,width:'100%',height:'100%',opacity:0.05 }}>
+          <img src={`${WEB}/rooftop-lounge.jpg`} alt="" style={{ width:'100%',height:'100%',objectFit:'cover' }} />
+        </div>
+        <div style={S.secInner}>
+          <div style={S.connectLayout}>
+            <Reveal>
+              <div style={S.secTag}>Let&rsquo;s Build</div>
+              <h2 style={S.connectHL}>The ecosystem is <em style={S.heroEm}>designed</em> for collaboration.</h2>
+              <p style={S.connectBody}>Whether it&rsquo;s sponsorship, investment, venue partnership, brand collaboration, or something nobody&rsquo;s thought of yet — the door is open for those who build at this level.</p>
+              <div style={S.connectBtns}>
+                <a href="mailto:thekollectiveworldwide@gmail.com?subject=Partnership — Dr. Dorsey" style={S.btnGold}
+                  onMouseEnter={e => { e.currentTarget.style.background='#D4BC8A'; e.currentTarget.style.transform='translateY(-2px)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background='#C8A96E'; e.currentTarget.style.transform='translateY(0)'; }}>Start a Conversation</a>
+                <a href="https://instagram.com/dolodorsey" target="_blank" rel="noopener noreferrer" style={S.btnOutline}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor='#C8A96E'; e.currentTarget.style.color='#C8A96E'; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor='rgba(245,240,232,0.25)'; e.currentTarget.style.color='#F5F0E8'; }}>@dolodorsey</a>
+              </div>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <div>
+                {[
+                  { label:'Email', value:'thekollectiveworldwide@gmail.com', href:'mailto:thekollectiveworldwide@gmail.com' },
+                  { label:'Instagram', value:'@dolodorsey', href:'https://instagram.com/dolodorsey' },
+                  { label:'The Kollective', value:'@thekollectiveworldwide', href:'https://instagram.com/thekollectiveworldwide' },
+                  { label:'Headquarters', value:'Atlanta, Georgia' },
+                ].map(d => (
+                  <div key={d.label} style={S.cdItem}>
+                    <div style={S.cdLabel}>{d.label}</div>
+                    <div style={S.cdValue}>{d.href ? <a href={d.href} target={d.href.startsWith('http')?'_blank':undefined} rel="noopener noreferrer" style={S.cdLink}>{d.value}</a> : d.value}</div>
+                  </div>
+                ))}
+                <div style={{ display:'flex',gap:24,marginTop:24 }}>
+                  {[
+                    { n:'Instagram', u:'https://instagram.com/dolodorsey' },
+                    { n:'Twitter', u:'https://twitter.com/mrdolodorsey' },
+                    { n:'Facebook', u:'https://facebook.com/DoLoDorsey' },
+                  ].map(s => (
+                    <a key={s.n} href={s.u} target="_blank" rel="noopener noreferrer" style={{ fontFamily:'DM Mono,monospace',fontSize:'clamp(10px,0.85vw,12px)',color:'rgba(245,240,232,0.25)',textDecoration:'none',letterSpacing:'0.1em',transition:'color 0.3s' }}
+                      onMouseEnter={e => (e.currentTarget.style.color='#C8A96E')} onMouseLeave={e => (e.currentTarget.style.color='rgba(245,240,232,0.25)')}>{s.n}</a>
+                  ))}
                 </div>
-                <div style={{display:'flex',alignItems:'center',gap:6}}>
-                  <div style={{width:7,height:7,borderRadius:'50%',background:statusColors[b.status]}}/>
-                  {b.website&&<span style={{fontSize:14,color:'var(--t4)'}}>→</span>}
-                </div>
               </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ECOSYSTEM LINKS */}
+      <div style={S.ecoLinks}>
+        <div style={{ maxWidth:1400,margin:'0 auto' }}>
+          <div style={S.ecoGrid}>
+            <div>
+              <h4 style={S.ecoH4}>Navigate</h4>
+              {['about','empire','philosophy','cities','journey','connect'].map(id => (
+                <a key={id} href={`#${id}`} style={S.ecoA} onClick={(e) => { e.preventDefault(); scrollTo(id); }}
+                  onMouseEnter={e => (e.currentTarget.style.color='#C8A96E')} onMouseLeave={e => (e.currentTarget.style.color='rgba(245,240,232,0.25)')}>
+                  {id.charAt(0).toUpperCase() + id.slice(1)}
+                </a>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    {/* ═══ 8. PIPELINE ═══ */}
-    <section id="pipeline" style={{background:'var(--bg)',padding:'var(--pad) var(--g)'}}>
-      <div style={{maxWidth:'var(--mx)',margin:'0 auto'}}>
-        <div className="rv" style={{textAlign:'center',marginBottom:56}}>
-          <span className="label" style={{display:'block',marginBottom:14}}>Pipeline</span>
-          <h2 style={{fontSize:'clamp(36px,5.5vw,76px)'}}>The next chapter is <em>already</em> in motion.</h2>
-        </div>
-        <div className="stg" style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:10}}>
-          {PIPE.map(p=>(
-            <div key={p.nm} className={p.st==='Live'?'fcard':'card'} style={{padding:'clamp(24px,3vw,40px)',cursor:p.url?'pointer':'default'}} onClick={()=>p.url&&window.open(p.url,'_blank')}>
-              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}>
-                <span className="mono" style={{fontSize:11,letterSpacing:'.25em',textTransform:'uppercase',fontWeight:500,color:p.st==='Live'?'#6fb86f':'var(--t3)'}}>{p.st}</span>
-                <div style={{width:8,height:8,borderRadius:'50%',background:p.st==='Live'?'#6fb86f':'rgba(212,184,122,.2)',animation:p.st==='Live'?'pu 3s ease infinite':'none'}}/>
-              </div>
-              <h3 style={{fontSize:'clamp(22px,2.5vw,36px)',marginBottom:12}}>{p.nm}</h3>
-              <p style={{fontSize:'clamp(13px,1vw,15px)',color:'var(--t2)',lineHeight:1.7}}>{p.d}</p>
-              {p.url&&<div style={{marginTop:16,fontSize:12,color:'var(--gold)',fontWeight:500}}>Visit →</div>}
+            <div>
+              <h4 style={S.ecoH4}>Flagship Brands</h4>
+              {[{n:'HugLife Events',u:'https://huglife.vercel.app'},{n:'Forever Futbol Museum',u:'https://forever-futbol.vercel.app'},{n:'Casper Group',u:'https://casper-group.vercel.app'},{n:'Good Times App',u:'https://good-times-app.vercel.app'}].map(l => (
+                <a key={l.n} href={l.u} target="_blank" rel="noopener noreferrer" style={S.ecoA}
+                  onMouseEnter={e => (e.currentTarget.style.color='#C8A96E')} onMouseLeave={e => (e.currentTarget.style.color='rgba(245,240,232,0.25)')}>{l.n}</a>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    {/* ═══ 9. CONTACT — magic5 style with video bg + form ═══ */}
-    <section id="connect" style={{background:'var(--bg3)',padding:'var(--pad) var(--g)',position:'relative',overflow:'hidden'}}>
-      {/* Video background placeholder */}
-      <div style={{position:'absolute',inset:0,opacity:.08,filter:'brightness(.3)',backgroundImage:`url(${dorseyAssets.quotes[2]})`,backgroundSize:'cover',backgroundPosition:'center',pointerEvents:'none'}}/>
-      <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,var(--bg3),rgba(19,19,24,.85),var(--bg3))',pointerEvents:'none'}}/>
-      
-      <div style={{maxWidth:900,margin:'0 auto',position:'relative',zIndex:2}}>
-        <div className="rv" style={{textAlign:'center',marginBottom:48}}>
-          <span className="label" style={{display:'block',marginBottom:14}}>Your Project, Our Challenge</span>
-          <h2 style={{fontSize:'clamp(36px,6vw,80px)',marginBottom:20}}>{"Let's"} <em>build</em> together.</h2>
-          <p style={{fontSize:'clamp(15px,1.2vw,18px)',color:'var(--t2)',lineHeight:1.8,maxWidth:560,margin:'0 auto'}}>Ready to collaborate? Whether it's sponsorship, investment, venue partnership, or brand collaboration — the ecosystem is designed for it.</p>
-        </div>
-
-        {/* Team row — PLACEHOLDER for real photos */}
-        <div className="rv" style={{display:'flex',justifyContent:'center',gap:12,marginBottom:48,flexWrap:'wrap'}}>
-          {['Dr. Dorsey','Linda','Maia','Nya','Myia B','Brad'].map(name=>(
-            <div key={name} style={{display:'flex',flexDirection:'column',alignItems:'center',gap:8}}>
-              <div style={{width:64,height:64,borderRadius:'50%',background:'var(--card)',border:'1.5px solid rgba(212,184,122,.1)',display:'flex',alignItems:'center',justifyContent:'center'}}>
-                <span style={{fontFamily:"'Cormorant Garamond',serif",fontSize:22,fontWeight:600,color:'var(--gold)',opacity:.5}}>{name[0]}</span>
-              </div>
-              <span className="mono" style={{fontSize:9,letterSpacing:'.1em',color:'var(--t3)'}}>{name}</span>
+            <div>
+              <h4 style={S.ecoH4}>Products</h4>
+              {[{n:'Pronto Energy',u:'https://pronto-energy-website.vercel.app'},{n:'Infinity Water',u:'https://infinity-water.vercel.app'},{n:'Stush',u:'https://stushusa.myshopify.com'},{n:'MAGA Merch',u:'https://makeatlantagreatagain.myshopify.com'}].map(l => (
+                <a key={l.n} href={l.u} target="_blank" rel="noopener noreferrer" style={S.ecoA}
+                  onMouseEnter={e => (e.currentTarget.style.color='#C8A96E')} onMouseLeave={e => (e.currentTarget.style.color='rgba(245,240,232,0.25)')}>{l.n}</a>
+              ))}
             </div>
-          ))}
-        </div>
-
-        <div className="rv" style={{display:'flex',gap:12,justifyContent:'center',marginBottom:40,flexWrap:'wrap'}}>
-          <a href="mailto:thekollectiveworldwide@gmail.com?subject=Partnership%20—%20KHG" className="cta">Start a Conversation</a>
-          <a href="https://instagram.com/thekollectiveworldwide" target="_blank" rel="noopener noreferrer" className="cta-g">Instagram</a>
-        </div>
-
-        <div className="rv" style={{textAlign:'center'}}>
-          <a href="mailto:thekollectiveworldwide@gmail.com" style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'clamp(18px,2.5vw,32px)',fontWeight:500,color:'rgba(212,184,122,.45)',transition:'color .3s'}}>thekollectiveworldwide@gmail.com</a>
-        </div>
-      </div>
-    </section>
-
-    {/* ═══ 10. FOOTER — magic5 rich 4-column ═══ */}
-    <footer style={{background:'var(--bg)',padding:'64px var(--g) 40px',borderTop:'1px solid rgba(245,241,234,.04)'}}>
-      <div style={{maxWidth:'var(--mx)',margin:'0 auto'}}>
-        {/* 4 columns */}
-        <div style={{display:'grid',gridTemplateColumns:'1.5fr 1fr 1fr 1.2fr',gap:'clamp(24px,4vw,64px)',marginBottom:48}} className="g4">
-          <div>
-            <Img src={dorseyAssets.kollectiveGoldWhite} alt="KHG" style={{height:28,width:'auto',opacity:.7,marginBottom:20}}/>
-            <p style={{fontSize:'clamp(13px,1vw,15px)',color:'var(--t3)',lineHeight:1.8,maxWidth:280}}>A founder-led multi-brand ecosystem spanning hospitality, events, culture, products, and technology across 8 cities.</p>
-          </div>
-          <div className="ft-col">
-            <h4>Navigate</h4>
-            <a href="#portfolio">Portfolio</a>
-            <a href="#principles">Principles</a>
-            <a href="#brands">Brands</a>
-            <a href="#pipeline">Pipeline</a>
-            <a href="#connect">Contact</a>
-          </div>
-          <div className="ft-col">
-            <h4>Ecosystem</h4>
-            <a href="https://huglife.vercel.app" target="_blank" rel="noopener noreferrer">HugLife Events</a>
-            <a href="https://forever-futbol.vercel.app" target="_blank" rel="noopener noreferrer">Forever Futbol</a>
-            <a href="https://casper-group.vercel.app" target="_blank" rel="noopener noreferrer">Casper Group</a>
-            <a href="https://good-times-app.vercel.app" target="_blank" rel="noopener noreferrer">Good Times</a>
-            <a href="https://pronto-energy-website.vercel.app" target="_blank" rel="noopener noreferrer">Pronto Energy</a>
-          </div>
-          <div className="ft-col">
-            <h4>Connect</h4>
-            <a href="mailto:thekollectiveworldwide@gmail.com">thekollectiveworldwide@gmail.com</a>
-            <a href="https://instagram.com/thekollectiveworldwide" target="_blank" rel="noopener noreferrer">Instagram</a>
-            <p style={{fontSize:'clamp(12px,.9vw,14px)',color:'var(--t4)',marginTop:8}}>Atlanta, GA · Houston, TX · Miami, FL<br/>Los Angeles, CA · Dallas, TX · Washington D.C.<br/>Charlotte, NC · New York, NY</p>
-          </div>
-        </div>
-        {/* Bottom bar */}
-        <div style={{borderTop:'1px solid rgba(245,241,234,.04)',paddingTop:24,display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:16}}>
-          <span className="mono" style={{fontSize:9,letterSpacing:'.15em',color:'var(--t4)'}}>© 2026 Dr. Dorsey · The Kollective Hospitality Group · All Rights Reserved</span>
-          <div style={{display:'flex',gap:24}}>
-            {['Instagram','TikTok','LinkedIn'].map(s=>(<a key={s} href={s==='Instagram'?'https://instagram.com/thekollectiveworldwide':'#'} target="_blank" rel="noopener noreferrer" className="mono" style={{fontSize:9,letterSpacing:'.1em',textTransform:'uppercase',color:'var(--t4)',transition:'color .3s'}}>{s}</a>))}
+            <div>
+              <h4 style={S.ecoH4}>Connect</h4>
+              {[{n:'Email',u:'mailto:thekollectiveworldwide@gmail.com'},{n:'Instagram',u:'https://instagram.com/dolodorsey'},{n:'KHG Instagram',u:'https://instagram.com/thekollectiveworldwide'},{n:'Twitter',u:'https://twitter.com/mrdolodorsey'}].map(l => (
+                <a key={l.n} href={l.u} target={l.u.startsWith('http')?'_blank':undefined} rel="noopener noreferrer" style={S.ecoA}
+                  onMouseEnter={e => (e.currentTarget.style.color='#C8A96E')} onMouseLeave={e => (e.currentTarget.style.color='rgba(245,240,232,0.25)')}>{l.n}</a>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </footer>
-  </>);
+
+      {/* FOOTER */}
+      <footer style={S.footer}>
+        <div style={S.footerL}>&copy; 2026 Dr. DoLo Dorsey — The Kollective Hospitality Group</div>
+        <div style={S.footerR}>Live for today. Plan for tomorrow. Party tonight.</div>
+      </footer>
+
+      {/* CSS Animations + Responsive */}
+      <style>{`
+        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes lineUp { from{opacity:0;transform:translateY(100%)} to{opacity:1;transform:translateY(0)} }
+        @keyframes pSlide { from{left:-100%} to{left:100%} }
+        @keyframes mScroll { to{transform:translateX(-50%)} }
+        @media(max-width:1024px){
+          .thesis-layout-resp{grid-template-columns:1fr!important}
+          .phil-layout-resp{grid-template-columns:1fr!important}
+        }
+        @media(max-width:768px){
+          nav ul{display:none!important}
+          nav > a:last-of-type{display:none!important}
+          nav button{display:block!important}
+        }
+      `}</style>
+    </>
+  );
 }

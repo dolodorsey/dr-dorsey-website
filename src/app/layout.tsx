@@ -4,29 +4,38 @@ import "./globals.css";
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#030303',
+  themeColor: '#060607',
 };
 
 export const metadata: Metadata = {
-  title: "Dr. Dorsey · The Kollective Hospitality Group",
-  description: "The Architecture of a Modern Empire. A founder-led multi-brand ecosystem spanning hospitality, events, food & beverage, museums, products, and technology — 8 cities, 57+ ventures.",
-  keywords: "Dr. Dorsey, The Kollective Hospitality Group, KHG, HugLife Events, Forever Futbol, Casper Group, Good Times, Infinity Water, Pronto Energy, Atlanta, hospitality, events, empire",
+  title: "Dr. DoLo Dorsey — Founder. Architect. Empire Builder.",
+  description: "Founder & CEO of The Kollective Hospitality Group. 57+ ventures across 8 cities. Live for today, plan for tomorrow, party tonight.",
+  keywords: "Dr. Dorsey, DoLo Dorsey, The Kollective Hospitality Group, KHG, HugLife Events, Forever Futbol, Casper Group, Good Times, Atlanta, hospitality, events, empire builder",
   openGraph: {
-    title: "Dr. Dorsey · The Kollective Hospitality Group",
-    description: "The Architecture of a Modern Empire. 57+ ventures across 8 cities.",
+    title: "Dr. DoLo Dorsey — Empire Builder",
+    description: "Founder & CEO of The Kollective Hospitality Group. 57+ ventures. 8 cities. One frequency.",
     type: "website",
-    siteName: "Dr. Dorsey",
+    siteName: "Dr. DoLo Dorsey",
+    images: ['https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/dr_dorsey/website/hero-bg.jpg'],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dr. Dorsey · KHG",
-    description: "The Architecture of a Modern Empire.",
+    title: "Dr. DoLo Dorsey — Empire Builder",
+    description: "57+ ventures. 8 cities. One frequency.",
+  },
+  icons: {
+    icon: 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png',
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+      </head>
       <body suppressHydrationWarning>{children}</body>
     </html>
   );
