@@ -377,6 +377,23 @@ export default function Home() {
         </div>
       </div>
 
+      {/* SPONSOR BAR */}
+      <div style={{ padding:'16px clamp(20px,4vw,80px)',background:'#0C0C0E',borderBottom:'1px solid rgba(245,240,232,0.08)' }}>
+        <div style={{ maxWidth:1400,margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'center',gap:'clamp(24px,4vw,64px)',flexWrap:'wrap' }}>
+          <span style={{ fontFamily:'DM Mono,monospace',fontSize:8,letterSpacing:'0.3em',textTransform:'uppercase',color:'rgba(245,240,232,0.25)' }}>Sponsored by</span>
+          {[
+            { name:'Hurt 911', src:`${SB}/umbrella_injury/00-brand-assets/logos/hurt-911-logo-black.png` },
+            { name:'Pronto Energy', src:`${SB}/pronto_energy/logos/pronto-logo.png` },
+            { name:'Infinity Water', src:`${SB}/infinity_water/website/gold.jpg` },
+          ].map(s => (
+            <div key={s.name} style={{ opacity:0.45,display:'flex',alignItems:'center',gap:8 }}>
+              <img src={s.src} alt={s.name} style={{ height:'clamp(28px,3.5vw,44px)',width:'auto',objectFit:'contain',filter:'brightness(1.5)' }} />
+            </div>
+          ))}
+          <span style={{ fontFamily:'Cormorant Garamond,serif',fontSize:'clamp(16px,2vw,24px)',fontWeight:300,color:'rgba(245,240,232,0.35)',letterSpacing:'0.1em' }}>STUSH</span>
+        </div>
+      </div>
+
       {/* THESIS */}
       <section className="sec" style={S.sec} id="about">
         <div style={S.secInner}>
@@ -595,6 +612,10 @@ export default function Home() {
                   {id.charAt(0).toUpperCase() + id.slice(1)}
                 </a>
               ))}
+              <a href="/events" style={{...S.ecoA, color:'#C8A96E'}}
+                onMouseEnter={e => (e.currentTarget.style.color='#D4BC8A')} onMouseLeave={e => (e.currentTarget.style.color='#C8A96E')}>
+                Events Calendar →
+              </a>
             </div>
             <div>
               <h4 style={S.ecoH4}>Flagship Brands</h4>
