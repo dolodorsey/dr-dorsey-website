@@ -3,44 +3,57 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 
 const SB = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics';
 const W = `${SB}/dr_dorsey/website`;
+const CG = 'https://casper-group.vercel.app/images';
 const DORSEY_W = `${SB}/dr_dorsey/01_logos/DorseyNewW.png`;
 const KHG_EMBLEM = `${SB}/dr_dorsey/01_logos/KOLLECTIVEemblemW.png`;
+const FF_BG = `${SB}/forever_futbol/website/ff-museum-interior.png`;
 
+/* ═══ ALL BRAND LOGOS — MARQUEE (ENLARGED) ═══ */
 const ALL_LOGOS = [
   { n:'HugLife', s:`${SB}/huglife_events/00-brand-assets/logos/huglife-logo-buddha-black.png`, u:'https://huglife.vercel.app' },
   { n:'Forever Futbol', s:`${SB}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png`, u:'https://foreverfutbol.museum' },
-  { n:'Casper Group', s:`${SB}/casper_group/logos/casper-logo-dark.png`, u:'https://casper-group.vercel.app' },
+  { n:'Casper Group', s:`${CG}/casper-logo-white.png`, u:'https://casper-group.vercel.app' },
   { n:'Good Times', s:`${SB}/good_times/00-brand-assets/logos/good-times-logo-gold-black.png`, u:'https://good-times-app.vercel.app' },
   { n:'NOIR', s:`${SB}/noir_event/01_logos/NOIR_LOGO.png` },
   { n:'REMIX', s:`${SB}/remix_event/01_logos/REMIX_LOGO.png` },
   { n:'Taste of Art', s:`${SB}/taste_of_art/01_logos/TASTE_OF_ART_LOGO.png` },
   { n:'WRST BHVR', s:`${SB}/wrst_bhvr_event/01_logos/WRST_BHVR_LOGO.png` },
   { n:'Gangsta Gospel', s:`${SB}/gangsta_gospel/01_logos/GANGSTA_GOSPEL_LOGO.png` },
-  { n:'Angel Wings', s:`${SB}/angel_wings/logos/angel-wings-logo.png` },
-  { n:'Patty Daddy', s:`${SB}/patty_daddy/logos/patty-daddy-logo.png` },
-  { n:'Taco Yaki', s:`${SB}/taco_yaki/logos/taco-yaki-logo.png` },
-  { n:'Morning After', s:`${SB}/morning_after/logos/morning-after-logo.png` },
-  { n:'Sweet Tooth', s:`${SB}/sweet_tooth/logos/sweet-tooth-logo.png` },
-  { n:'Mojo Juice', s:`${SB}/mojo_juice/logos/mojo-juice-logo.png` },
-  { n:'Pasta Bish', s:`${SB}/pasta_bish/logos/pasta-bish-logo.png` },
-  { n:'Mr. Oyster', s:`${SB}/mr_oyster/logos/mr-oyster-logo.png` },
+  { n:'Angel Wings', s:`${CG}/logo-angel-wings.png` },
+  { n:'Patty Daddy', s:`${CG}/logo-patty-daddy.png` },
+  { n:'Taco Yaki', s:`${CG}/logo-taco-yaki.png` },
+  { n:'Morning After', s:`${CG}/logo-morning-after.png` },
+  { n:'Sweet Tooth', s:`${CG}/logo-sweet-tooth.png` },
+  { n:'Mojo Juice', s:`${CG}/logo-mojo-juice.png` },
+  { n:'Pasta Bish', s:`${CG}/logo-pasta-bish.png` },
+  { n:'Mr. Oyster', s:`${CG}/logo-mr-oyster.png` },
+  { n:'Espresso Co', s:`${CG}/logo-espresso-co.png` },
+  { n:'TOSSD', s:`${CG}/logo-tossd.png` },
   { n:'Paparazzi', s:`${SB}/paparazzi/01_logos/PAPARAZZI_LOGO.png` },
   { n:'Pawchella', s:`${SB}/pawchella/01_logos/PAWCHELLA_LOGO.png` },
   { n:'Beauty & Beast', s:`${SB}/beauty_beast/01_logos/BEAUTY_BEAST_LOGO.png` },
   { n:'Black Ball', s:`${SB}/black_ball/01_logos/BLACK_BALL_LOGO.png` },
   { n:'Sundays Best', s:`${SB}/sundays_best/01_logos/SUNDAYS_BEST_LOGO.png` },
   { n:'ICONIC', s:`${SB}/dr_dorsey/00-brand-assets/logos/iconic-logo-gold.png` },
-  { n:'TOSSD', s:`${SB}/tossd/logos/tossd-logo.png` },
   { n:'Mind Studio', s:`${SB}/mind_studio/gt_card_mind_studio.png` },
+  { n:'Kulture', s:'https://the-kulture-event.vercel.app/logo.png' },
+  { n:'Underground King', s:`${SB}/underground_king/01_logos/UNDERGROUND_KING_LOGO.png` },
+  { n:'Cravings', s:`${SB}/cravings/01_logos/CRAVINGS_LOGO.png` },
+  { n:'Soul Sessions', s:'https://soul-sessions-event.vercel.app/logo.png' },
+  { n:'Cinco de Drinko', s:`${SB}/cinco_de_drinko/01_logos/CINCO_DE_DRINKO_LOGO.png` },
+  { n:'Secret Society', s:`${SB}/secret_society/gt_card_secret_society.png` },
+  { n:'MAGA', s:'https://make-atlanta-great-again.vercel.app/brand/MAGA_hawks.png', u:'https://make-atlanta-great-again.vercel.app' },
 ];
 
+/* ═══ UPDATED DISTRICTS ═══ */
 const DISTRICTS = [
-  { title:'Night District', sub:'HugLife × ICONIC', desc:'15+ event brands across Atlanta.', img:`${W}/rooftop-lounge.jpg`, logo:`${SB}/huglife_events/00-brand-assets/logos/huglife-logo-buddha-black.png`, brands:['NOIR','REMIX','Taste of Art','Soul Sessions','Secret Society'] },
-  { title:'Culinary District', sub:'Casper Group', desc:'Restaurants, ghost kitchens, and culinary experiences.', img:`${W}/luxury-venue.jpg`, logo:`${SB}/casper_group/logos/casper-logo-dark.png`, brands:['Bodega','Angel Wings','Pasta Bish'] },
-  { title:'Museum Quarter', sub:'Forever Futbol', desc:'Immersive futbol museum. Atlanta. May 29 — Jul 6, 2026.', img:`${W}/garden-district.jpg`, logo:`${SB}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png`, brands:['Museum','ATL','2026'] },
-  { title:'Technology Hub', sub:'Good Times × Digital', desc:'837 venues. 10 cities. 198 AI agents. 34 departments.', img:`${W}/penthouse-skyline.jpg`, logo:`${SB}/good_times/00-brand-assets/logos/good-times-logo-gold-black.png`, brands:['Good Times','Rule Radar','UTube U'] },
-  { title:'Wellness Wing', sub:'Mind Studio MSO', desc:'Telemed wellness. Clinic, consumer, and PI verticals.', img:`${W}/thesis-bg.jpg`, logo:`${SB}/mind_studio/gt_card_mind_studio.png`, brands:['Clinic','Consumer','PI'] },
-  { title:'Service Exchange', sub:'Umbrella Group', desc:'Legal infrastructure and roadside services.', img:`${W}/hero-bg.jpg`, logo:`${SB}/umbrella_injury/00-brand-assets/logos/hurt-911-logo-black.png`, brands:['Umbrella','S.O.S','On Call'] },
+  { title:'Night District', sub:'Opium · HugLife × ICONIC', brands:['NOIR','REMIX','Taste of Art','Soul Sessions','Secret Society','WRST BHVR','Gangsta Gospel','Underground King','Cravings','Kulture','Pawchella','Paparazzi','Black Ball','Beauty & Beast','Sundays Best'], img:`${W}/rooftop-lounge.jpg`, logo:`${SB}/huglife_events/00-brand-assets/logos/huglife-logo-buddha-black.png` },
+  { title:'Culinary District', sub:'Sea Salt · Hungry AF · Tulum · Angel Wings · Espresso Co · Goodfellas Pizza', brands:['Patty Daddy','Taco Yaki','Morning After','Sweet Tooth','Mojo Juice','Pasta Bish','Mr. Oyster','TOSSD'], img:`${W}/luxury-venue.jpg`, logo:`${CG}/casper-logo-white.png` },
+  { title:'Museum Quarter', sub:'Forever Futbol Museum', brands:['Immersive Rooms','45 DJs','May 29 — Jul 6'], img:FF_BG, logo:`${SB}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png` },
+  { title:'Shopping District', sub:'Bodega Bodega Bodega · Stush · MAGA', brands:['Streetwear','Culture','ATL Merch'], img:`${W}/penthouse-skyline.jpg`, logo:'https://make-atlanta-great-again.vercel.app/brand/MAGA_hawks.png' },
+  { title:'Technology Hub', sub:'Good Times · The Brand Studio · The Automation Agency', brands:['837 Venues','10 Cities','198 AI Agents','34 Departments'], img:`${W}/hero-bg.jpg`, logo:`${SB}/good_times/00-brand-assets/logos/good-times-logo-gold-black.png` },
+  { title:'Wellness Wing', sub:'The Mind Studio · Let\'s Talk About It', brands:['Clinic','Consumer','Personal Injury','Telemed'], img:`${W}/thesis-bg.jpg`, logo:`${SB}/mind_studio/gt_card_mind_studio.png` },
+  { title:'Service Exchange', sub:'Umbrella Group', brands:['HURT 911','S.O.S Roadside','On Call Services','Umbrella Realty','Umbrella Injury'], img:`${W}/garden-district.jpg`, logo:`${SB}/umbrella_injury/00-brand-assets/logos/hurt-911-logo-black.png` },
 ];
 
 const CITIES = [
@@ -55,12 +68,12 @@ const CITIES = [
 ];
 
 const CONSULT = [
-  { title:'Brand Architecture', desc:'Multi-brand portfolio strategy, naming, positioning, and ecosystem design.' },
-  { title:'Event Production', desc:'End-to-end event creation, ticketing strategy, venue partnerships.' },
-  { title:'Restaurant & F&B', desc:'Concept development, ghost kitchen strategy, multi-unit expansion.' },
-  { title:'AI & Automation', desc:'198-agent AI infrastructure, n8n workflows, CRM automation.' },
-  { title:'Marketing Systems', desc:'GHL pipelines, email sequences, social engines, 48K+ contacts.' },
-  { title:'Museum & Cultural', desc:'Immersive experience design, ticketing, sponsorship strategy.' },
+  { title:'Brand Architecture', desc:'Multi-brand portfolio strategy, naming, positioning, and ecosystem design. From single concept to 57+ brand empire.', icon:'01' },
+  { title:'Event Production', desc:'End-to-end event creation, ticketing strategy, venue partnerships, and night-of execution for 1,000+ capacity events.', icon:'02' },
+  { title:'Restaurant & F&B', desc:'Concept development, ghost kitchen strategy, multi-unit expansion, franchise architecture, and menu engineering.', icon:'03' },
+  { title:'AI & Automation', desc:'198-agent AI infrastructure, n8n workflow design, CRM automation, and fully autonomous business operations.', icon:'04' },
+  { title:'Marketing Systems', desc:'GHL pipeline builds, email sequences, social media engines, content calendars, and 48K+ contact management.', icon:'05' },
+  { title:'Museum & Cultural', desc:'Immersive experience design, ticketing systems, sponsorship strategy, cultural programming, and launch campaigns.', icon:'06' },
 ];
 
 const GOLD = '#D4B87A';
@@ -84,7 +97,7 @@ export default function Home(){
   return<>
     {/* PRELOADER */}
     <div style={{position:'fixed',top:0,left:0,width:'100%',height:'100%',background:'#080604',zIndex:10000,display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',transition:'opacity 1s cubic-bezier(0.16,1,0.3,1),visibility 1s',...(loaded?{opacity:0,visibility:'hidden' as const,pointerEvents:'none' as const}:{})}}>
-      <img src={DORSEY_W} alt="" style={{width:180,objectFit:'contain',marginBottom:16}}/>
+      <img src={DORSEY_W} alt="" style={{width:200,objectFit:'contain',marginBottom:16}}/>
       <div style={{fontFamily:mono,fontSize:9,letterSpacing:'0.3em',textTransform:'uppercase',color:GOLD,opacity:0.6}}>The Kollective Hospitality Group</div>
     </div>
 
@@ -105,7 +118,7 @@ export default function Home(){
       </button>
     </nav>
 
-    {/* ═══ HERO — BRIGHTER, QUOTE LEFT ═══ */}
+    {/* ═══ HERO ═══ */}
     <section style={{position:'relative',height:'100vh',overflow:'hidden',display:'flex',flexDirection:'column',justifyContent:'center'}}>
       <div style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',zIndex:0}}>
         <img src={`${W}/hero-bg.jpg`} alt="" style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',objectFit:'cover',opacity:0.5}}/>
@@ -120,52 +133,72 @@ export default function Home(){
       <div style={{position:'absolute',bottom:0,left:0,width:'100%',height:2,background:`linear-gradient(90deg,transparent,${GOLD},transparent)`,zIndex:3,opacity:0.4}}/>
     </section>
 
-    {/* ═══ LOGO MARQUEE — ALL BRANDS ═══ */}
-    <div style={{padding:'28px 0',background:'#080604',borderBottom:'1px solid rgba(245,240,232,0.04)',overflow:'hidden'}}>
+    {/* ═══ LOGO MARQUEE — ENLARGED ═══ */}
+    <div style={{padding:'36px 0',background:'#080604',borderBottom:'1px solid rgba(245,240,232,0.04)',overflow:'hidden'}}>
       <div style={{display:'flex',width:'max-content'}} className="marquee-logos">
-        {[...ALL_LOGOS,...ALL_LOGOS,...ALL_LOGOS].map((l,i)=>(<a key={`${l.n}-${i}`} href={l.u||'#'} target={l.u?'_blank':undefined} rel="noopener noreferrer" className="logo-i" style={{opacity:0.5,transition:'opacity 0.4s',flexShrink:0,padding:'0 clamp(16px,2.5vw,36px)'}}><div style={{width:80,height:36,display:'flex',alignItems:'center',justifyContent:'center'}}><img src={l.s} alt={l.n} style={{maxWidth:80,maxHeight:36,objectFit:'contain',filter:'brightness(1.6)'}}/></div></a>))}
+        {[...ALL_LOGOS,...ALL_LOGOS,...ALL_LOGOS].map((l,i)=>(<a key={`${l.n}-${i}`} href={l.u||'#'} target={l.u?'_blank':undefined} rel="noopener noreferrer" className="logo-i" style={{opacity:0.55,transition:'opacity 0.4s',flexShrink:0,padding:'0 clamp(20px,3vw,44px)'}}><div style={{width:120,height:52,display:'flex',alignItems:'center',justifyContent:'center'}}><img src={l.s} alt={l.n} style={{maxWidth:120,maxHeight:52,objectFit:'contain',filter:'brightness(1.8) contrast(1.1)'}}/></div></a>))}
       </div>
     </div>
 
-    {/* ═══ ECOSYSTEM — BLACK ═══ */}
+    {/* ═══ ECOSYSTEM — BLACK — MORE VISIBLE TEXT ═══ */}
     <section style={{padding:'clamp(80px,10vw,140px) clamp(20px,4vw,80px)',background:'#080604'}} id="ecosystem">
       <div style={{maxWidth:1400,margin:'0 auto'}}>
         <Rv><div style={bar}/></Rv>
         <Rv><h2 style={{...hd('clamp(28px,5vw,64px)'),marginBottom:64}}>Architect of Experiences,<br/>Curator of <em style={{fontStyle:'italic',color:GB}}>Worlds.</em></h2></Rv>
         <div className="eco-grid" style={{display:'grid',gridTemplateColumns:'1fr 1.4fr 1fr',gap:2}}>
-          <Rv d={0.1}><div style={{position:'relative',height:'clamp(300px,40vw,500px)',overflow:'hidden',background:'#0D0A07'}}><img src={`${W}/thesis-bg.jpg`} alt="" style={{width:'100%',height:'100%',objectFit:'cover',opacity:0.7}}/><div style={{position:'absolute',bottom:0,left:0,width:'100%',padding:'32px 28px',background:'linear-gradient(0deg,rgba(8,6,4,0.9) 0%,transparent 100%)'}}><div style={{fontFamily:serif,fontSize:'clamp(16px,2vw,24px)',fontWeight:300,fontStyle:'italic',color:GB,lineHeight:1.3}}>Architect of Experiences,<br/>Curator of Worlds</div></div></div></Rv>
-          <Rv d={0.2}><div style={{position:'relative',height:'clamp(300px,40vw,500px)',overflow:'hidden',background:'#0D0A07',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:32}}><img src={`${W}/hero-bg.jpg`} alt="" style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',objectFit:'cover',opacity:0.25}}/><div style={{position:'relative',zIndex:1,textAlign:'center'}}><div style={{fontFamily:serif,fontSize:'clamp(18px,2.5vw,32px)',fontWeight:400,letterSpacing:'0.1em',textTransform:'uppercase',marginBottom:32,color:'#F5F0E8'}}>Empire Command Map</div><div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,maxWidth:360,margin:'0 auto'}}>{['Night District','Culinary District','Museum Quarter','Technology Hub','Wellness Wing','Service Exchange'].map(d=>(<div key={d} style={{border:'1px solid rgba(212,184,122,0.2)',padding:'12px 16px',fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',letterSpacing:'0.15em',textTransform:'uppercase',color:'rgba(245,240,232,0.6)',textAlign:'center',background:'rgba(212,184,122,0.04)',transition:'all 0.3s',cursor:'pointer'}} onMouseEnter={e=>{e.currentTarget.style.borderColor=GOLD;e.currentTarget.style.color=GOLD}} onMouseLeave={e=>{e.currentTarget.style.borderColor='rgba(212,184,122,0.2)';e.currentTarget.style.color='rgba(245,240,232,0.6)'}}>{d}</div>))}</div><div style={{display:'flex',gap:40,justifyContent:'center',marginTop:32}}>{[{t:57,s:'+',l:'Ventures'},{t:8,s:'',l:'Cities'},{t:198,s:'',l:'Agents'}].map(s=>(<div key={s.l} style={{textAlign:'center'}}><div style={{fontFamily:serif,fontSize:'clamp(24px,3vw,44px)',fontWeight:300,color:GB,lineHeight:1}}><Counter target={s.t} suffix={s.s}/></div><div style={{fontFamily:mono,fontSize:8,letterSpacing:'0.3em',textTransform:'uppercase',color:'rgba(245,240,232,0.3)',marginTop:4}}>{s.l}</div></div>))}</div></div></div></Rv>
-          <Rv d={0.3}><div style={{position:'relative',height:'clamp(300px,40vw,500px)',overflow:'hidden',background:'#0D0A07'}}><img src={`${W}/garden-district.jpg`} alt="" style={{width:'100%',height:'100%',objectFit:'cover',opacity:0.65}}/><div style={{position:'absolute',top:24,left:0,width:'100%',textAlign:'center'}}><div style={{fontFamily:serif,fontSize:'clamp(16px,2vw,28px)',fontWeight:400,letterSpacing:'0.08em',textTransform:'uppercase',color:'#F5F0E8'}}>Forever Futbol</div><div style={{fontFamily:mono,fontSize:8,letterSpacing:'0.2em',color:GB,marginTop:4}}>May 29 — Jul 6, 2026</div></div><div style={{position:'absolute',bottom:24,left:24}}><img src={`${SB}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png`} alt="" style={{height:40,objectFit:'contain',filter:'brightness(1.5)',opacity:0.8}}/></div></div></Rv>
+          <Rv d={0.1}><div style={{position:'relative',height:'clamp(300px,40vw,500px)',overflow:'hidden',background:'#0D0A07'}}><img src={`${W}/thesis-bg.jpg`} alt="" style={{width:'100%',height:'100%',objectFit:'cover',opacity:0.7}}/><div style={{position:'absolute',bottom:0,left:0,width:'100%',padding:'32px 28px',background:'linear-gradient(0deg,rgba(8,6,4,0.95) 0%,transparent 100%)'}}><div style={{fontFamily:serif,fontSize:'clamp(16px,2vw,24px)',fontWeight:300,fontStyle:'italic',color:GB,lineHeight:1.3}}>Architect of Experiences,<br/>Curator of Worlds</div></div></div></Rv>
+          <Rv d={0.2}><div style={{position:'relative',height:'clamp(300px,40vw,500px)',overflow:'hidden',background:'#0D0A07',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:32}}><img src={`${W}/hero-bg.jpg`} alt="" style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',objectFit:'cover',opacity:0.2}}/><div style={{position:'relative',zIndex:1,textAlign:'center'}}><div style={{fontFamily:serif,fontSize:'clamp(18px,2.5vw,32px)',fontWeight:400,letterSpacing:'0.1em',textTransform:'uppercase',marginBottom:32,color:GB}}>Empire Command Map</div><div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,maxWidth:400,margin:'0 auto'}}>{DISTRICTS.map(d=>(<div key={d.title} style={{border:`1px solid rgba(232,213,163,0.25)`,padding:'14px 16px',fontFamily:mono,fontSize:'clamp(8px,0.75vw,10px)',letterSpacing:'0.12em',textTransform:'uppercase',color:GB,textAlign:'center',background:'rgba(232,213,163,0.06)',transition:'all 0.3s',cursor:'pointer'}} onMouseEnter={e=>{e.currentTarget.style.borderColor=GB;e.currentTarget.style.background='rgba(232,213,163,0.12)'}} onMouseLeave={e=>{e.currentTarget.style.borderColor='rgba(232,213,163,0.25)';e.currentTarget.style.background='rgba(232,213,163,0.06)'}}>{d.title}</div>))}</div><div style={{display:'flex',gap:40,justifyContent:'center',marginTop:32}}>{[{t:57,s:'+',l:'Ventures'},{t:8,s:'',l:'Cities'},{t:198,s:'',l:'Agents'}].map(s=>(<div key={s.l} style={{textAlign:'center'}}><div style={{fontFamily:serif,fontSize:'clamp(24px,3vw,44px)',fontWeight:300,color:GB,lineHeight:1}}><Counter target={s.t} suffix={s.s}/></div><div style={{fontFamily:mono,fontSize:8,letterSpacing:'0.3em',textTransform:'uppercase',color:'rgba(232,213,163,0.5)',marginTop:4}}>{s.l}</div></div>))}</div></div></div></Rv>
+          <Rv d={0.3}><div style={{position:'relative',height:'clamp(300px,40vw,500px)',overflow:'hidden',background:'#0D0A07'}}><img src={FF_BG} alt="" style={{width:'100%',height:'100%',objectFit:'cover',opacity:0.75}}/><div style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',background:'linear-gradient(180deg,rgba(0,0,0,0.4) 0%,rgba(0,0,0,0.1) 50%,rgba(0,0,0,0.7) 100%)'}}/><div style={{position:'absolute',top:24,left:0,width:'100%',textAlign:'center',zIndex:1}}><div style={{fontFamily:serif,fontSize:'clamp(18px,2.2vw,30px)',fontWeight:600,letterSpacing:'0.08em',textTransform:'uppercase',color:'#F5F0E8',textShadow:'0 2px 20px rgba(0,0,0,0.8)'}}>Forever Futbol</div><div style={{fontFamily:mono,fontSize:9,letterSpacing:'0.2em',color:GB,marginTop:6,textShadow:'0 2px 10px rgba(0,0,0,0.8)'}}>May 29 — Jul 6, 2026 · Atlanta</div></div><div style={{position:'absolute',bottom:24,left:24,zIndex:1}}><img src={`${SB}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png`} alt="" style={{height:48,objectFit:'contain',filter:'brightness(1.5) drop-shadow(0 2px 8px rgba(0,0,0,0.6))',opacity:0.9}}/></div></div></Rv>
         </div>
       </div>
     </section>
 
-    {/* ═══ STRATEGIST — WHITE SECTION ═══ */}
+    {/* ═══ STRATEGIST — WHITE — ELABORATE ═══ */}
     <section style={{padding:'clamp(80px,10vw,140px) clamp(20px,4vw,80px)',background:'#F5F0E8',color:'#080604'}} id="strategist">
       <div style={{maxWidth:1400,margin:'0 auto'}}>
-        <Rv><div style={{width:40,height:1,background:'#080604',marginBottom:16}}/></Rv>
-        <Rv><div style={{fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.35em',textTransform:'uppercase',color:'#080604',opacity:0.5,marginBottom:12}}>Strategy + Consulting</div></Rv>
-        <Rv><h2 style={{fontFamily:serif,fontSize:'clamp(28px,5vw,64px)',fontWeight:300,lineHeight:1.1,letterSpacing:'-0.02em',marginBottom:24,color:'#080604'}}>The <em style={{fontStyle:'italic',color:'#8B7340'}}>Strategist.</em></h2></Rv>
-        <Rv d={0.1}><p style={{fontSize:'clamp(14px,1.3vw,18px)',color:'rgba(8,6,4,0.6)',lineHeight:1.7,maxWidth:700,marginBottom:56}}>Dr. Dorsey doesn&rsquo;t just build brands — he architects ecosystems. With 57+ ventures across 8 cities, the blueprint is proven. Now it&rsquo;s available to those who build at this level.</p></Rv>
-        <div className="consult-grid" style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:2,marginBottom:56}}>
-          {CONSULT.map((s,i)=>(<Rv key={s.title} d={i*0.08}><div className="consult-card" style={{background:'#FFFDF8',border:'1px solid rgba(8,6,4,0.08)',padding:'clamp(28px,3vw,48px)',transition:'all 0.4s',cursor:'pointer',height:'100%'}}><div style={{fontFamily:serif,fontSize:'clamp(20px,2.5vw,32px)',fontWeight:400,color:'#080604',marginBottom:12,lineHeight:1.2}}>{s.title}</div><div style={{fontSize:'clamp(12px,1vw,14px)',color:'rgba(8,6,4,0.5)',lineHeight:1.7}}>{s.desc}</div></div></Rv>))}
+        <Rv><div style={{display:'flex',alignItems:'center',gap:16,marginBottom:32}}><div style={{width:40,height:1,background:'#8B7340'}}/><div style={{fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.35em',textTransform:'uppercase',color:'#8B7340'}}>Strategy + Consulting</div></div></Rv>
+        <div className="strat-hero" style={{display:'grid',gridTemplateColumns:'1.2fr 1fr',gap:'clamp(32px,5vw,80px)',marginBottom:64,alignItems:'center'}}>
+          <Rv><div><h2 style={{fontFamily:serif,fontSize:'clamp(32px,5.5vw,72px)',fontWeight:300,lineHeight:1.05,letterSpacing:'-0.02em',color:'#080604',marginBottom:24}}>The <em style={{fontStyle:'italic',color:'#8B7340'}}>Strategist.</em></h2><p style={{fontSize:'clamp(15px,1.4vw,19px)',color:'rgba(8,6,4,0.55)',lineHeight:1.8,marginBottom:32}}>Dr. Dorsey doesn&rsquo;t just build brands — he architects ecosystems. With 57+ ventures across 8 cities, 198 AI agents, and 34 automated departments, the blueprint isn&rsquo;t theoretical. It&rsquo;s running. Now it&rsquo;s available to those who build at this level.</p><div style={{display:'flex',gap:32}}>{[{n:'57+',l:'Brands Built'},{n:'8',l:'Cities'},{n:'$0',l:'VC Raised'}].map(s=>(<div key={s.l}><div style={{fontFamily:serif,fontSize:'clamp(28px,3vw,48px)',fontWeight:300,color:'#8B7340',lineHeight:1}}>{s.n}</div><div style={{fontFamily:mono,fontSize:8,letterSpacing:'0.2em',textTransform:'uppercase',color:'rgba(8,6,4,0.35)',marginTop:4}}>{s.l}</div></div>))}</div></div></Rv>
+          <Rv d={0.2}><div style={{position:'relative',height:'clamp(300px,35vw,450px)',overflow:'hidden'}}><img src={`${W}/thesis-bg.jpg`} alt="" style={{width:'100%',height:'100%',objectFit:'cover',opacity:0.85,filter:'brightness(1.1)'}}/><div style={{position:'absolute',bottom:0,left:0,right:0,padding:'40px 32px',background:'linear-gradient(0deg,rgba(8,6,4,0.95) 0%,transparent 100%)'}}><div style={{fontFamily:serif,fontSize:'clamp(14px,1.5vw,20px)',fontWeight:300,fontStyle:'italic',color:GB,lineHeight:1.4}}>&ldquo;I built the system that builds the brands.&rdquo;</div><div style={{fontFamily:mono,fontSize:8,letterSpacing:'0.2em',textTransform:'uppercase',color:'rgba(232,213,163,0.5)',marginTop:8}}>— Dr. DoLo Dorsey</div></div></div></Rv>
         </div>
-        <Rv d={0.3}><div style={{background:'#080604',padding:'clamp(40px,5vw,72px)',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:32}}><div><div style={{fontFamily:serif,fontSize:'clamp(24px,3.5vw,48px)',fontWeight:300,color:'#F5F0E8',lineHeight:1.2,marginBottom:12}}>Book a Strategy <em style={{fontStyle:'italic',color:GB}}>Session.</em></div><div style={{fontFamily:mono,fontSize:'clamp(9px,0.8vw,11px)',letterSpacing:'0.15em',color:'rgba(245,240,232,0.4)',textTransform:'uppercase'}}>1-on-1 with Dr. Dorsey · Brand Architecture · Operational Buildout</div></div><a href="mailto:thedoctordorsey@gmail.com?subject=Strategy Session Inquiry" style={{fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.2em',textTransform:'uppercase',color:'#080604',background:GB,padding:'16px 40px',textDecoration:'none',whiteSpace:'nowrap'}}>Book Now</a></div></Rv>
+
+        <div className="consult-grid" style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:1,marginBottom:56}}>
+          {CONSULT.map((s,i)=>(<Rv key={s.title} d={i*0.06}><div className="consult-card" style={{background:'#FFFDF8',border:'1px solid rgba(8,6,4,0.06)',padding:'clamp(32px,3vw,48px)',transition:'all 0.4s',cursor:'pointer',height:'100%',position:'relative',overflow:'hidden'}}><div style={{fontFamily:serif,fontSize:'clamp(56px,6vw,80px)',fontWeight:300,color:'rgba(139,115,64,0.08)',position:'absolute',top:-8,right:12,lineHeight:1}}>{s.icon}</div><div style={{fontFamily:serif,fontSize:'clamp(22px,2.5vw,32px)',fontWeight:400,color:'#080604',marginBottom:14,lineHeight:1.2,position:'relative'}}>{s.title}</div><div style={{fontSize:'clamp(12px,1vw,14px)',color:'rgba(8,6,4,0.5)',lineHeight:1.75,position:'relative'}}>{s.desc}</div></div></Rv>))}
+        </div>
+
+        <Rv d={0.3}><div style={{background:'#080604',padding:'clamp(48px,6vw,80px)',textAlign:'center',position:'relative',overflow:'hidden'}}><div style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',background:'radial-gradient(ellipse at 50% 50%,rgba(232,213,163,0.06) 0%,transparent 60%)'}}/><div style={{position:'relative',zIndex:1}}><div style={{fontFamily:serif,fontSize:'clamp(28px,4vw,56px)',fontWeight:300,color:'#F5F0E8',lineHeight:1.15,marginBottom:16}}>Book a Strategy <em style={{fontStyle:'italic',color:GB}}>Session.</em></div><div style={{fontFamily:mono,fontSize:'clamp(9px,0.8vw,11px)',letterSpacing:'0.15em',color:'rgba(245,240,232,0.4)',textTransform:'uppercase',marginBottom:32,maxWidth:500,margin:'0 auto 32px'}}>1-on-1 with Dr. Dorsey · Brand Architecture · Operational Buildout · AI Systems Design</div><a href="mailto:thedoctordorsey@gmail.com?subject=Strategy Session Inquiry" style={{fontFamily:mono,fontSize:'clamp(9px,0.8vw,11px)',letterSpacing:'0.2em',textTransform:'uppercase',color:'#080604',background:GB,padding:'16px 48px',textDecoration:'none',display:'inline-block'}}>Book Now →</a></div></div></Rv>
       </div>
     </section>
 
-    {/* ═══ DISTRICTS — BLACK, BRIGHTER IMAGES ═══ */}
+    {/* ═══ DISTRICTS — BLACK — WORDS ON TOP OF IMAGES ═══ */}
     <section style={{padding:'clamp(80px,10vw,140px) clamp(20px,4vw,80px)',background:'#080604'}} id="districts">
       <div style={{maxWidth:1400,margin:'0 auto'}}>
         <Rv><div style={{...tg(),marginBottom:12}}>The Districts</div></Rv>
-        <Rv><h2 style={{...hd('clamp(26px,4.5vw,56px)'),marginBottom:48}}>Six divisions. One <em style={{fontStyle:'italic',color:GB}}>ecosystem.</em></h2></Rv>
+        <Rv><h2 style={{...hd('clamp(26px,4.5vw,56px)'),marginBottom:48}}>Seven divisions. One <em style={{fontStyle:'italic',color:GB}}>ecosystem.</em></h2></Rv>
         <div className="dist-grid" style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:2}}>
-          {DISTRICTS.map((d,i)=>(<Rv key={d.title} d={i*0.08}><div className="dist-card" style={{position:'relative',height:'clamp(260px,32vw,420px)',overflow:'hidden',background:'#0D0A07',cursor:'pointer'}}><img src={d.img} alt="" style={{width:'100%',height:'100%',objectFit:'cover',opacity:0.55,transition:'opacity 0.6s,transform 6s cubic-bezier(0.37,0,0.63,1)'}}/><div style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',background:'linear-gradient(180deg,rgba(8,6,4,0.1) 0%,rgba(8,6,4,0.65) 100%)'}}/><div style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',zIndex:1,padding:'clamp(20px,2vw,32px)',display:'flex',flexDirection:'column',justifyContent:'space-between'}}><div><div style={{fontFamily:serif,fontSize:'clamp(18px,2.5vw,32px)',fontWeight:400,letterSpacing:'0.05em',textTransform:'uppercase',color:'#F5F0E8',marginBottom:4}}>{d.title}</div><div style={{fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.15em',color:GB}}>{d.sub}</div></div><div><div style={{display:'flex',gap:8,flexWrap:'wrap',marginBottom:12}}>{d.brands.map(b=><span key={b} style={{fontFamily:mono,fontSize:7,letterSpacing:'0.12em',textTransform:'uppercase',color:'rgba(245,240,232,0.5)',border:'1px solid rgba(245,240,232,0.1)',padding:'2px 8px'}}>{b}</span>)}</div><img src={d.logo} alt="" style={{maxWidth:36,maxHeight:36,objectFit:'contain',filter:'brightness(1.6)',opacity:0.6}}/></div></div></div></Rv>))}
+          {DISTRICTS.map((d,i)=>(<Rv key={d.title} d={i*0.08}><div className="dist-card" style={{position:'relative',height:'clamp(280px,34vw,440px)',overflow:'hidden',background:'#0D0A07',cursor:'pointer'}}>
+            <img src={d.img} alt="" style={{width:'100%',height:'100%',objectFit:'cover',opacity:0.5,transition:'opacity 0.6s,transform 6s cubic-bezier(0.37,0,0.63,1)'}}/>
+            <div style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',background:'linear-gradient(180deg,rgba(8,6,4,0.5) 0%,rgba(8,6,4,0.2) 40%,rgba(8,6,4,0.7) 100%)'}}/>
+            {/* TITLE OVERLAY ON IMAGE */}
+            <div style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',zIndex:1,padding:'clamp(20px,2vw,32px)',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
+              <div>
+                <div style={{fontFamily:serif,fontSize:'clamp(22px,3vw,40px)',fontWeight:600,letterSpacing:'0.05em',textTransform:'uppercase',color:'#F5F0E8',marginBottom:6,textShadow:'0 2px 20px rgba(0,0,0,0.8)'}}>{d.title}</div>
+                <div style={{fontFamily:mono,fontSize:'clamp(9px,0.8vw,11px)',letterSpacing:'0.12em',color:GB,lineHeight:1.6,textShadow:'0 1px 8px rgba(0,0,0,0.6)'}}>{d.sub}</div>
+              </div>
+              <div>
+                <div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:14}}>
+                  {d.brands.slice(0,6).map(b=><span key={b} style={{fontFamily:mono,fontSize:7,letterSpacing:'0.1em',textTransform:'uppercase',color:'rgba(245,240,232,0.7)',border:'1px solid rgba(245,240,232,0.15)',padding:'3px 8px',background:'rgba(0,0,0,0.3)',backdropFilter:'blur(4px)'}}>{b}</span>)}
+                  {d.brands.length>6&&<span style={{fontFamily:mono,fontSize:7,letterSpacing:'0.1em',textTransform:'uppercase',color:GOLD,padding:'3px 8px'}}>+{d.brands.length-6} more</span>}
+                </div>
+                <img src={d.logo} alt="" style={{maxWidth:44,maxHeight:44,objectFit:'contain',filter:'brightness(1.8) drop-shadow(0 2px 6px rgba(0,0,0,0.5))',opacity:0.8}}/>
+              </div>
+            </div>
+          </div></Rv>))}
         </div>
       </div>
     </section>
 
-    {/* ═══ QUOTE — LEFT ALIGNED ═══ */}
+    {/* ═══ QUOTE — LEFT ═══ */}
     <div style={{position:'relative',height:'clamp(250px,35vw,400px)',overflow:'hidden'}}>
       <img src={`${W}/penthouse-skyline.jpg`} alt="" style={{width:'100%',height:'100%',objectFit:'cover',opacity:0.55}}/>
       <div style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',background:'linear-gradient(180deg,#080604 0%,transparent 25%,transparent 75%,#080604 100%)',display:'flex',alignItems:'center',justifyContent:'flex-start',padding:'0 clamp(40px,6vw,120px)'}}>
@@ -173,7 +206,7 @@ export default function Home(){
       </div>
     </div>
 
-    {/* ═══ CITIES — WHITE SECTION ═══ */}
+    {/* ═══ CITIES — WHITE ═══ */}
     <section style={{padding:'clamp(80px,10vw,140px) clamp(20px,4vw,80px)',background:'#F5F0E8',color:'#080604'}} id="cities">
       <div style={{maxWidth:1400,margin:'0 auto'}}>
         <Rv><div style={{width:40,height:1,background:'#080604',marginBottom:16}}/></Rv>
@@ -196,7 +229,7 @@ export default function Home(){
       </div>
     </section>
 
-    {/* ═══ FOOTER — WHITE ═══ */}
+    {/* FOOTER — WHITE */}
     <footer className="ftr" style={{padding:'40px clamp(20px,4vw,80px)',borderTop:'1px solid rgba(8,6,4,0.1)',display:'flex',alignItems:'center',justifyContent:'space-between',background:'#F5F0E8',color:'#080604'}}>
       <div style={{fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',letterSpacing:'0.2em',color:'rgba(8,6,4,0.3)'}}>&copy; 2026 Dr. DoLo Dorsey — The Kollective Hospitality Group</div>
       <div style={{display:'flex',gap:24}}>{[{n:'Instagram',u:'https://instagram.com/dolodorsey'},{n:'Twitter',u:'https://twitter.com/mrdolodorsey'},{n:'Facebook',u:'https://facebook.com/DoLoDorsey'}].map(s=>(<a key={s.n} href={s.u} target="_blank" rel="noopener noreferrer" style={{fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',letterSpacing:'0.1em',color:'rgba(8,6,4,0.3)',textDecoration:'none'}}>{s.n}</a>))}</div>
@@ -205,15 +238,15 @@ export default function Home(){
     <style>{`
       @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
       @keyframes marqueeScroll{from{transform:translateX(0)}to{transform:translateX(-33.333%)}}
-      .marquee-logos{animation:marqueeScroll 60s linear infinite}
+      .marquee-logos{animation:marqueeScroll 80s linear infinite}
       .marquee-logos:hover{animation-play-state:paused}
-      .logo-i:hover{opacity:0.9!important}
+      .logo-i:hover{opacity:1!important}
       .na:hover{color:#F5F0E8!important}
-      .dist-card:hover img{opacity:0.7!important;transform:scale(1.03)!important}
+      .dist-card:hover img{opacity:0.65!important;transform:scale(1.03)!important}
       .city-c:hover img{opacity:0.75!important;transform:scale(1.03)!important}
-      .consult-card:hover{border-color:rgba(139,115,64,0.3)!important;box-shadow:0 8px 32px rgba(0,0,0,0.08)!important}
-      @media(max-width:1024px){.eco-grid{grid-template-columns:1fr!important}.dist-grid{grid-template-columns:repeat(2,1fr)!important}.city-grid{grid-template-columns:repeat(2,1fr)!important}.consult-grid{grid-template-columns:repeat(2,1fr)!important}}
-      @media(max-width:768px){.desk-nav{display:none!important}.desk-cta{display:none!important}.mob-btn{display:block!important}.dist-grid{grid-template-columns:1fr!important}.city-grid{grid-template-columns:1fr!important}.consult-grid{grid-template-columns:1fr!important}.city-c[style*="grid-column"]{grid-column:span 1!important;grid-row:span 1!important}.ftr{flex-direction:column!important;gap:16px!important;text-align:center!important}}
+      .consult-card:hover{border-color:rgba(139,115,64,0.3)!important;box-shadow:0 12px 40px rgba(0,0,0,0.1)!important;transform:translateY(-2px)}
+      @media(max-width:1024px){.eco-grid{grid-template-columns:1fr!important}.dist-grid{grid-template-columns:repeat(2,1fr)!important}.city-grid{grid-template-columns:repeat(2,1fr)!important}.consult-grid{grid-template-columns:repeat(2,1fr)!important}.strat-hero{grid-template-columns:1fr!important}}
+      @media(max-width:768px){.desk-nav{display:none!important}.desk-cta{display:none!important}.mob-btn{display:block!important}.dist-grid{grid-template-columns:1fr!important}.city-grid{grid-template-columns:1fr!important}.consult-grid{grid-template-columns:1fr!important}.city-c[style*="grid-column"]{grid-column:span 1!important;grid-row:span 1!important}.ftr{flex-direction:column!important;gap:16px!important;text-align:center!important}.strat-hero{grid-template-columns:1fr!important}}
     `}</style>
   </>;
 }
