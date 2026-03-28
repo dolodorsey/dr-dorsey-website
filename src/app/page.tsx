@@ -164,7 +164,7 @@ const S: Record<string, React.CSSProperties> = {
   logoRow: { padding:'64px clamp(20px,4vw,80px)',borderTop:'1px solid rgba(245,240,232,0.08)',borderBottom:'1px solid rgba(245,240,232,0.08)' },
   logoRowInner: { maxWidth:1400,margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'space-between',gap:40,flexWrap:'wrap' as const },
   logoItem: { opacity:0.35,transition:'opacity 0.4s',flex:'0 0 auto' },
-  logoImg: { height:'clamp(24px,3vw,40px)',width:'auto',objectFit:'contain' as const,filter:'brightness(1.5)' },
+  logoImg: { height:'clamp(40px,5vw,64px)',width:'auto',objectFit:'contain' as const,filter:'brightness(1.5)' },
 
   /* Thesis */
   thesisLayout: { display:'grid',gridTemplateColumns:'1fr 1fr',gap:96,alignItems:'center' },
@@ -313,6 +313,7 @@ export default function Home() {
         {['about','empire','philosophy','cities','journey','connect'].map(id => (
           <a key={id} href={`#${id}`} style={S.mobMenuLink} onClick={(e) => { e.preventDefault(); scrollTo(id); }}>{id.charAt(0).toUpperCase() + id.slice(1)}</a>
         ))}
+        <a href="/events" style={{...S.mobMenuLink, color:'#C8A96E'}}>Events</a>
       </div>
 
       {/* Nav */}
@@ -325,6 +326,7 @@ export default function Home() {
           {['about','empire','philosophy','cities','journey'].map(id => (
             <li key={id}><a href={`#${id}`} style={S.navLink} onClick={(e) => { e.preventDefault(); scrollTo(id); }}>{id.charAt(0).toUpperCase() + id.slice(1)}</a></li>
           ))}
+          <li><a href="/events" style={{...S.navLink, color:'#C8A96E'}}>Events</a></li>
         </ul>
         <a href="#connect" className="nav-cta" style={S.navCta} onClick={(e) => { e.preventDefault(); scrollTo('connect'); }}>Connect</a>
         <button className="nav-toggle" style={S.navToggle} onClick={() => setMobOpen(!mobOpen)}>
