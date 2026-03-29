@@ -125,7 +125,7 @@ export default function Home(){
         <div style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',zIndex:2,background:'linear-gradient(180deg,rgba(8,6,4,0.3) 0%,rgba(8,6,4,0.05) 35%,rgba(8,6,4,0.05) 55%,rgba(8,6,4,0.7) 85%,#080604 100%)'}}/>
       </div>
       <div style={{position:'relative',zIndex:3,maxWidth:550,padding:'0 clamp(20px,4vw,80px)'}}>
-        <div style={{...tg(),marginBottom:20,animation:'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 1.8s both'}}>Dr. Dorsey + The Kollective</div>
+        <div style={{...tg(),marginBottom:20,animation:'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 1.8s both'}}>Dr. Dorsey — The Strategist</div>
         <h1 style={{fontFamily:serif,fontSize:'clamp(32px,6vw,80px)',fontWeight:300,lineHeight:1.1,letterSpacing:'-0.02em',animation:'fadeUp 1s cubic-bezier(0.16,1,0.3,1) 2s both'}}>Live for today.<br/>Plan for <em style={{fontStyle:'italic',color:GB}}>tomorrow.</em><br/>Party <em style={{fontStyle:'italic',color:GB}}>tonight!</em></h1>
         <a href="#ecosystem" style={{display:'inline-block',fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.25em',textTransform:'uppercase',color:GOLD,border:`1px solid ${GOLD}`,padding:'14px 40px',textDecoration:'none',marginTop:40,animation:'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 2.4s both'}} onClick={e=>{e.preventDefault();go('ecosystem')}}>Enter the Ecosystem</a>
       </div>
@@ -135,7 +135,7 @@ export default function Home(){
     {/* ═══ LOGO MARQUEE — ENLARGED ═══ */}
     <div style={{padding:'36px 0',background:'#080604',borderBottom:'1px solid rgba(245,240,232,0.04)',overflow:'hidden'}}>
       <div style={{display:'flex',width:'max-content'}} className="marquee-logos">
-        {[...ALL_LOGOS,...ALL_LOGOS,...ALL_LOGOS].map((l,i)=>(<a key={`${l.n}-${i}`} href={l.u||'#'} target={l.u?'_blank':undefined} rel="noopener noreferrer" className="logo-i" style={{opacity:0.55,transition:'opacity 0.4s',flexShrink:0,padding:'0 clamp(20px,3vw,44px)'}}><div style={{width:120,height:52,display:'flex',alignItems:'center',justifyContent:'center'}}><img src={l.s} alt={l.n} style={{maxWidth:120,maxHeight:52,objectFit:'contain',filter:'brightness(1.8) contrast(1.1)'}}/></div></a>))}
+        {[...ALL_LOGOS,...ALL_LOGOS,...ALL_LOGOS].map((l,i)=>(<a key={`${l.n}-${i}`} href={l.u||'#'} target={l.u?'_blank':undefined} rel="noopener noreferrer" className="logo-i" style={{opacity:0.7,transition:'opacity 0.4s',flexShrink:0,padding:'0 clamp(20px,3vw,44px)'}}><div style={{width:120,height:52,display:'flex',alignItems:'center',justifyContent:'center'}}><img src={l.s} alt={l.n} style={{maxWidth:120,maxHeight:52,objectFit:'contain'}}/></div></a>))}
       </div>
     </div>
 
@@ -157,15 +157,31 @@ export default function Home(){
       <div style={{maxWidth:1400,margin:'0 auto'}}>
         <Rv><div style={{display:'flex',alignItems:'center',gap:16,marginBottom:32}}><div style={{width:40,height:1,background:'#8B7340'}}/><div style={{fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.35em',textTransform:'uppercase',color:'#8B7340'}}>Strategy + Consulting</div></div></Rv>
         <div className="strat-hero" style={{display:'grid',gridTemplateColumns:'1.2fr 1fr',gap:'clamp(32px,5vw,80px)',marginBottom:64,alignItems:'center'}}>
-          <Rv><div><h2 style={{fontFamily:serif,fontSize:'clamp(32px,5.5vw,72px)',fontWeight:300,lineHeight:1.05,letterSpacing:'-0.02em',color:'#080604',marginBottom:24}}>The <em style={{fontStyle:'italic',color:'#8B7340'}}>Strategist.</em></h2><p style={{fontSize:'clamp(15px,1.4vw,19px)',color:'rgba(8,6,4,0.55)',lineHeight:1.8,marginBottom:32}}>Dr. Dorsey doesn&rsquo;t just build brands — he architects ecosystems. With 57+ ventures across 8 cities, 198 AI agents, and 34 automated departments, the blueprint isn&rsquo;t theoretical. It&rsquo;s running. Now it&rsquo;s available to those who build at this level.</p><div style={{display:'flex',gap:32}}>{[{n:'57+',l:'Brands Built'},{n:'8',l:'Cities'},{n:'$0',l:'VC Raised'}].map(s=>(<div key={s.l}><div style={{fontFamily:serif,fontSize:'clamp(28px,3vw,48px)',fontWeight:300,color:'#8B7340',lineHeight:1}}>{s.n}</div><div style={{fontFamily:mono,fontSize:8,letterSpacing:'0.2em',textTransform:'uppercase',color:'rgba(8,6,4,0.35)',marginTop:4}}>{s.l}</div></div>))}</div></div></Rv>
+          <Rv><div><h2 style={{fontFamily:serif,fontSize:'clamp(32px,5.5vw,72px)',fontWeight:300,lineHeight:1.05,letterSpacing:'-0.02em',color:'#080604',marginBottom:24}}>Dr. Dorsey<br/><em style={{fontStyle:'italic',color:'#8B7340'}}>The Strategist.</em></h2><p style={{fontSize:'clamp(15px,1.4vw,19px)',color:'rgba(8,6,4,0.55)',lineHeight:1.8,marginBottom:32}}>Dr. Dorsey doesn&rsquo;t just build brands — he architects ecosystems. With 57+ ventures across 8 cities, 198 AI agents, and 34 automated departments, the blueprint isn&rsquo;t theoretical. It&rsquo;s running. Now it&rsquo;s available to those who build at this level.</p><div style={{display:'flex',gap:32}}>{[{n:'57+',l:'Brands Built'},{n:'8',l:'Cities'},{n:'$0',l:'VC Raised'}].map(s=>(<div key={s.l}><div style={{fontFamily:serif,fontSize:'clamp(28px,3vw,48px)',fontWeight:300,color:'#8B7340',lineHeight:1}}>{s.n}</div><div style={{fontFamily:mono,fontSize:8,letterSpacing:'0.2em',textTransform:'uppercase',color:'rgba(8,6,4,0.35)',marginTop:4}}>{s.l}</div></div>))}</div></div></Rv>
           <Rv d={0.2}><div style={{position:'relative',height:'clamp(300px,35vw,450px)',overflow:'hidden'}}><img src={`${W}/thesis-bg.jpg`} alt="" style={{width:'100%',height:'100%',objectFit:'cover',opacity:0.85,filter:'brightness(1.1)'}}/><div style={{position:'absolute',bottom:0,left:0,right:0,padding:'40px 32px',background:'linear-gradient(0deg,rgba(8,6,4,0.95) 0%,transparent 100%)'}}><div style={{fontFamily:serif,fontSize:'clamp(14px,1.5vw,20px)',fontWeight:300,fontStyle:'italic',color:GB,lineHeight:1.4}}>&ldquo;I built the system that builds the brands.&rdquo;</div><div style={{fontFamily:mono,fontSize:8,letterSpacing:'0.2em',textTransform:'uppercase',color:'rgba(232,213,163,0.5)',marginTop:8}}>— Dr. DoLo Dorsey</div></div></div></Rv>
         </div>
 
         <div className="consult-grid" style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:1,marginBottom:56}}>
-          {CONSULT.map((s,i)=>(<Rv key={s.title} d={i*0.06}><div className="consult-card" style={{background:'#FFFDF8',border:'1px solid rgba(8,6,4,0.06)',padding:'clamp(32px,3vw,48px)',transition:'all 0.4s',cursor:'pointer',height:'100%',position:'relative',overflow:'hidden'}}><div style={{fontFamily:serif,fontSize:'clamp(56px,6vw,80px)',fontWeight:300,color:'rgba(139,115,64,0.08)',position:'absolute',top:-8,right:12,lineHeight:1}}>{s.icon}</div><div style={{fontFamily:serif,fontSize:'clamp(22px,2.5vw,32px)',fontWeight:400,color:'#080604',marginBottom:14,lineHeight:1.2,position:'relative'}}>{s.title}</div><div style={{fontSize:'clamp(12px,1vw,14px)',color:'rgba(8,6,4,0.5)',lineHeight:1.75,position:'relative'}}>{s.desc}</div></div></Rv>))}
+          {CONSULT.map((s,i)=>(<Rv key={s.title} d={i*0.06}><div className="consult-card" style={{background:'#FFFDF8',border:'1px solid rgba(8,6,4,0.06)',padding:'clamp(32px,3vw,48px)',transition:'all 0.4s',cursor:'pointer',height:'100%',position:'relative',overflow:'hidden'}}><div style={{fontFamily:serif,fontSize:'clamp(56px,6vw,80px)',fontWeight:300,color:'rgba(139,115,64,0.08)',position:'absolute',top:-8,right:12,lineHeight:1}}>{s.icon}</div><div style={{fontFamily:serif,fontSize:'clamp(22px,2.5vw,32px)',fontWeight:700,color:'#080604',marginBottom:14,lineHeight:1.2,position:'relative'}}>{s.title}</div><div style={{fontSize:'clamp(12px,1vw,14px)',color:'rgba(8,6,4,0.5)',lineHeight:1.75,position:'relative'}}>{s.desc}</div></div></Rv>))}
         </div>
 
-        <Rv d={0.3}><div style={{background:'#080604',padding:'clamp(48px,6vw,80px)',textAlign:'center',position:'relative',overflow:'hidden'}}><div style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',background:'radial-gradient(ellipse at 50% 50%,rgba(232,213,163,0.06) 0%,transparent 60%)'}}/><div style={{position:'relative',zIndex:1}}><div style={{fontFamily:serif,fontSize:'clamp(28px,4vw,56px)',fontWeight:300,color:'#F5F0E8',lineHeight:1.15,marginBottom:16}}>Book a Strategy <em style={{fontStyle:'italic',color:GB}}>Session.</em></div><div style={{fontFamily:mono,fontSize:'clamp(9px,0.8vw,11px)',letterSpacing:'0.15em',color:'rgba(245,240,232,0.4)',textTransform:'uppercase',marginBottom:32,maxWidth:500,margin:'0 auto 32px'}}>1-on-1 with Dr. Dorsey · Brand Architecture · Operational Buildout · AI Systems Design</div><a href="mailto:thedoctordorsey@gmail.com?subject=Strategy Session Inquiry" style={{fontFamily:mono,fontSize:'clamp(9px,0.8vw,11px)',letterSpacing:'0.2em',textTransform:'uppercase',color:'#080604',background:GB,padding:'16px 48px',textDecoration:'none',display:'inline-block'}}>Book Now →</a></div></div></Rv>
+        <Rv d={0.3}><div style={{background:'#080604',padding:'clamp(64px,8vw,120px) clamp(32px,5vw,80px)',textAlign:'center',position:'relative',overflow:'hidden'}}>
+          <div style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',background:'radial-gradient(ellipse at 50% 30%,rgba(212,184,122,0.12) 0%,transparent 60%)'}}/>
+          <div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',width:'clamp(300px,60vw,700px)',height:'clamp(300px,60vw,700px)',borderRadius:'50%',border:'1px solid rgba(212,184,122,0.06)',pointerEvents:'none'}}/>
+          <div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',width:'clamp(200px,40vw,500px)',height:'clamp(200px,40vw,500px)',borderRadius:'50%',border:'1px solid rgba(212,184,122,0.04)',pointerEvents:'none'}}/>
+          <div style={{position:'relative',zIndex:1}}>
+            <div style={{fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.5em',textTransform:'uppercase',color:GOLD,marginBottom:24}}>Private Consultation</div>
+            <div style={{fontFamily:serif,fontSize:'clamp(36px,6vw,80px)',fontWeight:300,color:'#F5F0E8',lineHeight:1.05,marginBottom:8}}>Book a Strategy</div>
+            <div style={{fontFamily:serif,fontSize:'clamp(36px,6vw,80px)',fontWeight:300,fontStyle:'italic',color:GB,lineHeight:1.05,marginBottom:32}}>Session.</div>
+            <div style={{display:'flex',flexWrap:'wrap',gap:16,justifyContent:'center',marginBottom:48}}>
+              {['Brand Architecture','Operational Buildout','AI Systems Design','Empire Blueprint'].map(s=>(
+                <span key={s} style={{fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',letterSpacing:'0.15em',textTransform:'uppercase',color:'rgba(245,240,232,0.4)',border:'1px solid rgba(245,240,232,0.08)',padding:'8px 16px',background:'rgba(245,240,232,0.02)'}}>{s}</span>
+              ))}
+            </div>
+            <a href="mailto:thedoctordorsey@gmail.com?subject=Strategy Session Inquiry" className="book-btn" style={{fontFamily:serif,fontSize:'clamp(16px,2vw,24px)',fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#080604',background:`linear-gradient(135deg,${GOLD},${GB},${GOLD})`,padding:'clamp(18px,2vw,24px) clamp(48px,6vw,80px)',textDecoration:'none',display:'inline-block',position:'relative',overflow:'hidden',boxShadow:'0 4px 30px rgba(212,184,122,0.3),0 0 60px rgba(212,184,122,0.1)',transition:'all 0.4s cubic-bezier(0.16,1,0.3,1)'}}>BOOK NOW</a>
+            <div style={{fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',letterSpacing:'0.2em',textTransform:'uppercase',color:'rgba(245,240,232,0.2)',marginTop:24}}>1-on-1 with Dr. Dorsey · By Invitation</div>
+          </div>
+        </div></Rv>
       </div>
     </section>
 
@@ -189,7 +205,7 @@ export default function Home(){
                   {d.brands.slice(0,6).map(b=><span key={b} style={{fontFamily:mono,fontSize:7,letterSpacing:'0.1em',textTransform:'uppercase',color:'rgba(245,240,232,0.7)',border:'1px solid rgba(245,240,232,0.15)',padding:'3px 8px',background:'rgba(0,0,0,0.3)',backdropFilter:'blur(4px)'}}>{b}</span>)}
                   {d.brands.length>6&&<span style={{fontFamily:mono,fontSize:7,letterSpacing:'0.1em',textTransform:'uppercase',color:GOLD,padding:'3px 8px'}}>+{d.brands.length-6} more</span>}
                 </div>
-                <img src={d.logo} alt="" style={{maxWidth:44,maxHeight:44,objectFit:'contain',filter:'brightness(1.8) drop-shadow(0 2px 6px rgba(0,0,0,0.5))',opacity:0.8}}/>
+                <img src={d.logo} alt="" style={{maxWidth:44,maxHeight:44,objectFit:'contain',filter:'drop-shadow(0 2px 6px rgba(0,0,0,0.5))',opacity:0.9}}/>
               </div>
             </div>
           </div></Rv>))}
@@ -244,6 +260,8 @@ export default function Home(){
       .dist-card:hover img{opacity:0.65!important;transform:scale(1.03)!important}
       .city-c:hover img{opacity:0.75!important;transform:scale(1.03)!important}
       .consult-card:hover{border-color:rgba(139,115,64,0.3)!important;box-shadow:0 12px 40px rgba(0,0,0,0.1)!important;transform:translateY(-2px)}
+      .book-btn:hover{transform:translateY(-3px)!important;box-shadow:0 8px 40px rgba(212,184,122,0.5),0 0 80px rgba(212,184,122,0.2)!important}
+      .logo-i:hover{opacity:1!important}
       @media(max-width:1024px){.eco-grid{grid-template-columns:1fr!important}.dist-grid{grid-template-columns:repeat(2,1fr)!important}.city-grid{grid-template-columns:repeat(2,1fr)!important}.consult-grid{grid-template-columns:repeat(2,1fr)!important}.strat-hero{grid-template-columns:1fr!important}}
       @media(max-width:768px){.desk-nav{display:none!important}.desk-cta{display:none!important}.mob-btn{display:block!important}.dist-grid{grid-template-columns:1fr!important}.city-grid{grid-template-columns:1fr!important}.consult-grid{grid-template-columns:1fr!important}.city-c[style*="grid-column"]{grid-column:span 1!important;grid-row:span 1!important}.ftr{flex-direction:column!important;gap:16px!important;text-align:center!important}.strat-hero{grid-template-columns:1fr!important}}
     `}</style>
