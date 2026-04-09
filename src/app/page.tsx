@@ -180,7 +180,10 @@ export default function Home(){
                 <span key={s} style={{fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',letterSpacing:'0.15em',textTransform:'uppercase',color:'rgba(245,240,232,0.4)',border:'1px solid rgba(245,240,232,0.08)',padding:'8px 16px',background:'rgba(245,240,232,0.02)'}}>{s}</span>
               ))}
             </div>
-            <a href="mailto:thedoctordorsey@gmail.com?subject=Strategy Session Inquiry" className="book-btn" style={{fontFamily:serif,fontSize:'clamp(16px,2vw,24px)',fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#080604',background:`linear-gradient(135deg,${GOLD},${GB},${GOLD})`,padding:'clamp(18px,2vw,24px) clamp(48px,6vw,80px)',textDecoration:'none',display:'inline-block',position:'relative',overflow:'hidden',boxShadow:'0 4px 30px rgba(212,184,122,0.3),0 0 60px rgba(212,184,122,0.1)',transition:'all 0.4s cubic-bezier(0.16,1,0.3,1)'}}>BOOK NOW</a>
+            <div style={{display:'flex',gap:16,justifyContent:'center',flexWrap:'wrap'}}>
+              <a href="https://doctordorsey.com" className="book-btn" style={{fontFamily:serif,fontSize:'clamp(14px,1.6vw,20px)',fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#080604',background:`linear-gradient(135deg,${GOLD},${GB},${GOLD})`,padding:'clamp(16px,1.8vw,22px) clamp(36px,4vw,60px)',textDecoration:'none',display:'inline-block',position:'relative',overflow:'hidden',boxShadow:'0 4px 30px rgba(212,184,122,0.3),0 0 60px rgba(212,184,122,0.1)',transition:'all 0.4s cubic-bezier(0.16,1,0.3,1)'}}>MY WEBSITE</a>
+              <a href="https://buy.stripe.com/00wfZi0uvgZygSceyddUY01" className="book-btn" style={{fontFamily:serif,fontSize:'clamp(14px,1.6vw,20px)',fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#F5F0E8',background:'transparent',border:`2px solid ${GOLD}`,padding:'clamp(16px,1.8vw,22px) clamp(36px,4vw,60px)',textDecoration:'none',display:'inline-block',position:'relative',overflow:'hidden',boxShadow:'0 4px 30px rgba(212,184,122,0.15)',transition:'all 0.4s cubic-bezier(0.16,1,0.3,1)'}}>BOOK DIRECTLY</a>
+            </div>
             <div style={{fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',letterSpacing:'0.2em',textTransform:'uppercase',color:'rgba(245,240,232,0.2)',marginTop:24}}>1-on-1 with Dr. Dorsey · By Invitation</div>
           </div>
         </div></Rv>
