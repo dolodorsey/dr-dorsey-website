@@ -62,6 +62,19 @@ async function getOpsConfig(): Promise<OpsConfig> {
   }
 }
 
+function routeForTile(tile?: { tile_key?: string; full_route?: string }) {
+  if (!tile) return '/os/build-deploy';
+  if (tile.full_route && tile.full_route.startsWith('/os/')) return tile.full_route;
+  const key = tile.tile_key || 'build-deploy';
+  return `/os/${key.replace(/_/g, '-')}`;
+}
+
+function routeForSection(section: OpsSection) {
+  const firstTile = section.tiles?.[0];
+  if (firstTile) return routeForTile(firstTile);
+  return `/os/${section.section_key.replace(/_/g, '-')}`;
+}
+
 const Badge = ({ children }: { children: React.ReactNode }) => (
   <span className="rounded-full border border-yellow-400/30 bg-yellow-400/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-yellow-200">
     {children}
@@ -103,6 +116,11 @@ export default async function OpsOSPage() {
               <p className="mt-5 max-w-2xl text-lg leading-8 text-white/65">
                 One source. One build. One operating room for revenue, workers, team tasks, dashboard fixes, outreach, apps, and BOH execution.
               </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <a href="/os/engagement" className="rounded-full bg-yellow-300 px-5 py-3 text-sm font-semibold text-black hover:bg-yellow-200">Run Engagement</a>
+                <a href="/os/outreach" className="rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10">Launch Outreach</a>
+                <a href="/os/team-tasks" className="rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10">Team Tasks</a>
+              </div>
             </div>
             <div className="rounded-3xl border border-yellow-400/20 bg-black/35 p-5 text-sm text-white/70">
               <div className="text-xs uppercase tracking-[0.25em] text-yellow-200">Source of Truth</div>
@@ -120,10 +138,11 @@ export default async function OpsOSPage() {
             </div>
           ) : null}
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             <Stat label="Sections" value={sections.length} />
             <Stat label="Team Rows" value={team.length} />
             <Stat label="Confirmed" value={`${confirmed}/${team.length}`} />
+            <Stat label="Blockers" value={blockers} />
             <Stat label="P0 Fixes" value={p0Fixes} />
           </div>
         </div>
@@ -139,8 +158,8 @@ export default async function OpsOSPage() {
                   <h2 className="mt-2 text-3xl font-semibold">{section.section_label}</h2>
                   <p className="mt-2 max-w-3xl text-sm leading-6 text-white/55">{section.purpose}</p>
                 </div>
-                <a className="rounded-full bg-yellow-300 px-4 py-2 text-sm font-semibold text-black transition hover:bg-yellow-200" href={`#${section.section_key}`}>
-                  Open Full View
+                <a className="rounded-full bg-yellow-300 px-4 py-2 text-sm font-semibold text-black transition hover:bg-yellow-200" href={routeForSection(section)}>
+                  Open Workspace
                 </a>
               </div>
 
@@ -151,15 +170,18 @@ export default async function OpsOSPage() {
                     <div className="mt-2 text-xl font-semibold">{tile.label}</div>
                     <div className="mt-3 flex flex-wrap gap-2 text-xs text-white/55">
                       <span className="rounded-full bg-white/10 px-2 py-1">{tile.preview_view || 'needs source'}</span>
-                      <span className="rounded-full bg-white/10 px-2 py-1">full route required</span>
+                      <span className="rounded-full bg-green-400/10 px-2 py-1 text-green-100">workspace live</span>
                     </div>
-                    <div className="mt-4 flex gap-2">
-                      <a className="rounded-full border border-white/15 px-3 py-2 text-xs text-white/80 hover:bg-white/10" href={tile.full_route || '#'}>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      <a className="rounded-full border border-white/15 px-3 py-2 text-xs text-white/80 hover:bg-white/10" href={routeForTile(tile)}>
                         Open
                       </a>
-                      <button className="rounded-full border border-yellow-400/30 px-3 py-2 text-xs text-yellow-100">
+                      <a className="rounded-full border border-yellow-400/30 px-3 py-2 text-xs text-yellow-100 hover:bg-yellow-400/10" href={`${routeForTile(tile)}#assign-owner`}>
                         Assign Owner
-                      </button>
+                      </a>
+                      <a className="rounded-full border border-yellow-400/30 px-3 py-2 text-xs text-yellow-100 hover:bg-yellow-400/10" href={`${routeForTile(tile)}#add-task`}>
+                        Add Task
+                      </a>
                     </div>
                   </div>
                 ))}
@@ -178,7 +200,7 @@ export default async function OpsOSPage() {
             <h2 className="mt-2 text-2xl font-semibold">GM Execution Board</h2>
             <div className="mt-5 space-y-3">
               {team.slice(0, 12).map((row) => (
-                <div key={row.person_name} className="rounded-2xl border border-white/10 bg-black/25 p-4">
+                <a key={row.person_name} href="/os/team-tasks" className="block rounded-2xl border border-white/10 bg-black/25 p-4 transition hover:border-yellow-400/30 hover:bg-white/[0.06]">
                   <div className="flex items-center justify-between gap-3">
                     <div className="font-semibold">{row.person_name}</div>
                     <span className={`rounded-full px-2 py-1 text-[10px] uppercase tracking-[0.18em] ${row.assignment_confirmed ? 'bg-green-400/15 text-green-200' : 'bg-yellow-400/15 text-yellow-100'}`}>
@@ -191,7 +213,7 @@ export default async function OpsOSPage() {
                     <span>Replies: {row.responses_received_today || 0}</span>
                   </div>
                   {row.blockers ? <div className="mt-3 rounded-xl bg-red-400/10 p-2 text-xs text-red-100">{row.blockers}</div> : null}
-                </div>
+                </a>
               ))}
             </div>
           </div>
@@ -201,14 +223,14 @@ export default async function OpsOSPage() {
             <h2 className="mt-2 text-2xl font-semibold">Build Cleanup</h2>
             <div className="mt-5 space-y-3">
               {fixes.map((fix) => (
-                <div key={fix.fix_key} className="rounded-2xl border border-white/10 bg-black/25 p-4">
+                <a key={fix.fix_key} href="/os/build-deploy" className="block rounded-2xl border border-white/10 bg-black/25 p-4 transition hover:border-yellow-400/30 hover:bg-white/[0.06]">
                   <div className="flex items-center justify-between gap-3">
                     <div className="font-semibold">{fix.title}</div>
                     <span className="rounded-full bg-white/10 px-2 py-1 text-[10px] uppercase tracking-[0.18em] text-white/70">{fix.priority}</span>
                   </div>
                   <div className="mt-2 text-xs leading-5 text-white/50">{fix.description}</div>
                   <div className="mt-3 text-xs uppercase tracking-[0.18em] text-yellow-200/70">{fix.status}</div>
-                </div>
+                </a>
               ))}
             </div>
           </div>
