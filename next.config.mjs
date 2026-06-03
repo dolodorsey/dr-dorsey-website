@@ -11,6 +11,31 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // Keep secondary Ops OS domain from becoming a split-source dashboard.
+      {
+        source: '/ops-os',
+        has: [{ type: 'host', value: 'thedoctordorsey.com' }],
+        destination: 'https://dr-dorsey-website.vercel.app/ops-os',
+        permanent: false,
+      },
+      {
+        source: '/ops-os/:path*',
+        has: [{ type: 'host', value: 'thedoctordorsey.com' }],
+        destination: 'https://dr-dorsey-website.vercel.app/ops-os/:path*',
+        permanent: false,
+      },
+      {
+        source: '/ops-os',
+        has: [{ type: 'host', value: 'www.thedoctordorsey.com' }],
+        destination: 'https://dr-dorsey-website.vercel.app/ops-os',
+        permanent: false,
+      },
+      {
+        source: '/ops-os/:path*',
+        has: [{ type: 'host', value: 'www.thedoctordorsey.com' }],
+        destination: 'https://dr-dorsey-website.vercel.app/ops-os/:path*',
+        permanent: false,
+      },
       // drdorseyevents.com root -> /events
       {
         source: '/',
