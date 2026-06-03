@@ -28,7 +28,7 @@ type OpsWorkspaceClientProps = {
 
 const ACTION_URL = 'https://dzlmtvodpyhetvektfuo.supabase.co/functions/v1/ops-os-action-dispatch';
 
-function Field({ label, name, type = 'text', placeholder }: { label: string; name: string; type?: string; placeholder?: string }) {
+function Field({ label, name, type = 'text', placeholder, defaultValue }: { label: string; name: string; type?: string; placeholder?: string; defaultValue?: string }) {
   return (
     <label className="block">
       <span className="text-[11px] uppercase tracking-[0.2em] text-white/45">{label}</span>
@@ -36,19 +36,21 @@ function Field({ label, name, type = 'text', placeholder }: { label: string; nam
         name={name}
         type={type}
         placeholder={placeholder}
+        defaultValue={defaultValue}
         className="mt-2 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none placeholder:text-white/25 focus:border-yellow-300/60"
       />
     </label>
   );
 }
 
-function TextArea({ label, name, placeholder }: { label: string; name: string; placeholder?: string }) {
+function TextArea({ label, name, placeholder, defaultValue }: { label: string; name: string; placeholder?: string; defaultValue?: string }) {
   return (
     <label className="block">
       <span className="text-[11px] uppercase tracking-[0.2em] text-white/45">{label}</span>
       <textarea
         name={name}
         placeholder={placeholder}
+        defaultValue={defaultValue}
         rows={4}
         className="mt-2 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none placeholder:text-white/25 focus:border-yellow-300/60"
       />
@@ -64,9 +66,14 @@ function SubmitButton({ children }: { children: React.ReactNode }) {
   );
 }
 
+function JumpLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return <a href={href} className="rounded-full border border-white/15 px-4 py-2 text-xs font-semibold text-white/80 hover:border-yellow-300/40 hover:bg-yellow-300/10 hover:text-yellow-100">{children}</a>;
+}
+
 export default function OpsWorkspaceClient({ lane, team, fixes }: OpsWorkspaceClientProps) {
   const [status, setStatus] = useState<string>('');
   const laneFixes = useMemo(() => fixes.filter((fix) => fix.status !== 'complete'), [fixes]);
+  const missingConfirmations = team.filter((row) => !row.assignment_confirmed).length;
 
   async function submit(action: string, formData: FormData) {
     setStatus('Saving...');
@@ -82,7 +89,7 @@ export default function OpsWorkspaceClient({ lane, team, fixes }: OpsWorkspaceCl
         body: JSON.stringify({ action, actor: 'Ops OS', lane, payload }),
       });
       const data = await res.json();
-      setStatus(data.ok ? `${action} saved.` : `Error: ${data.error || 'Action failed'}`);
+      setStatus(data.ok ? `${action} saved. Refresh in a few seconds to see updated board data.` : `Error: ${data.error || 'Action failed'}`);
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'Action failed');
     }
@@ -95,42 +102,56 @@ export default function OpsWorkspaceClient({ lane, team, fixes }: OpsWorkspaceCl
           <div className="text-xs uppercase tracking-[0.25em] text-yellow-200/80">Action Rail</div>
           <h2 className="mt-2 text-3xl font-semibold">Run The Lane</h2>
           <p className="mt-2 text-sm leading-6 text-white/55">Create real tasks, contacts, proof reports, confirmations, and blockers. Every submission logs back to MCP Gateway.</p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <JumpLink href="#add-task">Add Task</JumpLink>
+            <JumpLink href="#add-contact">Add Contact</JumpLink>
+            <JumpLink href="#submit-proof">Submit Proof</JumpLink>
+            <JumpLink href="#assign-owner">Confirm Assignment</JumpLink>
+            <JumpLink href="#report-blocker">Report Blocker</JumpLink>
+          </div>
           {status ? <div className="mt-4 rounded-2xl border border-yellow-400/20 bg-yellow-400/10 p-3 text-sm text-yellow-100">{status}</div> : null}
         </section>
 
-        <form action={(fd) => submit('add_task', fd)} className="rounded-3xl border border-white/10 bg-black/25 p-5">
+        <section className="grid gap-4 md:grid-cols-3">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-4"><div className="text-xs uppercase tracking-[0.2em] text-white/45">Missing Confirms</div><div className="mt-2 text-3xl font-semibold">{missingConfirmations}</div></div>
+          <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-4"><div className="text-xs uppercase tracking-[0.2em] text-white/45">Open Fixes</div><div className="mt-2 text-3xl font-semibold">{laneFixes.length}</div></div>
+          <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-4"><div className="text-xs uppercase tracking-[0.2em] text-white/45">Lane</div><div className="mt-2 text-2xl font-semibold capitalize">{lane.replace(/-/g, ' ')}</div></div>
+        </section>
+
+        <form id="add-task" action={(fd) => submit('add_task', fd)} className="scroll-mt-8 rounded-3xl border border-white/10 bg-black/25 p-5">
           <h3 className="text-xl font-semibold">Add Task</h3>
           <div className="mt-4 grid gap-4 md:grid-cols-2">
             <Field label="Title" name="title" placeholder="Call vendor / approve flyer / source leads" />
             <Field label="Assigned To" name="assigned_to" placeholder="Team member" />
             <Field label="Brand" name="brand" placeholder="Help 911 / Casper / Good Times" />
-            <Field label="Priority" name="priority" placeholder="urgent / high" />
+            <Field label="Priority" name="priority" placeholder="urgent / high" defaultValue="urgent" />
+            <input type="hidden" name="project" value={lane} />
           </div>
           <div className="mt-4"><TextArea label="Description" name="description" placeholder="What exactly needs to happen?" /></div>
           <div className="mt-4"><SubmitButton>Create Task</SubmitButton></div>
         </form>
 
-        <form action={(fd) => submit('add_contact', fd)} className="rounded-3xl border border-white/10 bg-black/25 p-5">
+        <form id="add-contact" action={(fd) => submit('add_contact', fd)} className="scroll-mt-8 rounded-3xl border border-white/10 bg-black/25 p-5">
           <h3 className="text-xl font-semibold">Add Black Book Contact</h3>
           <div className="mt-4 grid gap-4 md:grid-cols-2">
             <Field label="Contact Name" name="contact_name" />
             <Field label="IG Handle" name="ig_handle" placeholder="@handle" />
             <Field label="Phone" name="phone" />
             <Field label="Email" name="email" type="email" />
-            <Field label="Company / Event" name="company_or_event" placeholder="Wasted Weekends / Help 911" />
+            <Field label="Company / Event" name="company_or_event" placeholder="Wasted Weekends / Help 911" defaultValue={lane} />
             <Field label="Lead Type" name="lead_type" placeholder="birthday / vendor / sponsor" />
           </div>
           <div className="mt-4"><TextArea label="Notes" name="notes" /></div>
           <div className="mt-4"><SubmitButton>Add Contact</SubmitButton></div>
         </form>
 
-        <form action={(fd) => submit('submit_proof', fd)} className="rounded-3xl border border-white/10 bg-black/25 p-5">
+        <form id="submit-proof" action={(fd) => submit('submit_proof', fd)} className="scroll-mt-8 rounded-3xl border border-white/10 bg-black/25 p-5">
           <h3 className="text-xl font-semibold">Submit Daily Proof</h3>
           <div className="mt-4 grid gap-4 md:grid-cols-2">
             <Field label="Person Name" name="person_name" />
-            <Field label="Company / Event" name="company_or_event" />
-            <Field label="Contacts Made" name="contacts_made" type="number" />
-            <Field label="Responses Received" name="responses_received" type="number" />
+            <Field label="Company / Event" name="company_or_event" defaultValue={lane} />
+            <Field label="Contacts Made" name="contacts_made" type="number" defaultValue="0" />
+            <Field label="Responses Received" name="responses_received" type="number" defaultValue="0" />
           </div>
           <div className="mt-4"><TextArea label="Tomorrow First Move" name="tomorrow_first_move" /></div>
           <div className="mt-4"><SubmitButton>Submit Proof</SubmitButton></div>
@@ -138,7 +159,7 @@ export default function OpsWorkspaceClient({ lane, team, fixes }: OpsWorkspaceCl
       </div>
 
       <aside className="space-y-6">
-        <form action={(fd) => submit('confirm_assignment', fd)} className="rounded-3xl border border-white/10 bg-white/[0.035] p-5">
+        <form id="assign-owner" action={(fd) => submit('confirm_assignment', fd)} className="scroll-mt-8 rounded-3xl border border-white/10 bg-white/[0.035] p-5">
           <div className="text-xs uppercase tracking-[0.25em] text-yellow-200/80">Confirm</div>
           <h3 className="mt-2 text-2xl font-semibold">Confirm Assignment</h3>
           <div className="mt-4 space-y-4">
@@ -151,7 +172,7 @@ export default function OpsWorkspaceClient({ lane, team, fixes }: OpsWorkspaceCl
           <div className="mt-4"><SubmitButton>Confirm Assignment</SubmitButton></div>
         </form>
 
-        <form action={(fd) => submit('mark_blocker', fd)} className="rounded-3xl border border-red-400/20 bg-red-950/20 p-5">
+        <form id="report-blocker" action={(fd) => submit('mark_blocker', fd)} className="scroll-mt-8 rounded-3xl border border-red-400/20 bg-red-950/20 p-5">
           <div className="text-xs uppercase tracking-[0.25em] text-red-200/80">Blocker</div>
           <h3 className="mt-2 text-2xl font-semibold">Report Blocker</h3>
           <div className="mt-4 space-y-4">
