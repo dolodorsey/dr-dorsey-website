@@ -1,7 +1,5 @@
 import { notFound } from "next/navigation";
-import Workspace from "../Workspace";
-import SocialCommandPro from "../social/SocialCommandPro";
-import MarketingCommandPro from "../marketing/MarketingCommandPro";
+import SectionSwitcher from "./SectionSwitcher";
 
 const sections = ["social", "marketing", "approvals", "content-studio", "events", "revenue", "tasks"];
 
@@ -11,7 +9,5 @@ export function generateStaticParams() {
 
 export default function OpsSectionPage({ params }: { params: { section: string } }) {
   if (!sections.includes(params.section)) notFound();
-  if (params.section === "social") return <SocialCommandPro />;
-  if (params.section === "marketing") return <MarketingCommandPro />;
-  return <Workspace section={params.section} />;
+  return <SectionSwitcher section={params.section} />;
 }
