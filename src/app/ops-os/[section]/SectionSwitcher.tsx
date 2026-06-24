@@ -2,10 +2,10 @@
 
 import Workspace from "../Workspace";
 import SocialCommandPro from "../social/SocialCommandPro";
-import MarketingCommandPro from "../marketing/MarketingCommandPro";
+import MarketingCommandLive from "../marketing/MarketingCommandLive";
 
 export default function SectionSwitcher({ section }: { section: string }) {
   if (section === "social") return <SocialCommandPro />;
-  if (section === "marketing") return <MarketingCommandPro />;
+  if (section === "marketing") return <MarketingCommandLive />;
   return <Workspace section={section} />;
 }
