@@ -148,7 +148,7 @@ const divisions: Record<DivisionKey, Division> = {
     title: "Apps / Tech Operating Dashboard",
     intro: "Engineering roadmap, bug tracker, repo status, deployment tracking, prompt generation, and QA lane for every app without merging backlogs.",
     priority: "Internal Tech Scale",
-    route: "/ops-os/apps-tech",
+    route: "/ops-os/tech",
     icon: Rocket,
     metrics: [
       { label: "App lanes", value: "5" },
