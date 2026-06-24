@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Workspace from "../Workspace";
 
-const sections = ["social", "marketing", "approvals", "content-studio", "events", "revenue", "tasks"];
+const sections = ["approvals", "content-studio", "events", "revenue", "tasks"];
 
 export function generateStaticParams() {
   return sections.map((section) => ({ section }));
