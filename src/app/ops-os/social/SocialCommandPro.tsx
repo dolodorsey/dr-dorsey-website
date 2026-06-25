@@ -109,7 +109,7 @@ export default function SocialCommandPro() {
   const load = useCallback(async () => {
     setLoading(true); setError("");
     try {
-      const headers = token() ? { Authorization: `Bearer ${token()}` } : {};
+      const headers: HeadersInit = token() ? { Authorization: `Bearer ${token()}` } : {};
       const [socialResponse, accountResponse] = await Promise.all([
         fetch("/api/ops-os/data?resource=social", { headers }),
         fetch("/api/ops-os/data?resource=social-accounts", { headers }),

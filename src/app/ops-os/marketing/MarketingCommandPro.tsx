@@ -2,7 +2,7 @@
 
 import { DragEvent, FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
-import { BarChart3, CalendarClock, DollarSign, Funnel, Image as ImageIcon, Loader2, Megaphone, Send, UploadCloud } from "lucide-react";
+import { BarChart3, CalendarClock, DollarSign, Filter, Image as ImageIcon, Loader2, Megaphone, Send, UploadCloud } from "lucide-react";
 
 type Row = Record<string, any>;
 
@@ -212,7 +212,7 @@ export default function MarketingCommandPro() {
       </section>
 
       <section className="ops-panel ops-create">
-        <div className="ops-panel-heading"><div><span className="ops-eyebrow">CAMPAIGN BUILDER</span><h2>Copy + Creative + Channel + Funnel Stage</h2></div><Funnel size={22} /></div>
+        <div className="ops-panel-heading"><div><span className="ops-eyebrow">CAMPAIGN BUILDER</span><h2>Copy + Creative + Channel + Funnel Stage</h2></div><Filter size={22} /></div>
         <form className="ops-form" onSubmit={submit}>
           <label><span>Brand *</span><select value={form.brand} onChange={(event) => updateBrand(event.target.value)}>{brands.map((brand) => <option key={brand}>{brand}</option>)}</select></label>
           <label><span>Campaign Name *</span><input required value={form.campaign} onChange={(event) => setForm({ ...form, campaign: event.target.value })} placeholder="Birthday Weekend RSVP Push" /></label>
