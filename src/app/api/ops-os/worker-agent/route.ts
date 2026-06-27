@@ -48,6 +48,15 @@ function argsFor(action: string, key: string, payload: Record<string, unknown>) 
   throw new Error("Unknown worker action.");
 }
 
+function errorMessage(error: unknown) {
+  if (error instanceof Error) return error.message;
+  if (error && typeof error === "object") {
+    const detail = error as { message?: unknown; details?: unknown; hint?: unknown; code?: unknown };
+    return [detail.message, detail.details, detail.hint, detail.code].filter(Boolean).join(" | ") || "Worker agent failed.";
+  }
+  return typeof error === "string" ? error : "Worker agent failed.";
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json() as Body;
@@ -61,6 +70,6 @@ export async function POST(request: NextRequest) {
     if (error) throw error;
     return NextResponse.json({ data });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : "Worker agent failed." }, { status: 400 });
+    return NextResponse.json({ error: errorMessage(error) }, { status: 400 });
   }
 }
