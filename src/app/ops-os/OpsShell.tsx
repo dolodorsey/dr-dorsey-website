@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
-import { BarChart3, Bot, CalendarDays, CheckSquare, Clapperboard, DollarSign, Home, LogIn, LogOut, Megaphone, Menu, Share2, X } from "lucide-react";
+import { BarChart3, Bot, CalendarDays, CheckSquare, Clapperboard, DollarSign, Home, LogIn, LogOut, Megaphone, Menu, RadioTower, Share2, X } from "lucide-react";
 
 const links = [
   ["/ops-os", "Command Center", Home],
@@ -15,6 +15,7 @@ const links = [
   ["/ops-os/events", "Events", CalendarDays],
   ["/ops-os/revenue", "Revenue", DollarSign],
   ["/ops-os/tasks", "Tasks", BarChart3],
+  ["/ops-os/workers", "Workers", RadioTower],
   ["/ops-os/codex", "Codex Sprint", Bot],
 ] as const;
 
