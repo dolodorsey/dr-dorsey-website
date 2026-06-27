@@ -15,10 +15,15 @@ const rpcForAction: Record<string, string> = {
   insert_ig_commenters: "worker_insert_ig_commenters",
   insert_ig_likers: "worker_insert_ig_likers",
   insert_ig_inbound: "worker_insert_ig_inbound",
+  get_ig_creds: "worker_get_ig_creds",
 };
 
 function argsFor(action: string, key: string, payload: Record<string, unknown>) {
   if (action === "claim_sms" || action === "claim_ig_dm" || action === "claim_ig_scrape") return { p_key: key };
+  if (action === "get_ig_creds") return {
+    p_key: key,
+    p_brand_key: payload.brand_key || "dr_dorsey",
+  };
   if (action === "finish_sms") return {
     p_key: key,
     p_id: payload.id,
