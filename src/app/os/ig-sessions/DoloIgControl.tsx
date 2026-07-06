@@ -9,7 +9,6 @@ type ControlResult = {
   ready?: boolean;
   error?: string;
   action?: string;
-  message?: string;
   profile?: {
     ig_username?: string;
     status?: string;
@@ -50,32 +49,54 @@ export default function DoloIgControl() {
 
   return (
     <section className="rounded-3xl border border-yellow-400/20 bg-yellow-400/10 p-5">
-      <div className="text-xs uppercase tracking-[0.25em] text-yellow-100/80">@dolodorsey Control</div>
-      <h2 className="mt-2 text-2xl font-semibold text-white">Get First Account Working</h2>
-      <p className="mt-2 text-sm leading-6 text-white/65">
-        This panel starts the Dolo social control lane, checks readiness, and only queues a controlled test after the account is ready.
+      <div className="text-xs uppercase tracking-[0.25em] text-yellow-100/80">@dolodorsey Connection</div>
+      <h2 className="mt-2 text-2xl font-semibold text-white">What Is Actually Missing</h2>
+      <p className="mt-2 text-sm leading-6 text-white/70">
+        This page cannot directly change Instagram login or two-step status. The system needs one real connection path completed before actions can run.
       </p>
-      <div className="mt-4 flex flex-wrap gap-3">
-        <button
-          onClick={() => run('start')}
-          disabled={Boolean(loading)}
-          className="rounded-full bg-yellow-300 px-5 py-3 text-sm font-semibold text-black transition hover:bg-yellow-200 disabled:opacity-50"
-        >
-          {loading === 'start' ? 'Starting...' : 'Start @dolodorsey Setup'}
-        </button>
+
+      <div className="mt-5 grid gap-3">
+        <div className="rounded-2xl border border-white/10 bg-black/25 p-4">
+          <div className="text-xs uppercase tracking-[0.2em] text-yellow-100/70">Option 1 · Best</div>
+          <div className="mt-2 text-lg font-semibold text-white">Official Meta / Instagram Connect</div>
+          <p className="mt-1 text-sm text-white/60">
+            Connect the IG through Meta Business / Instagram professional tools. This is the cleanest route for posting, comments, insights, and safer automation.
+          </p>
+        </div>
+        <div className="rounded-2xl border border-white/10 bg-black/25 p-4">
+          <div className="text-xs uppercase tracking-[0.2em] text-yellow-100/70">Option 2 · Worker</div>
+          <div className="mt-2 text-lg font-semibold text-white">Worker Session Setup</div>
+          <p className="mt-1 text-sm text-white/60">
+            The worker must create a valid session from a secure machine. That step cannot be completed by a status button on this page.
+          </p>
+        </div>
+        <div className="rounded-2xl border border-white/10 bg-black/25 p-4">
+          <div className="text-xs uppercase tracking-[0.2em] text-yellow-100/70">Option 3 · After Ready</div>
+          <div className="mt-2 text-lg font-semibold text-white">Controlled Test</div>
+          <p className="mt-1 text-sm text-white/60">
+            Once @dolodorsey shows ready, this page can queue a safe test. Until then, it will block the test on purpose.
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-5 rounded-2xl border border-red-400/20 bg-red-950/20 p-4 text-sm text-red-100">
+        Current blocker: <strong>@dolodorsey is still marked needs_2fa / session_saved false</strong>. That cannot be changed truthfully unless the real connection/session step is completed.
+      </div>
+
+      <div className="mt-5 flex flex-wrap gap-3">
         <button
           onClick={() => run('check')}
           disabled={Boolean(loading)}
-          className="rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10 disabled:opacity-50"
+          className="rounded-full bg-yellow-300 px-5 py-3 text-sm font-semibold text-black transition hover:bg-yellow-200 disabled:opacity-50"
         >
-          {loading === 'check' ? 'Checking...' : 'Check @dolodorsey'}
+          {loading === 'check' ? 'Checking...' : 'Check Current Status'}
         </button>
         <button
           onClick={() => run('test')}
           disabled={Boolean(loading)}
           className="rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10 disabled:opacity-50"
         >
-          {loading === 'test' ? 'Testing...' : 'Queue Controlled Test'}
+          {loading === 'test' ? 'Testing...' : 'Queue Test After Ready'}
         </button>
       </div>
 
