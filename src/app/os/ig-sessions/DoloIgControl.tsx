@@ -2,14 +2,15 @@
 
 import { useState } from 'react';
 
-const CONTROL_URL = 'https://dzlmtvodpyhetvektfuo.supabase.co/functions/v1/ops-dolodorsey-ig-control';
+const CONTROL_URL = 'https://dzlmtvodpyhetvektfuo.supabase.co/functions/v1/ops-dolo-social-control';
 
 type ControlResult = {
   ok?: boolean;
   ready?: boolean;
   error?: string;
-  next?: string;
-  account?: {
+  action?: string;
+  message?: string;
+  profile?: {
     ig_username?: string;
     status?: string;
     session_saved?: boolean;
@@ -17,7 +18,7 @@ type ControlResult = {
     actions_today?: number;
     last_login?: string | null;
   };
-  worker?: {
+  lane?: {
     worker_id?: string;
     status?: string;
     last_heartbeat?: string;
@@ -29,7 +30,7 @@ export default function DoloIgControl() {
   const [result, setResult] = useState<ControlResult | null>(null);
   const [loading, setLoading] = useState<string>('');
 
-  async function run(action: 'recheck' | 'queue_test') {
+  async function run(action: 'start' | 'check' | 'test') {
     setLoading(action);
     setResult(null);
     try {
@@ -52,22 +53,29 @@ export default function DoloIgControl() {
       <div className="text-xs uppercase tracking-[0.25em] text-yellow-100/80">@dolodorsey Control</div>
       <h2 className="mt-2 text-2xl font-semibold text-white">Get First Account Working</h2>
       <p className="mt-2 text-sm leading-6 text-white/65">
-        This panel checks the live readiness state and only queues a controlled test after the account is ready. No passwords or codes go through this page.
+        This panel starts the Dolo social control lane, checks readiness, and only queues a controlled test after the account is ready.
       </p>
       <div className="mt-4 flex flex-wrap gap-3">
         <button
-          onClick={() => run('recheck')}
+          onClick={() => run('start')}
           disabled={Boolean(loading)}
           className="rounded-full bg-yellow-300 px-5 py-3 text-sm font-semibold text-black transition hover:bg-yellow-200 disabled:opacity-50"
         >
-          {loading === 'recheck' ? 'Rechecking...' : 'Recheck @dolodorsey'}
+          {loading === 'start' ? 'Starting...' : 'Start @dolodorsey Setup'}
         </button>
         <button
-          onClick={() => run('queue_test')}
+          onClick={() => run('check')}
           disabled={Boolean(loading)}
           className="rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10 disabled:opacity-50"
         >
-          {loading === 'queue_test' ? 'Testing...' : 'Queue Controlled Test'}
+          {loading === 'check' ? 'Checking...' : 'Check @dolodorsey'}
+        </button>
+        <button
+          onClick={() => run('test')}
+          disabled={Boolean(loading)}
+          className="rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10 disabled:opacity-50"
+        >
+          {loading === 'test' ? 'Testing...' : 'Queue Controlled Test'}
         </button>
       </div>
 
@@ -77,13 +85,14 @@ export default function DoloIgControl() {
             <span className={`rounded-full px-3 py-1 text-xs uppercase tracking-[0.18em] ${result.ready ? 'bg-green-400/15 text-green-200' : 'bg-yellow-400/15 text-yellow-100'}`}>
               {result.ready ? 'ready' : 'not ready'}
             </span>
-            <span>{result.ok ? 'Request processed' : result.error || 'Blocked'}</span>
+            <span>{result.ok ? `${result.action || 'request'} processed` : result.error || 'Blocked'}</span>
           </div>
           <div className="mt-3 grid gap-3 md:grid-cols-3">
-            <div className="rounded-xl bg-white/[0.04] p-3"><div className="text-white/40">Account</div><div>{result.account?.ig_username || 'dolodorsey'}</div></div>
-            <div className="rounded-xl bg-white/[0.04] p-3"><div className="text-white/40">Status</div><div>{result.account?.status || result.error || 'unknown'}</div></div>
-            <div className="rounded-xl bg-white/[0.04] p-3"><div className="text-white/40">Session</div><div>{String(result.account?.session_saved ?? false)}</div></div>
+            <div className="rounded-xl bg-white/[0.04] p-3"><div className="text-white/40">Profile</div><div>{result.profile?.ig_username || 'dolodorsey'}</div></div>
+            <div className="rounded-xl bg-white/[0.04] p-3"><div className="text-white/40">Status</div><div>{result.profile?.status || result.error || 'unknown'}</div></div>
+            <div className="rounded-xl bg-white/[0.04] p-3"><div className="text-white/40">Ready</div><div>{String(result.profile?.session_saved ?? false)}</div></div>
           </div>
+          {result.lane ? <div className="mt-3 rounded-xl bg-white/[0.04] p-3">Lane: {result.lane.worker_id} · {result.lane.status}</div> : null}
           {result.queued?.length ? (
             <div className="mt-3 rounded-xl bg-green-400/10 p-3 text-green-100">
               Queued: {result.queued.map((row) => `${row.action_type}:${row.status}`).join(', ')}
