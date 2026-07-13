@@ -5,8 +5,11 @@ const nextConfig = {
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'dzlmtvodpyhetvektfuo.supabase.co' },
-      { protocol: 'https', hostname: 'makeatlantagreatagain.myshopify.com' },
-      { protocol: 'https', hostname: 'stushusa.myshopify.com' },
+      // Bodega storefront (custom domain + Shopify CDN for product images)
+      { protocol: 'https', hostname: 'bodegabodegabodega.com' },
+      { protocol: 'https', hostname: 'www.bodegabodegabodega.com' },
+      { protocol: 'https', hostname: 'cdn.shopify.com' },
+      { protocol: 'https', hostname: 'bodgeaworldwide.myshopify.com' },
     ],
   },
   async redirects() {
