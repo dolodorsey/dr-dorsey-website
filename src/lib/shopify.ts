@@ -53,11 +53,12 @@ export async function getProductByHandle(handle: string): Promise<ShopifyProduct
   return data?.product ?? null;
 }
 
-/** Format a numeric price string as USD dollars, no cents. */
+/** Format a numeric price string as USD. Shows cents if non-zero, whole dollars otherwise. */
 export function formatPrice(price: string | number): string {
   const n = typeof price === 'string' ? parseFloat(price) : price;
   if (Number.isNaN(n)) return '';
-  return '$' + n.toFixed(0);
+  // Show cents when they matter (e.g. $44.44), whole dollars when clean (e.g. $85)
+  return '$' + (n % 1 === 0 ? n.toFixed(0) : n.toFixed(2));
 }
 
 /** Build a cart deep-link that opens Bodega checkout at the custom domain. */

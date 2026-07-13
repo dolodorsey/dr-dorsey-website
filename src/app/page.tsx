@@ -128,7 +128,10 @@ export default function Home(){
       <div style={{position:'relative',zIndex:3,maxWidth:550,padding:'0 clamp(20px,4vw,80px)'}}>
         <div style={{...tg(),marginBottom:20,animation:'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 1.8s both'}}>Dr. Dorsey — The Strategist</div>
         <h1 style={{fontFamily:serif,fontSize:'clamp(32px,6vw,80px)',fontWeight:300,lineHeight:1.1,letterSpacing:'-0.02em',animation:'fadeUp 1s cubic-bezier(0.16,1,0.3,1) 2s both'}}>Live for today.<br/>Plan for <em style={{fontStyle:'italic',color:GB}}>tomorrow.</em><br/>Party <em style={{fontStyle:'italic',color:GB}}>tonight!</em></h1>
-        <a href="#ecosystem" style={{display:'inline-block',fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.25em',textTransform:'uppercase',color:GOLD,border:`1px solid ${GOLD}`,padding:'14px 40px',textDecoration:'none',marginTop:40,animation:'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 2.4s both'}} onClick={e=>{e.preventDefault();go('ecosystem')}}>Enter the Ecosystem</a>
+        <div style={{display:'flex',gap:16,flexWrap:'wrap',marginTop:40,animation:'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 2.4s both'}}>
+          <a href="/book" style={{display:'inline-block',fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.25em',textTransform:'uppercase',color:'#080604',background:GOLD,border:`1px solid ${GOLD}`,padding:'14px 40px',textDecoration:'none',fontWeight:600}}>Buy the Book — $44.44</a>
+          <a href="#ecosystem" style={{display:'inline-block',fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.25em',textTransform:'uppercase',color:GOLD,border:`1px solid ${GOLD}`,padding:'14px 40px',textDecoration:'none'}} onClick={e=>{e.preventDefault();go('ecosystem')}}>Enter the Ecosystem</a>
+        </div>
       </div>
       <div style={{position:'absolute',bottom:0,left:0,width:'100%',height:2,background:`linear-gradient(90deg,transparent,${GOLD},transparent)`,zIndex:3,opacity:0.4}}/>
     </section>
