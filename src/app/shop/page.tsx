@@ -12,23 +12,21 @@ const GOLD = '#D4B87A';
 const GB = '#E8D5A3';
 
 async function loadProducts() {
-  // Pull each collection independently — public JSON endpoints
-  const [book, dorsey, kollective] = await Promise.all([
-    getCollectionProducts('the-book', 4),
-    getCollectionProducts('dr-dorsey', 20),
-    getCollectionProducts('kollective', 20),
-  ]);
+  // Pull ONLY the Dr. Dorsey brand collection — clean brand isolation.
+  // THE BOOK is tagged brand:dr_dorsey so it naturally appears here.
+  const dorsey = await getCollectionProducts('dr-dorsey', 40);
 
-  const bookHero = book[0] || null;
-  // Dedupe: THE BOOK might also appear in dr-dorsey collection
+  // Separate THE BOOK as hero from the rest of Dr. Dorsey signature products
+  const bookHero = dorsey.find(p =>
+    p.tags?.some(t => t.trim() === 'brand:the_book') || /hakuna|matata/i.test(p.title)
+  ) || null;
   const dorseyPieces = dorsey.filter(p => p.id !== bookHero?.id);
-  const kollectivePieces = kollective.filter(p => p.id !== bookHero?.id);
 
-  return { bookHero, dorseyPieces, kollectivePieces };
+  return { bookHero, dorseyPieces };
 }
 
 export default async function ShopPage() {
-  const { bookHero, dorseyPieces, kollectivePieces } = await loadProducts();
+  const { bookHero, dorseyPieces } = await loadProducts();
 
   return (
     <main style={{ background: '#060607', color: '#F5EFE0', minHeight: '100vh', fontFamily: 'DM Sans, sans-serif' }}>
@@ -109,21 +107,12 @@ export default async function ShopPage() {
         </section>
       )}
 
-      {/* ═══ DR. DORSEY ESSENTIALS ═══ */}
+      {/* ═══ DR. DORSEY SIGNATURE ═══ */}
       {dorseyPieces.length > 0 && (
         <ProductSection
           eyebrow="Dr. Dorsey · Signature"
           title="Wear the mindset."
           products={dorseyPieces}
-        />
-      )}
-
-      {/* ═══ KOLLECTIVE ═══ */}
-      {kollectivePieces.length > 0 && (
-        <ProductSection
-          eyebrow="The Kollective · Uniform"
-          title="Empire essentials."
-          products={kollectivePieces}
         />
       )}
 
