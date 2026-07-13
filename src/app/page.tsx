@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { CART_ORIGIN } from '@/lib/shopify';
 
 const SB = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics';
 const W = `${SB}/dr_dorsey/website`;
@@ -7,6 +8,8 @@ const CG = 'https://casper-group.vercel.app/images';
 const DORSEY_W = `${SB}/dr_dorsey/01_logos/DorseyNewW.png`;
 const KHG_EMBLEM = `${SB}/dr_dorsey/01_logos/KOLLECTIVEemblemW.png`;
 const FF_BG = `${SB}/forever_futbol/website/ff-museum-interior.png`;
+const BOOK_URL = `${CART_ORIGIN}/products/hakuna-matata-by-dr-dorsey`;
+const BOOK_COVER = 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/cover-hero.png?v=1783903956';
 
 /* ═══ ALL BRAND LOGOS — MARQUEE (ENLARGED) ═══ */
 const ALL_LOGOS = [
@@ -103,13 +106,14 @@ export default function Home(){
     {/* MOBILE MENU */}
     <div style={{position:'fixed',top:0,right:mob?0:'-100%',width:'100%',height:'100%',background:'#080604',zIndex:999,display:'flex',flexDirection:'column',justifyContent:'center',padding:'96px clamp(20px,4vw,80px)',transition:'right 0.6s cubic-bezier(0.16,1,0.3,1)'}}>
       {['ecosystem','strategist','districts','cities','connect'].map(id=>(<a key={id} href={`#${id}`} style={{fontFamily:serif,fontSize:'clamp(28px,5vw,56px)',fontWeight:300,textDecoration:'none',display:'block',padding:'14px 0',borderBottom:'1px solid rgba(245,240,232,0.06)',color:'#F5F0E8'}} onClick={e=>{e.preventDefault();go(id)}}>{id.charAt(0).toUpperCase()+id.slice(1)}</a>))}
+      <a href={BOOK_URL} style={{fontFamily:serif,fontSize:'clamp(28px,5vw,56px)',fontWeight:300,textDecoration:'none',display:'block',padding:'14px 0',borderBottom:'1px solid rgba(245,240,232,0.06)',color:GOLD}}>Hakuna Matata</a>
       <a href="/brands" style={{fontFamily:serif,fontSize:'clamp(28px,5vw,56px)',fontWeight:300,textDecoration:'none',display:'block',padding:'14px 0',borderBottom:'1px solid rgba(245,240,232,0.06)',color:GOLD}}>Brands</a>
     </div>
 
     {/* NAV */}
     <nav style={{position:'fixed',top:0,left:0,width:'100%',zIndex:1000,padding:'20px clamp(20px,4vw,80px)',display:'flex',alignItems:'center',justifyContent:'space-between',transition:'background 0.4s,backdrop-filter 0.4s',...(scrolled?{background:'rgba(8,6,4,0.9)',backdropFilter:'blur(20px)'}:{})}}>
       <a href="#" style={{display:'flex',alignItems:'center',gap:12,textDecoration:'none',color:'#F5F0E8'}}><img src={DORSEY_W} alt="" style={{height:28,objectFit:'contain'}}/></a>
-      <ul className="desk-nav" style={{display:'flex',gap:36,listStyle:'none'}}>{['ecosystem','strategist','districts','cities'].map(id=>(<li key={id}><a href={`#${id}`} className="na" style={{...tg('rgba(245,240,232,0.5)'),textDecoration:'none',letterSpacing:'0.15em'}} onClick={e=>{e.preventDefault();go(id)}}>{id}</a></li>))}<li><a href="/brands" className="na" style={{...tg(GOLD),textDecoration:'none',letterSpacing:'0.15em'}}>Brands</a></li></ul>
+      <ul className="desk-nav" style={{display:'flex',gap:36,listStyle:'none'}}>{['ecosystem','strategist','districts','cities'].map(id=>(<li key={id}><a href={`#${id}`} className="na" style={{...tg('rgba(245,240,232,0.5)'),textDecoration:'none',letterSpacing:'0.15em'}} onClick={e=>{e.preventDefault();go(id)}}>{id}</a></li>))}<li><a href={BOOK_URL} className="na" style={{...tg(GOLD),textDecoration:'none',letterSpacing:'0.15em'}}>Book</a></li><li><a href="/brands" className="na" style={{...tg(GOLD),textDecoration:'none',letterSpacing:'0.15em'}}>Brands</a></li></ul>
       <a href="#connect" className="desk-cta" style={{fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',letterSpacing:'0.2em',textTransform:'uppercase',color:'#080604',background:GOLD,padding:'9px 22px',textDecoration:'none'}} onClick={e=>{e.preventDefault();go('connect')}}>Enter</a>
       <button className="mob-btn" style={{display:'none',background:'none',border:'none',cursor:'pointer',width:26,height:18,position:'relative'}} onClick={()=>setMob(!mob)}>
         <span style={{display:'block',width:'100%',height:1,background:'#F5F0E8',position:'absolute',left:0,top:mob?8:2,transition:'all 0.3s',transform:mob?'rotate(45deg)':'none'}}/>
@@ -125,13 +129,20 @@ export default function Home(){
         <video ref={vRef} style={{width:'100%',height:'100%',objectFit:'cover',opacity:videoReady?0.65:0,transition:'opacity 2s',position:'relative',zIndex:1}} autoPlay muted loop playsInline preload="auto"><source src={`${W}/hero-video.mp4`} type="video/mp4"/></video>
         <div style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',zIndex:2,background:'linear-gradient(180deg,rgba(8,6,4,0.3) 0%,rgba(8,6,4,0.05) 35%,rgba(8,6,4,0.05) 55%,rgba(8,6,4,0.7) 85%,#080604 100%)'}}/>
       </div>
-      <div style={{position:'relative',zIndex:3,maxWidth:550,padding:'0 clamp(20px,4vw,80px)'}}>
-        <div style={{...tg(),marginBottom:20,animation:'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 1.8s both'}}>Dr. Dorsey — The Strategist</div>
-        <h1 style={{fontFamily:serif,fontSize:'clamp(32px,6vw,80px)',fontWeight:300,lineHeight:1.1,letterSpacing:'-0.02em',animation:'fadeUp 1s cubic-bezier(0.16,1,0.3,1) 2s both'}}>Live for today.<br/>Plan for <em style={{fontStyle:'italic',color:GB}}>tomorrow.</em><br/>Party <em style={{fontStyle:'italic',color:GB}}>tonight!</em></h1>
-        <div style={{display:'flex',gap:16,flexWrap:'wrap',marginTop:40,animation:'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 2.4s both'}}>
-          <a href="/book" style={{display:'inline-block',fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.25em',textTransform:'uppercase',color:'#080604',background:GOLD,border:`1px solid ${GOLD}`,padding:'14px 40px',textDecoration:'none',fontWeight:600}}>Buy the Book — $44.44</a>
-          <a href="#ecosystem" style={{display:'inline-block',fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.25em',textTransform:'uppercase',color:GOLD,border:`1px solid ${GOLD}`,padding:'14px 40px',textDecoration:'none'}} onClick={e=>{e.preventDefault();go('ecosystem')}}>Enter the Ecosystem</a>
+      <div className="hero-content" style={{position:'relative',zIndex:3,width:'100%',maxWidth:1400,margin:'0 auto',padding:'80px clamp(20px,4vw,80px) 20px',display:'grid',gridTemplateColumns:'minmax(0,1fr) minmax(220px,0.72fr)',alignItems:'center',gap:'clamp(28px,6vw,100px)'}}>
+        <div style={{maxWidth:620}}>
+          <div style={{...tg(),marginBottom:20,animation:'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 1.8s both'}}>Dr. Dorsey — The Strategist</div>
+          <h1 style={{fontFamily:serif,fontSize:'clamp(32px,6vw,80px)',fontWeight:300,lineHeight:1.1,letterSpacing:'-0.02em',animation:'fadeUp 1s cubic-bezier(0.16,1,0.3,1) 2s both'}}>Live for today.<br/>Plan for <em style={{fontStyle:'italic',color:GB}}>tomorrow.</em><br/>Party <em style={{fontStyle:'italic',color:GB}}>tonight!</em></h1>
+          <div className="hero-actions" style={{display:'flex',gap:16,flexWrap:'wrap',marginTop:40,animation:'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 2.4s both'}}>
+            <a href={BOOK_URL} className="book-btn" style={{display:'inline-block',fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.25em',textTransform:'uppercase',color:'#080604',background:GOLD,border:`1px solid ${GOLD}`,padding:'14px 40px',textDecoration:'none',fontWeight:600,transition:'all 0.35s'}}>Buy Hakuna Matata — $44.44</a>
+            <a href="#ecosystem" style={{display:'inline-block',fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.25em',textTransform:'uppercase',color:GOLD,border:`1px solid ${GOLD}`,padding:'14px 40px',textDecoration:'none'}} onClick={e=>{e.preventDefault();go('ecosystem')}}>Enter the Ecosystem</a>
+          </div>
         </div>
+        <a href={BOOK_URL} className="hero-book" aria-label="Buy Hakuna Matata by Dr. Dorsey" style={{justifySelf:'center',textDecoration:'none',color:'#F5F0E8',textAlign:'center',animation:'fadeUp 1s cubic-bezier(0.16,1,0.3,1) 2.2s both'}}>
+          <div className="hero-book-kicker" style={{...tg(GB),letterSpacing:'0.28em',marginBottom:12}}>New Release · By Dr. Dorsey</div>
+          <img src={BOOK_COVER} alt="Hakuna Matata by Dr. Dorsey book cover" style={{display:'block',width:'clamp(190px,24vw,360px)',maxHeight:'58vh',objectFit:'contain',filter:'drop-shadow(0 28px 42px rgba(0,0,0,0.58)) drop-shadow(0 0 36px rgba(212,184,122,0.16))',transition:'transform 0.45s cubic-bezier(0.16,1,0.3,1)'}}/>
+          <div className="hero-book-shopline" style={{fontFamily:mono,fontSize:10,letterSpacing:'0.24em',textTransform:'uppercase',color:GOLD,marginTop:14}}>Shop now · $44.44 →</div>
+        </a>
       </div>
       <div style={{position:'absolute',bottom:0,left:0,width:'100%',height:2,background:`linear-gradient(90deg,transparent,${GOLD},transparent)`,zIndex:3,opacity:0.4}}/>
     </section>
@@ -236,7 +247,7 @@ export default function Home(){
         <Rv><div style={{width:40,height:1,background:'#080604',marginBottom:16}}/></Rv>
         <Rv><h2 style={{fontFamily:serif,fontSize:'clamp(26px,4.5vw,56px)',fontWeight:300,lineHeight:1.1,letterSpacing:'-0.02em',marginBottom:48,color:'#080604'}}>Eight cities. One <em style={{fontStyle:'italic',color:'#8B7340'}}>frequency.</em></h2></Rv>
         <div className="city-grid" style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:2}}>
-          {CITIES.map((c,i)=>(<Rv key={c.n} d={i*0.06}><div className="city-c" style={{position:'relative',overflow:'hidden',background:'#000',minHeight:c.hq?260:140,...(c.hq?{gridColumn:'span 2',gridRow:'span 2'}:{})}}><img src={c.bg} alt="" style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',objectFit:'cover',opacity:0.6,transition:'opacity 0.5s,transform 6s cubic-bezier(0.37,0,0.63,1)'}}/><div style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',background:'linear-gradient(180deg,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.5) 100%)'}}/><div style={{position:'relative',zIndex:1,padding:c.hq?'clamp(32px,4vw,56px)':'clamp(20px,2vw,32px)',height:'100%',display:'flex',flexDirection:'column',justifyContent:'flex-end'}}>{c.hq&&<span style={{fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.35em',textTransform:'uppercase',color:GB,marginBottom:12}}>Headquarters</span>}<div style={{fontFamily:serif,fontSize:c.hq?'clamp(32px,5vw,64px)':'clamp(18px,2.5vw,28px)',fontWeight:400,color:'#F5F0E8'}}>{c.n}</div><div style={{fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',letterSpacing:'0.3em',textTransform:'uppercase',color:GB,marginTop:2}}>{c.s}</div><div style={{fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',color:'rgba(245,240,232,0.5)',marginTop:6}}>{c.c}</div></div></div></Rv>))}
+          {CITIES.map((c,i)=>(<Rv key={c.n} d={i*0.06}><div className={`city-c${c.hq?' city-hq':''}`} style={{position:'relative',overflow:'hidden',background:'#000',minHeight:c.hq?260:140,...(c.hq?{gridColumn:'span 2',gridRow:'span 2'}:{})}}><img src={c.bg} alt="" style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',objectFit:'cover',opacity:0.6,transition:'opacity 0.5s,transform 6s cubic-bezier(0.37,0,0.63,1)'}}/><div style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',background:'linear-gradient(180deg,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.5) 100%)'}}/><div style={{position:'relative',zIndex:1,padding:c.hq?'clamp(32px,4vw,56px)':'clamp(20px,2vw,32px)',height:'100%',display:'flex',flexDirection:'column',justifyContent:'flex-end'}}>{c.hq&&<span style={{fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.35em',textTransform:'uppercase',color:GB,marginBottom:12}}>Headquarters</span>}<div style={{fontFamily:serif,fontSize:c.hq?'clamp(32px,5vw,64px)':'clamp(18px,2.5vw,28px)',fontWeight:400,color:'#F5F0E8'}}>{c.n}</div><div style={{fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',letterSpacing:'0.3em',textTransform:'uppercase',color:GB,marginTop:2}}>{c.s}</div><div style={{fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',color:'rgba(245,240,232,0.5)',marginTop:6}}>{c.c}</div></div></div></Rv>))}
         </div>
       </div>
     </section>
@@ -270,9 +281,10 @@ export default function Home(){
       .city-c:hover img{opacity:0.75!important;transform:scale(1.03)!important}
       .consult-card:hover{border-color:rgba(139,115,64,0.3)!important;box-shadow:0 12px 40px rgba(0,0,0,0.1)!important;transform:translateY(-2px)}
       .book-btn:hover{transform:translateY(-3px)!important;box-shadow:0 8px 40px rgba(212,184,122,0.5),0 0 80px rgba(212,184,122,0.2)!important}
+      .hero-book:hover img{transform:translateY(-8px) rotate(-1deg)}
       .logo-i:hover{opacity:1!important}
       @media(max-width:1024px){.eco-grid{grid-template-columns:1fr!important}.dist-grid{grid-template-columns:repeat(2,1fr)!important}.city-grid{grid-template-columns:repeat(2,1fr)!important}.consult-grid{grid-template-columns:repeat(2,1fr)!important}.strat-hero{grid-template-columns:1fr!important}}
-      @media(max-width:768px){.desk-nav{display:none!important}.desk-cta{display:none!important}.mob-btn{display:block!important}.dist-grid{grid-template-columns:1fr!important}.city-grid{grid-template-columns:1fr!important}.consult-grid{grid-template-columns:1fr!important}.city-c[style*="grid-column"]{grid-column:span 1!important;grid-row:span 1!important}.ftr{flex-direction:column!important;gap:16px!important;text-align:center!important}.strat-hero{grid-template-columns:1fr!important}}
+      @media(max-width:768px){.desk-nav{display:none!important}.desk-cta{display:none!important}.mob-btn{display:block!important}.hero-content{grid-template-columns:1fr!important;gap:18px!important;padding-top:84px!important}.hero-content h1{font-size:clamp(30px,10vw,48px)!important}.hero-actions{margin-top:24px!important}.hero-book img{width:clamp(125px,35vw,175px)!important;max-height:24vh!important}.hero-book-kicker{display:none}.hero-book-shopline{margin-top:6px!important;font-size:8px!important}.dist-grid{grid-template-columns:1fr!important}.city-grid{grid-template-columns:1fr!important}.consult-grid{grid-template-columns:1fr!important}.city-hq{grid-column:span 1!important;grid-row:span 1!important}.ftr{flex-direction:column!important;gap:16px!important;text-align:center!important}.strat-hero{grid-template-columns:1fr!important}}
     `}</style>
   </>;
 }
