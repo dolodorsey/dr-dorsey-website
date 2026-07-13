@@ -1,9 +1,12 @@
 // Dr. Dorsey Shop — public Shopify JSON endpoints (no token needed).
-// Fetches from bodgeaworldwide.myshopify.com canonical host (JSON reliable),
-// checkout links point at branded custom domain www.bodegabodegabodega.com.
+// Fetches from bodgeaworldwide.myshopify.com canonical host (JSON reliable).
+// Checkout links ALSO use bodgeaworldwide.myshopify.com — the custom domain
+// bodegabodegabodega.com is currently pointed at a legacy Kalles/Halloween theme.
+// TODO: reconnect bodegabodegabodega.com to bodgeaworldwide store in Shopify Admin,
+// then flip CHECKOUT_HOST back.
 
 const FETCH_HOST = 'bodgeaworldwide.myshopify.com';
-const CHECKOUT_HOST = 'www.bodegabodegabodega.com';
+const CHECKOUT_HOST = 'bodgeaworldwide.myshopify.com';
 const FETCH_ORIGIN = `https://${FETCH_HOST}`;
 export const CART_ORIGIN = `https://${CHECKOUT_HOST}`;
 

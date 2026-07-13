@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import { CART_ORIGIN } from '@/lib/shopify';
 
 export const metadata = {
   title: 'Hakuna Matata — The Book by Dr. Dorsey',
@@ -6,11 +7,8 @@ export const metadata = {
 };
 
 // /book is a bookmarkable, shareable 1-click buy link.
-// Sends visitors DIRECTLY to the product page on the Bodega store
-// (bodegabodegabodega.com custom domain -> bodgeaworldwide.myshopify.com backend).
-const BOOK_PRODUCT_URL =
-  'https://www.bodegabodegabodega.com/products/hakuna-matata-by-dr-dorsey';
-
+// Uses CART_ORIGIN from lib/shopify so this stays in sync with the shop page
+// whenever the Bodega storefront host changes.
 export default function BookPage() {
-  redirect(BOOK_PRODUCT_URL);
+  redirect(`${CART_ORIGIN}/products/hakuna-matata-by-dr-dorsey`);
 }
