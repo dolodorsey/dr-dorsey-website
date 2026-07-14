@@ -4,10 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
-import { BarChart3, Bot, CalendarDays, CheckSquare, Clapperboard, DollarSign, Home, LogIn, LogOut, Megaphone, Menu, RadioTower, Share2, X } from "lucide-react";
+import { BarChart3, Bot, CalendarDays, CheckSquare, Clapperboard, Database, DollarSign, Home, LogIn, LogOut, Megaphone, Menu, RadioTower, Share2, X } from "lucide-react";
 
 const links = [
   ["/ops-os", "Command Center", Home],
+  ["/ops-os/master-database", "Master Database", Database],
   ["/ops-os/social", "Social Media", Share2],
   ["/ops-os/marketing", "Marketing", Megaphone],
   ["/ops-os/approvals", "Approvals", CheckSquare],
