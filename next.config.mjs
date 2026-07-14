@@ -11,30 +11,18 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // Keep secondary Ops OS domain from becoming a split-source dashboard.
+      // There is one canonical operations dashboard. Keep the public sites and
+      // worker APIs on this project, but send every legacy Ops OS page to the
+      // matching page in KHG Command Center.
       {
         source: '/ops-os',
-        has: [{ type: 'host', value: 'thedoctordorsey.com' }],
-        destination: 'https://dr-dorsey-website.vercel.app/ops-os',
-        permanent: false,
+        destination: 'https://thedoctordorsey.com/',
+        permanent: true,
       },
       {
         source: '/ops-os/:path*',
-        has: [{ type: 'host', value: 'thedoctordorsey.com' }],
-        destination: 'https://dr-dorsey-website.vercel.app/ops-os/:path*',
-        permanent: false,
-      },
-      {
-        source: '/ops-os',
-        has: [{ type: 'host', value: 'www.thedoctordorsey.com' }],
-        destination: 'https://dr-dorsey-website.vercel.app/ops-os',
-        permanent: false,
-      },
-      {
-        source: '/ops-os/:path*',
-        has: [{ type: 'host', value: 'www.thedoctordorsey.com' }],
-        destination: 'https://dr-dorsey-website.vercel.app/ops-os/:path*',
-        permanent: false,
+        destination: 'https://thedoctordorsey.com/:path*',
+        permanent: true,
       },
       // drdorseyevents.com root -> /events
       {
