@@ -23,7 +23,7 @@ export default function EnterpriseShell({ children }: { children: React.ReactNod
       <Link href="/enterprise" className="ent-mark"><span>KHG</span><div><strong>ENTERPRISE</strong><small>COMMAND LAYER</small></div></Link>
       <div className="ent-nav-label">CONTROL ROOMS</div>
       <nav>{links.map(([href, title, Icon]) => <Link key={href} href={href} className={pathname === href || (href !== "/enterprise" && pathname.startsWith(href)) ? "active" : ""}><Icon size={17} /><span>{title}</span><ChevronRight size={14} /></Link>)}</nav>
-      <div className="ent-sidebar-foot"><span>PRODUCTION</span><strong>Enterprise layer online</strong><Link href="/ops-os">Open Ops OS</Link></div>
+      <div className="ent-sidebar-foot"><span>PRODUCTION</span><strong>Enterprise layer online</strong><Link href="https://thedoctordorsey.com">Open KHG Command Center</Link></div>
     </aside>
     <main className="ent-main">{children}</main>
   </div>;
