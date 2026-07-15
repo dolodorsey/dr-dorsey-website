@@ -147,6 +147,29 @@ export default function Home(){
       <div style={{position:'absolute',bottom:0,left:0,width:'100%',height:2,background:`linear-gradient(90deg,transparent,${GOLD},transparent)`,zIndex:3,opacity:0.4}}/>
     </section>
 
+    {/* ═══ HAKUNA MATATA — BOOK FEATURE ═══ */}
+    <section className="book-feature" id="hakuna-matata">
+      <div className="book-feature-art"><div className="book-glow"/><span className="book-edition">THE DEFINITIVE DR. DORSEY EDITION</span><img src={BOOK_COVER} alt="Hakuna Matata by Dr. Dorsey"/><div className="book-price">$44.44</div></div>
+      <div className="book-feature-copy">
+        <div style={tg('#8B7340')}>THE BOOK BEHIND THE PHILOSOPHY</div>
+        <h2>Hakuna<br/><em>Matata.</em></h2>
+        <div className="book-rule"/>
+        <p className="book-lead">A philosophy for living with intention, building without fear, and refusing to postpone the life you were meant to experience.</p>
+        <blockquote>“Live for today. Plan for tomorrow. Party tonight.”</blockquote>
+        <div className="book-pillars"><div><b>01</b><strong>Perspective</strong><span>Turn pressure into clarity.</span></div><div><b>02</b><strong>Purpose</strong><span>Build the life behind the goals.</span></div><div><b>03</b><strong>Presence</strong><span>Stop waiting to start living.</span></div></div>
+        <a href={BOOK_URL} className="book-feature-cta">Get the book <span>→</span></a>
+      </div>
+    </section>
+
+    {/* ═══ COURSES + CONSULTATIONS — HOMEPAGE FEATURE ═══ */}
+    <section className="learn-feature">
+      <div className="learn-feature-head"><div><span>THE DOCTOR DORSEY ASCENSION SYSTEM</span><h2>Knowledge is cheap.<br/><em>Execution changes everything.</em></h2></div><p>Courses, cohorts, private strategy, and enterprise-level advisory—organized by the depth of transformation your next move actually requires.</p></div>
+      <div className="learn-level-preview">
+        {[{n:'01',name:'Essentials',sub:'Self-paced execution',price:'$49–$499'},{n:'02',name:'Premium',sub:'Interactive cohort',price:'$500–$2K'},{n:'03',name:'Elite',sub:'Private application',price:'$2K–$5K'},{n:'04',name:'Mastery',sub:'Certification + licensing',price:'$5K–$10K+'}].map((level)=><a key={level.n} href="/learn#course-levels"><b>{level.n}</b><span>{level.sub}</span><h3>{level.name}</h3><strong>{level.price}</strong><i>Explore level →</i></a>)}
+      </div>
+      <div className="learn-feature-actions"><a href="/learn">Explore courses + consultations</a><a href="/learn#consultations">Choose direct access</a></div>
+    </section>
+
     {/* ═══ LOGO MARQUEE — ENLARGED ═══ */}
     <div style={{padding:'36px 0',background:'#080604',borderBottom:'1px solid rgba(245,240,232,0.04)',overflow:'hidden'}}>
       <div style={{display:'flex',width:'max-content'}} className="marquee-logos">
@@ -270,7 +293,7 @@ export default function Home(){
       <div style={{display:'flex',gap:24}}>{[{n:'Instagram',u:'https://instagram.com/dolodorsey'},{n:'Twitter',u:'https://twitter.com/mrdolodorsey'},{n:'Facebook',u:'https://facebook.com/DoLoDorsey'}].map(s=>(<a key={s.n} href={s.u} target="_blank" rel="noopener noreferrer" style={{fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',letterSpacing:'0.1em',color:'rgba(8,6,4,0.3)',textDecoration:'none'}}>{s.n}</a>))}</div>
     </footer>
 
-    <style>{`
+    <style suppressHydrationWarning>{`
       @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
       @keyframes marqueeScroll{from{transform:translateX(0)}to{transform:translateX(-33.333%)}}
       .marquee-logos{animation:marqueeScroll 80s linear infinite}
@@ -283,8 +306,27 @@ export default function Home(){
       .book-btn:hover{transform:translateY(-3px)!important;box-shadow:0 8px 40px rgba(212,184,122,0.5),0 0 80px rgba(212,184,122,0.2)!important}
       .hero-book:hover img{transform:translateY(-8px) rotate(-1deg)}
       .logo-i:hover{opacity:1!important}
+      .book-feature{display:grid;grid-template-columns:minmax(360px,.9fr) minmax(0,1.1fr);min-height:820px;background:#E9DFCF;color:#080604;overflow:hidden}
+      .book-feature-art{position:relative;display:flex;align-items:center;justify-content:center;min-height:760px;background:radial-gradient(circle at 50% 48%,rgba(212,184,122,.42),transparent 28%),linear-gradient(135deg,#0A0805,#171008);overflow:hidden}
+      .book-feature-art:before{content:'';position:absolute;inset:30px;border:1px solid rgba(232,213,163,.15)}
+      .book-feature-art:after{content:'HAKUNA MATATA';position:absolute;left:-20px;bottom:32px;font-family:${serif};font-size:clamp(70px,10vw,150px);font-weight:300;line-height:.7;letter-spacing:-.06em;color:rgba(232,213,163,.045);white-space:nowrap}
+      .book-feature-art img{position:relative;z-index:2;width:min(54%,390px);max-height:650px;object-fit:contain;filter:drop-shadow(0 40px 52px rgba(0,0,0,.62));transform:rotate(-2deg)}
+      .book-edition{position:absolute;z-index:3;left:48px;top:50px;font-family:${mono};font-size:8px;letter-spacing:.28em;color:${GB};writing-mode:vertical-rl}
+      .book-price{position:absolute;z-index:3;right:44px;bottom:44px;width:92px;height:92px;border:1px solid rgba(232,213,163,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:${serif};font-size:24px;color:${GB};background:rgba(8,6,4,.55);backdrop-filter:blur(10px)}
+      .book-glow{position:absolute;width:360px;height:360px;border:1px solid rgba(232,213,163,.18);border-radius:50%}.book-glow:before,.book-glow:after{content:'';position:absolute;border:1px solid rgba(232,213,163,.1);border-radius:50%;inset:-70px}.book-glow:after{inset:-140px}
+      .book-feature-copy{padding:clamp(70px,8vw,130px);display:flex;flex-direction:column;justify-content:center}
+      .book-feature-copy h2{font-family:${serif};font-size:clamp(70px,9vw,138px);font-weight:300;line-height:.7;letter-spacing:-.055em;margin:38px 0}.book-feature-copy h2 em{color:#8B7340}
+      .book-rule{width:100%;height:1px;background:linear-gradient(90deg,#8B7340,transparent);margin:12px 0 30px}.book-lead{max-width:680px;font-size:clamp(17px,1.5vw,21px);line-height:1.75;color:rgba(8,6,4,.67)}
+      .book-feature-copy blockquote{font-family:${serif};font-size:clamp(28px,3vw,44px);font-style:italic;line-height:1.15;color:#5F4A26;margin:36px 0}
+      .book-pillars{display:grid;grid-template-columns:repeat(3,1fr);border-block:1px solid rgba(8,6,4,.13);margin-bottom:38px}.book-pillars>div{padding:22px 18px 22px 0;border-right:1px solid rgba(8,6,4,.13);display:flex;flex-direction:column}.book-pillars>div+div{padding-left:22px}.book-pillars>div:last-child{border:0}.book-pillars b{font-family:${mono};font-size:8px;color:#8B7340}.book-pillars strong{font-family:${serif};font-size:24px;margin:8px 0 3px}.book-pillars span{font-size:11px;color:rgba(8,6,4,.48)}
+      .book-feature-cta{align-self:flex-start;background:#080604;color:${GB};padding:17px 28px;text-decoration:none;font-family:${mono};font-size:9px;letter-spacing:.2em;text-transform:uppercase}.book-feature-cta span{margin-left:34px}
+      .learn-feature{padding:clamp(90px,10vw,150px) clamp(20px,5vw,86px);background:#0C0906;position:relative;overflow:hidden}.learn-feature:before{content:'';position:absolute;right:-15vw;top:-28vw;width:60vw;height:60vw;border:1px solid rgba(212,184,122,.08);border-radius:50%;box-shadow:0 0 0 8vw rgba(212,184,122,.025),0 0 0 16vw rgba(212,184,122,.015)}
+      .learn-feature-head{position:relative;display:grid;grid-template-columns:1.25fr .75fr;gap:80px;align-items:end;max-width:1450px;margin:0 auto 68px}.learn-feature-head span{font-family:${mono};font-size:9px;letter-spacing:.32em;color:${GOLD}}.learn-feature-head h2{font-family:${serif};font-size:clamp(48px,6.5vw,92px);font-weight:300;line-height:.92;letter-spacing:-.04em;margin:20px 0 0}.learn-feature-head h2 em{color:${GB}}.learn-feature-head p{font-size:16px;line-height:1.8;color:rgba(245,240,232,.5);max-width:500px}
+      .learn-level-preview{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:1450px;margin:0 auto}.learn-level-preview a{min-height:390px;padding:30px;display:flex;flex-direction:column;color:#F5F0E8;text-decoration:none;background:linear-gradient(160deg,rgba(212,184,122,.09),rgba(255,255,255,.02));border:1px solid rgba(212,184,122,.18);transition:transform .4s,border-color .4s,background .4s;overflow:hidden;position:relative}.learn-level-preview a:hover{transform:translateY(-9px);border-color:rgba(232,213,163,.55);background:linear-gradient(160deg,rgba(212,184,122,.16),rgba(255,255,255,.03))}.learn-level-preview b{position:absolute;right:12px;top:-36px;font-family:${serif};font-size:140px;font-weight:300;color:rgba(212,184,122,.06)}.learn-level-preview span{position:relative;font-family:${mono};font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:${GOLD}}.learn-level-preview h3{position:relative;font-family:${serif};font-size:46px;font-weight:400;margin:90px 0 12px}.learn-level-preview strong{font-family:${serif};font-size:25px;color:${GB}}.learn-level-preview i{margin-top:auto;font-family:${mono};font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:${GOLD};font-style:normal}
+      .learn-feature-actions{position:relative;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:48px}.learn-feature-actions a{padding:16px 24px;border:1px solid ${GOLD};color:#080604;background:${GOLD};font-family:${mono};font-size:9px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none}.learn-feature-actions a+ a{background:transparent;color:${GB}}
       @media(max-width:1024px){.eco-grid{grid-template-columns:1fr!important}.dist-grid{grid-template-columns:repeat(2,1fr)!important}.city-grid{grid-template-columns:repeat(2,1fr)!important}.consult-grid{grid-template-columns:repeat(2,1fr)!important}.strat-hero{grid-template-columns:1fr!important}}
-      @media(max-width:768px){.desk-nav{display:none!important}.desk-cta{display:none!important}.mob-btn{display:block!important}.hero-content{grid-template-columns:1fr!important;gap:18px!important;padding-top:84px!important}.hero-content h1{font-size:clamp(30px,10vw,48px)!important}.hero-actions{margin-top:24px!important}.hero-book img{width:clamp(125px,35vw,175px)!important;max-height:24vh!important}.hero-book-kicker{display:none}.hero-book-shopline{margin-top:6px!important;font-size:8px!important}.dist-grid{grid-template-columns:1fr!important}.city-grid{grid-template-columns:1fr!important}.consult-grid{grid-template-columns:1fr!important}.city-hq{grid-column:span 1!important;grid-row:span 1!important}.ftr{flex-direction:column!important;gap:16px!important;text-align:center!important}.strat-hero{grid-template-columns:1fr!important}}
+      @media(max-width:1100px){.book-feature{grid-template-columns:.8fr 1.2fr}.book-feature-copy{padding:70px 50px}.learn-level-preview{grid-template-columns:repeat(2,1fr)}.learn-feature-head{grid-template-columns:1fr;gap:28px}}
+      @media(max-width:768px){.desk-nav{display:none!important}.desk-cta{display:none!important}.mob-btn{display:block!important}.hero-content{grid-template-columns:1fr!important;gap:18px!important;padding-top:84px!important}.hero-content h1{font-size:clamp(30px,10vw,48px)!important}.hero-actions{margin-top:24px!important}.hero-book img{width:clamp(125px,35vw,175px)!important;max-height:24vh!important}.hero-book-kicker{display:none}.hero-book-shopline{margin-top:6px!important;font-size:8px!important}.book-feature{grid-template-columns:1fr}.book-feature-art{min-height:590px}.book-feature-copy{padding:70px 22px}.book-feature-copy h2{font-size:clamp(72px,24vw,106px)}.book-pillars{grid-template-columns:1fr}.book-pillars>div,.book-pillars>div+div{padding:18px 0;border-right:0;border-bottom:1px solid rgba(8,6,4,.12)}.learn-feature{padding-inline:20px}.learn-level-preview{grid-template-columns:1fr}.learn-level-preview a{min-height:310px}.dist-grid{grid-template-columns:1fr!important}.city-grid{grid-template-columns:1fr!important}.consult-grid{grid-template-columns:1fr!important}.city-hq{grid-column:span 1!important;grid-row:span 1!important}.ftr{flex-direction:column!important;gap:16px!important;text-align:center!important}.strat-hero{grid-template-columns:1fr!important}}
     `}</style>
   </>;
 }

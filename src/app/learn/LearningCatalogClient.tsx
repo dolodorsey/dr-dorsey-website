@@ -84,10 +84,34 @@ export default function LearningCatalogClient({ courses, courseLevels, consultat
 
   return <main className="ddLearn">
     <nav className="ddLearnNav"><Link href="/">DR. DORSEY</Link><div><a href="#course-levels">Course levels</a><a href="#consultations">Consultations</a><a href="#hybrid">Hybrid</a></div></nav>
-    <section className="ddLearnHero"><div className="ddOrb orbOne"/><div className="ddOrb orbTwo"/><span>THE DOCTOR DORSEY ASCENSION SYSTEM</span><h1>Choose the level<br/>your next move <em>requires.</em></h1><p>Knowledge when you need the framework. Accountability when you need momentum. Direct access when the decision is expensive.</p><div className="ddHeroActions"><a href="#course-levels">Explore course levels</a><a href="#consultations" className="outline">Choose consultation access</a></div></section>
+    <section className="ddLearnHero">
+      <div className="ddHeroBackdrop"/>
+      <div className="ddHeroCopy">
+        <span>THE DOCTOR DORSEY ASCENSION SYSTEM</span>
+        <h1>Learn it.<br/>Install it.<br/><em>Master it.</em></h1>
+        <p>A commercial education and private advisory system for operators who are done collecting information and ready to build the thing.</p>
+        <div className="ddHeroActions"><a href="#course-levels">Enter the academy</a><a href="#consultations" className="outline">Work with Dr. Dorsey</a></div>
+        <div className="ddHeroProof"><div><strong>04</strong><span>Course levels</span></div><div><strong>05</strong><span>Access levels</span></div><div><strong>29</strong><span>Operating lessons</span></div></div>
+      </div>
+      <div className="ddHeroMedia" aria-hidden="true">
+        <img src="https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/dr_dorsey/website/thesis-bg.jpg" alt=""/>
+        <div className="ddHeroMediaShade"/>
+        <div className="ddHeroStamp"><span>BUILT FROM</span><strong>57+</strong><span>REAL VENTURES</span></div>
+        <div className="ddHeroQuote">“The blueprint isn’t theoretical.<br/><em>It’s running.</em>”</div>
+      </div>
+    </section>
     {!readiness.stripeConfigured ? <div className="ddNotice">Secure checkout is temporarily in configuration mode. No payment will be collected until the connection is verified.</div> : null}
 
     <section className="ddAscension"><span>THE ASCENSION LADDER</span><div className="ddLadder"><div><b>00</b><strong>Free Entry</strong><small>Orientation and guides</small></div><div><b>01</b><strong>Essentials</strong><small>$49-$499</small></div><div><b>02</b><strong>Premium</strong><small>$500-$2K</small></div><div><b>03</b><strong>Elite</strong><small>$2K-$5K</small></div><div><b>04</b><strong>Mastery</strong><small>$5K-$10K+</small></div></div></section>
+
+    <section className="ddChoose">
+      <div className="ddChooseIntro"><span>CHOOSE BY OUTCOME</span><h2>Three ways into<br/>the <em>system.</em></h2><p>Do not buy more access than the decision requires. Start with the format that matches the work in front of you.</p></div>
+      <div className="ddChooseGrid">
+        <a href="#self-paced"><b>01</b><span>Learn</span><h3>I need the framework.</h3><p>Self-paced operating courses with practical assignments and reusable assets.</p><strong>Browse courses →</strong></a>
+        <a href="#consultations"><b>02</b><span>Decide</span><h3>I need expert direction.</h3><p>Focused access to Dr. Dorsey for one expensive decision, roadmap, or buildout.</p><strong>Choose access →</strong></a>
+        <a href="#hybrid"><b>03</b><span>Transform</span><h3>I need implementation.</h3><p>Cohorts, accelerators, mentorship, and certification with accountability built in.</p><strong>Explore programs →</strong></a>
+      </div>
+    </section>
 
     <section id="course-levels" className="ddSection"><header><span>COURSE LEVELS</span><h2>Four depths of transformation.</h2><p>Start with the amount of support the outcome actually requires. Move upward as the cost of delay and complexity increase.</p></header><div className="ddLevelGrid">{courseLevels.map((level: any) => <LevelCard key={level.id} level={level} program={programByLevel.get(level.id)} open={openOffer === `level-${level.id}`} onToggle={() => setOpenOffer(openOffer === `level-${level.id}` ? null : `level-${level.id}`)}/>)}</div></section>
 
