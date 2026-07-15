@@ -12,9 +12,9 @@ const BOOK_COVER = 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/cover
 
 const SIGNATURE_EVENTS = [
   { name:'Sole Exchange', label:'Sneaker culture · Community', image:`${SB}/email-newsletters/sole-exchange-flyer-v3-air-force-1.png`, logo:`${SB}/email-newsletters/sole-exchange-logo.png` },
-  { name:'Diaspora in ATL', label:'Global culture · Atlanta', image:`${W}/atl-street.jpg`, monogram:'DIASPORA\nIN ATL' },
+  { name:'Diaspora in ATL', label:'Music · Food · Culture', image:'/images/events/diaspora/main-festival.jpg', monogram:'DIASPORA\nIN ATL' },
   { name:'Grown-ish', label:'Culture · Nightlife', image:`${SB}/grownish/03_event_flyers/grownish-jcole-falloff-skyline.jpg`, logo:`${SB}/grownish/logo/grownish-logo-primary.jpg` },
-  { name:'Taste of Art', label:'Art · Music · Experience', image:`${SB}/taste_of_art/03_event_flyers/TASTE_MAIN2.JPEG`, logo:`${SB}/taste_of_art/01_logos/TASTE_OF_ART_LOGO.png` },
+  { name:'Taste of Art', label:'Diaspora in ATL · Art Show', image:'/images/events/diaspora/taste-of-art.jpg', logo:`${SB}/taste_of_art/01_logos/TASTE_OF_ART_LOGO.png` },
   { name:'Freedom Fest', label:'Culture · Independence', image:`${W}/garden-district.jpg`, monogram:'FREEDOM\nFEST', past:true },
 ];
 
