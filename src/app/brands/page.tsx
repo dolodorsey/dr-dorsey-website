@@ -151,16 +151,16 @@ export default function BrandsPage(){
     {/* NAV */}
     <nav style={{position:'fixed',top:0,left:0,width:'100%',zIndex:1000,padding:'20px clamp(20px,4vw,80px)',display:'flex',alignItems:'center',justifyContent:'space-between',transition:'background 0.4s,backdrop-filter 0.4s',...(scrolled?{background:'rgba(8,6,4,0.95)',backdropFilter:'blur(20px)'}:{})}}>
       <a href="/" style={{display:'flex',alignItems:'center',gap:12,textDecoration:'none',color:'#F5F0E8'}}><img src={DORSEY_W} alt="" style={{height:28,objectFit:'contain'}}/></a>
-      <a href="/" style={{fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',letterSpacing:'0.2em',textTransform:'uppercase',color:GOLD,textDecoration:'none'}}>← Back to Home</a>
+      <a href="/" style={{fontFamily:mono,fontSize:'clamp(9px,0.8vw,11px)',letterSpacing:'0.17em',textTransform:'uppercase',color:GOLD,textDecoration:'none'}}>← Back to Home</a>
     </nav>
 
     {/* HERO */}
-    <section style={{position:'relative',minHeight:'60vh',display:'flex',flexDirection:'column',justifyContent:'center',background:'#080604',padding:'clamp(120px,15vw,200px) clamp(20px,4vw,80px) clamp(60px,8vw,100px)'}}>
+    <section style={{position:'relative',minHeight:'52vh',display:'flex',flexDirection:'column',justifyContent:'center',background:'#080604',padding:'clamp(110px,12vw,160px) clamp(20px,4vw,80px) clamp(50px,6vw,80px)'}}>
       <div style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',opacity:0.15}}><img src={`${W}/hero-bg.jpg`} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}}/></div>
       <div style={{position:'relative',zIndex:1,maxWidth:900}}>
         <div style={{fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.5em',textTransform:'uppercase',color:GOLD,marginBottom:24}}>The Kollective Hospitality Group</div>
         <h1 style={{fontFamily:serif,fontSize:'clamp(36px,7vw,96px)',fontWeight:300,lineHeight:1.05,letterSpacing:'-0.02em',marginBottom:24}}>Every Brand.<br/>Every <em style={{fontStyle:'italic',color:GB}}>Division.</em></h1>
-        <p style={{fontFamily:mono,fontSize:'clamp(10px,0.9vw,13px)',color:'rgba(245,240,232,0.4)',lineHeight:1.8,maxWidth:600}}>57+ ventures across 7 divisions. Events, food, museums, retail, technology, wellness, and community — all under one ecosystem. Here&rsquo;s everything.</p>
+        <p style={{fontSize:'clamp(16px,1.25vw,19px)',color:'rgba(245,240,232,0.7)',lineHeight:1.65,maxWidth:700}}>57+ ventures across seven divisions. Events, food, museums, retail, technology, wellness, and community—all operating inside one connected ecosystem.</p>
         <div style={{display:'flex',gap:32,marginTop:40}}>
           {[{n:'57+',l:'Brands'},{n:'7',l:'Divisions'},{n:'8',l:'Cities'},{n:'15+',l:'Event Brands'}].map(s=>(
             <div key={s.l}><div style={{fontFamily:serif,fontSize:'clamp(24px,3vw,44px)',fontWeight:300,color:GB,lineHeight:1}}>{s.n}</div><div style={{fontFamily:mono,fontSize:7,letterSpacing:'0.25em',textTransform:'uppercase',color:'rgba(232,213,163,0.4)',marginTop:4}}>{s.l}</div></div>
@@ -171,7 +171,7 @@ export default function BrandsPage(){
 
     {/* DIVISIONS */}
     {DIVISIONS.map((div,di)=>(
-      <section key={div.name} style={{padding:'clamp(80px,10vw,140px) clamp(20px,4vw,80px)',background:di%2===0?'#080604':'#F5F0E8',color:di%2===0?'#F5F0E8':'#080604'}}>
+      <section key={div.name} style={{padding:'clamp(58px,7vw,96px) clamp(20px,4vw,80px)',background:di%2===0?'#080604':'#F5F0E8',color:di%2===0?'#F5F0E8':'#080604'}}>
         <div style={{maxWidth:1400,margin:'0 auto'}}>
           <Rv>
             <div style={{display:'flex',alignItems:'center',gap:16,marginBottom:12}}>
@@ -180,29 +180,27 @@ export default function BrandsPage(){
             </div>
           </Rv>
           <Rv><h2 style={{fontFamily:serif,fontSize:'clamp(32px,5vw,64px)',fontWeight:300,lineHeight:1.1,marginBottom:16}}>{div.name}</h2></Rv>
-          <Rv><p style={{fontSize:'clamp(13px,1.1vw,16px)',color:di%2===0?'rgba(245,240,232,0.45)':'rgba(8,6,4,0.45)',lineHeight:1.8,maxWidth:700,marginBottom:56}}>{div.desc}</p></Rv>
+          <Rv><p style={{fontSize:'clamp(15px,1.15vw,18px)',color:di%2===0?'rgba(245,240,232,0.68)':'rgba(8,6,4,0.68)',lineHeight:1.65,maxWidth:800,marginBottom:36}}>{div.desc}</p></Rv>
 
-          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(320px,1fr))',gap:2}}>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(290px,1fr))',gap:12}}>
             {div.brands.map((b,bi)=>(
               <Rv key={b.name} d={bi*0.04}>
                 <div className="brand-card" style={{
-                  padding:'clamp(28px,3vw,40px)',
-                  background:di%2===0?'rgba(245,240,232,0.03)':'rgba(8,6,4,0.02)',
-                  border:`1px solid ${di%2===0?'rgba(245,240,232,0.06)':'rgba(8,6,4,0.06)'}`,
+                  padding:'clamp(22px,2.2vw,30px)',
+                  background:di%2===0?'rgba(245,240,232,0.055)':'rgba(255,255,255,0.48)',
+                  border:`1px solid ${di%2===0?'rgba(245,240,232,0.12)':'rgba(8,6,4,0.12)'}`,
                   height:'100%',
                   transition:'all 0.4s',
                   cursor:'pointer',
                   position:'relative',
                   overflow:'hidden'
                 }}>
-                  <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',marginBottom:16}}>
-                    <div style={{flex:1}}>
-                      <div style={{fontFamily:serif,fontSize:'clamp(20px,2vw,28px)',fontWeight:700,marginBottom:8,lineHeight:1.2}}>{b.name}</div>
-                      <span style={statusBadge(b.status)}>{b.status}</span>
-                    </div>
-                    {b.logo && <img src={b.logo} alt="" style={{width:48,height:48,objectFit:'contain',opacity:0.7,flexShrink:0,marginLeft:12}}/>}
+                  {b.logo && !b.logo.startsWith(CG) ? <div className="brand-logo-stage"><img src={b.logo} alt={`${b.name} logo`}/></div> : <div className="brand-logo-stage brand-wordmark"><span>{b.name}</span></div>}
+                  <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:12,margin:'20px 0 12px'}}>
+                    <div style={{fontFamily:serif,fontSize:'clamp(24px,2vw,31px)',fontWeight:600,lineHeight:1.05}}>{b.name}</div>
+                    <span style={statusBadge(b.status)}>{b.status}</span>
                   </div>
-                  <p style={{fontSize:'clamp(11px,0.9vw,13px)',color:di%2===0?'rgba(245,240,232,0.45)':'rgba(8,6,4,0.45)',lineHeight:1.7,marginBottom:16}}>{b.desc}</p>
+                  <p style={{fontSize:'clamp(14px,1vw,16px)',color:di%2===0?'rgba(245,240,232,0.68)':'rgba(8,6,4,0.68)',lineHeight:1.6,marginBottom:18}}>{b.desc}</p>
                   <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
                     {b.website && <a href={b.website} target="_blank" rel="noopener noreferrer" style={{fontFamily:mono,fontSize:8,letterSpacing:'0.1em',color:div.color,textDecoration:'none',borderBottom:`1px solid ${div.color}`}}>Visit Site →</a>}
                     {b.ig && <span style={{fontFamily:mono,fontSize:8,letterSpacing:'0.1em',color:di%2===0?'rgba(245,240,232,0.3)':'rgba(8,6,4,0.3)'}}>{b.ig}</span>}
@@ -216,7 +214,7 @@ export default function BrandsPage(){
     ))}
 
     {/* CTA */}
-    <section style={{padding:'clamp(80px,10vw,140px) clamp(20px,4vw,80px)',background:'#080604',textAlign:'center'}}>
+    <section style={{padding:'clamp(58px,7vw,96px) clamp(20px,4vw,80px)',background:'#080604',textAlign:'center'}}>
       <div style={{maxWidth:700,margin:'0 auto'}}>
         <Rv>
           <div style={{fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.5em',textTransform:'uppercase',color:GOLD,marginBottom:24}}>Join the Ecosystem</div>
@@ -233,9 +231,13 @@ export default function BrandsPage(){
       <a href="/" style={{fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',letterSpacing:'0.15em',textTransform:'uppercase',color:GOLD,textDecoration:'none'}}>Home</a>
     </footer>
 
-    <style>{`
+    <style suppressHydrationWarning>{`
       @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-      .brand-card:hover{border-color:rgba(212,184,122,0.3)!important;transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,0.15)}
+      .brand-card:hover{border-color:rgba(212,184,122,0.55)!important;transform:translateY(-6px);box-shadow:0 18px 48px rgba(0,0,0,0.18)}
+      .brand-logo-stage{height:118px;display:flex;align-items:center;justify-content:center;padding:20px;background:#F3EDE3;border:1px solid rgba(8,6,4,.1)}
+      .brand-logo-stage img{width:auto!important;height:auto!important;max-width:180px!important;max-height:78px!important;object-fit:contain!important;opacity:1!important;filter:drop-shadow(0 5px 10px rgba(0,0,0,.16))}
+      .brand-logo-stage.brand-wordmark{background:linear-gradient(145deg,#16110B,#080604)}
+      .brand-wordmark span{font-family:${serif};font-size:clamp(23px,2vw,31px);font-weight:600;text-align:center;color:${GB}}
       @media(max-width:768px){.brand-card{min-height:auto!important}}
     `}</style>
   </>;

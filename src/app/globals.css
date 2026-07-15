@@ -16,7 +16,7 @@
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-body{background:var(--base);color:var(--light);font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(13px,1.1vw,16px);line-height:1.6;overflow-x:hidden}
+body{background:var(--base);color:var(--light);font-family:'DM Sans',sans-serif;font-weight:400;font-size:clamp(15px,1.1vw,17px);line-height:1.65;overflow-x:hidden}
 ::selection{background:var(--gold);color:var(--base)}
 img{display:block;max-width:100%}
 a{color:inherit}
