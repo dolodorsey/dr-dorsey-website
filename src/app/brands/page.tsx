@@ -33,29 +33,6 @@ interface Division {
 
 const DIVISIONS: Division[] = [
   {
-    name: 'HugLife × ICONIC',
-    tagline: 'The Night District',
-    desc: 'Multi-city event production across 15+ brands. From intimate 200-cap experiences to 2,000+ capacity festivals. Every event is a world — its own aesthetic, its own energy, its own universe.',
-    color: '#C8A96E',
-    brands: [
-      { name:'NOIR', desc:'Dark luxury. Dress code enforced. Opulence meets underworld aesthetic. Multi-city.', logo:`${SB}/noir_event/01_logos/NOIR_LOGO.png`, website:'https://noir-event.vercel.app', ig:'@thenoir.worldwide', status:'flagship' },
-      { name:'Taste of Art', desc:'Art-meets-nightlife. Live painting, immersive installations, creative energy. Multi-city.', logo:`${SB}/taste_of_art/01_logos/TASTE_OF_ART_LOGO.png`, website:'https://taste-of-art-event.vercel.app', ig:'@thetasteofart', status:'flagship' },
-      { name:'REMIX', desc:'DJ culture. Music-first. Turntables, crates, and culture. Multi-city touring.', logo:`${SB}/remix_event/01_logos/REMIX_LOGO.png`, website:'https://remix-event.vercel.app', ig:'@notyouraveragerremix', status:'active' },
-      { name:'Gangsta Gospel', desc:'Where the sacred meets the streets. Gospel-infused nightlife. Juneteenth flagship.', logo:`${SB}/gangsta_gospel/01_logos/GANGSTA_GOSPEL_LOGO.png`, website:'https://gangsta-gospel-event.vercel.app', ig:'@thegangstagospel', status:'seasonal' },
-      { name:'Paparazzi', desc:'Red carpet energy. Flash photography. Celebrity treatment for everyone.', logo:`${SB}/paparazzi/01_logos/PAPARAZZI_LOGO.png`, website:'https://paparazzi-event.vercel.app', ig:'@thepaparazzipopup', status:'active' },
-      { name:"Sunday's Best", desc:'Brunch meets nightlife. Best dressed. Gospel brunch energy with a twist.', logo:`${SB}/sundays_best/01_logos/SUNDAYS_BEST_LOGO.png`, website:'https://sundays-best-event.vercel.app', ig:'@the.sundays.best', status:'active' },
-      { name:'WRST BHVR', desc:'Napkin Wars. Crime scene aesthetic. The most unhinged event brand in the portfolio.', logo:`${SB}/wrst_bhvr_event/01_logos/WRST_BHVR_LOGO.png`, website:'https://wrst-bhvr-event.vercel.app', ig:'@thewrstbhvr', status:'seasonal' },
-      { name:'Pawchella', desc:'Dog festival. Coachella for canines. August in Atlanta.', logo:`${SB}/pawchella/01_logos/PAWCHELLA_LOGO.png`, website:'https://pawchella-event.vercel.app', status:'seasonal' },
-      { name:'Beauty & The Beast', desc:'Couples event. Elegance and edge. September in Atlanta.', logo:`${SB}/beauty_beast/01_logos/BEAUTY_BEAST_LOGO.png`, status:'seasonal' },
-      { name:'Black Ball', desc:'Black tie gala. End of year elegance. November in Atlanta.', logo:`${SB}/black_ball/01_logos/BLACK_BALL_LOGO.png`, status:'seasonal' },
-      { name:'Underground King', desc:'Raw underground energy. Hip-hop culture. Street meets stage.', logo:`${SB}/underground_king/01_logos/UNDERGROUND_KING_LOGO.png`, website:'https://underground-king-event.vercel.app', status:'active' },
-      { name:'Kulture', desc:'Cultural celebration. Diversity, music, art, food — all collide.', website:'https://the-kulture-event.vercel.app', status:'active' },
-      { name:'Cravings', desc:'Food-forward event experience. Tastings, pop-ups, culinary culture.', website:'https://cravings-event.vercel.app', status:'active' },
-      { name:'Soul Sessions', desc:'Live music. Intimate performances. Acoustic sets and rare moments.', website:'https://soul-sessions-event.vercel.app', status:'active' },
-      { name:'Cinco de Drinko', desc:'Taco Tuesday Edition. Touring format. Entry = a pour. 5PM–midnight.', logo:`${SB}/cinco_de_drinko/01_logos/CINCO_DE_DRINKO_LOGO.png`, status:'active' },
-    ]
-  },
-  {
     name: 'Casper Group',
     tagline: 'The Culinary District',
     desc: '10 restaurant and food concepts under one roof. Ghost kitchen model. Multi-unit expansion ready. Every concept has its own identity, menu, and brand DNA.',
@@ -123,7 +100,6 @@ const DIVISIONS: Division[] = [
       { name:'Good Times', desc:'City concierge + nightlife discovery app. 837 venues across 10 cities. Events, shows, sports, dining. AI-powered recommendations.', logo:`${SB}/good_times/00-brand-assets/logos/good-times-logo-gold-black.png`, website:'https://good-times-app.vercel.app', status:'flagship' },
       { name:'S.O.S Roadside', desc:'On-demand roadside assistance. Fast dispatch. 24/7 coverage.', status:'active' },
       { name:'On Call', desc:'Professional services on-demand. Connect with experts instantly.', status:'development' },
-      { name:'Sole Exchange', desc:'Sneaker authentication and trading platform. Culture meets commerce.', status:'development' },
     ]
   },
   {
@@ -132,11 +108,12 @@ const DIVISIONS: Division[] = [
     desc: 'Community impact through sports, education, and wellness.',
     color: '#8E6B5A',
     brands: [
-      { name:'Sole Exchange', desc:'Sneaker culture meets community. Trading events, authentication, youth programs.', status:'active' },
       { name:'Let\'s Talk About It', desc:'Mental health awareness. Community conversations. Breaking stigma.', status:'active' },
     ]
   },
 ];
+
+const BRAND_COUNT = DIVISIONS.reduce((total, division) => total + division.brands.length, 0);
 
 const statusBadge = (s: string) => {
   const colors: Record<string,string> = { flagship:'#C8A96E', active:'rgba(111,168,111,0.9)', seasonal:'rgba(111,143,168,0.9)', development:'rgba(168,111,111,0.7)' };
@@ -160,12 +137,13 @@ export default function BrandsPage(){
       <div style={{position:'relative',zIndex:1,maxWidth:900}}>
         <div style={{fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.5em',textTransform:'uppercase',color:GOLD,marginBottom:24}}>The Kollective Hospitality Group</div>
         <h1 style={{fontFamily:serif,fontSize:'clamp(36px,7vw,96px)',fontWeight:300,lineHeight:1.05,letterSpacing:'-0.02em',marginBottom:24}}>Every Brand.<br/>Every <em style={{fontStyle:'italic',color:GB}}>Division.</em></h1>
-        <p style={{fontSize:'clamp(16px,1.25vw,19px)',color:'rgba(245,240,232,0.7)',lineHeight:1.65,maxWidth:700}}>57+ ventures across seven divisions. Events, food, museums, retail, technology, wellness, and community—all operating inside one connected ecosystem.</p>
+        <p style={{fontSize:'clamp(16px,1.25vw,19px)',color:'rgba(245,240,232,0.7)',lineHeight:1.65,maxWidth:700}}>Operating companies and products across six divisions—food, museums, retail, technology, wellness, and community. Event properties now live in their own dedicated portfolio.</p>
         <div style={{display:'flex',gap:32,marginTop:40}}>
-          {[{n:'57+',l:'Brands'},{n:'7',l:'Divisions'},{n:'8',l:'Cities'},{n:'15+',l:'Event Brands'}].map(s=>(
+          {[{n:String(BRAND_COUNT),l:'Brands'},{n:'6',l:'Divisions'},{n:'8',l:'Cities'},{n:'34',l:'Departments'}].map(s=>(
             <div key={s.l}><div style={{fontFamily:serif,fontSize:'clamp(24px,3vw,44px)',fontWeight:300,color:GB,lineHeight:1}}>{s.n}</div><div style={{fontFamily:mono,fontSize:7,letterSpacing:'0.25em',textTransform:'uppercase',color:'rgba(232,213,163,0.4)',marginTop:4}}>{s.l}</div></div>
           ))}
         </div>
+        <a href="/events#signature-events" style={{display:'inline-block',marginTop:34,fontFamily:mono,fontSize:9,letterSpacing:'0.18em',textTransform:'uppercase',color:GOLD,textDecoration:'none',borderBottom:`1px solid ${GOLD}`,paddingBottom:4}}>Looking for our events? Explore event properties →</a>
       </div>
     </section>
 
