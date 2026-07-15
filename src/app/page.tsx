@@ -6,7 +6,6 @@ const SB = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/br
 const W = `${SB}/dr_dorsey/website`;
 const CG = 'https://casper-group.vercel.app/images';
 const DORSEY_W = `${SB}/dr_dorsey/01_logos/DorseyNewW.png`;
-const KHG_EMBLEM = `${SB}/dr_dorsey/01_logos/KOLLECTIVEemblemW.png`;
 const FF_BG = `${SB}/forever_futbol/website/ff-museum-interior.png`;
 const BOOK_URL = `${CART_ORIGIN}/products/hakuna-matata-by-dr-dorsey`;
 const BOOK_COVER = 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/cover-hero.png?v=1783903956';
@@ -107,13 +106,14 @@ export default function Home(){
     <div style={{position:'fixed',top:0,right:mob?0:'-100%',width:'100%',height:'100%',background:'#080604',zIndex:999,display:'flex',flexDirection:'column',justifyContent:'center',padding:'96px clamp(20px,4vw,80px)',transition:'right 0.6s cubic-bezier(0.16,1,0.3,1)'}}>
       {['ecosystem','strategist','districts','cities','connect'].map(id=>(<a key={id} href={`#${id}`} style={{fontFamily:serif,fontSize:'clamp(28px,5vw,56px)',fontWeight:300,textDecoration:'none',display:'block',padding:'14px 0',borderBottom:'1px solid rgba(245,240,232,0.06)',color:'#F5F0E8'}} onClick={e=>{e.preventDefault();go(id)}}>{id.charAt(0).toUpperCase()+id.slice(1)}</a>))}
       <a href={BOOK_URL} style={{fontFamily:serif,fontSize:'clamp(28px,5vw,56px)',fontWeight:300,textDecoration:'none',display:'block',padding:'14px 0',borderBottom:'1px solid rgba(245,240,232,0.06)',color:GOLD}}>Hakuna Matata</a>
+      <a href="/learn" style={{fontFamily:serif,fontSize:'clamp(28px,5vw,56px)',fontWeight:300,textDecoration:'none',display:'block',padding:'14px 0',borderBottom:'1px solid rgba(245,240,232,0.06)',color:GOLD}}>Courses + Consultations</a>
       <a href="/brands" style={{fontFamily:serif,fontSize:'clamp(28px,5vw,56px)',fontWeight:300,textDecoration:'none',display:'block',padding:'14px 0',borderBottom:'1px solid rgba(245,240,232,0.06)',color:GOLD}}>Brands</a>
     </div>
 
     {/* NAV */}
     <nav style={{position:'fixed',top:0,left:0,width:'100%',zIndex:1000,padding:'20px clamp(20px,4vw,80px)',display:'flex',alignItems:'center',justifyContent:'space-between',transition:'background 0.4s,backdrop-filter 0.4s',...(scrolled?{background:'rgba(8,6,4,0.9)',backdropFilter:'blur(20px)'}:{})}}>
       <a href="#" style={{display:'flex',alignItems:'center',gap:12,textDecoration:'none',color:'#F5F0E8'}}><img src={DORSEY_W} alt="" style={{height:28,objectFit:'contain'}}/></a>
-      <ul className="desk-nav" style={{display:'flex',gap:36,listStyle:'none'}}>{['ecosystem','strategist','districts','cities'].map(id=>(<li key={id}><a href={`#${id}`} className="na" style={{...tg('rgba(245,240,232,0.5)'),textDecoration:'none',letterSpacing:'0.15em'}} onClick={e=>{e.preventDefault();go(id)}}>{id}</a></li>))}<li><a href={BOOK_URL} className="na" style={{...tg(GOLD),textDecoration:'none',letterSpacing:'0.15em'}}>Book</a></li><li><a href="/brands" className="na" style={{...tg(GOLD),textDecoration:'none',letterSpacing:'0.15em'}}>Brands</a></li></ul>
+      <ul className="desk-nav" style={{display:'flex',gap:36,listStyle:'none'}}>{['ecosystem','strategist','districts','cities'].map(id=>(<li key={id}><a href={`#${id}`} className="na" style={{...tg('rgba(245,240,232,0.5)'),textDecoration:'none',letterSpacing:'0.15em'}} onClick={e=>{e.preventDefault();go(id)}}>{id}</a></li>))}<li><a href="/learn" className="na" style={{...tg(GOLD),textDecoration:'none',letterSpacing:'0.15em'}}>Learn</a></li><li><a href={BOOK_URL} className="na" style={{...tg(GOLD),textDecoration:'none',letterSpacing:'0.15em'}}>Book</a></li><li><a href="/brands" className="na" style={{...tg(GOLD),textDecoration:'none',letterSpacing:'0.15em'}}>Brands</a></li></ul>
       <a href="#connect" className="desk-cta" style={{fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',letterSpacing:'0.2em',textTransform:'uppercase',color:'#080604',background:GOLD,padding:'9px 22px',textDecoration:'none'}} onClick={e=>{e.preventDefault();go('connect')}}>Enter</a>
       <button className="mob-btn" style={{display:'none',background:'none',border:'none',cursor:'pointer',width:26,height:18,position:'relative'}} onClick={()=>setMob(!mob)}>
         <span style={{display:'block',width:'100%',height:1,background:'#F5F0E8',position:'absolute',left:0,top:mob?8:2,transition:'all 0.3s',transform:mob?'rotate(45deg)':'none'}}/>
@@ -195,8 +195,8 @@ export default function Home(){
               ))}
             </div>
             <div style={{display:'flex',gap:16,justifyContent:'center',flexWrap:'wrap'}}>
-              <a href="https://doctordorsey.com" className="book-btn" style={{fontFamily:serif,fontSize:'clamp(14px,1.6vw,20px)',fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#080604',background:`linear-gradient(135deg,${GOLD},${GB},${GOLD})`,padding:'clamp(16px,1.8vw,22px) clamp(36px,4vw,60px)',textDecoration:'none',display:'inline-block',position:'relative',overflow:'hidden',boxShadow:'0 4px 30px rgba(212,184,122,0.3),0 0 60px rgba(212,184,122,0.1)',transition:'all 0.4s cubic-bezier(0.16,1,0.3,1)'}}>MY WEBSITE</a>
-              <a href="https://buy.stripe.com/00wfZi0uvgZygSceyddUY01" className="book-btn" style={{fontFamily:serif,fontSize:'clamp(14px,1.6vw,20px)',fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#F5F0E8',background:'transparent',border:`2px solid ${GOLD}`,padding:'clamp(16px,1.8vw,22px) clamp(36px,4vw,60px)',textDecoration:'none',display:'inline-block',position:'relative',overflow:'hidden',boxShadow:'0 4px 30px rgba(212,184,122,0.15)',transition:'all 0.4s cubic-bezier(0.16,1,0.3,1)'}}>BOOK DIRECTLY</a>
+              <a href="/learn" className="book-btn" style={{fontFamily:serif,fontSize:'clamp(14px,1.6vw,20px)',fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#080604',background:`linear-gradient(135deg,${GOLD},${GB},${GOLD})`,padding:'clamp(16px,1.8vw,22px) clamp(36px,4vw,60px)',textDecoration:'none',display:'inline-block',position:'relative',overflow:'hidden',boxShadow:'0 4px 30px rgba(212,184,122,0.3),0 0 60px rgba(212,184,122,0.1)',transition:'all 0.4s cubic-bezier(0.16,1,0.3,1)'}}>COURSES + CONSULTATIONS</a>
+              <a href="/learn#consultations" className="book-btn" style={{fontFamily:serif,fontSize:'clamp(14px,1.6vw,20px)',fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#F5F0E8',background:'transparent',border:`2px solid ${GOLD}`,padding:'clamp(16px,1.8vw,22px) clamp(36px,4vw,60px)',textDecoration:'none',display:'inline-block',position:'relative',overflow:'hidden',boxShadow:'0 4px 30px rgba(212,184,122,0.15)',transition:'all 0.4s cubic-bezier(0.16,1,0.3,1)'}}>CHOOSE ACCESS LEVEL</a>
             </div>
             <div style={{fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',letterSpacing:'0.2em',textTransform:'uppercase',color:'rgba(245,240,232,0.2)',marginTop:24}}>1-on-1 with Dr. Dorsey · By Invitation</div>
           </div>
