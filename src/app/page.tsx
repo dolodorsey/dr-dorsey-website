@@ -12,7 +12,7 @@ const BOOK_COVER = 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/cover
 
 const SIGNATURE_EVENTS = [
   { name:'Sole Exchange', label:'Sneaker culture · Community', image:`${SB}/email-newsletters/sole-exchange-flyer-v3-air-force-1.png`, logo:`${SB}/email-newsletters/sole-exchange-logo.png`, href:'https://soleexchangeworldwide.com', destination:'Visit website' },
-  { name:'Diaspora in ATL', label:'Music · Food · Culture', image:'/images/events/diaspora/main-festival.jpg', monogram:'DIASPORA\nIN ATL', href:'https://diasporainatl.com', destination:'Visit website' },
+  { name:'Diaspora in ATL', label:'Music · Food · Culture', image:'/images/events/diaspora/main-festival.jpg', monogram:'DIASPORA\nIN ATL', href:'https://www.eventbrite.com/o/good-times-121163507813', destination:'View on Eventbrite' },
   { name:'Grown-ish', label:'Culture · Nightlife', image:`${SB}/grownish/03_event_flyers/grownish-jcole-falloff-skyline.jpg`, logo:`${SB}/grownish/logo/grownish-logo-primary.jpg`, href:'https://www.eventbrite.com/e/grownish-j-cole-the-fall-off-official-after-party-tickets-1993764565486', destination:'View on Eventbrite' },
   { name:'Taste of Art', label:'Diaspora in ATL · Art Show', image:'/images/events/diaspora/taste-of-art.jpg', logo:`${SB}/taste_of_art/01_logos/TASTE_OF_ART_LOGO.png`, href:'https://thatasteofart.com', destination:'Visit website' },
   { name:'Freedom Fest', label:'Culture · Independence', image:`${W}/garden-district.jpg`, monogram:'FREEDOM\nFEST', past:true, href:'https://freedom-fest.vercel.app', destination:'View event archive' },
