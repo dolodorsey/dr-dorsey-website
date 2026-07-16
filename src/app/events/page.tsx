@@ -54,7 +54,7 @@ const SIGNATURE_EVENTS = [
   { name:'Sole Exchange', category:'Sneaker culture · Community', image:`${IMG}/email-newsletters/sole-exchange-flyer-v3-air-force-1.png`, logo:`${IMG}/email-newsletters/sole-exchange-logo.png`, href:'https://soleexchangeworldwide.com', destination:'Visit website' },
   { name:'Diaspora in ATL', category:'Music · Food · Culture', image:'/images/events/diaspora/main-festival.jpg', mark:['DIASPORA','IN ATL'], href:'https://www.eventbrite.com/o/good-times-121163507813', destination:'View on Eventbrite' },
   { name:'Grown-ish', category:'Culture · Nightlife', image:`${IMG}/grownish/03_event_flyers/grownish-jcole-falloff-skyline.jpg`, logo:`${IMG}/grownish/logo/grownish-logo-primary.jpg`, href:'https://www.eventbrite.com/e/grownish-j-cole-the-fall-off-official-after-party-tickets-1993764565486', destination:'View on Eventbrite' },
-  { name:'Taste of Art', category:'Diaspora in ATL · Art Show', image:'/images/events/diaspora/taste-of-art.jpg', logo:`${IMG}/taste_of_art/01_logos/TASTE_OF_ART_LOGO.png`, href:'https://thatasteofart.com', destination:'Visit website' },
+  { name:'Taste of Art', category:'Diaspora in ATL · July 25 · 5 PM', image:'/images/events/diaspora/taste-of-art.jpg', logo:`${IMG}/taste_of_art/01_logos/TASTE_OF_ART_LOGO.png`, href:'https://taste-of-art-event.vercel.app', destination:'Visit website' },
   { name:'Freedom Fest', category:'Culture · Independence', image:`${WEB}/garden-district.jpg`, mark:['FREEDOM','FEST'], past:true, href:'https://freedom-fest.vercel.app', destination:'View event archive' },
 ];
 
