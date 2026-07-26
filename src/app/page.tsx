@@ -6,10 +6,26 @@ const SB = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/br
 const W = `${SB}/dr_dorsey/website`;
 const CG = 'https://casper-group.vercel.app/images';
 const DORSEY_W = `${SB}/dr_dorsey/01_logos/DorseyNewW.png`;
-const KHG_EMBLEM = `${SB}/dr_dorsey/01_logos/KOLLECTIVEemblemW.png`;
 const FF_BG = `${SB}/forever_futbol/website/ff-museum-interior.png`;
 const BOOK_URL = `${CART_ORIGIN}/products/hakuna-matata-by-dr-dorsey`;
 const BOOK_COVER = 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/cover-hero.png?v=1783903956';
+
+const SIGNATURE_EVENTS = [
+  { name:'Sole Exchange', label:'Sneaker culture · Community', image:`${SB}/email-newsletters/sole-exchange-flyer-v3-air-force-1.png`, logo:`${SB}/email-newsletters/sole-exchange-logo.png`, href:'https://soleexchangeworldwide.com', destination:'Visit website' },
+  { name:'Diaspora in ATL', label:'Music · Food · Culture', image:'/images/events/diaspora/main-festival.jpg', monogram:'DIASPORA\nIN ATL', href:'https://www.eventbrite.com/o/good-times-121163507813', destination:'View on Eventbrite' },
+  { name:'Grown-ish', label:'Culture · Nightlife', image:`${SB}/grownish/03_event_flyers/grownish-jcole-falloff-skyline.jpg`, logo:`${SB}/grownish/logo/grownish-logo-primary.jpg`, href:'https://www.eventbrite.com/e/grownish-j-cole-the-fall-off-official-after-party-tickets-1993764565486', destination:'View on Eventbrite' },
+  { name:'Taste of Art', label:'Diaspora in ATL · July 25 · 5 PM', image:'/images/events/diaspora/taste-of-art.jpg', logo:`${SB}/taste_of_art/01_logos/TASTE_OF_ART_LOGO.png`, href:'https://taste-of-art-event.vercel.app', destination:'Visit website' },
+  { name:'Freedom Fest', label:'Culture · Independence', image:`${W}/garden-district.jpg`, monogram:'FREEDOM\nFEST', past:true, href:'https://freedom-fest.vercel.app', destination:'View event archive' },
+];
+
+const DIASPORA_MOSAIC = [
+  { name:'Live Music', image:'/images/events/diaspora/live-music.jpg' },
+  { name:'Fashion Show', image:'/images/events/diaspora/fashion-show.jpg' },
+  { name:'Food Village', image:'/images/events/diaspora/food-village.jpg' },
+  { name:'Cultural Experiences', image:'/images/events/diaspora/cultural-experiences.jpg' },
+  { name:'The Kulture Market', image:'/images/events/diaspora/kulture-market.jpg' },
+  { name:'African Dance', image:'/images/events/diaspora/african-dance.jpg' },
+];
 
 /* ═══ ALL BRAND LOGOS — MARQUEE (ENLARGED) ═══ */
 const ALL_LOGOS = [
@@ -17,11 +33,6 @@ const ALL_LOGOS = [
   { n:'Forever Futbol', s:`${SB}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png`, u:'https://foreverfutbol.museum' },
   { n:'Casper Group', s:`${CG}/casper-logo-white.png`, u:'https://casper-group.vercel.app' },
   { n:'Good Times', s:`${SB}/good_times/00-brand-assets/logos/good-times-logo-gold-black.png`, u:'https://good-times-app.vercel.app' },
-  { n:'NOIR', s:`${SB}/noir_event/01_logos/NOIR_LOGO.png` },
-  { n:'REMIX', s:`${SB}/remix_event/01_logos/REMIX_LOGO.png` },
-  { n:'Taste of Art', s:`${SB}/taste_of_art/01_logos/TASTE_OF_ART_LOGO.png` },
-  { n:'WRST BHVR', s:`${SB}/wrst_bhvr_event/01_logos/WRST_BHVR_LOGO.png` },
-  { n:'Gangsta Gospel', s:`${SB}/gangsta_gospel/01_logos/GANGSTA_GOSPEL_LOGO.png` },
   { n:'Angel Wings', s:`${CG}/logo-angel-wings.png` },
   { n:'Patty Daddy', s:`${CG}/logo-patty-daddy.png` },
   { n:'Taco Yaki', s:`${CG}/logo-taco-yaki.png` },
@@ -32,20 +43,10 @@ const ALL_LOGOS = [
   { n:'Mr. Oyster', s:`${CG}/logo-mr-oyster.png` },
   { n:'Espresso Co', s:`${CG}/logo-espresso-co.png` },
   { n:'TOSSD', s:`${CG}/logo-tossd.png` },
-  { n:'Paparazzi', s:`${SB}/paparazzi/01_logos/PAPARAZZI_LOGO.png` },
-  { n:'Pawchella', s:`${SB}/pawchella/01_logos/PAWCHELLA_LOGO.png` },
-  { n:'Beauty & Beast', s:`${SB}/beauty_beast/01_logos/BEAUTY_BEAST_LOGO.png` },
-  { n:'Black Ball', s:`${SB}/black_ball/01_logos/BLACK_BALL_LOGO.png` },
-  { n:'Sundays Best', s:`${SB}/sundays_best/01_logos/SUNDAYS_BEST_LOGO.png` },
-  { n:'ICONIC', s:`${SB}/dr_dorsey/00-brand-assets/logos/iconic-logo-gold.png` },
   { n:'Mind Studio', s:`${SB}/mind_studio/gt_card_mind_studio.png` },
-  { n:'Kulture', s:'https://the-kulture-event.vercel.app/logo.png' },
-  { n:'Underground King', s:`${SB}/underground_king/01_logos/UNDERGROUND_KING_LOGO.png` },
-  { n:'Cravings', s:`${SB}/cravings/01_logos/CRAVINGS_LOGO.png` },
-  { n:'Soul Sessions', s:'https://soul-sessions-event.vercel.app/logo.png' },
-  { n:'Cinco de Drinko', s:`${SB}/cinco_de_drinko/01_logos/CINCO_DE_DRINKO_LOGO.png` },
-  { n:'Secret Society', s:`${SB}/secret_society/gt_card_secret_society.png` },
   { n:'MAGA', s:'https://make-atlanta-great-again.vercel.app/brand/MAGA_hawks.png', u:'https://make-atlanta-great-again.vercel.app' },
+  { n:'Pronto Energy', s:`${SB}/pronto_energy/logos/pronto-logo.png`, u:'https://pronto-energy-website.vercel.app' },
+  { n:'HURT 911', s:`${SB}/umbrella_injury/00-brand-assets/logos/hurt-911-logo-black.png` },
 ];
 
 /* ═══ UPDATED DISTRICTS ═══ */
@@ -105,15 +106,16 @@ export default function Home(){
 
     {/* MOBILE MENU */}
     <div style={{position:'fixed',top:0,right:mob?0:'-100%',width:'100%',height:'100%',background:'#080604',zIndex:999,display:'flex',flexDirection:'column',justifyContent:'center',padding:'96px clamp(20px,4vw,80px)',transition:'right 0.6s cubic-bezier(0.16,1,0.3,1)'}}>
-      {['ecosystem','strategist','districts','cities','connect'].map(id=>(<a key={id} href={`#${id}`} style={{fontFamily:serif,fontSize:'clamp(28px,5vw,56px)',fontWeight:300,textDecoration:'none',display:'block',padding:'14px 0',borderBottom:'1px solid rgba(245,240,232,0.06)',color:'#F5F0E8'}} onClick={e=>{e.preventDefault();go(id)}}>{id.charAt(0).toUpperCase()+id.slice(1)}</a>))}
+      {['events','ecosystem','strategist','districts','cities','connect'].map(id=>(<a key={id} href={`#${id}`} style={{fontFamily:serif,fontSize:'clamp(28px,5vw,56px)',fontWeight:300,textDecoration:'none',display:'block',padding:'14px 0',borderBottom:'1px solid rgba(245,240,232,0.06)',color:'#F5F0E8'}} onClick={e=>{e.preventDefault();go(id)}}>{id.charAt(0).toUpperCase()+id.slice(1)}</a>))}
       <a href={BOOK_URL} style={{fontFamily:serif,fontSize:'clamp(28px,5vw,56px)',fontWeight:300,textDecoration:'none',display:'block',padding:'14px 0',borderBottom:'1px solid rgba(245,240,232,0.06)',color:GOLD}}>Hakuna Matata</a>
+      <a href="/learn" style={{fontFamily:serif,fontSize:'clamp(28px,5vw,56px)',fontWeight:300,textDecoration:'none',display:'block',padding:'14px 0',borderBottom:'1px solid rgba(245,240,232,0.06)',color:GOLD}}>Courses + Consultations</a>
       <a href="/brands" style={{fontFamily:serif,fontSize:'clamp(28px,5vw,56px)',fontWeight:300,textDecoration:'none',display:'block',padding:'14px 0',borderBottom:'1px solid rgba(245,240,232,0.06)',color:GOLD}}>Brands</a>
     </div>
 
     {/* NAV */}
     <nav style={{position:'fixed',top:0,left:0,width:'100%',zIndex:1000,padding:'20px clamp(20px,4vw,80px)',display:'flex',alignItems:'center',justifyContent:'space-between',transition:'background 0.4s,backdrop-filter 0.4s',...(scrolled?{background:'rgba(8,6,4,0.9)',backdropFilter:'blur(20px)'}:{})}}>
       <a href="#" style={{display:'flex',alignItems:'center',gap:12,textDecoration:'none',color:'#F5F0E8'}}><img src={DORSEY_W} alt="" style={{height:28,objectFit:'contain'}}/></a>
-      <ul className="desk-nav" style={{display:'flex',gap:36,listStyle:'none'}}>{['ecosystem','strategist','districts','cities'].map(id=>(<li key={id}><a href={`#${id}`} className="na" style={{...tg('rgba(245,240,232,0.5)'),textDecoration:'none',letterSpacing:'0.15em'}} onClick={e=>{e.preventDefault();go(id)}}>{id}</a></li>))}<li><a href={BOOK_URL} className="na" style={{...tg(GOLD),textDecoration:'none',letterSpacing:'0.15em'}}>Book</a></li><li><a href="/brands" className="na" style={{...tg(GOLD),textDecoration:'none',letterSpacing:'0.15em'}}>Brands</a></li></ul>
+      <ul className="desk-nav" style={{display:'flex',gap:30,listStyle:'none'}}>{['events','ecosystem','strategist','districts','cities'].map(id=>(<li key={id}><a href={`#${id}`} className="na" style={{...tg('rgba(245,240,232,0.5)'),textDecoration:'none',letterSpacing:'0.15em'}} onClick={e=>{e.preventDefault();go(id)}}>{id}</a></li>))}<li><a href="/learn" className="na" style={{...tg(GOLD),textDecoration:'none',letterSpacing:'0.15em'}}>Learn</a></li><li><a href={BOOK_URL} className="na" style={{...tg(GOLD),textDecoration:'none',letterSpacing:'0.15em'}}>Book</a></li><li><a href="/brands" className="na" style={{...tg(GOLD),textDecoration:'none',letterSpacing:'0.15em'}}>Brands</a></li></ul>
       <a href="#connect" className="desk-cta" style={{fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',letterSpacing:'0.2em',textTransform:'uppercase',color:'#080604',background:GOLD,padding:'9px 22px',textDecoration:'none'}} onClick={e=>{e.preventDefault();go('connect')}}>Enter</a>
       <button className="mob-btn" style={{display:'none',background:'none',border:'none',cursor:'pointer',width:26,height:18,position:'relative'}} onClick={()=>setMob(!mob)}>
         <span style={{display:'block',width:'100%',height:1,background:'#F5F0E8',position:'absolute',left:0,top:mob?8:2,transition:'all 0.3s',transform:mob?'rotate(45deg)':'none'}}/>
@@ -147,12 +149,61 @@ export default function Home(){
       <div style={{position:'absolute',bottom:0,left:0,width:'100%',height:2,background:`linear-gradient(90deg,transparent,${GOLD},transparent)`,zIndex:3,opacity:0.4}}/>
     </section>
 
-    {/* ═══ LOGO MARQUEE — ENLARGED ═══ */}
-    <div style={{padding:'36px 0',background:'#080604',borderBottom:'1px solid rgba(245,240,232,0.04)',overflow:'hidden'}}>
-      <div style={{display:'flex',width:'max-content'}} className="marquee-logos">
-        {[...ALL_LOGOS,...ALL_LOGOS,...ALL_LOGOS].map((l,i)=>(<a key={`${l.n}-${i}`} href={l.u||'#'} target={l.u?'_blank':undefined} rel="noopener noreferrer" className="logo-i" style={{opacity:0.7,transition:'opacity 0.4s',flexShrink:0,padding:'0 clamp(20px,3vw,44px)'}}><div style={{width:120,height:52,display:'flex',alignItems:'center',justifyContent:'center'}}><img src={l.s} alt={l.n} style={{maxWidth:120,maxHeight:52,objectFit:'contain'}}/></div></a>))}
+    {/* ═══ HAKUNA MATATA — BOOK FEATURE ═══ */}
+    <section className="book-feature" id="hakuna-matata">
+      <div className="book-feature-art"><div className="book-glow"/><span className="book-edition">THE DEFINITIVE DR. DORSEY EDITION</span><img src={BOOK_COVER} alt="Hakuna Matata by Dr. Dorsey"/><div className="book-price">$44.44</div></div>
+      <div className="book-feature-copy">
+        <div style={tg('#8B7340')}>THE BOOK BEHIND THE PHILOSOPHY</div>
+        <h2>Hakuna<br/><em>Matata.</em></h2>
+        <div className="book-rule"/>
+        <p className="book-lead">A philosophy for living with intention, building without fear, and refusing to postpone the life you were meant to experience.</p>
+        <blockquote>“Live for today. Plan for tomorrow. Party tonight.”</blockquote>
+        <div className="book-pillars"><div><b>01</b><strong>Perspective</strong><span>Turn pressure into clarity.</span></div><div><b>02</b><strong>Purpose</strong><span>Build the life behind the goals.</span></div><div><b>03</b><strong>Presence</strong><span>Stop waiting to start living.</span></div></div>
+        <a href={BOOK_URL} className="book-feature-cta">Get the book <span>→</span></a>
       </div>
-    </div>
+    </section>
+
+    {/* ═══ COURSES + CONSULTATIONS — HOMEPAGE FEATURE ═══ */}
+    <section className="learn-feature">
+      <div className="learn-feature-head"><div><span>THE DOCTOR DORSEY ASCENSION SYSTEM</span><h2>Knowledge is cheap.<br/><em>Execution changes everything.</em></h2></div><p>Courses, cohorts, private strategy, and enterprise-level advisory—organized by the depth of transformation your next move actually requires.</p></div>
+      <div className="learn-level-preview">
+        {[{n:'01',name:'Essentials',sub:'Self-paced execution',price:'$49–$499'},{n:'02',name:'Premium',sub:'Interactive cohort',price:'$500–$2K'},{n:'03',name:'Elite',sub:'Private application',price:'$2K–$5K'},{n:'04',name:'Mastery',sub:'Certification + licensing',price:'$5K–$10K+'}].map((level)=><a key={level.n} href="/learn#course-levels"><b>{level.n}</b><span>{level.sub}</span><h3>{level.name}</h3><strong>{level.price}</strong><i>Explore level →</i></a>)}
+      </div>
+      <div className="learn-feature-actions"><a href="/learn">Explore courses + consultations</a><a href="/learn#consultations">Choose direct access</a></div>
+    </section>
+
+    {/* ═══ BRAND PORTFOLIO WALL ═══ */}
+    <section className="brand-wall">
+      <div className="brand-wall-head"><div><span>THE KOLLECTIVE BRAND PORTFOLIO</span><h2>Companies and products.<br/><em>Not event concepts.</em></h2></div><div className="brand-wall-count"><strong>31</strong><span>brands across<br/>six divisions</span></div></div>
+      <div className="brand-logo-grid">{ALL_LOGOS.map((brand)=><a key={brand.n} href={brand.u||'/brands'} target={brand.u?'_blank':undefined} rel={brand.u?'noopener noreferrer':undefined}><div><img src={brand.s} alt={`${brand.n} logo`}/></div><span>{brand.n}</span></a>)}</div>
+      <a className="brand-wall-cta" href="/brands">Explore the complete brand ecosystem <span>→</span></a>
+    </section>
+
+    {/* ═══ SIGNATURE EVENTS ═══ */}
+    <section className="events-portfolio" id="events">
+      <div className="events-portfolio-head">
+        <div><span>DR. DORSEY EVENT PROPERTIES</span><h2>Five worlds.<br/><em>One cultural portfolio.</em></h2></div>
+        <p>Original event concepts built at the intersection of culture, community, art, style, and nightlife.</p>
+      </div>
+      <div className="events-portfolio-grid">
+        {SIGNATURE_EVENTS.map((event)=><a className={`event-portfolio-card${event.past?' is-past':''}`} key={event.name} href={event.href} target="_blank" rel="noopener noreferrer" aria-label={`${event.destination}: ${event.name}`}>
+          <img src={event.image} alt=""/>
+          <div className="event-portfolio-shade"/>
+          <div className="event-portfolio-content">
+            {event.past&&<span className="past-event-tag">Past event</span>}
+            {event.logo?<div className="event-portfolio-logo"><img src={event.logo} alt={`${event.name} logo`}/></div>:<div className="event-portfolio-monogram">{event.monogram?.split('\n').map((line)=><span key={line}>{line}</span>)}</div>}
+            <div className="event-portfolio-meta"><span>{event.label}</span><h3>{event.name}</h3><b>{event.destination} →</b></div>
+          </div>
+        </a>)}
+      </div>
+      <div className="diaspora-home-feature">
+        <div className="diaspora-home-copy"><span>INSIDE DIASPORA IN ATL</span><h3>More than a festival.<br/><em>A cultural universe.</em></h3><p>Live music, global food, fashion, art, dance, and community—built as one connected experience.</p><a href="/events#signature-events">See the complete festival portfolio →</a></div>
+        <div className="diaspora-home-mosaic">
+          {DIASPORA_MOSAIC.map((item)=><figure key={item.name}><img src={item.image} alt={`${item.name} at Diaspora in ATL`} loading="lazy"/><figcaption>{item.name}</figcaption></figure>)}
+        </div>
+      </div>
+      <a className="events-portfolio-cta" href="/events"><span>Enter the complete event portfolio</span><b>Explore events →</b></a>
+    </section>
 
     {/* ═══ ECOSYSTEM — BLACK — MORE VISIBLE TEXT ═══ */}
     <section style={{padding:'clamp(80px,10vw,140px) clamp(20px,4vw,80px)',background:'#080604'}} id="ecosystem">
@@ -172,7 +223,7 @@ export default function Home(){
       <div style={{maxWidth:1400,margin:'0 auto'}}>
         <Rv><div style={{display:'flex',alignItems:'center',gap:16,marginBottom:32}}><div style={{width:40,height:1,background:'#8B7340'}}/><div style={{fontFamily:mono,fontSize:'clamp(8px,0.7vw,10px)',letterSpacing:'0.35em',textTransform:'uppercase',color:'#8B7340'}}>Strategy + Consulting</div></div></Rv>
         <div className="strat-hero" style={{display:'grid',gridTemplateColumns:'1.2fr 1fr',gap:'clamp(32px,5vw,80px)',marginBottom:64,alignItems:'center'}}>
-          <Rv><div><h2 style={{fontFamily:serif,fontSize:'clamp(32px,5.5vw,72px)',fontWeight:300,lineHeight:1.05,letterSpacing:'-0.02em',color:'#080604',marginBottom:24}}>Dr. Dorsey<br/><em style={{fontStyle:'italic',color:'#8B7340'}}>The Strategist.</em></h2><p style={{fontSize:'clamp(15px,1.4vw,19px)',color:'rgba(8,6,4,0.55)',lineHeight:1.8,marginBottom:32}}>Dr. Dorsey doesn&rsquo;t just build brands — he architects ecosystems. With 57+ ventures across 8 cities, 198 AI agents, and 34 automated departments, the blueprint isn&rsquo;t theoretical. It&rsquo;s running. Now it&rsquo;s available to those who build at this level.</p><div style={{display:'flex',gap:32}}>{[{n:'57+',l:'Brands Built'},{n:'8',l:'Cities'},{n:'$0',l:'VC Raised'}].map(s=>(<div key={s.l}><div style={{fontFamily:serif,fontSize:'clamp(28px,3vw,48px)',fontWeight:300,color:'#8B7340',lineHeight:1}}>{s.n}</div><div style={{fontFamily:mono,fontSize:8,letterSpacing:'0.2em',textTransform:'uppercase',color:'rgba(8,6,4,0.35)',marginTop:4}}>{s.l}</div></div>))}</div></div></Rv>
+          <Rv><div><h2 style={{fontFamily:serif,fontSize:'clamp(32px,5.5vw,72px)',fontWeight:300,lineHeight:1.05,letterSpacing:'-0.02em',color:'#080604',marginBottom:24}}>Dr. Dorsey<br/><em style={{fontStyle:'italic',color:'#8B7340'}}>The Strategist.</em></h2><p style={{fontSize:'clamp(15px,1.4vw,19px)',color:'rgba(8,6,4,0.55)',lineHeight:1.8,marginBottom:32}}>Dr. Dorsey doesn&rsquo;t just build brands — he architects ecosystems. With 57+ ventures across 8 cities, 198 AI agents, and 34 automated departments, the blueprint isn&rsquo;t theoretical. It&rsquo;s running. Now it&rsquo;s available to those who build at this level.</p><div style={{display:'flex',gap:32}}>{[{n:'57+',l:'Ventures Built'},{n:'8',l:'Cities'},{n:'$0',l:'VC Raised'}].map(s=>(<div key={s.l}><div style={{fontFamily:serif,fontSize:'clamp(28px,3vw,48px)',fontWeight:300,color:'#8B7340',lineHeight:1}}>{s.n}</div><div style={{fontFamily:mono,fontSize:8,letterSpacing:'0.2em',textTransform:'uppercase',color:'rgba(8,6,4,0.35)',marginTop:4}}>{s.l}</div></div>))}</div></div></Rv>
           <Rv d={0.2}><div style={{position:'relative',height:'clamp(300px,35vw,450px)',overflow:'hidden'}}><img src={`${W}/thesis-bg.jpg`} alt="" style={{width:'100%',height:'100%',objectFit:'cover',opacity:0.85,filter:'brightness(1.1)'}}/><div style={{position:'absolute',bottom:0,left:0,right:0,padding:'40px 32px',background:'linear-gradient(0deg,rgba(8,6,4,0.95) 0%,transparent 100%)'}}><div style={{fontFamily:serif,fontSize:'clamp(14px,1.5vw,20px)',fontWeight:300,fontStyle:'italic',color:GB,lineHeight:1.4}}>&ldquo;I built the system that builds the brands.&rdquo;</div><div style={{fontFamily:mono,fontSize:8,letterSpacing:'0.2em',textTransform:'uppercase',color:'rgba(232,213,163,0.5)',marginTop:8}}>— Dr. DoLo Dorsey</div></div></div></Rv>
         </div>
 
@@ -195,8 +246,8 @@ export default function Home(){
               ))}
             </div>
             <div style={{display:'flex',gap:16,justifyContent:'center',flexWrap:'wrap'}}>
-              <a href="https://doctordorsey.com" className="book-btn" style={{fontFamily:serif,fontSize:'clamp(14px,1.6vw,20px)',fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#080604',background:`linear-gradient(135deg,${GOLD},${GB},${GOLD})`,padding:'clamp(16px,1.8vw,22px) clamp(36px,4vw,60px)',textDecoration:'none',display:'inline-block',position:'relative',overflow:'hidden',boxShadow:'0 4px 30px rgba(212,184,122,0.3),0 0 60px rgba(212,184,122,0.1)',transition:'all 0.4s cubic-bezier(0.16,1,0.3,1)'}}>MY WEBSITE</a>
-              <a href="https://buy.stripe.com/00wfZi0uvgZygSceyddUY01" className="book-btn" style={{fontFamily:serif,fontSize:'clamp(14px,1.6vw,20px)',fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#F5F0E8',background:'transparent',border:`2px solid ${GOLD}`,padding:'clamp(16px,1.8vw,22px) clamp(36px,4vw,60px)',textDecoration:'none',display:'inline-block',position:'relative',overflow:'hidden',boxShadow:'0 4px 30px rgba(212,184,122,0.15)',transition:'all 0.4s cubic-bezier(0.16,1,0.3,1)'}}>BOOK DIRECTLY</a>
+              <a href="/learn" className="book-btn" style={{fontFamily:serif,fontSize:'clamp(14px,1.6vw,20px)',fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#080604',background:`linear-gradient(135deg,${GOLD},${GB},${GOLD})`,padding:'clamp(16px,1.8vw,22px) clamp(36px,4vw,60px)',textDecoration:'none',display:'inline-block',position:'relative',overflow:'hidden',boxShadow:'0 4px 30px rgba(212,184,122,0.3),0 0 60px rgba(212,184,122,0.1)',transition:'all 0.4s cubic-bezier(0.16,1,0.3,1)'}}>COURSES + CONSULTATIONS</a>
+              <a href="/learn#consultations" className="book-btn" style={{fontFamily:serif,fontSize:'clamp(14px,1.6vw,20px)',fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'#F5F0E8',background:'transparent',border:`2px solid ${GOLD}`,padding:'clamp(16px,1.8vw,22px) clamp(36px,4vw,60px)',textDecoration:'none',display:'inline-block',position:'relative',overflow:'hidden',boxShadow:'0 4px 30px rgba(212,184,122,0.15)',transition:'all 0.4s cubic-bezier(0.16,1,0.3,1)'}}>CHOOSE ACCESS LEVEL</a>
             </div>
             <div style={{fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',letterSpacing:'0.2em',textTransform:'uppercase',color:'rgba(245,240,232,0.2)',marginTop:24}}>1-on-1 with Dr. Dorsey · By Invitation</div>
           </div>
@@ -229,7 +280,7 @@ export default function Home(){
             </div>
           </div></Rv>))}
         </div>
-        <Rv d={0.4}><div style={{textAlign:'center',marginTop:48}}><a href="/brands" style={{fontFamily:mono,fontSize:'clamp(9px,0.8vw,11px)',letterSpacing:'0.25em',textTransform:'uppercase',color:GOLD,textDecoration:'none',borderBottom:`1px solid ${GOLD}`,paddingBottom:4,transition:'all 0.3s'}}>View All 57+ Brands →</a></div></Rv>
+        <Rv d={0.4}><div style={{textAlign:'center',marginTop:48}}><a href="/brands" style={{fontFamily:mono,fontSize:'clamp(9px,0.8vw,11px)',letterSpacing:'0.25em',textTransform:'uppercase',color:GOLD,textDecoration:'none',borderBottom:`1px solid ${GOLD}`,paddingBottom:4,transition:'all 0.3s'}}>View Operating Brands →</a></div></Rv>
       </div>
     </section>
 
@@ -270,7 +321,7 @@ export default function Home(){
       <div style={{display:'flex',gap:24}}>{[{n:'Instagram',u:'https://instagram.com/dolodorsey'},{n:'Twitter',u:'https://twitter.com/mrdolodorsey'},{n:'Facebook',u:'https://facebook.com/DoLoDorsey'}].map(s=>(<a key={s.n} href={s.u} target="_blank" rel="noopener noreferrer" style={{fontFamily:mono,fontSize:'clamp(7px,0.65vw,9px)',letterSpacing:'0.1em',color:'rgba(8,6,4,0.3)',textDecoration:'none'}}>{s.n}</a>))}</div>
     </footer>
 
-    <style>{`
+    <style suppressHydrationWarning>{`
       @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
       @keyframes marqueeScroll{from{transform:translateX(0)}to{transform:translateX(-33.333%)}}
       .marquee-logos{animation:marqueeScroll 80s linear infinite}
@@ -283,8 +334,37 @@ export default function Home(){
       .book-btn:hover{transform:translateY(-3px)!important;box-shadow:0 8px 40px rgba(212,184,122,0.5),0 0 80px rgba(212,184,122,0.2)!important}
       .hero-book:hover img{transform:translateY(-8px) rotate(-1deg)}
       .logo-i:hover{opacity:1!important}
+      .book-feature{display:grid;grid-template-columns:minmax(360px,.9fr) minmax(0,1.1fr);min-height:820px;background:#E9DFCF;color:#080604;overflow:hidden}
+      .book-feature-art{position:relative;display:flex;align-items:center;justify-content:center;min-height:760px;background:radial-gradient(circle at 50% 48%,rgba(212,184,122,.42),transparent 28%),linear-gradient(135deg,#0A0805,#171008);overflow:hidden}
+      .book-feature-art:before{content:'';position:absolute;inset:30px;border:1px solid rgba(232,213,163,.15)}
+      .book-feature-art:after{content:'HAKUNA MATATA';position:absolute;left:-20px;bottom:32px;font-family:${serif};font-size:clamp(70px,10vw,150px);font-weight:300;line-height:.7;letter-spacing:-.06em;color:rgba(232,213,163,.045);white-space:nowrap}
+      .book-feature-art img{position:relative;z-index:2;width:min(54%,390px);max-height:650px;object-fit:contain;filter:drop-shadow(0 40px 52px rgba(0,0,0,.62));transform:rotate(-2deg)}
+      .book-edition{position:absolute;z-index:3;left:48px;top:50px;font-family:${mono};font-size:8px;letter-spacing:.28em;color:${GB};writing-mode:vertical-rl}
+      .book-price{position:absolute;z-index:3;right:44px;bottom:44px;width:92px;height:92px;border:1px solid rgba(232,213,163,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:${serif};font-size:24px;color:${GB};background:rgba(8,6,4,.55);backdrop-filter:blur(10px)}
+      .book-glow{position:absolute;width:360px;height:360px;border:1px solid rgba(232,213,163,.18);border-radius:50%}.book-glow:before,.book-glow:after{content:'';position:absolute;border:1px solid rgba(232,213,163,.1);border-radius:50%;inset:-70px}.book-glow:after{inset:-140px}
+      .book-feature-copy{padding:clamp(70px,8vw,130px);display:flex;flex-direction:column;justify-content:center}
+      .book-feature-copy h2{font-family:${serif};font-size:clamp(70px,9vw,138px);font-weight:300;line-height:.7;letter-spacing:-.055em;margin:38px 0}.book-feature-copy h2 em{color:#8B7340}
+      .book-rule{width:100%;height:1px;background:linear-gradient(90deg,#8B7340,transparent);margin:12px 0 30px}.book-lead{max-width:680px;font-size:clamp(17px,1.5vw,21px);line-height:1.75;color:rgba(8,6,4,.67)}
+      .book-feature-copy blockquote{font-family:${serif};font-size:clamp(28px,3vw,44px);font-style:italic;line-height:1.15;color:#5F4A26;margin:36px 0}
+      .book-pillars{display:grid;grid-template-columns:repeat(3,1fr);border-block:1px solid rgba(8,6,4,.13);margin-bottom:38px}.book-pillars>div{padding:22px 18px 22px 0;border-right:1px solid rgba(8,6,4,.13);display:flex;flex-direction:column}.book-pillars>div+div{padding-left:22px}.book-pillars>div:last-child{border:0}.book-pillars b{font-family:${mono};font-size:8px;color:#8B7340}.book-pillars strong{font-family:${serif};font-size:24px;margin:8px 0 3px}.book-pillars span{font-size:11px;color:rgba(8,6,4,.48)}
+      .book-feature-cta{align-self:flex-start;background:#080604;color:${GB};padding:17px 28px;text-decoration:none;font-family:${mono};font-size:9px;letter-spacing:.2em;text-transform:uppercase}.book-feature-cta span{margin-left:34px}
+      .learn-feature{padding:clamp(90px,10vw,150px) clamp(20px,5vw,86px);background:#0C0906;position:relative;overflow:hidden}.learn-feature:before{content:'';position:absolute;right:-15vw;top:-28vw;width:60vw;height:60vw;border:1px solid rgba(212,184,122,.08);border-radius:50%;box-shadow:0 0 0 8vw rgba(212,184,122,.025),0 0 0 16vw rgba(212,184,122,.015)}
+      .learn-feature-head{position:relative;display:grid;grid-template-columns:1.25fr .75fr;gap:80px;align-items:end;max-width:1450px;margin:0 auto 68px}.learn-feature-head span{font-family:${mono};font-size:9px;letter-spacing:.32em;color:${GOLD}}.learn-feature-head h2{font-family:${serif};font-size:clamp(48px,6.5vw,92px);font-weight:300;line-height:.92;letter-spacing:-.04em;margin:20px 0 0}.learn-feature-head h2 em{color:${GB}}.learn-feature-head p{font-size:16px;line-height:1.8;color:rgba(245,240,232,.5);max-width:500px}
+      .learn-level-preview{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:1450px;margin:0 auto}.learn-level-preview a{min-height:390px;padding:30px;display:flex;flex-direction:column;color:#F5F0E8;text-decoration:none;background:linear-gradient(160deg,rgba(212,184,122,.09),rgba(255,255,255,.02));border:1px solid rgba(212,184,122,.18);transition:transform .4s,border-color .4s,background .4s;overflow:hidden;position:relative}.learn-level-preview a:hover{transform:translateY(-9px);border-color:rgba(232,213,163,.55);background:linear-gradient(160deg,rgba(212,184,122,.16),rgba(255,255,255,.03))}.learn-level-preview b{position:absolute;right:12px;top:-36px;font-family:${serif};font-size:140px;font-weight:300;color:rgba(212,184,122,.06)}.learn-level-preview span{position:relative;font-family:${mono};font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:${GOLD}}.learn-level-preview h3{position:relative;font-family:${serif};font-size:46px;font-weight:400;margin:90px 0 12px}.learn-level-preview strong{font-family:${serif};font-size:25px;color:${GB}}.learn-level-preview i{margin-top:auto;font-family:${mono};font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:${GOLD};font-style:normal}
+      .learn-feature-actions{position:relative;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:48px}.learn-feature-actions a{padding:16px 24px;border:1px solid ${GOLD};color:#080604;background:${GOLD};font-family:${mono};font-size:9px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none}.learn-feature-actions a+ a{background:transparent;color:${GB}}
+      .brand-wall{padding:clamp(70px,7vw,105px) clamp(20px,5vw,86px);background:#E9DFCF;color:#080604;border-block:1px solid rgba(8,6,4,.12)}
+      .brand-wall-head{max-width:1450px;margin:0 auto 44px;display:flex;align-items:end;justify-content:space-between;gap:40px}.brand-wall-head span{font-family:${mono};font-size:10px;letter-spacing:.3em;color:#735B30}.brand-wall-head h2{font-family:${serif};font-size:clamp(48px,6vw,88px);font-weight:300;line-height:.88;letter-spacing:-.035em;margin-top:15px}.brand-wall-head h2 em{color:#735B30}.brand-wall-count{display:flex;align-items:center;gap:16px;padding-left:30px;border-left:1px solid rgba(8,6,4,.2)}.brand-wall-count strong{font-family:${serif};font-size:clamp(55px,6vw,86px);font-weight:300;line-height:.8;color:#735B30}.brand-wall-count span{font-family:${mono};font-size:9px;line-height:1.55;letter-spacing:.14em;text-transform:uppercase;color:rgba(8,6,4,.58)}
+      .brand-logo-grid{max-width:1450px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr);gap:10px}.brand-logo-grid a{min-width:0;padding:14px 14px 12px;background:#F8F3EA;border:1px solid rgba(8,6,4,.11);text-decoration:none;transition:transform .35s,box-shadow .35s,border-color .35s}.brand-logo-grid a:hover{transform:translateY(-6px);border-color:rgba(115,91,48,.5);box-shadow:0 18px 45px rgba(8,6,4,.12)}.brand-logo-grid a>div{height:108px;display:flex;align-items:center;justify-content:center;padding:14px;background:#0C0906}.brand-logo-grid img{max-width:150px;max-height:70px;object-fit:contain;filter:drop-shadow(0 5px 12px rgba(0,0,0,.24))}.brand-logo-grid a>span{display:block;margin-top:11px;font-family:${mono};font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:rgba(8,6,4,.7);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.brand-wall-cta{display:flex;justify-content:space-between;max-width:1450px;margin:24px auto 0;padding:18px 22px;background:#080604;color:${GB};font-family:${mono};font-size:10px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none}.desk-nav .na{font-size:10px!important;letter-spacing:.14em!important}
+      .events-portfolio{padding:clamp(70px,7vw,105px) clamp(20px,5vw,86px);background:#080604;color:#F5F0E8;scroll-margin-top:70px}.events-portfolio-head{max-width:1450px;margin:0 auto 44px;display:grid;grid-template-columns:1.15fr .65fr;gap:70px;align-items:end}.events-portfolio-head>div>span{font-family:${mono};font-size:9px;letter-spacing:.31em;color:${GOLD}}.events-portfolio-head h2{font-family:${serif};font-size:clamp(48px,6.2vw,90px);font-weight:300;line-height:.9;letter-spacing:-.04em;margin-top:16px}.events-portfolio-head h2 em{color:${GB}}.events-portfolio-head p{font-size:17px;line-height:1.7;color:rgba(245,240,232,.66);max-width:500px}.events-portfolio-grid{max-width:1450px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:250px;gap:10px}.event-portfolio-card{position:relative;overflow:hidden;grid-column:span 2;background:#16100a;border:1px solid rgba(212,184,122,.16);color:#F5F0E8;text-decoration:none}.event-portfolio-card:nth-child(1),.event-portfolio-card:nth-child(2){grid-column:span 3}.event-portfolio-card>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.66;transition:transform 1.2s cubic-bezier(.16,1,.3,1),opacity .5s}.event-portfolio-card:hover>img{transform:scale(1.035);opacity:.82}.event-portfolio-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,6,4,.08),rgba(8,6,4,.25) 42%,rgba(8,6,4,.94))}.event-portfolio-content{position:relative;height:100%;z-index:1;padding:22px;display:flex;flex-direction:column;align-items:flex-start}.event-portfolio-logo{height:70px;max-width:190px;display:flex;align-items:center}.event-portfolio-logo img{max-height:64px;max-width:180px;object-fit:contain;filter:drop-shadow(0 6px 14px rgba(0,0,0,.65))}.event-portfolio-monogram{font-family:${serif};font-size:clamp(30px,3vw,45px);line-height:.75;letter-spacing:-.035em;color:#F7E9C6;text-shadow:0 5px 20px rgba(0,0,0,.6)}.event-portfolio-monogram span{display:block}.event-portfolio-meta{margin-top:auto}.event-portfolio-meta>span{font-family:${mono};font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:${GB}}.event-portfolio-meta h3{font-family:${serif};font-size:clamp(27px,2.7vw,39px);font-weight:400;line-height:1;margin-top:7px}.event-portfolio-meta b{display:block;margin-top:10px;font-family:${mono};font-size:7px;letter-spacing:.16em;text-transform:uppercase;color:${GOLD}}.past-event-tag{display:inline-flex;margin-bottom:12px;background:#F5F0E8;color:#080604;padding:7px 10px;font-family:${mono};font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase}.is-past>img{filter:grayscale(.55)}.events-portfolio-cta{max-width:1450px;margin:14px auto 0;padding:19px 22px;border:1px solid rgba(212,184,122,.22);display:flex;justify-content:space-between;gap:20px;color:#F5F0E8;text-decoration:none;font-family:${mono};font-size:9px;letter-spacing:.15em;text-transform:uppercase}.events-portfolio-cta span{color:rgba(245,240,232,.5)}.events-portfolio-cta b{color:${GOLD}}
+      .diaspora-home-feature{max-width:1450px;margin:44px auto 0;padding:14px;background:#E9DFCF;color:#080604;display:grid;grid-template-columns:.68fr 1.32fr;gap:14px}.diaspora-home-copy{padding:clamp(28px,4vw,58px);display:flex;flex-direction:column;justify-content:center}.diaspora-home-copy>span{font-family:${mono};font-size:8px;letter-spacing:.28em;color:#735B30}.diaspora-home-copy h3{font-family:${serif};font-size:clamp(38px,4.5vw,64px);font-weight:300;line-height:.9;letter-spacing:-.035em;margin:18px 0}.diaspora-home-copy h3 em{color:#8B651E}.diaspora-home-copy p{font-size:15px;line-height:1.65;color:rgba(8,6,4,.65);max-width:420px}.diaspora-home-copy a{align-self:flex-start;margin-top:26px;padding-bottom:4px;border-bottom:1px solid #735B30;color:#735B30;text-decoration:none;font-family:${mono};font-size:8px;letter-spacing:.16em;text-transform:uppercase}.diaspora-home-mosaic{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,230px);gap:8px}.diaspora-home-mosaic figure{position:relative;overflow:hidden;background:#080604}.diaspora-home-mosaic img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .8s cubic-bezier(.16,1,.3,1)}.diaspora-home-mosaic figure:hover img{transform:scale(1.035)}.diaspora-home-mosaic figcaption{position:absolute;left:10px;bottom:10px;background:rgba(8,6,4,.8);backdrop-filter:blur(8px);padding:7px 9px;color:#F5F0E8;font-family:${mono};font-size:7px;letter-spacing:.13em;text-transform:uppercase}
+      #ecosystem,#strategist,#districts,#cities,#connect{padding-top:clamp(58px,6vw,92px)!important;padding-bottom:clamp(58px,6vw,92px)!important}
+      #ecosystem h2,#strategist h2,#districts h2,#cities h2,#connect h2{line-height:1!important}
+      #strategist p,#connect p{font-size:clamp(15px,1.15vw,18px)!important;color:rgba(8,6,4,.67)!important;line-height:1.65!important}
+      #connect p{color:rgba(245,240,232,.66)!important}
+      .book-feature{min-height:700px}.book-feature-art{min-height:680px}.book-feature-copy{padding-top:70px;padding-bottom:70px}.learn-feature{padding-top:clamp(70px,7vw,105px);padding-bottom:clamp(70px,7vw,105px)}.learn-level-preview a{min-height:340px}.learn-feature-head{margin-bottom:46px}.learn-feature-head p{color:rgba(245,240,232,.68);font-size:17px;line-height:1.65}
       @media(max-width:1024px){.eco-grid{grid-template-columns:1fr!important}.dist-grid{grid-template-columns:repeat(2,1fr)!important}.city-grid{grid-template-columns:repeat(2,1fr)!important}.consult-grid{grid-template-columns:repeat(2,1fr)!important}.strat-hero{grid-template-columns:1fr!important}}
-      @media(max-width:768px){.desk-nav{display:none!important}.desk-cta{display:none!important}.mob-btn{display:block!important}.hero-content{grid-template-columns:1fr!important;gap:18px!important;padding-top:84px!important}.hero-content h1{font-size:clamp(30px,10vw,48px)!important}.hero-actions{margin-top:24px!important}.hero-book img{width:clamp(125px,35vw,175px)!important;max-height:24vh!important}.hero-book-kicker{display:none}.hero-book-shopline{margin-top:6px!important;font-size:8px!important}.dist-grid{grid-template-columns:1fr!important}.city-grid{grid-template-columns:1fr!important}.consult-grid{grid-template-columns:1fr!important}.city-hq{grid-column:span 1!important;grid-row:span 1!important}.ftr{flex-direction:column!important;gap:16px!important;text-align:center!important}.strat-hero{grid-template-columns:1fr!important}}
+      @media(max-width:1100px){.book-feature{grid-template-columns:.8fr 1.2fr}.book-feature-copy{padding:60px 50px}.learn-level-preview{grid-template-columns:repeat(2,1fr)}.learn-feature-head{grid-template-columns:1fr;gap:24px}.brand-logo-grid{grid-template-columns:repeat(3,1fr)}.events-portfolio-grid{grid-template-columns:repeat(2,1fr)}.event-portfolio-card,.event-portfolio-card:nth-child(1),.event-portfolio-card:nth-child(2){grid-column:span 1}.diaspora-home-feature{grid-template-columns:1fr}.diaspora-home-mosaic{grid-template-rows:repeat(2,210px)}}
+      @media(max-width:768px){.desk-nav{display:none!important}.desk-cta{display:none!important}.mob-btn{display:block!important}.hero-content{grid-template-columns:1fr!important;gap:18px!important;padding-top:84px!important}.hero-content h1{font-size:clamp(30px,10vw,48px)!important}.hero-actions{margin-top:24px!important}.hero-book img{width:clamp(125px,35vw,175px)!important;max-height:24vh!important}.hero-book-kicker{display:none}.hero-book-shopline{margin-top:6px!important;font-size:8px!important}.book-feature{grid-template-columns:1fr}.book-feature-art{min-height:540px}.book-feature-copy{padding:55px 22px}.book-feature-copy h2{font-size:clamp(72px,24vw,106px)}.book-pillars{grid-template-columns:1fr}.book-pillars>div,.book-pillars>div+div{padding:16px 0;border-right:0;border-bottom:1px solid rgba(8,6,4,.12)}.learn-feature{padding:60px 20px}.learn-level-preview{grid-template-columns:1fr}.learn-level-preview a{min-height:280px}.brand-wall{padding:58px 18px}.brand-wall-head{display:block}.brand-wall-count{margin-top:30px;padding:20px 0 0;border-left:0;border-top:1px solid rgba(8,6,4,.18)}.brand-logo-grid{grid-template-columns:repeat(2,1fr);gap:7px}.brand-logo-grid a{padding:9px}.brand-logo-grid a>div{height:90px}.brand-wall-cta{font-size:8px;line-height:1.5}.events-portfolio{padding:58px 18px}.events-portfolio-head{grid-template-columns:1fr;gap:20px}.events-portfolio-grid{grid-template-columns:1fr;grid-auto-rows:280px}.diaspora-home-feature{margin-top:26px;padding:8px}.diaspora-home-copy{padding:26px 18px}.diaspora-home-mosaic{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,190px)}.events-portfolio-cta{align-items:flex-start;flex-direction:column}.dist-grid{grid-template-columns:1fr!important}.city-grid{grid-template-columns:1fr!important}.consult-grid{grid-template-columns:1fr!important}.city-hq{grid-column:span 1!important;grid-row:span 1!important}.ftr{flex-direction:column!important;gap:16px!important;text-align:center!important}.strat-hero{grid-template-columns:1fr!important}}
     `}</style>
   </>;
 }

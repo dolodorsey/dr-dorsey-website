@@ -33,7 +33,7 @@ const BRAND_LOGOS = [
 /* ═══ EVENT FLYERS for display ═══ */
 const FLYERS = [
   { src:`${IMG}/noir_event/03_event_flyers/NOIR_NEWS.png`, brand:'NOIR' },
-  { src:`${IMG}/taste_of_art/03_event_flyers/TASTE_MAIN2.JPEG`, brand:'Taste of Art' },
+  { src:'/images/events/diaspora/taste-of-art.jpg', brand:'Taste of Art at Diaspora in ATL' },
   { src:`${IMG}/remix_event/03-event-flyers/remix-dj-dates-cities.png`, brand:'REMIX' },
   { src:`${IMG}/gangsta_gospel/03_event_flyers/GANGSTA_DATE.png`, brand:'Gangsta Gospel' },
 ];
@@ -48,6 +48,30 @@ const MAGA_HEROES = [
   'https://makeatlantagreatagain.myshopify.com/cdn/shop/files/maga-hero-9165678379258.jpg?v=1774594731&width=1600',
   'https://makeatlantagreatagain.myshopify.com/cdn/shop/files/maga-hero-9165644955898.jpg?v=1774594738&width=1600',
   'https://makeatlantagreatagain.myshopify.com/cdn/shop/files/maga-hero-9165660029178.jpg?v=1774594724&width=1600',
+];
+
+const SIGNATURE_EVENTS = [
+  { name:'Sole Exchange', category:'Sneaker culture · Community', image:`${IMG}/email-newsletters/sole-exchange-flyer-v3-air-force-1.png`, logo:`${IMG}/email-newsletters/sole-exchange-logo.png`, href:'https://soleexchangeworldwide.com', destination:'Visit website' },
+  { name:'Diaspora in ATL', category:'Music · Food · Culture', image:'/images/events/diaspora/main-festival.jpg', mark:['DIASPORA','IN ATL'], href:'https://www.eventbrite.com/o/good-times-121163507813', destination:'View on Eventbrite' },
+  { name:'Grown-ish', category:'Culture · Nightlife', image:`${IMG}/grownish/03_event_flyers/grownish-jcole-falloff-skyline.jpg`, logo:`${IMG}/grownish/logo/grownish-logo-primary.jpg`, href:'https://www.eventbrite.com/e/grownish-j-cole-the-fall-off-official-after-party-tickets-1993764565486', destination:'View on Eventbrite' },
+  { name:'Taste of Art', category:'Diaspora in ATL · July 25 · 5 PM', image:'/images/events/diaspora/taste-of-art.jpg', logo:`${IMG}/taste_of_art/01_logos/TASTE_OF_ART_LOGO.png`, href:'https://taste-of-art-event.vercel.app', destination:'Visit website' },
+  { name:'Freedom Fest', category:'Culture · Independence', image:`${WEB}/garden-district.jpg`, mark:['FREEDOM','FEST'], past:true, href:'https://freedom-fest.vercel.app', destination:'View event archive' },
+];
+
+const DIASPORA_FLYERS = [
+  { name:'Live Music', image:'/images/events/diaspora/live-music.jpg' },
+  { name:'Fashion Show', image:'/images/events/diaspora/fashion-show.jpg' },
+  { name:'The Kulture Market', image:'/images/events/diaspora/kulture-market.jpg' },
+  { name:'Dance Competition', image:'/images/events/diaspora/dance-competition.jpg' },
+  { name:'Marketplace & Community', image:'/images/events/diaspora/marketplace-community.jpg' },
+  { name:'Food Village', image:'/images/events/diaspora/food-village.jpg' },
+  { name:'Cultural Experiences', image:'/images/events/diaspora/cultural-experiences.jpg' },
+  { name:'Taste of Art', image:'/images/events/diaspora/taste-of-art.jpg' },
+  { name:'Step Show', image:'/images/events/diaspora/step-show.jpg' },
+  { name:'African Dance Exhibition', image:'/images/events/diaspora/african-dance.jpg' },
+  { name:"Mui Mui's in ATL", image:'/images/events/diaspora/mui-muis.jpg' },
+  { name:'Food Competition', image:'/images/events/diaspora/food-competition.jpg' },
+  { name:'Sole Exchange Festival Activation', image:'/images/events/diaspora/sole-exchange-festival.jpg' },
 ];
 
 type DorseyEvent = {
@@ -140,6 +164,41 @@ export default function EventsPage() {
           </p>
           <a href="#events-grid" style={{ display:'inline-block',marginTop:32,fontFamily:'DM Mono,monospace',fontSize:10,letterSpacing:'0.2em',textTransform:'uppercase',color:C.base,background:C.gold,padding:'14px 36px',textDecoration:'none',transition:'all 0.3s' }}>Browse Events ↓</a>
         </div>
+      </section>
+
+      {/* ═══ SIGNATURE EVENT PORTFOLIO ═══ */}
+      <section className="signature-events" id="signature-events">
+        <div className="signature-events-head">
+          <div><span>ORIGINAL EVENT PROPERTIES</span><h2>The experiences<br/><em>we build.</em></h2></div>
+          <p>Five distinct cultural properties—each designed with its own audience, atmosphere, and point of view.</p>
+        </div>
+        <div className="signature-events-grid">
+          {SIGNATURE_EVENTS.map((event)=><a className={`signature-event${event.past?' signature-event-past':''}`} key={event.name} href={event.href} target="_blank" rel="noopener noreferrer" aria-label={`${event.destination}: ${event.name}`}>
+            <img className="signature-event-cover" src={event.image} alt=""/>
+            <div className="signature-event-overlay"/>
+            <div className="signature-event-body">
+              {event.past&&<span className="past-event-tag">Past event</span>}
+              {event.logo?<div className="signature-event-logo"><img src={event.logo} alt={`${event.name} logo`}/></div>:<div className="signature-event-mark">{event.mark?.map(line=><span key={line}>{line}</span>)}</div>}
+              <div className="signature-event-copy"><span>{event.category}</span><h3>{event.name}</h3><b>{event.destination} →</b></div>
+            </div>
+          </a>)}
+        </div>
+        <a className="signature-events-browse" href="#events-grid">Browse live listings and reservations <b>↓</b></a>
+      </section>
+
+      {/* ═══ DIASPORA IN ATL FESTIVAL PROGRAMMING ═══ */}
+      <section className="diaspora-showcase">
+        <div className="diaspora-showcase-head">
+          <div><span>DIASPORA IN ATL</span><h2>One festival.<br/><em>A world of experiences.</em></h2></div>
+          <p>Music, food, fashion, art, dance, community, and culture—each activation is part of the larger Diaspora in ATL festival experience.</p>
+        </div>
+        <div className="diaspora-flyer-rail" aria-label="Diaspora in ATL festival programming">
+          {DIASPORA_FLYERS.map((flyer)=><figure key={flyer.name}>
+            <img src={flyer.image} alt={`${flyer.name} at Diaspora in ATL`} loading="lazy"/>
+            <figcaption><span>Diaspora in ATL</span><strong>{flyer.name}</strong></figcaption>
+          </figure>)}
+        </div>
+        <div className="diaspora-rail-note"><span>Swipe or scroll to explore the festival</span><b>13 experiences →</b></div>
       </section>
 
       {/* ═══ SPONSOR BAR ═══ */}
@@ -360,10 +419,10 @@ export default function EventsPage() {
               ) : (
                 <div style={{ display:'flex',flexDirection:'column',gap:16 }}>
                   {rsvpOpen.venue_name && <p style={{ fontSize:12,color:C.ld,marginBottom:4 }}>{rsvpOpen.venue_name} · {rsvpOpen.city}{rsvpOpen.recurring_day ? ` · ${rsvpOpen.recurring_day}s` : ''}</p>}
-                  {[{k:'name',l:'Name *',t:'text'},{k:'email',l:'Email',t:'email'},{k:'phone',l:'Phone',t:'tel'}].map(f => (
+                  {([{k:'name',l:'Name *',t:'text'},{k:'email',l:'Email',t:'email'},{k:'phone',l:'Phone',t:'tel'}] as const).map(f => (
                     <div key={f.k}>
                       <label style={{ fontFamily:'DM Mono,monospace',fontSize:9,letterSpacing:'0.2em',textTransform:'uppercase',color:C.ld,display:'block',marginBottom:6 }}>{f.l}</label>
-                      <input type={f.t} value={(form as any)[f.k]} onChange={e => setForm(p => ({...p,[f.k]:e.target.value}))}
+                      <input type={f.t} value={form[f.k]} onChange={e => setForm(p => ({...p,[f.k]:e.target.value}))}
                         style={{ width:'100%',padding:'12px 16px',background:C.surf,border:`1px solid ${C.lg}`,color:C.light,fontFamily:'DM Sans,sans-serif',fontSize:14,outline:'none' }} />
                     </div>
                   ))}
@@ -388,14 +447,29 @@ export default function EventsPage() {
         </div>
       )}
 
-      <style>{`
+      <style suppressHydrationWarning>{`
         @keyframes flyerScroll { to{transform:translateX(-33.33%)} }
         @keyframes flyerScrollReverse { to{transform:translateX(-50%)} }
         @keyframes mScroll { to{transform:translateX(-50%)} }
         @keyframes spin { to{transform:rotate(360deg)} }
+        .signature-events{padding:clamp(64px,7vw,100px) clamp(20px,4vw,80px);background:${C.base};border-top:1px solid ${C.lg}}
+        .signature-events-head{max-width:1400px;margin:0 auto 42px;display:grid;grid-template-columns:1fr .65fr;gap:70px;align-items:end}
+        .signature-events-head>div>span{font-family:DM Mono,monospace;font-size:9px;letter-spacing:.32em;color:${C.gold}}
+        .signature-events-head h2{font-family:Cormorant Garamond,serif;font-size:clamp(46px,6vw,86px);font-weight:300;line-height:.9;letter-spacing:-.035em;margin-top:15px}
+        .signature-events-head h2 em{color:${C.gold};font-style:italic}.signature-events-head p{font-size:17px;line-height:1.7;color:${C.lm};max-width:470px}
+        .signature-events-grid{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:270px;gap:10px}
+        .signature-event{position:relative;overflow:hidden;grid-column:span 2;border:1px solid ${C.goldDim};background:${C.elev};color:${C.light};text-decoration:none}
+        .signature-event:nth-child(1),.signature-event:nth-child(2){grid-column:span 3}.signature-event-cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.64;transition:transform 1.2s cubic-bezier(.16,1,.3,1),opacity .4s}
+        .signature-event:hover .signature-event-cover{transform:scale(1.035);opacity:.82}.signature-event-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,6,7,.05),rgba(6,6,7,.25) 40%,rgba(6,6,7,.94))}
+        .signature-event-body{position:relative;z-index:1;height:100%;padding:22px;display:flex;flex-direction:column;align-items:flex-start}.signature-event-logo{height:76px;max-width:200px;display:flex;align-items:center}.signature-event-logo img{max-height:68px;max-width:190px;object-fit:contain;filter:drop-shadow(0 6px 14px rgba(0,0,0,.7))}
+        .signature-event-mark{font-family:Cormorant Garamond,serif;font-size:clamp(31px,3.1vw,47px);line-height:.74;letter-spacing:-.035em;color:${C.goldBright};text-shadow:0 5px 20px rgba(0,0,0,.65)}.signature-event-mark span{display:block}.signature-event-copy{margin-top:auto}.signature-event-copy>span{font-family:DM Mono,monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:${C.goldBright}}.signature-event-copy h3{font-family:Cormorant Garamond,serif;font-size:clamp(29px,2.8vw,41px);font-weight:400;line-height:1;margin-top:7px}.signature-event-copy b{display:block;margin-top:10px;font-family:DM Mono,monospace;font-size:7px;letter-spacing:.16em;text-transform:uppercase;color:${C.gold}}.past-event-tag{display:inline-flex;margin-bottom:12px;padding:7px 10px;background:${C.light};color:${C.base};font-family:DM Mono,monospace;font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase}.signature-event-past .signature-event-cover{filter:grayscale(.6)}
+        .signature-events-browse{max-width:1400px;margin:14px auto 0;padding:18px 22px;display:flex;justify-content:space-between;border:1px solid ${C.goldDim};color:${C.lm};text-decoration:none;font-family:DM Mono,monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase}.signature-events-browse b{color:${C.gold}}
+        .diaspora-showcase{padding:clamp(64px,7vw,100px) 0;background:#EFE5D4;color:#090807;overflow:hidden}.diaspora-showcase-head{padding:0 clamp(20px,4vw,80px);max-width:1560px;margin:0 auto 38px;display:grid;grid-template-columns:1fr .65fr;gap:70px;align-items:end}.diaspora-showcase-head>div>span{font-family:DM Mono,monospace;font-size:9px;letter-spacing:.32em;color:#8B651E}.diaspora-showcase-head h2{font-family:Cormorant Garamond,serif;font-size:clamp(46px,6vw,84px);font-weight:300;line-height:.9;letter-spacing:-.035em;margin-top:15px}.diaspora-showcase-head h2 em{color:#9A6D1A}.diaspora-showcase-head p{font-size:17px;line-height:1.7;color:rgba(9,8,7,.64);max-width:500px}.diaspora-flyer-rail{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 clamp(20px,4vw,80px) 18px;scrollbar-width:thin;scrollbar-color:#9A6D1A rgba(9,8,7,.08)}.diaspora-flyer-rail figure{width:clamp(255px,24vw,365px);flex:0 0 auto;scroll-snap-align:start;background:#090807;border:1px solid rgba(9,8,7,.18);padding:8px}.diaspora-flyer-rail figure:nth-child(3n+2){transform:translateY(12px)}.diaspora-flyer-rail img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:top}.diaspora-flyer-rail figcaption{padding:14px 10px 9px;display:flex;flex-direction:column}.diaspora-flyer-rail figcaption span{font-family:DM Mono,monospace;font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:${C.gold}}.diaspora-flyer-rail figcaption strong{font-family:Cormorant Garamond,serif;font-size:24px;font-weight:400;color:${C.light};margin-top:4px}.diaspora-rail-note{padding:18px clamp(20px,4vw,80px) 0;max-width:1560px;margin:0 auto;display:flex;justify-content:space-between;font-family:DM Mono,monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:rgba(9,8,7,.48)}.diaspora-rail-note b{color:#8B651E}
         @media(max-width:1024px){
           .events-grid{grid-template-columns:repeat(2,1fr)!important}
           .life-band{grid-template-columns:repeat(2,1fr)!important}
+          .signature-events-grid{grid-template-columns:repeat(2,1fr)}
+          .signature-event,.signature-event:nth-child(1),.signature-event:nth-child(2){grid-column:span 1}
         }
         @media(max-width:768px){
           .events-grid{grid-template-columns:1fr!important}
@@ -403,6 +477,8 @@ export default function EventsPage() {
           .life-band{grid-template-columns:1fr!important}
           .ev-nav-links{gap:16px!important}
           .ev-nav-links a:first-child{display:none!important}
+          .signature-events-head{grid-template-columns:1fr;gap:18px}.signature-events-grid{grid-template-columns:1fr;grid-auto-rows:290px}.signature-events-browse{line-height:1.5}
+          .diaspora-showcase-head{grid-template-columns:1fr;gap:18px}.diaspora-flyer-rail figure{width:78vw}.diaspora-flyer-rail figure:nth-child(3n+2){transform:none}.diaspora-rail-note{line-height:1.5;gap:20px}
         }
       `}</style>
     </>
