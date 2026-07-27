@@ -2,6 +2,17 @@ import styles from './kollective.module.css';
 import { accessLinks, currentFocusBrands, divisions, stats, SB } from '@/lib/enterprise';
 
 const EMBLEM = `${SB}/dr_dorsey/01_logos/KOLLECTIVEemblemW.png`;
+const WORDMARK_STYLE = {
+  maxWidth: '100%',
+  padding: '12px',
+  color: '#f0d37e',
+  fontFamily: "'Cormorant Garamond', serif",
+  fontSize: 'clamp(24px, 2.5vw, 40px)',
+  fontWeight: 500,
+  lineHeight: 0.95,
+  letterSpacing: '-0.025em',
+  textAlign: 'center' as const,
+};
 
 export default function KollectivePage() {
   const featuredAccess = accessLinks.filter((item) => item.featured);
@@ -59,7 +70,7 @@ export default function KollectivePage() {
             <a key={brand.name} href={brand.href} className={`${styles.operatingCard} ${index < 5 ? styles.anchorBrand : ''}`}>
               <div className={styles.cardTop}><span>{brand.status}</span><b>{String(index + 1).padStart(2, '0')}</b></div>
               <div className={styles.cardLogo}>
-                {brand.logo ? <img src={brand.logo} alt={`${brand.name} logo`} /> : <span className={styles.cardWordmark}>{brand.name}</span>}
+                {brand.logo ? <img src={brand.logo} alt={`${brand.name} logo`} /> : <span style={WORDMARK_STYLE}>{brand.name}</span>}
               </div>
               <div className={styles.cardBottom}><strong>{brand.name}</strong><span>{brand.category}</span></div>
             </a>
