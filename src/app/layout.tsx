@@ -4,16 +4,16 @@ import "./globals.css";
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#060607',
+  themeColor: '#050505',
 };
 
 export const metadata: Metadata = {
-  title: "Dr. DoLo Dorsey — Founder, Architect & Enterprise Builder",
-  description: "The official platform for Dr. DoLo Dorsey: founder of The Kollective, author of Hakuna Matata, strategist, operator and architect of a multi-division enterprise.",
+  title: "Dr. DoLo Dorsey — Founder, Lifestyle Specialist & Enterprise Builder",
+  description: "The official platform for Dr. DoLo Dorsey: founder of The Kollective, author of Hakuna Matata, lifestyle specialist, operator and architect of a multi-division enterprise.",
   keywords: "Dr. Dorsey, DoLo Dorsey, The Kollective, Hakuna Matata, enterprise builder, hospitality, technology, consumer brands, Atlanta",
   openGraph: {
-    title: "Dr. DoLo Dorsey — Founder, Architect & Enterprise Builder",
-    description: "Meet the founder, explore the current-focus companies, enter the full Kollective enterprise and access every public action.",
+    title: "Dr. DoLo Dorsey — Founder, Lifestyle Specialist & Enterprise Builder",
+    description: "Meet the founder, explore the current companies, enter The Kollective and take direct action.",
     type: "website",
     siteName: "Dr. DoLo Dorsey",
     images: ['https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/dr_dorsey/website/hero-bg.jpg'],
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Dr. DoLo Dorsey — Enterprise Builder",
-    description: "Founder of The Kollective. Author of Hakuna Matata. One founder building a multi-division enterprise.",
+    description: "Founder of The Kollective. Author of Hakuna Matata. Lifestyle specialist building a multi-division enterprise.",
   },
   icons: {
     icon: 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png',
@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
