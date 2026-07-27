@@ -1,0 +1,4 @@
+'use client';
+import { useEffect, useState } from 'react';
+type Brand={name:string;category:string;logo?:string;href:string;status:string};
+export function useEnterpriseRegistry(fallbackBrands:Brand[]){const[brands,setBrands]=useState<Brand[]>(fallbackBrands);useEffect(()=>{let cancelled=false;(async()=>{try{const response=await fetch('/api/enterprise/registry?current_focus=true',{cache:'no-store'});if(!response.ok)return;const payload=await response.json();if(cancelled||!Array.isArray(payload?.entities)||!payload.entities.length)return;setBrands(payload.entities.map((entity:any)=>({name:entity.name||'Enterprise Entity',category:entity.category||entity.short_description||'The Kollective',logo:entity.logo_url||undefined,href:entity.primary_action_url||entity.website_url||'/access',status:entity.status||'Active'})));}catch{}})();return()=>{cancelled=true}},[fallbackBrands]);return{brands};}
