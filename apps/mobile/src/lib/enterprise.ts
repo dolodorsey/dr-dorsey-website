@@ -8,11 +8,8 @@ import * as Linking from 'expo-linking';
 import * as Notifications from 'expo-notifications';
 import { AppState, Platform } from 'react-native';
 
-const supabaseUrl =
-  process.env.EXPO_PUBLIC_SUPABASE_URL || 'https://dzlmtvodpyhetvektfuo.supabase.co';
-const supabaseKey =
-  process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
-  'sb_publishable_ekvoOK6QQ05dUZuWgzQfUw_2RgbWPFR';
+const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL || 'https://dzlmtvodpyhetvektfuo.supabase.co';
+const supabaseKey = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_ekvoOK6QQ05dUZuWgzQfUw_2RgbWPFR';
 
 export const supabase = createClient(supabaseUrl, supabaseKey, {
   auth: {
@@ -115,11 +112,7 @@ function platformName(): 'ios' | 'android' | 'web' {
   return 'web';
 }
 
-export async function resolveAndOpen(
-  entitySlug: string,
-  sourceScreen: string,
-  sourceCampaign?: string,
-): Promise<string> {
+export async function resolveAndOpen(entitySlug: string, sourceScreen: string, sourceCampaign?: string): Promise<string> {
   const { data: sessionData } = await supabase.auth.getSession();
   const { data, error } = await supabase.rpc('kollective_resolve_destination', {
     p_entity_slug: entitySlug,
@@ -145,7 +138,7 @@ export async function resolveAndOpen(
         return deepLink;
       }
     } catch {
-      // Continue to the store or approved fallback.
+      // Continue to the store URL or approved fallback.
     }
   }
 
@@ -171,7 +164,8 @@ export async function getSession(): Promise<Session | null> {
 }
 
 export async function registerPushToken(userId: string): Promise<string | null> {
-  if (!Device.isDevice || Platform.OS === 'web') return null;
+  const platform = platformName();
+  if (!Device.isDevice || platform === 'web') return null;
 
   const existing = await Notifications.getPermissionsAsync();
   let status = existing.status;
@@ -186,7 +180,7 @@ export async function registerPushToken(userId: string): Promise<string | null> 
     {
       user_id: userId,
       expo_push_token: token,
-      platform: Platform.OS,
+      platform,
       is_active: true,
       last_seen_at: new Date().toISOString(),
     },
