@@ -2,6 +2,11 @@ import styles from './kollective.module.css';
 import { accessLinks, currentFocusBrands, divisions, stats, SB } from '@/lib/enterprise';
 
 const EMBLEM = `${SB}/dr_dorsey/01_logos/KOLLECTIVEemblemW.png`;
+const HERO_VIDEO = 'https://drive.google.com/uc?export=download&id=1Toznssv2hgr4QSAHmGTBfxnmneUSZ1tU';
+const HERO_POSTER = 'https://drive.google.com/uc?export=view&id=1ewqIbpjtL1DhWQGCLjXAF1US0BQtltd6';
+const BOOK_COVER = 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/cover-hero.png?v=1783903956';
+const BOOK_URL = 'https://bodgeaworldwide.myshopify.com/products/hakuna-matata-by-dr-dorsey';
+
 const WORDMARK_STYLE = {
   maxWidth: '100%',
   padding: '12px',
@@ -27,14 +32,16 @@ export default function KollectivePage() {
         <div className={styles.navLinks}>
           <a href="#focus">Current Focus</a>
           <a href="#divisions">Full Enterprise</a>
+          <a href="#book">The Book</a>
           <a href="#access">Direct Access</a>
-          <a href="https://doctordorsey.com">Founder</a>
         </div>
-        <a className={styles.navButton} href="/forms/inquiry?interest=enterprise_app">App Early Access</a>
+        <a className={styles.navButton} href="/access">Open Access Center</a>
       </nav>
 
       <section className={styles.hero} id="top">
-        <img className={styles.heroImage} src="/brand/kollective-hero.svg" alt="The Kollective enterprise" />
+        <video className={styles.heroVideo} autoPlay muted loop playsInline preload="auto" poster={HERO_POSTER} aria-label="The Kollective global enterprise animation">
+          <source src={HERO_VIDEO} type="video/mp4" />
+        </video>
         <div className={styles.heroShade} />
         <div className={styles.heroFrame} />
         <div className={styles.heroContent}>
@@ -45,9 +52,10 @@ export default function KollectivePage() {
             services, technology, institutions, culture and community impact.
           </p>
           <div className={styles.heroButtons}>
-            <a className={styles.goldButton} href="#focus">See Current Focus</a>
-            <a className={styles.lineButton} href="#divisions">View Full Enterprise</a>
-            <a className={styles.lineButton} href="/forms/inquiry?interest=enterprise_app">Join App Early Access</a>
+            <a className={styles.goldButton} href="#focus">Explore the Enterprise</a>
+            <a className={styles.lineButton} href="/forms/rsvp">RSVP / Events</a>
+            <a className={styles.lineButton} href="/forms/table_reservation">Reserve a Table</a>
+            <a className={styles.lineButton} href={BOOK_URL}>Buy Hakuna Matata</a>
           </div>
         </div>
         <div className={styles.heroRail}>
@@ -57,6 +65,15 @@ export default function KollectivePage() {
 
       <section className={styles.statBar}>
         {stats.map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
+      </section>
+
+      <section className={styles.actionBar} aria-label="Fast enterprise actions">
+        <a href="/forms/rsvp"><strong>RSVP</strong><span>Events and guest lists</span></a>
+        <a href="/forms/table_reservation"><strong>Reserve</strong><span>Dining and nightlife</span></a>
+        <a href={BOOK_URL}><strong>Buy</strong><span>Hakuna Matata</span></a>
+        <a href="/forms/sponsor"><strong>Partner</strong><span>Sponsors and enterprise deals</span></a>
+        <a href="/forms/hiring_inquiry"><strong>Join</strong><span>Careers and opportunities</span></a>
+        <a href="/access"><strong>All Access</strong><span>Every form and link</span></a>
       </section>
 
       <section className={styles.operating} id="focus">
@@ -75,6 +92,24 @@ export default function KollectivePage() {
               <div className={styles.cardBottom}><strong>{brand.name}</strong><span>{brand.category}</span></div>
             </a>
           ))}
+        </div>
+      </section>
+
+      <section className={styles.bookPromo} id="book">
+        <div className={styles.bookVisual}>
+          <div className={styles.bookGlow} />
+          <img src={BOOK_COVER} alt="Hakuna Matata by Dr. Dorsey" />
+        </div>
+        <div className={styles.bookCopy}>
+          <span>The Founder’s Field Manual</span>
+          <h2>Hakuna Matata.<br />The mindset behind the machine.</h2>
+          <p>A direct look at the philosophy, pressure, ambition and discipline behind Dr. Dorsey’s approach to life, leadership and enterprise building.</p>
+          <div className={styles.bookPrice}>Available now · $44.44</div>
+          <div className={styles.heroButtons}>
+            <a className={styles.goldButton} href={BOOK_URL}>Buy the Book</a>
+            <a className={styles.lineButton} href="/forms/bulk_orders">Bulk Orders</a>
+            <a className={styles.lineButton} href="/forms/speaking">Book Dr. Dorsey</a>
+          </div>
         </div>
       </section>
 
@@ -152,7 +187,7 @@ export default function KollectivePage() {
 
       <footer className={styles.footer}>
         <div className={styles.footerBrand}><img src={EMBLEM} alt="The Kollective" /><div><strong>The Kollective</strong><span>One enterprise. Many worlds.</span></div></div>
-        <div className={styles.footerLinks}><a href="/access">Access Center</a><a href="/forms/sponsor">Partnerships</a><a href="/forms/hiring_inquiry">Careers</a><a href="https://doctordorsey.com">Dr. Dorsey</a></div>
+        <div className={styles.footerLinks}><a href="/access">Access Center</a><a href="/forms/sponsor">Partnerships</a><a href="/forms/hiring_inquiry">Careers</a><a href={BOOK_URL}>Buy the Book</a><a href="https://doctordorsey.com">Dr. Dorsey</a></div>
         <p>© 2026 The Kollective. Every brand remains independently operated within the enterprise portfolio.</p>
       </footer>
     </main>
