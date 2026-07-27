@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react';
-import { Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { Entity } from '@/lib/enterprise';
 
 export const colors = {
@@ -13,10 +13,23 @@ export const colors = {
   border: '#30281A',
 };
 
-export function Screen({ children }: PropsWithChildren) {
+type ScreenProps = PropsWithChildren<{
+  refreshing?: boolean;
+  onRefresh?: () => void;
+}>;
+
+export function Screen({ children, refreshing = false, onRefresh }: ScreenProps) {
   return (
     <SafeAreaView style={styles.safe}>
-      <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+      <ScrollView
+        contentContainerStyle={styles.scroll}
+        keyboardShouldPersistTaps="handled"
+        refreshControl={
+          onRefresh ? (
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.gold2} colors={[colors.gold2]} />
+          ) : undefined
+        }
+      >
         {children}
       </ScrollView>
     </SafeAreaView>
@@ -36,6 +49,8 @@ export function Body({ children }: PropsWithChildren) {
 }
 
 export function EntityCard({ entity, onPress }: { entity: Entity; onPress: () => void }) {
+  const primary = entity.destinations?.find((destination) => destination.is_primary) || entity.destinations?.[0];
+
   return (
     <Pressable style={({ pressed }) => [styles.card, pressed && styles.cardPressed]} onPress={onPress}>
       <View style={styles.statusRow}>
@@ -51,7 +66,7 @@ export function EntityCard({ entity, onPress }: { entity: Entity; onPress: () =>
       </View>
       <Text style={styles.cardTitle}>{entity.name}</Text>
       <Text style={styles.cardMeta}>{entity.category || entity.short_description}</Text>
-      <Text style={styles.action}>{entity.destinations?.[0]?.action_label || 'Explore'} →</Text>
+      <Text style={styles.action}>{primary?.action_label || 'Explore'} →</Text>
     </Pressable>
   );
 }
