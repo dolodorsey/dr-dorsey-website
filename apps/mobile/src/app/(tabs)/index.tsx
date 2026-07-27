@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Body, colors, EntityCard, Eyebrow, MessageCard, PageTitle, Screen } from '@/components/ui';
 import { getCurrentFocus, getPublishedContent, resolveAndOpen, type ContentItem, type Entity } from '@/lib/enterprise';
 
@@ -28,7 +28,7 @@ export default function HomeScreen() {
   useEffect(() => { void load(); }, [load]);
 
   return (
-    <Screen>
+    <Screen refreshing={refreshing} onRefresh={() => { setRefreshing(true); void load(); }}>
       <Eyebrow>The Kollective · Enterprise Home</Eyebrow>
       <PageTitle>One account. The whole enterprise.</PageTitle>
       <Body>Your direct path to brands, events, products, opportunities, services and standalone apps.</Body>
@@ -49,8 +49,6 @@ export default function HomeScreen() {
       {loading ? <ActivityIndicator color={colors.gold2} size="large" /> : null}
       {error ? <Text style={styles.error}>{error}</Text> : null}
       {entities.slice(0, 8).map((entity) => <EntityCard key={entity.id} entity={entity} onPress={() => resolveAndOpen(entity.slug, 'mobile_home_focus')} />)}
-
-      <RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); void load(); }} tintColor={colors.gold2} />
     </Screen>
   );
 }
