@@ -2,99 +2,96 @@
 
 import { useEffect, useState } from 'react';
 import styles from './home.module.css';
-import { BOOK_COVER, BOOK_URL, currentFocusBrands, divisions, stats, SB } from '@/lib/enterprise';
+import { BOOK_URL, currentFocusBrands, SB } from '@/lib/enterprise';
 import { useEnterpriseRegistry } from '@/lib/use-enterprise-registry';
 
 const HERO_VIDEO = `${SB}/dr_dorsey/website/hero-video.mp4`;
 const HERO_POSTER = `${SB}/dr_dorsey/website/hero-bg.jpg`;
 const DORSEY_LOGO = `${SB}/dr_dorsey/01_logos/DorseyNewW.png`;
-const KOLLECTIVE_EMBLEM = `${SB}/dr_dorsey/01_logos/KOLLECTIVEemblemW.png`;
-const WORDMARK_STYLE = {
-  maxWidth: '100%',
-  padding: '12px',
-  color: '#f0d995',
-  fontFamily: "'Cormorant Garamond', serif",
-  fontSize: 'clamp(24px, 2.5vw, 40px)',
-  fontWeight: 500,
-  lineHeight: 0.95,
-  letterSpacing: '-0.025em',
-  textAlign: 'center' as const,
+const EMBLEM = `${SB}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
+
+const VISUALS: Record<string, string> = {
+  'Dr. Dorsey': `${SB}/dr_dorsey/website/penthouse-skyline.jpg`,
+  'The Kollective ENT.': `${SB}/dr_dorsey/website/luxury-venue.jpg`,
+  'The Sovereign Nation': '/brand/kollective-hero.svg',
+  'The Tribe — Memphis': `${SB}/dr_dorsey/website/garden-district.jpg`,
+  'The University': `${SB}/pulse_university/website/WEBSITE_HERO_DRIVE_EVERY_MOMENT.png`,
+  'Everyday Water Group': `${SB}/infinity_water/generated/infinity_gold_splash_v2.png`,
+  'Aquifer Waterworks': `${SB}/infinity_water/website/blue.jpg`,
+  'Nativa Waterworks': `${SB}/infinity_water/website/life3.jpg`,
+  'Infinity Water': `${SB}/infinity_water/generated/infinity_gold_splash_v2.png`,
+  'Tribal Water': `${SB}/good-times-app/infinity_water/infinity_water_landscape.png`,
+  'Pronto Energy': `${SB}/pronto_energy/generated/pronto_gym_hero_v2.png`,
+  'Rose on Piedmont': `${SB}/social-dashboard/2026-07-17/dolodorsey/rose-bar-free-bottle.png`,
+  'GROWN-ISH': `${SB}/grownish/03_event_flyers/GROWNISH_COMING_SOON.png`,
+  'Sole Exchange': `${SB}/email-newsletters/sole-exchange-flyer-v3-air-force-1.png`,
+  'Hakuna Matata': `${SB}/bodega/hakuna-matata/promo-05-gold-columns.png`,
+  'Bodega': `${SB}/bodega/hakuna-matata/promo-02-graffiti-red.png`,
+  'STUSH': `${SB}/stush/stush_lineup/063_the_stush_lineup.jpg`,
+  'PULSE': `${SB}/pulse/pulse_landing_v1/021_pulse_3d_logo_stage.jpg`,
+  'Make Atlanta Great Again': `${SB}/maga/generated/maga_hero.png`,
+  'GOOD TIMES': `${SB}/good_times/atl-nightlife-elevated.png`,
 };
 
-export default function HomePage() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const { brands: focusBrands } = useEnterpriseRegistry(currentFocusBrands);
+const ICONS = [
+  `${SB}/dr_dorsey/01_logos/DorseyNewW.png`,
+  EMBLEM,
+  `${SB}/casper_group/logos/logo-full.png`,
+  `${SB}/good_times/00-brand-assets/logos/good-times-logo-gold-black.png`,
+  `${SB}/email-newsletters/sole-exchange-logo.png`,
+  `${SB}/pronto_energy/logos/pronto-logo.png`,
+  `${SB}/umbrella_injury/00-brand-assets/logos/hurt-911-logo-black.png`,
+  `${SB}/dr_dorsey/00-brand-assets/logos/iconic-logo-gold.png`,
+];
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 36);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+export default function HomePage() {
+  const [menu, setMenu] = useState(false);
+  const { brands } = useEnterpriseRegistry(currentFocusBrands);
+  useEffect(() => { document.body.style.overflow = menu ? 'hidden' : ''; return () => { document.body.style.overflow = ''; }; }, [menu]);
 
   return (
     <main className={styles.page}>
-      <nav className={`${styles.nav} ${scrolled ? styles.navScrolled : ''}`}>
-        <a href="#top" className={styles.brandMark} aria-label="Dr. Dorsey home"><img src={DORSEY_LOGO} alt="Dr. Dorsey" /></a>
-        <div className={styles.desktopNav}><a href="#focus">Current Focus</a><a href="#enterprise">Full Enterprise</a><a href="#strategy">Strategy</a><a href="/access">All Access</a></div>
-        <div className={styles.navActions}>
-          <a href="/forms/consultation" className={styles.navCta}>Book Strategy</a>
-          <button className={styles.menuButton} onClick={() => setMenuOpen(!menuOpen)} aria-label="Open navigation"><span /><span /><span /></button>
-        </div>
+      <nav className={styles.nav}>
+        <a href="#top"><img src={DORSEY_LOGO} alt="Dr. Dorsey" /></a>
+        <div className={styles.navLinks}><a href="#story">Story</a><a href="#focus">Companies</a><a href="#book">Book</a><a href="#access">Access</a></div>
+        <button className={styles.menuButton} onClick={() => setMenu(!menu)} aria-label="Open menu"><span /><span /></button>
       </nav>
+      <div className={`${styles.mobileMenu} ${menu ? styles.open : ''}`}><a href="#story" onClick={() => setMenu(false)}>Story</a><a href="#focus" onClick={() => setMenu(false)}>Companies</a><a href="#book" onClick={() => setMenu(false)}>Hakuna Matata</a><a href="/kollective">The Kollective</a><a href="/access">All Access</a></div>
 
-      <div className={`${styles.mobileMenu} ${menuOpen ? styles.mobileMenuOpen : ''}`}>
-        {['focus', 'enterprise', 'strategy', 'convert'].map((id) => <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>{id === 'convert' ? 'Direct Access' : id === 'focus' ? 'Current Focus' : id}</a>)}
-        <a href="/access">All Forms & Links</a><a href="/kollective">The Kollective</a>
-      </div>
-
-      <section className={styles.hero} id="top">
-        <video className={styles.heroVideo} autoPlay muted loop playsInline preload="auto" poster={HERO_POSTER}><source src={HERO_VIDEO} type="video/mp4" /></video>
-        <div className={styles.heroOverlay} /><div className={styles.heroGrid} />
-        <div className={styles.heroContent}>
-          <div className={styles.heroCopy}>
-            <div className={styles.kicker}>Founder · Architect · Operator</div>
-            <h1>Dr. Dorsey builds <em>ecosystems</em>, not isolated businesses.</h1>
-            <p>One founder. Twenty current-focus entities. A full enterprise spanning hospitality, food, products, technology, services, institutions, culture and community impact.</p>
-            <div className={styles.heroActions}><a className={styles.primaryButton} href="#focus">View Current Focus</a><a className={styles.secondaryButton} href="/kollective">Enter The Kollective</a><a className={styles.textButton} href={BOOK_URL}>Buy Hakuna Matata →</a></div>
-          </div>
-          <div className={styles.heroBook}><div className={styles.heroBookLabel}>The Founder’s Field Manual</div><img src={BOOK_COVER} alt="Hakuna Matata by Dr. Dorsey" /><a href={BOOK_URL}>Order now · $44.44</a></div>
-        </div>
-        <div className={styles.heroBottom}><div>Atlanta · Houston · Memphis · Miami · Las Vegas · Washington · New York · Los Angeles</div><div>Scroll to enter the enterprise ↓</div></div>
+      <section className={styles.hero} id="top" aria-label="Dr. Dorsey visual introduction">
+        <video autoPlay muted loop playsInline preload="metadata" poster={HERO_POSTER}><source src={HERO_VIDEO} type="video/mp4" /></video>
+        <div className={styles.heroVignette} />
+        <a href="#story" className={styles.scrollCue}><span /></a>
       </section>
 
-      <section className={styles.statsBand}>{stats.map((stat) => <div key={stat.label} className={styles.stat}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}</section>
-
-      <section className={styles.operating} id="focus">
-        <div className={styles.sectionHeader}><div><span className={styles.eyebrow}>Current Focus · Live Registry</span><h2>The companies receiving active command now.</h2></div><p>This section now reads from the managed enterprise registry. Staff can update status, priority, links and approved logos in Supabase without another website code change.</p></div>
-        <div className={styles.brandGrid}>
-          {focusBrands.map((brand, index) => (
-            <a href={brand.href} className={`${styles.brandCard} ${index < 5 ? styles.brandCardMajor : ''}`} key={brand.name}>
-              <div className={styles.statusDot}><span />{brand.status}</div>
-              <div className={styles.logoFrame}>{brand.logo ? <img src={brand.logo} alt={`${brand.name} logo`} /> : <span style={WORDMARK_STYLE}>{brand.name}</span>}</div>
-              <div className={styles.brandMeta}><div><strong>{brand.name}</strong><span>{brand.category}</span></div><b>↗</b></div>
-            </a>
-          ))}
+      <section className={styles.story} id="story">
+        <div className={styles.storyHead}><p className={styles.kicker}>Founder · Lifestyle Specialist · Enterprise Builder</p><h1>I build the system<br />behind the brands.</h1></div>
+        <div className={styles.storyGrid}>
+          <div className={styles.storyCopy}><p>Dr. Dorsey operates at the intersection of hospitality, culture, brand development, entertainment, products, technology, and community impact. The work is not one company. It is a repeatable ecosystem designed to turn ideas into independent, scalable brands.</p><p>Years of live operating experience—from nightlife and events to media, consulting, product development, and technology—shape an execution-first approach: create the identity, build the funnel, install the operating system, and expand.</p><div><a href="/forms/consultation">Book Strategy</a><a href="/forms/speaking">Speaking & Appearances</a></div></div>
+          <div className={styles.storyMedia}><img src={`${SB}/dr_dorsey/website/rooftop-lounge.jpg`} alt="Dr. Dorsey enterprise lifestyle environment" /></div>
         </div>
       </section>
 
-      <section className={styles.enterprise} id="enterprise">
-        <div className={styles.enterpriseBackdrop} style={{ backgroundImage: "url('/brand/kollective-hero.svg')" }} />
-        <div className={styles.sectionHeaderLight}><div><span className={styles.eyebrowGold}>The Full Command</span><h2>Eight divisions. Independent brands. Shared leverage.</h2></div><a href="/access">Open enterprise access center →</a></div>
-        <div className={styles.divisionGrid}>{divisions.map((division, index) => <article className={styles.divisionCard} key={division.title}><div className={styles.divisionNumber}>{String(index + 1).padStart(2, '0')}</div><span>{division.eyebrow}</span><h3>{division.title}</h3><p>{division.description}</p><div className={styles.brandList}>{division.brands.map((brand) => <b key={brand}>{brand}</b>)}</div><a href={division.href}>{division.cta} →</a></article>)}</div>
+      <section className={styles.iconMarquee} aria-label="Enterprise brand icons"><div>{[...ICONS, ...ICONS].map((icon, i) => <span key={i}><img src={icon} alt="" /></span>)}</div></section>
+
+      <section className={styles.focus} id="focus">
+        <header className={styles.sectionHead}><div><p className={styles.kicker}>Current enterprise focus</p><h2>The companies being built now.</h2></div><p>Full visuals, readable names, and direct destinations. Every company remains a separate brand.</p></header>
+        <div className={styles.focusGrid}>{brands.map((brand, index) => <a href={brand.href} className={styles.card} key={brand.name}><div className={styles.cardMedia}><img src={VISUALS[brand.name] || `${SB}/dr_dorsey/website/atl-street.jpg`} alt={`${brand.name} visual`} />{brand.logo && <img className={styles.cardLogo} src={brand.logo} alt={`${brand.name} logo`} />}<b>{String(index + 1).padStart(2, '0')}</b></div><div className={styles.cardCopy}><small>{brand.status}</small><h3>{brand.name}</h3><p>{brand.category}</p><span>Open ↗</span></div></a>)}</div>
       </section>
 
-      <section className={styles.strategy} id="strategy">
-        <div className={styles.strategyVisual}><img className={styles.boardroom} src={`${SB}/dr_dorsey/website/luxury-venue.jpg`} alt="The Kollective executive boardroom" /><img className={styles.miniDorsey} src={`${SB}/dr_dorsey/characters/dolo_mini/DOLO_MINI.png`} alt="Dr. Dorsey illustrated character" /><div className={styles.visualBadge}><img src={KOLLECTIVE_EMBLEM} alt="The Kollective emblem" /><span>Enterprise Command</span></div></div>
-        <div className={styles.strategyCopy}><span className={styles.eyebrow}>Dr. Dorsey · The Strategist</span><h2>I built the system that builds the brands.</h2><p>The real product is not one restaurant, one event or one app. It is the repeatable operating system behind them: positioning, creative direction, partnerships, sales, automation, execution and expansion.</p><div className={styles.strategyPoints}><div><strong>01</strong><span>Brand architecture and portfolio design</span></div><div><strong>02</strong><span>Hospitality, event and cultural execution</span></div><div><strong>03</strong><span>Automation-first operating infrastructure</span></div><div><strong>04</strong><span>City-by-city expansion strategy</span></div></div><div className={styles.strategyActions}><a className={styles.darkButton} href="/forms/consultation">Book a Strategy Session</a><a className={styles.outlineDarkButton} href="/forms/speaking">Speaking & Appearances</a></div></div>
+      <section className={styles.builder}>
+        <div className={styles.builderMedia}><img src={`${SB}/dr_dorsey/website/luxury-venue.jpg`} alt="Executive enterprise environment" /></div>
+        <div className={styles.builderCopy}><p className={styles.kicker}>The operating philosophy</p><h2>Build culture.<br />Install systems.<br />Own the outcome.</h2><div className={styles.builderRows}><div><b>Brand architecture</b><span>Each company receives its own identity, audience, offer, funnel, and operating model.</span></div><div><b>Experience design</b><span>Every touchpoint should feel intentional, premium, useful, and memorable.</span></div><div><b>Automation and data</b><span>Shared technology turns scattered activity into an enterprise system.</span></div><div><b>Expansion</b><span>The goal is repeatable market entry, not one-off success.</span></div></div></div>
       </section>
 
-      <section className={styles.bookFeature}><div className={styles.bookArt}><img src={BOOK_COVER} alt="Hakuna Matata book cover" /></div><div className={styles.bookCopy}><span className={styles.eyebrowGold}>Hakuna Matata</span><h2>The mindset behind the machine.</h2><p>A direct look at the philosophy, pressure, ambition and discipline behind Dr. Dorsey’s approach to life and enterprise.</p><div className={styles.bookButtons}><a className={styles.primaryButton} href={BOOK_URL}>Buy the Book · $44.44</a><a className={styles.secondaryButton} href="/forms/bulk_orders">Bulk Orders</a><a className={styles.secondaryButton} href="/forms/book_club">Book Clubs</a></div></div></section>
+      <section className={styles.book} id="book">
+        <div className={styles.bookVisual}><img src={`${SB}/bodega/hakuna-matata/promo-06-office-navy-suit.png`} alt="Hakuna Matata by Dr. Dorsey" /></div>
+        <div className={styles.bookCopy}><p className={styles.kicker}>Hakuna Matata</p><h2>The mindset behind the machine.</h2><p>A founder's philosophy on pressure, ambition, living fully, and building something that lasts.</p><div><a href={BOOK_URL}>Buy the Book</a><a href="/forms/bulk_orders">Bulk Orders</a><a href="/forms/book_club">Book Clubs</a></div></div>
+      </section>
 
-      <section className={styles.convert} id="convert"><div className={styles.convertGraphic}><img src="/brand/kollective-hero.svg" alt="The Kollective global enterprise map" /></div><div className={styles.convertContent}><span className={styles.eyebrowGold}>Choose Your Entry Point</span><h2>Buy. RSVP. Book. Partner. Join. Download.</h2><p>Every enterprise card now resolves through a tracked, device-aware CTA router.</p><div className={styles.conversionGrid}><a href="/go/rose-on-piedmont?source=dr_dorsey_actions"><strong>RSVP</strong><span>Current Rose programming</span></a><a href="/go/grown-ish?source=dr_dorsey_actions"><strong>Reserve</strong><span>Friday hospitality access</span></a><a href="/forms/sponsor"><strong>Partner</strong><span>Sponsorship and brand deals</span></a><a href="/forms/hiring_inquiry"><strong>Join</strong><span>Careers and team</span></a><a href="/forms/nda"><strong>NDA</strong><span>Private conversations</span></a><a href="/access"><strong>All Access</strong><span>Every form and link</span></a><a href="/forms/inquiry?interest=enterprise_app"><strong>App Access</strong><span>Join unified enterprise app early access</span></a></div></div></section>
+      <section className={styles.access} id="access"><p className={styles.kicker}>Choose the next move</p><h2>Buy. Book. Partner. Apply. Build.</h2><div className={styles.accessGrid}><a href="/forms/consultation"><b>Strategy</b><span>Private consultation</span></a><a href="/forms/speaking"><b>Speaking</b><span>Keynotes and appearances</span></a><a href={BOOK_URL}><b>Book</b><span>Order Hakuna Matata</span></a><a href="/kollective"><b>Enterprise</b><span>Explore The Kollective</span></a><a href="https://111atl.com"><b>Atlanta</b><span>Events and public access</span></a><a href="/access"><b>All Access</b><span>Every form and link</span></a></div></section>
 
-      <footer className={styles.footer}><div className={styles.footerBrand}><img src={DORSEY_LOGO} alt="Dr. Dorsey" /><span>Founder & CEO · The Kollective</span></div><div className={styles.footerLinks}><a href="/kollective">The Kollective</a><a href="/access">All Forms</a><a href={BOOK_URL}>Book</a><a href="https://instagram.com/dolodorsey">Instagram</a><a href="mailto:thedoctordorsey@gmail.com">Email</a></div><div className={styles.copyright}>© 2026 Dr. DoLo Dorsey. Built for scale.</div></footer>
+      <footer className={styles.footer}><img src={DORSEY_LOGO} alt="Dr. Dorsey" /><p>Founder & CEO · The Kollective</p><div><a href="/kollective">The Kollective</a><a href="https://111atl.com">111ATL</a><a href="https://instagram.com/dolodorsey">Instagram</a></div></footer>
     </main>
   );
 }
