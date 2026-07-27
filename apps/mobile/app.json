@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "The Kollective",
+    "slug": "the-kollective",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "kollective",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.thekollective.app"
+    },
+    "android": {
+      "package": "com.thekollective.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#080706"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-notifications"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "enterpriseRouterBaseUrl": "https://thekollectivehospitality.com"
+    }
+  }
+}
