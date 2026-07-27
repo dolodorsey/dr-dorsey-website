@@ -1,4 +1,5 @@
 import styles from './kollective.module.css';
+import upgradeStyles from './kollective-upgrade.module.css';
 import { accessLinks, currentFocusBrands, divisions, stats, SB } from '@/lib/enterprise';
 
 const EMBLEM = `${SB}/dr_dorsey/01_logos/KOLLECTIVEemblemW.png`;
@@ -39,7 +40,7 @@ export default function KollectivePage() {
       </nav>
 
       <section className={styles.hero} id="top">
-        <video className={styles.heroVideo} autoPlay muted loop playsInline preload="auto" poster={HERO_POSTER} aria-label="The Kollective global enterprise animation">
+        <video className={upgradeStyles.heroVideo} autoPlay muted loop playsInline preload="auto" poster={HERO_POSTER} aria-label="The Kollective global enterprise animation">
           <source src={HERO_VIDEO} type="video/mp4" />
         </video>
         <div className={styles.heroShade} />
@@ -67,7 +68,7 @@ export default function KollectivePage() {
         {stats.map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
       </section>
 
-      <section className={styles.actionBar} aria-label="Fast enterprise actions">
+      <section className={upgradeStyles.actionBar} aria-label="Fast enterprise actions">
         <a href="/forms/rsvp"><strong>RSVP</strong><span>Events and guest lists</span></a>
         <a href="/forms/table_reservation"><strong>Reserve</strong><span>Dining and nightlife</span></a>
         <a href={BOOK_URL}><strong>Buy</strong><span>Hakuna Matata</span></a>
@@ -95,16 +96,16 @@ export default function KollectivePage() {
         </div>
       </section>
 
-      <section className={styles.bookPromo} id="book">
-        <div className={styles.bookVisual}>
-          <div className={styles.bookGlow} />
+      <section className={upgradeStyles.bookPromo} id="book">
+        <div className={upgradeStyles.bookVisual}>
+          <div className={upgradeStyles.bookGlow} />
           <img src={BOOK_COVER} alt="Hakuna Matata by Dr. Dorsey" />
         </div>
-        <div className={styles.bookCopy}>
+        <div className={upgradeStyles.bookCopy}>
           <span>The Founder’s Field Manual</span>
           <h2>Hakuna Matata.<br />The mindset behind the machine.</h2>
           <p>A direct look at the philosophy, pressure, ambition and discipline behind Dr. Dorsey’s approach to life, leadership and enterprise building.</p>
-          <div className={styles.bookPrice}>Available now · $44.44</div>
+          <div className={upgradeStyles.bookPrice}>Available now · $44.44</div>
           <div className={styles.heroButtons}>
             <a className={styles.goldButton} href={BOOK_URL}>Buy the Book</a>
             <a className={styles.lineButton} href="/forms/bulk_orders">Bulk Orders</a>
