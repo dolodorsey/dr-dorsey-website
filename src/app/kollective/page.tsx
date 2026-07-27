@@ -1,5 +1,8 @@
+'use client';
+
 import styles from './kollective.module.css';
 import { accessLinks, currentFocusBrands, divisions, stats, SB } from '@/lib/enterprise';
+import { useEnterpriseRegistry } from '@/lib/use-enterprise-registry';
 
 const EMBLEM = `${SB}/dr_dorsey/01_logos/KOLLECTIVEemblemW.png`;
 const WORDMARK_STYLE = {
@@ -16,62 +19,32 @@ const WORDMARK_STYLE = {
 
 export default function KollectivePage() {
   const featuredAccess = accessLinks.filter((item) => item.featured);
+  const { brands: focusBrands } = useEnterpriseRegistry(currentFocusBrands);
 
   return (
     <main className={styles.page}>
       <nav className={styles.nav}>
-        <a className={styles.brand} href="#top">
-          <img src={EMBLEM} alt="The Kollective emblem" />
-          <div><strong>THE KOLLECTIVE</strong><span>Enterprise</span></div>
-        </a>
-        <div className={styles.navLinks}>
-          <a href="#focus">Current Focus</a>
-          <a href="#divisions">Full Enterprise</a>
-          <a href="#access">Direct Access</a>
-          <a href="https://doctordorsey.com">Founder</a>
-        </div>
+        <a className={styles.brand} href="#top"><img src={EMBLEM} alt="The Kollective emblem" /><div><strong>THE KOLLECTIVE</strong><span>Enterprise</span></div></a>
+        <div className={styles.navLinks}><a href="#focus">Current Focus</a><a href="#divisions">Full Enterprise</a><a href="#access">Direct Access</a><a href="https://doctordorsey.com">Founder</a></div>
         <a className={styles.navButton} href="/forms/inquiry?interest=enterprise_app">App Early Access</a>
       </nav>
 
       <section className={styles.hero} id="top">
         <img className={styles.heroImage} src="/brand/kollective-hero.svg" alt="The Kollective enterprise" />
-        <div className={styles.heroShade} />
-        <div className={styles.heroFrame} />
-        <div className={styles.heroContent}>
-          <div className={styles.eyebrow}>The Enterprise · Established 2026</div>
-          <h1>One enterprise.<br /><em>Independent brands.</em><br />Shared leverage.</h1>
-          <p>
-            The Kollective is a multi-city ecosystem spanning hospitality, food, events, products,
-            services, technology, institutions, culture and community impact.
-          </p>
-          <div className={styles.heroButtons}>
-            <a className={styles.goldButton} href="#focus">See Current Focus</a>
-            <a className={styles.lineButton} href="#divisions">View Full Enterprise</a>
-            <a className={styles.lineButton} href="/forms/inquiry?interest=enterprise_app">Join App Early Access</a>
-          </div>
-        </div>
-        <div className={styles.heroRail}>
-          <span>Hospitality</span><span>Food</span><span>Events</span><span>Products</span><span>Technology</span><span>Services</span><span>Institutions</span>
-        </div>
+        <div className={styles.heroShade} /><div className={styles.heroFrame} />
+        <div className={styles.heroContent}><div className={styles.eyebrow}>The Enterprise · Established 2026</div><h1>One enterprise.<br /><em>Independent brands.</em><br />Shared leverage.</h1><p>The Kollective is a multi-city ecosystem spanning hospitality, food, events, products, services, technology, institutions, culture and community impact.</p><div className={styles.heroButtons}><a className={styles.goldButton} href="#focus">See Current Focus</a><a className={styles.lineButton} href="#divisions">View Full Enterprise</a><a className={styles.lineButton} href="/forms/inquiry?interest=enterprise_app">Join App Early Access</a></div></div>
+        <div className={styles.heroRail}><span>Hospitality</span><span>Food</span><span>Events</span><span>Products</span><span>Technology</span><span>Services</span><span>Institutions</span></div>
       </section>
 
-      <section className={styles.statBar}>
-        {stats.map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
-      </section>
+      <section className={styles.statBar}>{stats.map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}</section>
 
       <section className={styles.operating} id="focus">
-        <div className={styles.sectionIntro}>
-          <span>Current Enterprise Command</span>
-          <h2>Twenty entities receiving active focus.</h2>
-          <p>These statuses distinguish operating companies, active brands, available products and platforms still being built. The full enterprise portfolio remains visible below.</p>
-        </div>
+        <div className={styles.sectionIntro}><span>Current Enterprise Command · Live Registry</span><h2>Twenty entities receiving active focus.</h2><p>This directory is now database-managed. Approved staff can change statuses, priorities, destinations and verified logos in Supabase without another frontend deployment.</p></div>
         <div className={styles.operatingGrid}>
-          {currentFocusBrands.map((brand, index) => (
+          {focusBrands.map((brand, index) => (
             <a key={brand.name} href={brand.href} className={`${styles.operatingCard} ${index < 5 ? styles.anchorBrand : ''}`}>
               <div className={styles.cardTop}><span>{brand.status}</span><b>{String(index + 1).padStart(2, '0')}</b></div>
-              <div className={styles.cardLogo}>
-                {brand.logo ? <img src={brand.logo} alt={`${brand.name} logo`} /> : <span style={WORDMARK_STYLE}>{brand.name}</span>}
-              </div>
+              <div className={styles.cardLogo}>{brand.logo ? <img src={brand.logo} alt={`${brand.name} logo`} /> : <span style={WORDMARK_STYLE}>{brand.name}</span>}</div>
               <div className={styles.cardBottom}><strong>{brand.name}</strong><span>{brand.category}</span></div>
             </a>
           ))}
@@ -80,81 +53,25 @@ export default function KollectivePage() {
 
       <section className={styles.commandSection}>
         <div className={styles.commandImage}><img src="/brand/kollective-hero.svg" alt="The Kollective command architecture" /></div>
-        <div className={styles.commandCopy}>
-          <span>Enterprise Architecture</span>
-          <h2>Each brand stands alone. The enterprise makes every brand stronger.</h2>
-          <p>
-            Every entity keeps its own identity, audience, offers, funnel and operating model. The Kollective provides the shared command layer:
-            strategy, capital coordination, creative direction, technology, data, partnerships, talent and expansion.
-          </p>
-          <div className={styles.commandPillars}>
-            <div><b>01</b><span>Independent brand systems</span></div>
-            <div><b>02</b><span>Shared enterprise intelligence</span></div>
-            <div><b>03</b><span>Centralized leverage</span></div>
-            <div><b>04</b><span>Repeatable market expansion</span></div>
-          </div>
-          <a href="/forms/inquiry">Start an enterprise conversation →</a>
-        </div>
+        <div className={styles.commandCopy}><span>Enterprise Architecture</span><h2>Each brand stands alone. The enterprise makes every brand stronger.</h2><p>Every entity keeps its own identity, audience, offers, funnel and operating model. The Kollective provides the shared command layer: strategy, capital coordination, creative direction, technology, data, partnerships, talent and expansion.</p><div className={styles.commandPillars}><div><b>01</b><span>Independent brand systems</span></div><div><b>02</b><span>Shared enterprise intelligence</span></div><div><b>03</b><span>Centralized leverage</span></div><div><b>04</b><span>Repeatable market expansion</span></div></div><a href="/forms/inquiry">Start an enterprise conversation →</a></div>
       </section>
 
       <section className={styles.divisions} id="divisions">
-        <div className={styles.divisionHero}>
-          <div><span>The Full Portfolio</span><h2>Current focus is the front line. The full enterprise is the long game.</h2></div>
-          <img src="/brand/kollective-hero.svg" alt="The Kollective enterprise world" />
-        </div>
-        <div className={styles.divisionGrid}>
-          {divisions.map((division, index) => (
-            <article key={division.title} className={styles.divisionCard}>
-              <div className={styles.divisionHead}><span>{division.eyebrow}</span><b>{String(index + 1).padStart(2, '0')}</b></div>
-              <h3>{division.title}</h3>
-              <p>{division.description}</p>
-              <div>{division.brands.map((brand) => <span key={brand}>{brand}</span>)}</div>
-              <a href={division.href}>{division.cta} →</a>
-            </article>
-          ))}
-        </div>
+        <div className={styles.divisionHero}><div><span>The Full Portfolio</span><h2>Current focus is the front line. The full enterprise is the long game.</h2></div><img src="/brand/kollective-hero.svg" alt="The Kollective enterprise world" /></div>
+        <div className={styles.divisionGrid}>{divisions.map((division, index) => <article key={division.title} className={styles.divisionCard}><div className={styles.divisionHead}><span>{division.eyebrow}</span><b>{String(index + 1).padStart(2, '0')}</b></div><h3>{division.title}</h3><p>{division.description}</p><div>{division.brands.map((brand) => <span key={brand}>{brand}</span>)}</div><a href={division.href}>{division.cta} →</a></article>)}</div>
       </section>
 
       <section className={styles.access} id="access">
         <img className={styles.gateway} src="/brand/kollective-hero.svg" alt="Enter The Kollective" />
-        <div className={styles.accessContent}>
-          <span>Direct Access</span>
-          <h2>Every sale, RSVP, application, download and opportunity starts here.</h2>
-          <p>The destination router sends each action to the correct website, direct form, enterprise screen or app-store listing.</p>
-          <div className={styles.accessGrid}>
-            {featuredAccess.map((item) => (
-              <a href={item.href} key={item.title}><strong>{item.title}</strong><span>{item.description}</span><b>↗</b></a>
-            ))}
-          </div>
-          <div className={styles.accessButtons}>
-            <a className={styles.goldButton} href="/access">View Every Form & Link</a>
-            <a className={styles.lineButton} href="/forms/nda">Request NDA</a>
-            <a className={styles.lineButton} href="https://111atl.com">111ATL Current Access</a>
-          </div>
-        </div>
+        <div className={styles.accessContent}><span>Direct Access</span><h2>Every sale, RSVP, application, download and opportunity starts here.</h2><p>The destination router sends each action to the correct website, direct form, enterprise screen or app-store listing and records attribution.</p><div className={styles.accessGrid}>{featuredAccess.map((item) => <a href={item.href} key={item.title}><strong>{item.title}</strong><span>{item.description}</span><b>↗</b></a>)}</div><div className={styles.accessButtons}><a className={styles.goldButton} href="/access">View Every Form & Link</a><a className={styles.lineButton} href="/go/black-pages?source=kollective_access">Black Pages Access</a><a className={styles.lineButton} href="https://111atl.com">111ATL Current Access</a></div></div>
       </section>
 
       <section className={styles.future}>
-        <div>
-          <span>Unified Enterprise App</span>
-          <h2>One account. The whole enterprise. Immediate action.</h2>
-          <p>The combined app will create persistent users, direct access, personalized enterprise updates and smart destination routing. A platform such as Black Pages will open its App Store or Google Play listing; a hospitality offer will open its reservation flow; a product will open checkout.</p>
-          <div className={styles.heroButtons}>
-            <a className={styles.goldButton} href="/forms/inquiry?interest=enterprise_app">Join App Early Access</a>
-          </div>
-        </div>
-        <div className={styles.futureCards}>
-          <article><b>01</b><h3>Universal Identity</h3><p>One account, saved preferences, city, interests and access level across the enterprise.</p></article>
-          <article><b>02</b><h3>Smart CTA Router</h3><p>Open a screen, form, checkout, website or app-store destination based on the entity and device.</p></article>
-          <article><b>03</b><h3>Enterprise Push</h3><p>Segmented notifications for events, products, services, opportunities and app launches.</p></article>
-        </div>
+        <div><span>Unified Enterprise App</span><h2>One account. The whole enterprise. Immediate action.</h2><p>The combined app creates persistent users, direct access, personalized updates and smart routing. Black Pages resolves to the correct app store once its listings are live; until then, it resolves to the approved early-access fallback.</p><div className={styles.heroButtons}><a className={styles.goldButton} href="/forms/inquiry?interest=enterprise_app">Join App Early Access</a></div></div>
+        <div className={styles.futureCards}><article><b>01</b><h3>Universal Identity</h3><p>One account, saved preferences, city, interests and access level across the enterprise.</p></article><article><b>02</b><h3>Smart CTA Router</h3><p>Open a screen, form, checkout, website or app-store destination based on entity and device.</p></article><article><b>03</b><h3>Enterprise Push</h3><p>Segmented notifications for events, products, services, opportunities and app launches.</p></article></div>
       </section>
 
-      <footer className={styles.footer}>
-        <div className={styles.footerBrand}><img src={EMBLEM} alt="The Kollective" /><div><strong>The Kollective</strong><span>One enterprise. Many worlds.</span></div></div>
-        <div className={styles.footerLinks}><a href="/access">Access Center</a><a href="/forms/sponsor">Partnerships</a><a href="/forms/hiring_inquiry">Careers</a><a href="https://doctordorsey.com">Dr. Dorsey</a></div>
-        <p>© 2026 The Kollective. Every brand remains independently operated within the enterprise portfolio.</p>
-      </footer>
+      <footer className={styles.footer}><div className={styles.footerBrand}><img src={EMBLEM} alt="The Kollective" /><div><strong>The Kollective</strong><span>One enterprise. Many worlds.</span></div></div><div className={styles.footerLinks}><a href="/access">Access Center</a><a href="/forms/sponsor">Partnerships</a><a href="/forms/hiring_inquiry">Careers</a><a href="https://doctordorsey.com">Dr. Dorsey</a></div><p>© 2026 The Kollective. Every brand remains independently operated within the enterprise portfolio.</p></footer>
     </main>
   );
 }
