@@ -1,77 +1,137 @@
 'use client';
 
+import type { CSSProperties } from 'react';
 import styles from './kollective.module.css';
-import { accessLinks, currentFocusBrands, divisions, stats, SB } from '@/lib/enterprise';
+import { accessLinks, currentFocusBrands, divisions, SB } from '@/lib/enterprise';
 import { useEnterpriseRegistry } from '@/lib/use-enterprise-registry';
 
-const EMBLEM = `${SB}/dr_dorsey/01_logos/KOLLECTIVEemblemW.png`;
-const WORDMARK_STYLE = {
-  maxWidth: '100%',
-  padding: '12px',
-  color: '#f0d37e',
-  fontFamily: "'Cormorant Garamond', serif",
-  fontSize: 'clamp(24px, 2.5vw, 40px)',
-  fontWeight: 500,
-  lineHeight: 0.95,
-  letterSpacing: '-0.025em',
-  textAlign: 'center' as const,
+const EMBLEM = `${SB}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
+const LOGOS = [
+  { name: 'Dr. Dorsey', src: `${SB}/dr_dorsey/01_logos/DorseyNewW.png`, href: 'https://doctordorsey.com' },
+  { name: 'The Kollective', src: EMBLEM, href: '#focus' },
+  { name: 'The Casper Group', src: `${SB}/casper_group/logos/logo-full.png`, href: 'https://111atl.com/company.html?brand=casper-group' },
+  { name: 'GOOD TIMES', src: `${SB}/good_times/00-brand-assets/logos/good-times-logo-gold-black.png`, href: 'https://thegoodtimesworldwide.com' },
+  { name: 'Sole Exchange', src: `${SB}/email-newsletters/sole-exchange-logo.png`, href: 'https://111atl.com/company.html?brand=sole-exchange' },
+  { name: 'Pronto Energy', src: `${SB}/pronto_energy/logos/pronto-logo.png`, href: 'https://pronto-energy-website.vercel.app' },
+  { name: 'Help 911', src: `${SB}/umbrella_injury/00-brand-assets/logos/hurt-911-logo-black.png`, href: 'https://superherosonstandby.com' },
+  { name: 'Iconic', src: `${SB}/dr_dorsey/00-brand-assets/logos/iconic-logo-gold.png`, href: 'https://111atl.com/company.html?brand=scented-flowers' },
+];
+
+const VISUALS: Record<string, { src: string; fit?: 'contain' | 'cover' }> = {
+  'Dr. Dorsey': { src: `${SB}/dr_dorsey/website/penthouse-skyline.jpg` },
+  'The Kollective ENT.': { src: `${SB}/dr_dorsey/website/luxury-venue.jpg` },
+  'The Sovereign Nation': { src: '/brand/kollective-hero.svg', fit: 'contain' },
+  'The Tribe — Memphis': { src: `${SB}/dr_dorsey/website/garden-district.jpg` },
+  'The University': { src: `${SB}/pulse_university/website/WEBSITE_HERO_DRIVE_EVERY_MOMENT.png` },
+  'Everyday Water Group': { src: `${SB}/infinity_water/generated/infinity_gold_splash_v2.png`, fit: 'contain' },
+  'Aquifer Waterworks': { src: `${SB}/infinity_water/website/blue.jpg`, fit: 'contain' },
+  'Nativa Waterworks': { src: `${SB}/infinity_water/website/life3.jpg` },
+  'Infinity Water': { src: `${SB}/infinity_water/generated/infinity_gold_splash_v2.png`, fit: 'contain' },
+  'Tribal Water': { src: `${SB}/good-times-app/infinity_water/infinity_water_landscape.png`, fit: 'contain' },
+  'Pronto Energy': { src: `${SB}/pronto_energy/generated/pronto_gym_hero_v2.png` },
+  'Rose on Piedmont': { src: `${SB}/social-dashboard/2026-07-17/dolodorsey/rose-bar-free-bottle.png`, fit: 'contain' },
+  'GROWN-ISH': { src: `${SB}/grownish/03_event_flyers/GROWNISH_COMING_SOON.png`, fit: 'contain' },
+  'Sole Exchange': { src: `${SB}/email-newsletters/sole-exchange-flyer-v3-air-force-1.png`, fit: 'contain' },
+  'Hakuna Matata': { src: `${SB}/bodega/hakuna-matata/promo-05-gold-columns.png` },
+  'Bodega': { src: `${SB}/bodega/hakuna-matata/promo-02-graffiti-red.png` },
+  'STUSH': { src: `${SB}/stush/stush_lineup/063_the_stush_lineup.jpg` },
+  'PULSE': { src: `${SB}/pulse/pulse_landing_v1/021_pulse_3d_logo_stage.jpg` },
+  'Make Atlanta Great Again': { src: `${SB}/maga/generated/maga_hero.png` },
+  'GOOD TIMES': { src: `${SB}/good_times/atl-nightlife-elevated.png` },
 };
 
+const FEATURED_DIVISION_VISUALS = [
+  `${SB}/dr_dorsey/website/penthouse-skyline.jpg`,
+  `${SB}/social-dashboard/2026-07-17/dolodorsey/rose-bar-rose-interior-video.mp4`,
+  `${SB}/casper_group/logos/logo-full.png`,
+  `${SB}/taste_of_art/03_event_flyers/TASTE_ROSE_BAR_0717_v4.png`,
+  `${SB}/stush/stush_lineup/063_the_stush_lineup.jpg`,
+  `${SB}/good_times/atl-nightlife-elevated.png`,
+  `${SB}/good-times-app/umbrella_group/umbrella_group_landscape.png`,
+  `${SB}/dr_dorsey/website/garden-district.jpg`,
+];
+
 export default function KollectivePage() {
-  const featuredAccess = accessLinks.filter((item) => item.featured);
-  const { brands: focusBrands } = useEnterpriseRegistry(currentFocusBrands);
+  const { brands } = useEnterpriseRegistry(currentFocusBrands);
+  const featuredAccess = accessLinks.filter((item) => item.featured).slice(0, 6);
 
   return (
     <main className={styles.page}>
       <nav className={styles.nav}>
-        <a className={styles.brand} href="#top"><img src={EMBLEM} alt="The Kollective emblem" /><div><strong>THE KOLLECTIVE</strong><span>Enterprise</span></div></a>
-        <div className={styles.navLinks}><a href="#focus">Current Focus</a><a href="#divisions">Full Enterprise</a><a href="#access">Direct Access</a><a href="https://doctordorsey.com">Founder</a></div>
-        <a className={styles.navButton} href="/forms/inquiry?interest=enterprise_app">App Early Access</a>
+        <a className={styles.navBrand} href="#top"><img src={EMBLEM} alt="The Kollective" /></a>
+        <div className={styles.navLinks}><a href="#focus">Current</a><a href="#enterprise">Enterprise</a><a href="#about">About</a><a href="#access">Access</a></div>
+        <a className={styles.navCta} href="/forms/inquiry?interest=enterprise_app">App Access</a>
       </nav>
 
-      <section className={styles.hero} id="top">
-        <img className={styles.heroImage} src="/brand/kollective-hero.svg" alt="The Kollective enterprise" />
-        <div className={styles.heroShade} /><div className={styles.heroFrame} />
-        <div className={styles.heroContent}><div className={styles.eyebrow}>The Enterprise · Established 2026</div><h1>One enterprise.<br /><em>Independent brands.</em><br />Shared leverage.</h1><p>The Kollective is a multi-city ecosystem spanning hospitality, food, events, products, services, technology, institutions, culture and community impact.</p><div className={styles.heroButtons}><a className={styles.goldButton} href="#focus">See Current Focus</a><a className={styles.lineButton} href="#divisions">View Full Enterprise</a><a className={styles.lineButton} href="/forms/inquiry?interest=enterprise_app">Join App Early Access</a></div></div>
-        <div className={styles.heroRail}><span>Hospitality</span><span>Food</span><span>Events</span><span>Products</span><span>Technology</span><span>Services</span><span>Institutions</span></div>
+      <section className={styles.hero} id="top" aria-label="The Kollective visual introduction">
+        <img src="/brand/kollective-hero.svg" alt="The Kollective enterprise world" />
+        <a className={styles.scrollCue} href="#intro"><span /></a>
       </section>
 
-      <section className={styles.statBar}>{stats.map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}</section>
+      <section className={styles.intro} id="intro">
+        <p className={styles.kicker}>One enterprise. Independent brands.</p>
+        <h1>Built to move culture.<br />Structured to scale.</h1>
+        <p>The Kollective is a multi-city enterprise spanning hospitality, food, experiences, products, services, technology, education, institutions, and community impact. Every company keeps its own identity. The enterprise creates shared leverage.</p>
+        <div className={styles.introActions}><a href="#focus">Explore Current Focus</a><a href="#enterprise">View Full Enterprise</a></div>
+      </section>
 
-      <section className={styles.operating} id="focus">
-        <div className={styles.sectionIntro}><span>Current Enterprise Command · Live Registry</span><h2>Twenty entities receiving active focus.</h2><p>This directory is now database-managed. Approved staff can change statuses, priorities, destinations and verified logos in Supabase without another frontend deployment.</p></div>
-        <div className={styles.operatingGrid}>
-          {focusBrands.map((brand, index) => (
-            <a key={brand.name} href={brand.href} className={`${styles.operatingCard} ${index < 5 ? styles.anchorBrand : ''}`}>
-              <div className={styles.cardTop}><span>{brand.status}</span><b>{String(index + 1).padStart(2, '0')}</b></div>
-              <div className={styles.cardLogo}>{brand.logo ? <img src={brand.logo} alt={`${brand.name} logo`} /> : <span style={WORDMARK_STYLE}>{brand.name}</span>}</div>
-              <div className={styles.cardBottom}><strong>{brand.name}</strong><span>{brand.category}</span></div>
-            </a>
+      <section className={styles.logoWorld} aria-label="Kollective brand icons">
+        <div className={styles.logoCore}><img src={EMBLEM} alt="The Kollective emblem" /></div>
+        {LOGOS.map((logo, index) => (
+          <a key={logo.name} href={logo.href} className={styles.logoOrb} style={{ '--i': index } as CSSProperties} aria-label={logo.name}>
+            <img src={logo.src} alt={logo.name} />
+          </a>
+        ))}
+      </section>
+
+      <section className={styles.focus} id="focus">
+        <header className={styles.sectionHead}><div><p className={styles.kicker}>Current enterprise command</p><h2>Large enough to see.<br />Clear enough to act.</h2></div><p>Each card uses a full visual, a readable company name, and one direct destination. No tiny entity labels. No fake links.</p></header>
+        <div className={styles.focusGrid}>
+          {brands.map((brand, index) => {
+            const visual = VISUALS[brand.name] || { src: `${SB}/dr_dorsey/website/rooftop-lounge.jpg` };
+            return (
+              <a className={styles.focusCard} href={brand.href} key={brand.name}>
+                <div className={`${styles.focusMedia} ${visual.fit === 'contain' ? styles.contain : ''}`}>
+                  <img src={visual.src} alt={`${brand.name} visual`} />
+                  {brand.logo && <img className={styles.focusLogo} src={brand.logo} alt={`${brand.name} logo`} />}
+                  <span className={styles.cardNumber}>{String(index + 1).padStart(2, '0')}</span>
+                </div>
+                <div className={styles.focusMeta}><small>{brand.status}</small><h3>{brand.name}</h3><p>{brand.category}</p><b>Open ↗</b></div>
+              </a>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className={styles.about} id="about">
+        <div className={styles.aboutVisual}><img src={`${SB}/dr_dorsey/website/luxury-venue.jpg`} alt="The Kollective executive environment" /></div>
+        <div className={styles.aboutCopy}><p className={styles.kicker}>How the enterprise works</p><h2>Separate brands.<br />One command layer.</h2><p>The public sees distinct companies. Behind them is shared enterprise intelligence: strategy, technology, data, creative direction, partnerships, legal coordination, operating systems, and market expansion.</p><div className={styles.aboutRows}><div><b>The Casper Group</b><span>A portfolio of distinct quick-service food brands built for licensing and multi-location expansion.</span></div><div><b>The Fraternity</b><span>A selective cultural organization built around influence, economic empowerment, learning, global reach, and legacy.</span></div><div><b>The Umbrella Group</b><span>A coordinated service network where one request routes to the correct specialized company.</span></div></div></div>
+      </section>
+
+      <section className={styles.enterprise} id="enterprise">
+        <header className={styles.sectionHead}><div><p className={styles.kicker}>The full portfolio</p><h2>Eight worlds.<br />One ecosystem.</h2></div><p>Open a division to see its companies at a readable scale. Portfolio concepts are not misrepresented as operating companies.</p></header>
+        <div className={styles.divisionStack}>
+          {divisions.map((division, index) => (
+            <details className={styles.division} key={division.title} open={index === 0}>
+              <summary>
+                <div className={styles.divisionVisual}>
+                  {FEATURED_DIVISION_VISUALS[index]?.endsWith('.mp4') ? <video autoPlay muted loop playsInline src={FEATURED_DIVISION_VISUALS[index]} /> : <img src={FEATURED_DIVISION_VISUALS[index]} alt="" />}
+                </div>
+                <span>{String(index + 1).padStart(2, '0')}</span><h3>{division.title}</h3><b>＋</b>
+              </summary>
+              <div className={styles.divisionBody}><p>{division.description}</p><div>{division.brands.map((brand) => <span key={brand}>{brand}</span>)}</div><a href={division.href}>{division.cta} ↗</a></div>
+            </details>
           ))}
         </div>
       </section>
 
-      <section className={styles.commandSection}>
-        <div className={styles.commandImage}><img src="/brand/kollective-hero.svg" alt="The Kollective command architecture" /></div>
-        <div className={styles.commandCopy}><span>Enterprise Architecture</span><h2>Each brand stands alone. The enterprise makes every brand stronger.</h2><p>Every entity keeps its own identity, audience, offers, funnel and operating model. The Kollective provides the shared command layer: strategy, capital coordination, creative direction, technology, data, partnerships, talent and expansion.</p><div className={styles.commandPillars}><div><b>01</b><span>Independent brand systems</span></div><div><b>02</b><span>Shared enterprise intelligence</span></div><div><b>03</b><span>Centralized leverage</span></div><div><b>04</b><span>Repeatable market expansion</span></div></div><a href="/forms/inquiry">Start an enterprise conversation →</a></div>
-      </section>
-
-      <section className={styles.divisions} id="divisions">
-        <div className={styles.divisionHero}><div><span>The Full Portfolio</span><h2>Current focus is the front line. The full enterprise is the long game.</h2></div><img src="/brand/kollective-hero.svg" alt="The Kollective enterprise world" /></div>
-        <div className={styles.divisionGrid}>{divisions.map((division, index) => <article key={division.title} className={styles.divisionCard}><div className={styles.divisionHead}><span>{division.eyebrow}</span><b>{String(index + 1).padStart(2, '0')}</b></div><h3>{division.title}</h3><p>{division.description}</p><div>{division.brands.map((brand) => <span key={brand}>{brand}</span>)}</div><a href={division.href}>{division.cta} →</a></article>)}</div>
-      </section>
-
       <section className={styles.access} id="access">
-        <img className={styles.gateway} src="/brand/kollective-hero.svg" alt="Enter The Kollective" />
-        <div className={styles.accessContent}><span>Direct Access</span><h2>Every sale, RSVP, application, download and opportunity starts here.</h2><p>The destination router sends each action to the correct website, direct form, enterprise screen or app-store listing and records attribution.</p><div className={styles.accessGrid}>{featuredAccess.map((item) => <a href={item.href} key={item.title}><strong>{item.title}</strong><span>{item.description}</span><b>↗</b></a>)}</div><div className={styles.accessButtons}><a className={styles.goldButton} href="/access">View Every Form & Link</a><a className={styles.lineButton} href="/go/black-pages?source=kollective_access">Black Pages Access</a><a className={styles.lineButton} href="https://111atl.com">111ATL Current Access</a></div></div>
+        <div><p className={styles.kicker}>Direct access</p><h2>Every discovery ends in a move.</h2><p>Buy, reserve, apply, partner, download, request service, or start a protected conversation.</p></div>
+        <div className={styles.accessGrid}>{featuredAccess.map((item) => <a href={item.href} key={item.title}><b>{item.title}</b><span>{item.description}</span><i>↗</i></a>)}</div>
+        <div className={styles.accessButtons}><a href="/access">Open All Access</a><a href="https://111atl.com">111ATL</a><a href="/forms/inquiry?interest=enterprise_app">Unified App Early Access</a></div>
       </section>
 
-      <section className={styles.future}>
-        <div><span>Unified Enterprise App</span><h2>One account. The whole enterprise. Immediate action.</h2><p>The combined app creates persistent users, direct access, personalized updates and smart routing. Black Pages resolves to the correct app store once its listings are live; until then, it resolves to the approved early-access fallback.</p><div className={styles.heroButtons}><a className={styles.goldButton} href="/forms/inquiry?interest=enterprise_app">Join App Early Access</a></div></div>
-        <div className={styles.futureCards}><article><b>01</b><h3>Universal Identity</h3><p>One account, saved preferences, city, interests and access level across the enterprise.</p></article><article><b>02</b><h3>Smart CTA Router</h3><p>Open a screen, form, checkout, website or app-store destination based on entity and device.</p></article><article><b>03</b><h3>Enterprise Push</h3><p>Segmented notifications for events, products, services, opportunities and app launches.</p></article></div>
-      </section>
-
-      <footer className={styles.footer}><div className={styles.footerBrand}><img src={EMBLEM} alt="The Kollective" /><div><strong>The Kollective</strong><span>One enterprise. Many worlds.</span></div></div><div className={styles.footerLinks}><a href="/access">Access Center</a><a href="/forms/sponsor">Partnerships</a><a href="/forms/hiring_inquiry">Careers</a><a href="https://doctordorsey.com">Dr. Dorsey</a></div><p>© 2026 The Kollective. Every brand remains independently operated within the enterprise portfolio.</p></footer>
+      <footer className={styles.footer}><img src={EMBLEM} alt="The Kollective" /><p>Independent brands. Shared enterprise leverage. Direct action.</p><div><a href="https://doctordorsey.com">Dr. Dorsey</a><a href="https://111atl.com">111ATL</a><a href="/access">Access</a></div></footer>
     </main>
   );
 }
