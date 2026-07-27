@@ -8,6 +8,17 @@ const HERO_VIDEO = `${SB}/dr_dorsey/website/hero-video.mp4`;
 const HERO_POSTER = `${SB}/dr_dorsey/website/hero-bg.jpg`;
 const DORSEY_LOGO = `${SB}/dr_dorsey/01_logos/DorseyNewW.png`;
 const KOLLECTIVE_EMBLEM = `${SB}/dr_dorsey/01_logos/KOLLECTIVEemblemW.png`;
+const WORDMARK_STYLE = {
+  maxWidth: '100%',
+  padding: '12px',
+  color: '#f0d995',
+  fontFamily: "'Cormorant Garamond', serif",
+  fontSize: 'clamp(24px, 2.5vw, 40px)',
+  fontWeight: 500,
+  lineHeight: 0.95,
+  letterSpacing: '-0.025em',
+  textAlign: 'center' as const,
+};
 
 export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -102,11 +113,11 @@ export default function HomePage() {
             <a href={brand.href} className={`${styles.brandCard} ${index < 5 ? styles.brandCardMajor : ''}`} key={brand.name}>
               <div className={styles.statusDot}><span />{brand.status}</div>
               <div className={styles.logoFrame}>
-                {brand.logo ? <img src={brand.logo} alt={`${brand.name} logo`} /> : <span className={styles.logoWordmark}>{brand.name}</span>}
+                {brand.logo ? <img src={brand.logo} alt={`${brand.name} logo`} /> : <span style={WORDMARK_STYLE}>{brand.name}</span>}
               </div>
               <div className={styles.brandMeta}>
                 <div><strong>{brand.name}</strong><span>{brand.category}</span></div>
-                <b>{brand.actionLabel || 'Open'} ↗</b>
+                <b>↗</b>
               </div>
             </a>
           ))}
