@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import styles from './home.module.css';
-import { BOOK_COVER, BOOK_URL, divisions, operatingBrands, stats, SB } from '@/lib/enterprise';
+import { BOOK_COVER, BOOK_URL, currentFocusBrands, divisions, stats, SB } from '@/lib/enterprise';
 
 const HERO_VIDEO = `${SB}/dr_dorsey/website/hero-video.mp4`;
 const HERO_POSTER = `${SB}/dr_dorsey/website/hero-bg.jpg`;
@@ -27,8 +27,8 @@ export default function HomePage() {
           <img src={DORSEY_LOGO} alt="Dr. Dorsey" />
         </a>
         <div className={styles.desktopNav}>
-          <a href="#operating">Operating Now</a>
-          <a href="#enterprise">Enterprise</a>
+          <a href="#focus">Current Focus</a>
+          <a href="#enterprise">Full Enterprise</a>
           <a href="#strategy">Strategy</a>
           <a href="/access">All Access</a>
         </div>
@@ -41,8 +41,8 @@ export default function HomePage() {
       </nav>
 
       <div className={`${styles.mobileMenu} ${menuOpen ? styles.mobileMenuOpen : ''}`}>
-        {['operating', 'enterprise', 'strategy', 'convert'].map((id) => (
-          <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>{id === 'convert' ? 'Work With Us' : id}</a>
+        {['focus', 'enterprise', 'strategy', 'convert'].map((id) => (
+          <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)}>{id === 'convert' ? 'Direct Access' : id === 'focus' ? 'Current Focus' : id}</a>
         ))}
         <a href="/access">All Forms & Links</a>
         <a href="/kollective">The Kollective</a>
@@ -59,12 +59,12 @@ export default function HomePage() {
             <div className={styles.kicker}>Founder · Architect · Operator</div>
             <h1>Dr. Dorsey builds <em>ecosystems</em>, not isolated businesses.</h1>
             <p>
-              Hospitality. Food. Events. Products. Technology. Services. Culture. Institutions.
-              One founder commanding an enterprise built to expand city by city.
+              One founder. Twenty current-focus entities. A full enterprise spanning hospitality, food,
+              products, technology, services, institutions, culture and community impact.
             </p>
             <div className={styles.heroActions}>
-              <a className={styles.primaryButton} href="/kollective">Enter The Kollective</a>
-              <a className={styles.secondaryButton} href="/access">All Forms & Links</a>
+              <a className={styles.primaryButton} href="#focus">View Current Focus</a>
+              <a className={styles.secondaryButton} href="/kollective">Enter The Kollective</a>
               <a className={styles.textButton} href={BOOK_URL}>Buy Hakuna Matata →</a>
             </div>
           </div>
@@ -75,7 +75,7 @@ export default function HomePage() {
           </div>
         </div>
         <div className={styles.heroBottom}>
-          <div>Atlanta · Houston · Miami · Los Angeles · Dallas · Washington · Charlotte · New York</div>
+          <div>Atlanta · Houston · Memphis · Miami · Las Vegas · Washington · New York · Los Angeles</div>
           <div>Scroll to enter the enterprise ↓</div>
         </div>
       </section>
@@ -89,22 +89,24 @@ export default function HomePage() {
         ))}
       </section>
 
-      <section className={styles.operating} id="operating">
+      <section className={styles.operating} id="focus">
         <div className={styles.sectionHeader}>
           <div>
-            <span className={styles.eyebrow}>Operating Now</span>
-            <h2>The enterprise is already moving.</h2>
+            <span className={styles.eyebrow}>Current Focus</span>
+            <h2>The companies receiving active command now.</h2>
           </div>
-          <p>These are not concept mockups. These are active, operating or scaling brands inside the ecosystem.</p>
+          <p>Each status is intentional: operating, active, available, building or enterprise-level. The full portfolio remains visible below without pretending every concept is currently operating.</p>
         </div>
         <div className={styles.brandGrid}>
-          {operatingBrands.map((brand, index) => (
+          {currentFocusBrands.map((brand, index) => (
             <a href={brand.href} className={`${styles.brandCard} ${index < 5 ? styles.brandCardMajor : ''}`} key={brand.name}>
               <div className={styles.statusDot}><span />{brand.status}</div>
-              <div className={styles.logoFrame}><img src={brand.logo} alt={`${brand.name} logo`} /></div>
+              <div className={styles.logoFrame}>
+                {brand.logo ? <img src={brand.logo} alt={`${brand.name} logo`} /> : <span className={styles.logoWordmark}>{brand.name}</span>}
+              </div>
               <div className={styles.brandMeta}>
                 <div><strong>{brand.name}</strong><span>{brand.category}</span></div>
-                <b>↗</b>
+                <b>{brand.actionLabel || 'Open'} ↗</b>
               </div>
             </a>
           ))}
@@ -187,15 +189,16 @@ export default function HomePage() {
         </div>
         <div className={styles.convertContent}>
           <span className={styles.eyebrowGold}>Choose Your Entry Point</span>
-          <h2>Buy. RSVP. Book. Partner. Join.</h2>
-          <p>Every public pathway is organized in one access center so the right request reaches the right division.</p>
+          <h2>Buy. RSVP. Book. Partner. Join. Download.</h2>
+          <p>Every public pathway routes to the right website, form, enterprise screen or app-store destination.</p>
           <div className={styles.conversionGrid}>
-            <a href="/forms/rsvp"><strong>RSVP</strong><span>Events & guest lists</span></a>
-            <a href="/forms/table_reservation"><strong>Reserve</strong><span>Tables & hospitality</span></a>
-            <a href="/forms/sponsor"><strong>Partner</strong><span>Sponsorship & brand deals</span></a>
-            <a href="/forms/hiring_inquiry"><strong>Join</strong><span>Careers & team</span></a>
+            <a href="https://111atl.com/#events"><strong>RSVP</strong><span>Current Rose programming</span></a>
+            <a href="https://111atl.com/#forms"><strong>Reserve</strong><span>Tables, birthdays and hospitality</span></a>
+            <a href="/forms/sponsor"><strong>Partner</strong><span>Sponsorship and brand deals</span></a>
+            <a href="/forms/hiring_inquiry"><strong>Join</strong><span>Careers and team</span></a>
             <a href="/forms/nda"><strong>NDA</strong><span>Private conversations</span></a>
             <a href="/access"><strong>All Access</strong><span>Every form and link</span></a>
+            <a href="/forms/inquiry?interest=enterprise_app"><strong>App Access</strong><span>Join unified enterprise app early access</span></a>
           </div>
         </div>
       </section>
