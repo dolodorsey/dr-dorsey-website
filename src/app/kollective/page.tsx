@@ -63,7 +63,7 @@ export default function KollectivePage() {
     <main className={styles.page}>
       <nav className={styles.nav}>
         <a className={styles.navBrand} href="#top"><img src={EMBLEM} alt="The Kollective" /></a>
-        <div className={styles.navLinks}><a href="#focus">Current</a><a href="#enterprise">Enterprise</a><a href="#about">About</a><a href="#book">The Book</a><a href="#access">Access</a></div>
+        <div className={styles.navLinks}><a href="/kollective/about">About</a><a href="/kollective/portfolio">Portfolio</a><a href="/kollective/operating-model">Operating Model</a><a href="/kollective/partnerships">Partnerships</a><a href="/kollective/technology">Technology</a></div>
         <a className={styles.navCta} href="/access">Open Access</a>
       </nav>
 
@@ -87,7 +87,7 @@ export default function KollectivePage() {
         <p className={styles.kicker}>One enterprise. Independent brands.</p>
         <h1>Built to move culture.<br />Structured to scale.</h1>
         <p>The Kollective is a multi-city enterprise spanning hospitality, food, experiences, products, services, technology, education, institutions, and community impact. Every company keeps its own identity. The enterprise creates shared leverage.</p>
-        <div className={styles.introActions}><a href="#focus">Explore Current Focus</a><a href="#enterprise">View Full Enterprise</a></div>
+        <div className={styles.introActions}><a href="/kollective/about">Understand The Kollective</a><a href="/kollective/portfolio">Explore the Portfolio</a></div>
       </section>
 
       <section className={styles.logoWorld} aria-label="Kollective brand icons">
