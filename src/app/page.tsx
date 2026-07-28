@@ -7,7 +7,7 @@ import { useEnterpriseRegistry } from '@/lib/use-enterprise-registry';
 
 const HERO_VIDEO = `${SB}/dr_dorsey/website/hero-video.mp4`;
 const HERO_POSTER = `${SB}/dr_dorsey/website/hero-bg.jpg`;
-const DORSEY_LOGO = `${SB}/dr_dorsey/01_logos/DorseyNewW.png`;
+const DORSEY_LOGO = '/brand/dorsey-logo.png';
 const EMBLEM = `${SB}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
 
 const VISUALS: Record<string, string> = {
