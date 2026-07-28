@@ -93,8 +93,8 @@ const DIVISIONS: Division[] = [
     brands: [
       { name:'MAGA (Make Atlanta Great Again)', desc:'ATL pride streetwear. Swimwear, hats, culture merch. Shopify store live.', logo:'https://make-atlanta-great-again.vercel.app/brand/MAGA_hawks.png', website:'https://makeatlantagreatagain.myshopify.com', status:'active' },
       { name:'Stush', desc:'Premium lifestyle brand. Fashion, accessories, culture. Shopify store live.', website:'https://stushusa.com', ig:'@hauseofstush', status:'active' },
-      { name:'Infinity Water', desc:'Premium alkaline water. Clean design. Health-forward positioning.', website:'https://infinity-water-website.vercel.app', status:'active' },
-      { name:'Pronto Energy', desc:'Clean energy drink. Multiple flavors. Vibrant branding.', logo:`${SB}/pronto_energy/logos/pronto-logo.png`, website:'https://pronto-energy-website.vercel.app', status:'active' },
+      { name:'Infinity Water', desc:'Premium water positioned at the intersection of hydration, lifestyle, and hospitality.', website:'https://watertoinfinity.com', status:'active' },
+      { name:'Pronto Energy', desc:'Active energy-drink brand designed for movement, culture, and hospitality distribution.', logo:`${SB}/pronto_energy/logos/pronto-logo.png`, website:'https://prontoenergydrink.com', status:'active' },
       { name:'Bodega Bodega Bodega', desc:'The retail storefront. Own products + other brands + high-margin concessions.', website:'https://bodegabodegabodega.com', status:'active' },
     ]
   },

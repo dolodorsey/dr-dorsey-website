@@ -8,20 +8,22 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Dr. DoLo Dorsey — Founder, Lifestyle Specialist & Enterprise Builder",
-  description: "The official platform for Dr. DoLo Dorsey: founder of The Kollective, author of Hakuna Matata, lifestyle specialist, operator and architect of a multi-division enterprise.",
+  metadataBase: new URL("https://doctordorsey.com"),
+  title: "Dr. DoLo Dorsey — The Architect Behind the Enterprise",
+  description: "The official platform for Dr. DoLo Dorsey: founder, author, cultural operator, and enterprise architect building the systems behind The Kollective.",
   keywords: "Dr. Dorsey, DoLo Dorsey, The Kollective, Hakuna Matata, enterprise builder, hospitality, technology, consumer brands, Atlanta",
   openGraph: {
-    title: "Dr. DoLo Dorsey — Founder, Lifestyle Specialist & Enterprise Builder",
-    description: "Meet the founder, explore the current companies, enter The Kollective and take direct action.",
+    title: "Dr. DoLo Dorsey — I Build the Machines Behind Culture",
+    description: "Founder. Author. Enterprise architect. Enter the philosophy, work, and operating system behind The Kollective.",
     type: "website",
     siteName: "Dr. DoLo Dorsey",
-    images: ['https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/dr_dorsey/website/hero-bg.jpg'],
+    images: ['/dorsey/book-office.png'],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dr. DoLo Dorsey — Enterprise Builder",
-    description: "Founder of The Kollective. Author of Hakuna Matata. Lifestyle specialist building a multi-division enterprise.",
+    title: "Dr. DoLo Dorsey — The Architect Behind the Enterprise",
+    description: "I build the machines behind culture.",
+    images: ['/dorsey/book-office.png'],
   },
   icons: {
     icon: 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png',

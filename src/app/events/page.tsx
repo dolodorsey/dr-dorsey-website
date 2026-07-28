@@ -11,9 +11,9 @@ const ICONIC_LOGO = `${IMG}/dr_dorsey/00-brand-assets/logos/iconic-logo-gold.png
 /* ═══ SPONSOR LOGOS ═══ */
 const SPONSORS = [
   { name:'Hurt 911', src:`${IMG}/umbrella_injury/00-brand-assets/logos/hurt-911-logo-black.png`, url:null },
-  { name:'Pronto Energy', src:`${IMG}/pronto_energy/logos/pronto-logo.png`, url:'https://pronto-energy-website.vercel.app' },
-  { name:'Infinity Water', src:`${IMG}/infinity_water/website/gold.jpg`, url:'https://infinity-water.vercel.app' },
-  { name:'STUSH', src:null, text:'STUSH', url:'https://stushusa.myshopify.com' },
+  { name:'Pronto Energy', src:`${IMG}/pronto_energy/logos/pronto-logo.png`, url:'https://prontoenergydrink.com' },
+  { name:'Infinity Water', src:`${IMG}/infinity_water/website/gold.jpg`, url:'https://watertoinfinity.com' },
+  { name:'STUSH', src:null, text:'STUSH', url:'https://stushusa.com' },
 ];
 
 /* ═══ BRAND LOGOS FOR MARQUEE ═══ */

@@ -47,7 +47,10 @@ export default function EnterpriseDirectoryPage() {
     fetch('/api/enterprise/registry', { cache: 'no-store' })
       .then((response) => response.json())
       .then((payload) => {
-        if (active) setEntities(Array.isArray(payload.entities) ? payload.entities : []);
+        if (active) {
+          const records = Array.isArray(payload.entities) ? payload.entities : [];
+          setEntities(records.filter((entity: Entity) => !/nation|sovereign/i.test(`${entity.name} ${entity.slug}`)));
+        }
       })
       .catch((error) => console.error('enterprise_directory_load_failed', error))
       .finally(() => active && setLoading(false));
