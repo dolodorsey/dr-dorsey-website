@@ -40,12 +40,12 @@ const rules = [
 ];
 
 const currentMoves = [
-  { name: 'Good Times', kind: 'Current culture', image: '/dorsey/current/good-times.jpg', href: 'https://111atl.com/#events' },
-  { name: 'Taste of Art', kind: 'Signature experience', image: '/dorsey/current/taste-of-art.jpg', href: 'https://111atl.com/#events' },
-  { name: 'Grown-ish', kind: 'Nightlife', image: '/dorsey/current/grownish.jpg', href: 'https://111atl.com/#events' },
+  { name: 'GOOD TIMES', kind: 'The culture calendar', image: '/dorsey/current/good-times.jpg', href: 'https://www.thegoodtimesworldwide.com' },
+  { name: 'Taste of Art', kind: 'August 22 · Atlanta', image: '/dorsey/current/taste-of-art.jpg', href: 'https://www.eventbrite.com/e/the-taste-of-art-aug-22-tickets-1988881972519' },
+  { name: 'GROWN-ISH', kind: 'August 7 · Atlanta', image: '/dorsey/current/grownish.jpg', href: 'https://www.eventbrite.com/e/the-grown-ish-aug-07-tickets-1988881854165' },
   { name: 'STUSH', kind: 'Fashion', image: '/dorsey/current/stush-fashion.jpg', href: 'https://stushusa.com' },
-  { name: 'Pronto Energy', kind: 'Beverages', image: '/dorsey/current/pronto-energy.jpg', href: 'https://pronto-energy-website.vercel.app' },
-  { name: 'Infinity Water', kind: 'Water products', image: '/dorsey/current/infinity-water.jpg', href: 'https://infinity-water-website.vercel.app' },
+  { name: 'Pronto Energy', kind: 'Active beverage brand', image: '/dorsey/current/pronto-energy.jpg', href: 'https://prontoenergydrink.com' },
+  { name: 'Infinity Water', kind: 'Active water brand', image: '/dorsey/current/infinity-water.jpg', href: 'https://watertoinfinity.com' },
 ];
 
 const siteWorlds = [
@@ -231,7 +231,7 @@ export default function HomePage() {
           </p>
           <div>
             <a href="/kollective">Enter The Kollective ↗</a>
-            <a href="https://the-kollective-worlds.dolodorsey.chatgpt.site/entities">Open Entity Universe ↗</a>
+            <a href="https://thekollectivehospitality.com/entities">Open Entity Universe ↗</a>
           </div>
         </div>
       </section>
@@ -243,7 +243,7 @@ export default function HomePage() {
         <div>
           <p className={styles.kicker}>Hospitality / food / licensing</p>
           <h2>THE CASPER GROUP.</h2>
-          <a href="/companies#casper-group">Enter the portfolio ↗</a>
+          <a href="https://caspergroupworldwide.com">Enter the portfolio ↗</a>
         </div>
       </section>
 

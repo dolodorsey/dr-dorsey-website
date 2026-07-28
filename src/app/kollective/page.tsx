@@ -17,8 +17,8 @@ const LOGOS = [
   { name: 'The Casper Group', src: `${SB}/casper_group/logos/logo-full.png`, href: 'https://111atl.com/company.html?brand=casper-group' },
   { name: 'GOOD TIMES', src: `${SB}/good_times/00-brand-assets/logos/good-times-logo-gold-black.png`, href: 'https://thegoodtimesworldwide.com' },
   { name: 'Sole Exchange', src: `${SB}/email-newsletters/sole-exchange-logo.png`, href: 'https://111atl.com/company.html?brand=sole-exchange' },
-  { name: 'Pronto Energy', src: `${SB}/pronto_energy/logos/pronto-logo.png`, href: 'https://pronto-energy-website.vercel.app' },
-  { name: 'Help 911', src: `${SB}/umbrella_injury/00-brand-assets/logos/hurt-911-logo-black.png`, href: 'https://superherosonstandby.com' },
+  { name: 'Pronto Energy', src: `${SB}/pronto_energy/logos/pronto-logo.png`, href: 'https://prontoenergydrink.com' },
+  { name: 'Help 911', src: `${SB}/umbrella_injury/00-brand-assets/logos/hurt-911-logo-black.png`, href: 'https://www.help911.help' },
   { name: 'Iconic', src: `${SB}/dr_dorsey/00-brand-assets/logos/iconic-logo-gold.png`, href: 'https://111atl.com/company.html?brand=scented-flowers' },
 ];
 

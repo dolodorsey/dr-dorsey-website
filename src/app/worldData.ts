@@ -15,14 +15,14 @@ export const worlds: Record<string, World> = {
     image: '/dorsey/enterprise.webp',
     items: [
       { title: 'Entertainment', eyebrow: 'Culture', detail: 'Music, nightlife, events, programming, media, and original cultural IP.', href: 'https://111atl.com' },
-      { title: 'Apps / Tech', eyebrow: 'Platforms', detail: 'Consumer apps, enterprise systems, civic tools, and intelligent services.', href: '/forms/inquiry?division=technology' },
+      { title: 'Apps / Tech', eyebrow: 'Platforms', detail: 'GOOD TIMES, On Call and S.O.S. are active; Luxe on Demand and The Law are in development; The Vote is in planning.', href: '/directory' },
       { title: 'Products / Shop', eyebrow: 'Commerce', detail: 'Fashion, books, wellness, art, water, and beverages.', href: '/store' },
       { title: 'Water Sourcing', eyebrow: 'Infrastructure', detail: 'Aquifer, source, supply, distribution, stewardship, and resilience.', href: '/network' },
       { title: 'Beverages', eyebrow: 'Consumer', detail: 'Infinity Water, Tribal Water, The Tribe Wine, and Pronto Energy.', href: '/network' },
-      { title: 'Help 911', eyebrow: 'Response', detail: 'Human-centered response and services for the moments people need help.', href: '/forms/inquiry?division=help' },
-      { title: 'Philanthropy', eyebrow: 'Impact', detail: 'Sole Exchange, PSA, Members Elite, youth, access, and community programs.', href: '/forms/volunteer' },
-      { title: 'Casper Group', eyebrow: 'Hospitality', detail: 'Independent food brands designed for licensing and multi-location growth.', href: '/forms/group_pricing' },
-      { title: 'Umbrella Group', eyebrow: 'Services', detail: 'A coordinated specialist network for creative, wellness, property, and support.', href: '/forms/inquiry?division=services' },
+      { title: 'Help 911', eyebrow: 'Response', detail: 'An active human-centered response network for the moments people need help.', href: 'https://www.help911.help' },
+      { title: 'Philanthropy', eyebrow: 'Impact', detail: 'Sole Exchange, Playmakers Sports Association, Members Elite, youth, access, and education.', href: 'https://soleexchangeworldwide.com' },
+      { title: 'Casper Group', eyebrow: 'Hospitality / 12 brands', detail: 'American Dragon, Peace Pizza, Taco Yaki, Pasta Bish, Angel Wings, and seven more concepts.', href: 'https://caspergroupworldwide.com' },
+      { title: 'Umbrella Group', eyebrow: 'Services', detail: 'Property, mobility, cleaning, accounting, travel, wellness, people operations, and support.', href: 'https://theumbrella.group' },
     ],
   },
   links: {
@@ -32,7 +32,7 @@ export const worlds: Record<string, World> = {
     image: '/dorsey/rooftop.jpg',
     items: [
       { title: '111ATL', eyebrow: 'Live now', detail: 'Current Atlanta events, tables, birthdays, RSVP, and VIP access.', href: 'https://111atl.com' },
-      { title: 'The Kollective', eyebrow: 'Enterprise', detail: 'Open the complete ecosystem and interactive Entity Universe.', href: 'https://the-kollective-worlds.dolodorsey.chatgpt.site' },
+      { title: 'The Kollective', eyebrow: 'Enterprise', detail: 'Open the complete ecosystem and interactive Entity Universe.', href: 'https://thekollectivehospitality.com' },
       { title: 'Hakuna Matata', eyebrow: 'The book', detail: 'Buy the founder’s field manual for living now and building next.', href: 'https://bodgeaworldwide.myshopify.com/products/hakuna-matata-by-dr-dorsey' },
       { title: 'Forms', eyebrow: 'Take action', detail: 'Strategy, speaking, sponsorship, media, hiring, vendors, and more.', href: '/forms' },
       { title: 'Directory', eyebrow: 'Companies', detail: 'Search the official managed enterprise registry.', href: '/directory' },
@@ -47,8 +47,8 @@ export const worlds: Record<string, World> = {
     items: [
       { title: 'Hakuna Matata', eyebrow: 'Book', detail: 'The mindset behind the machine.', href: 'https://bodgeaworldwide.myshopify.com/products/hakuna-matata-by-dr-dorsey', image: '/dorsey/book-cover.png' },
       { title: 'STUSH', eyebrow: 'Fashion', detail: 'Original apparel and elevated streetwear.', href: 'https://stushusa.com', image: '/dorsey/current/stush-fashion.jpg' },
-      { title: 'Pronto Energy', eyebrow: 'Beverages', detail: 'Energy designed for movement.', href: 'https://pronto-energy-website.vercel.app', image: '/dorsey/current/pronto-energy.jpg' },
-      { title: 'Infinity Water', eyebrow: 'Premium water', detail: 'Sculptural water products in multiple expressions.', href: 'https://infinity-water-website.vercel.app', image: '/dorsey/current/infinity-water.jpg' },
+      { title: 'Pronto Energy', eyebrow: 'Beverages', detail: 'An active energy brand designed for movement.', href: 'https://prontoenergydrink.com', image: '/dorsey/current/pronto-energy.jpg' },
+      { title: 'Infinity Water', eyebrow: 'Premium water', detail: 'An active premium-water brand at the intersection of hydration and hospitality.', href: 'https://watertoinfinity.com', image: '/dorsey/current/infinity-water.jpg' },
     ],
   },
   upcoming: {
@@ -57,10 +57,10 @@ export const worlds: Record<string, World> = {
     intro: 'A selective view into concepts moving through design, partnerships, production, and market readiness.',
     image: '/dorsey/architect.webp',
     items: [
-      { title: 'Hospitality Expansion', eyebrow: 'Casper Group', detail: 'New food concepts and paths into new markets.', href: '/forms/group_pricing' },
+      { title: 'Hospitality Expansion', eyebrow: 'Casper Group / 12 brands', detail: 'A full licensing portfolio with original concepts built for new markets.', href: 'https://caspergroupworldwide.com' },
       { title: 'Water Infrastructure', eyebrow: 'Source to product', detail: 'Connected systems across Aquifer, Nativa, Everyday, and Tribal Water.', href: '/network' },
       { title: 'Product Releases', eyebrow: 'Commerce', detail: 'New fashion, beverage, publishing, and consumer drops.', href: '/store' },
-      { title: 'Platform Expansion', eyebrow: 'Apps / Tech', detail: 'Consumer and enterprise applications entering new phases.', href: '/forms/inquiry?division=technology' },
+      { title: 'Platform Expansion', eyebrow: 'Apps / Tech', detail: 'On Call and S.O.S. are active; Luxe on Demand and The Law are in development.', href: '/directory' },
     ],
   },
   network: {
