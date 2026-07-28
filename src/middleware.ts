@@ -9,9 +9,13 @@ export function middleware(request: NextRequest) {
   const hostname = (request.headers.get('host') || '').split(':')[0].toLowerCase();
   const pathname = request.nextUrl.pathname;
 
-  if (KOLLECTIVE_HOSTS.has(hostname) && pathname === '/') {
+  if (
+    KOLLECTIVE_HOSTS.has(hostname) &&
+    !pathname.startsWith('/kollective') &&
+    !pathname.startsWith('/api/')
+  ) {
     const url = request.nextUrl.clone();
-    url.pathname = '/kollective';
+    url.pathname = pathname === '/' ? '/kollective' : `/kollective${pathname}`;
     return NextResponse.rewrite(url);
   }
 

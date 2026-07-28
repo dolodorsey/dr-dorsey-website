@@ -74,6 +74,11 @@ export default async function KollectiveInformationPage({
                   <h2>{section.title}</h2>
                   {section.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                   {section.bullets?.length ? <ul>{section.bullets.map((item) => <li key={item}>{item}</li>)}</ul> : null}
+                  {section.links?.length ? (
+                    <div className={styles.sectionLinks}>
+                      {section.links.map(([label, href]) => <a href={href} key={label}>{label} ↗</a>)}
+                    </div>
+                  ) : null}
                 </section>
               </article>
             ))}

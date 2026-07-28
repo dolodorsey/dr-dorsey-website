@@ -4,7 +4,12 @@ export type KollectivePage = {
   description: string;
   intro: string;
   facts: Array<[string, string]>;
-  sections: Array<{ title: string; body: string[]; bullets?: string[] }>;
+  sections: Array<{
+    title: string;
+    body: string[];
+    bullets?: string[];
+    links?: Array<[string, string]>;
+  }>;
 };
 
 export const kollectivePages: Record<string, KollectivePage> = {
@@ -178,12 +183,133 @@ export const kollectivePages: Record<string, KollectivePage> = {
       },
     ],
   },
+  companies: {
+    eyebrow: 'THE ENTERPRISE IN DEPTH',
+    title: 'Nine departments. Nine different worlds.',
+    description: 'The complete Kollective company and department architecture.',
+    intro: 'Entertainment, apps and technology, products, water sourcing, beverages, response, philanthropy, hospitality, and services operate with distinct identities while sharing enterprise intelligence.',
+    facts: [['09', 'Independent department worlds'], ['60+', 'Entities, companies, concepts, and institutions'], ['01', 'Shared command layer']],
+    sections: [
+      {
+        title: 'Culture, technology, and commerce',
+        body: ['Entertainment includes Rose on Piedmont, GROWN-ISH, Taste of Art, HugLife, Iconic, GOOD TIMES, and original cultural IP. The technology world includes active platforms GOOD TIMES, On Call, and S.O.S., alongside products in development and planning.', 'Products and commerce include Hakuna Matata, Bodega, STUSH, PULSE, Make Atlanta Great Again, MYXX, Ace Theory, MATCH, and Scented Flowers.'],
+        links: [['Open every entity', '/entities'], ['Current experiences', '/events'], ['Shop the portfolio', '/store']],
+      },
+      {
+        title: 'Water, beverages, and response',
+        body: ['Everyday Water Group connects Aquifer Waterworks and Nativa Waterworks to a long-term source and infrastructure strategy. Infinity Water, Tribal Water, The Tribe Wine, and Pronto Energy remain distinct consumer brands.', 'Help 911, S.O.S., On Call, and the Umbrella Injury Network form the response layer.'],
+        links: [['Water network', '/network'], ['Help 911', 'https://www.help911.help']],
+      },
+      {
+        title: 'Hospitality, services, and impact',
+        body: ['The Casper Group is a verified twelve-brand hospitality portfolio. The Umbrella Group coordinates property, mobility, cleaning, accounting, travel, wellness, and people operations. Sole Exchange, Playmakers Sports Association, Members Elite, and The University build durable community pathways.'],
+        links: [['Casper Group', 'https://caspergroupworldwide.com'], ['Umbrella Group', 'https://theumbrella.group'], ['Sole Exchange', 'https://soleexchangeworldwide.com']],
+      },
+    ],
+  },
+  directory: {
+    eyebrow: 'THE MASTER DIRECTORY',
+    title: 'Find the company. Make the move.',
+    description: 'A direct directory into the complete enterprise.',
+    intro: 'Use the entity universe for company profiles, the links page for public destinations, and All Access for applications, reservations, partnerships, and protected conversations.',
+    facts: [['Entities', 'Companies and official identities'], ['Links', 'Public websites and platforms'], ['Access', 'Forms and direct action']],
+    sections: [
+      { title: 'Choose the correct directory', body: ['The Entity Universe explains each company, status, division, and live destination. The links page is the shortest public route. The forms page routes a request to an accountable operating lane.'], links: [['Entity Universe', '/entities'], ['All links', '/links'], ['All forms', '/forms'], ['Open Access', '/access']] },
+      { title: 'Enterprise worlds', body: ['The company map shows how every department relates without flattening the individual brands. Current, Store, Network, Upcoming, and Team provide specialized views of the system.'], links: [['Companies', '/companies'], ['Current', '/events'], ['Store', '/store'], ['Network', '/network'], ['Upcoming', '/upcoming'], ['Team', '/team']] },
+    ],
+  },
+  links: {
+    eyebrow: 'ONE PAGE. EVERY MOVE.',
+    title: 'The public command page.',
+    description: 'The highest-value public destinations across the enterprise.',
+    intro: 'Enter current Atlanta culture, company profiles, active stores, water and beverage brands, community platforms, or the founder’s world from one deliberate page.',
+    facts: [['111ATL', 'Events, tables, RSVP, and VIP access'], ['Enterprise', 'Companies, services, and partnerships'], ['Founder', 'Book, strategy, and speaking']],
+    sections: [
+      { title: 'Live destinations', body: ['These links lead to current public platforms verified in the enterprise registry.'], links: [['111ATL', 'https://111atl.com'], ['GOOD TIMES', 'https://www.thegoodtimesworldwide.com'], ['Dr. Dorsey', 'https://doctordorsey.com'], ['Casper Group', 'https://caspergroupworldwide.com'], ['Umbrella Group', 'https://theumbrella.group'], ['Help 911', 'https://www.help911.help']] },
+      { title: 'Products and impact', body: ['Shop, read, support, and enter consumer or community platforms directly.'], links: [['STUSH', 'https://stushusa.com'], ['Bodega', 'https://bodegabodegabodega.com'], ['Pronto Energy', 'https://prontoenergydrink.com'], ['Infinity Water', 'https://watertoinfinity.com'], ['Sole Exchange', 'https://soleexchangeworldwide.com'], ['Hakuna Matata', 'https://bodgeaworldwide.myshopify.com/products/hakuna-matata-by-dr-dorsey']] },
+    ],
+  },
+  forms: {
+    eyebrow: 'CHOOSE THE CONVERSATION',
+    title: 'Every form has a purpose.',
+    description: 'Reservations, partnerships, careers, media, vendors, and enterprise inquiries.',
+    intro: 'The Kollective uses the shared Doctor Dorsey enterprise forms system while keeping each submission routed by intent, brand, and operating owner.',
+    facts: [['Reserve', 'Events, tables, and celebrations'], ['Build', 'Partnerships, vendors, and careers'], ['Protect', 'NDA and private enterprise review']],
+    sections: [
+      { title: 'Public and commercial access', body: ['Choose the lane that most closely matches the request.'], links: [['Reserve / RSVP', 'https://111atl.com/#forms'], ['Partner / Sponsor', 'https://doctordorsey.com/forms/sponsor'], ['Careers', 'https://doctordorsey.com/forms/hiring_inquiry'], ['Vendor network', 'https://doctordorsey.com/forms/vendor'], ['Media', 'https://doctordorsey.com/forms/media'], ['General inquiry', 'https://doctordorsey.com/forms/inquiry']] },
+      { title: 'Founder and protected access', body: ['Private strategy, speaking, book orders, and NDA requests are handled through dedicated routes.'], links: [['Private strategy', 'https://doctordorsey.com/forms/consultation'], ['Speaking', 'https://doctordorsey.com/forms/speaking'], ['Bulk books', 'https://doctordorsey.com/forms/bulk_orders'], ['Request NDA', 'https://doctordorsey.com/forms/nda']] },
+    ],
+  },
+  events: {
+    eyebrow: 'CURRENT CULTURE',
+    title: 'What is moving now.',
+    description: 'Current public events and cultural programming after July 28, 2026.',
+    intro: 'The upcoming calendar includes GROWN-ISH, Back to School Drive, Soul Session, REMIX, The Kulture Market, Taste of Art, Sunday’s Best, Labor Day programming, and the Beauty & Beast Greek Ball.',
+    facts: [['AUG 07', 'GROWN-ISH'], ['AUG 22', 'The Kulture Market and Taste of Art'], ['ATLANTA', 'Venue details confirmed by each event listing']],
+    sections: [
+      { title: 'August 2026', body: ['Use the official event listing for current time, location, availability, and ticket terms.'], links: [['GROWN-ISH · Aug 07', 'https://www.eventbrite.com/e/the-grown-ish-aug-07-tickets-1988881854165'], ['Back to School Drive · Aug 08', 'https://www.eventbrite.com/e/the-back-to-school-drive-aug-08-tickets-1988881869210'], ['Soul Session · Aug 09', 'https://www.eventbrite.com/e/the-soul-session-aug-09-tickets-1988881865198'], ['REMIX · Aug 15', 'https://www.eventbrite.com/e/the-remix-aug-15-tickets-1988881875228'], ['The Kulture Market · Aug 22', 'https://www.eventbrite.com/e/the-kulture-market-aug-22-tickets-1988881958477'], ['Taste of Art · Aug 22', 'https://www.eventbrite.com/e/the-taste-of-art-aug-22-tickets-1988881972519']] },
+      { title: 'Complete live calendar', body: ['111ATL and GOOD TIMES remain the public hubs for current experiences, reservations, and discovery.'], links: [['111ATL', 'https://111atl.com'], ['GOOD TIMES', 'https://www.thegoodtimesworldwide.com']] },
+    ],
+  },
+  store: {
+    eyebrow: 'THE PORTFOLIO IN HAND',
+    title: 'Wear it. Read it. Drink it.',
+    description: 'The active product and commerce layer of the enterprise.',
+    intro: 'Founder media, fashion, premium water, energy, culture, and limited product worlds—each with its own storefront or verified destination.',
+    facts: [['READ', 'Hakuna Matata'], ['WEAR', 'STUSH, Bodega, and Atlanta culture'], ['DRINK', 'Infinity Water and Pronto Energy']],
+    sections: [
+      { title: 'Active storefronts', body: ['Purchase and fulfillment happen through each brand’s current public destination.'], links: [['Hakuna Matata', 'https://bodgeaworldwide.myshopify.com/products/hakuna-matata-by-dr-dorsey'], ['STUSH', 'https://stushusa.com'], ['Bodega', 'https://bodegabodegabodega.com'], ['Make Atlanta Great Again', 'https://thaoldatlanta.com'], ['Pronto Energy', 'https://prontoenergydrink.com'], ['Infinity Water', 'https://watertoinfinity.com']] },
+    ],
+  },
+  upcoming: {
+    eyebrow: 'WHAT IS BEING BUILT NEXT',
+    title: 'The pipeline, without the fiction.',
+    description: 'A status-aware view of development, planning, and expansion.',
+    intro: 'Active means active. Development means development. Planning means planning. The enterprise pipeline separates readiness from ambition while preserving a route for qualified partners.',
+    facts: [['ACTIVE', 'On Call, S.O.S., water and beverage brands'], ['DEVELOPMENT', 'Luxe on Demand and The Law'], ['PLANNING', 'The Vote and future market programs']],
+    sections: [
+      { title: 'Expansion lanes', body: ['Casper Group licensing, water infrastructure, platform development, product releases, and education are moving through different operating stages.'], links: [['Hospitality expansion', 'https://caspergroupworldwide.com'], ['Water network', '/network'], ['Products', '/store'], ['Technology', '/technology']] },
+      { title: 'Bring a qualified opportunity', body: ['Property, distribution, licensing, technology, sponsorship, talent, and capital proposals should identify scope, timing, decision owner, and mutual value.'], links: [['Enterprise inquiry', 'https://doctordorsey.com/forms/inquiry'], ['Partnership request', 'https://doctordorsey.com/forms/sponsor']] },
+    ],
+  },
+  network: {
+    eyebrow: 'THE WATER AND TRIBE NETWORK',
+    title: 'From source to culture.',
+    description: 'Water sourcing, infrastructure, consumer products, education, and community.',
+    intro: 'Everyday Water Group coordinates a connected long-term system while Aquifer, Nativa, Infinity, Tribal Water, The Tribe, and The University remain distinct worlds.',
+    facts: [['SOURCE', 'Aquifer Waterworks'], ['SYSTEM', 'Everyday and Nativa'], ['CULTURE', 'Infinity, Tribal Water, The Tribe, and education']],
+    sections: [
+      { title: 'Water infrastructure', body: ['Aquifer Waterworks focuses on source intelligence. Nativa Waterworks focuses on place-led infrastructure. Everyday Water Group coordinates the portfolio.'], links: [['Aquifer', 'https://aquifer-waterworks.vercel.app'], ['Nativa', 'https://nativa-waterworks.vercel.app'], ['Everyday Water', 'https://everyday-water-group.vercel.app']] },
+      { title: 'Consumer and community worlds', body: ['Infinity Water and Tribal Water are active consumer brands. The Tribe and The University connect gathering, learning, and enterprise development.'], links: [['Infinity Water', 'https://watertoinfinity.com'], ['Tribal Water', 'https://tribal-water.vercel.app'], ['The Tribe', 'https://the-tribe-wine.vercel.app'], ['The University', 'https://the-university.vercel.app']] },
+    ],
+  },
+  team: {
+    eyebrow: 'THE PEOPLE BEHIND THE WORLDS',
+    title: 'Founder-led. Specialist-powered.',
+    description: 'The leadership, operating, creative, and partner structure behind the enterprise.',
+    intro: 'Dr. Dorsey sets enterprise direction and architecture. Each department then requires accountable owners, operators, specialists, and partners appropriate to its own market.',
+    facts: [['FOUNDER', 'Vision and enterprise architecture'], ['OPERATORS', 'Brand and delivery accountability'], ['NETWORK', 'Specialists, vendors, and strategic partners']],
+    sections: [
+      { title: 'Operating disciplines', body: ['Hospitality operations, creative and culture, technology and product, water and infrastructure, commerce, legal coordination, and partnership development work as specialist disciplines—not generic titles.'], links: [['Meet Dr. Dorsey', 'https://doctordorsey.com'], ['Careers', 'https://doctordorsey.com/forms/hiring_inquiry'], ['Vendor network', 'https://doctordorsey.com/forms/vendor']] },
+      { title: 'Build with the network', body: ['Qualified specialists and operating partners can introduce their capabilities through the correct public route.'], links: [['What do you do?', 'https://doctordorsey.com/forms/what_you_do'], ['Partner', 'https://doctordorsey.com/forms/sponsor']] },
+    ],
+  },
+  access: {
+    eyebrow: 'ALL ACCESS',
+    title: 'Discovery ends in a move.',
+    description: 'Every important public action across the enterprise.',
+    intro: 'Reserve, RSVP, buy, apply, partner, request service, enter a platform, or begin a protected enterprise conversation.',
+    facts: [['EXPERIENCE', 'Events, tables, and culture'], ['ENTERPRISE', 'Partners, vendors, careers, and services'], ['FOUNDER', 'Strategy, speaking, and Hakuna Matata']],
+    sections: [
+      { title: 'Choose the move', body: ['Use the shortest verified route to the action you need.'], links: [['Experience Atlanta', 'https://111atl.com'], ['Shop', '/store'], ['Partner', 'https://doctordorsey.com/forms/sponsor'], ['Careers', 'https://doctordorsey.com/forms/hiring_inquiry'], ['Request service', 'https://theumbrella.group'], ['Help 911', 'https://www.help911.help'], ['Private strategy', 'https://doctordorsey.com/forms/consultation'], ['Enterprise inquiry', 'https://doctordorsey.com/forms/inquiry']] },
+    ],
+  },
 };
 
 export const kollectiveNav = [
-  ['About', '/kollective/about'],
-  ['Portfolio', '/kollective/portfolio'],
-  ['Operating Model', '/kollective/operating-model'],
-  ['Partnerships', '/kollective/partnerships'],
-  ['Technology', '/kollective/technology'],
+  ['Companies', '/companies'],
+  ['Entities', '/entities'],
+  ['Current', '/events'],
+  ['Network', '/network'],
+  ['Links', '/links'],
 ] as const;
