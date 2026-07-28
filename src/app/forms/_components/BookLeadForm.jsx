@@ -1,0 +1,83 @@
+'use client';
+
+import { useState } from 'react';
+
+const DIRECT_FORM_ENDPOINT = '/api/forms/submit';
+const ACCENT = '#D4B87A';
+const BG_IMG = '/images/forms-bg.png';
+
+export default function BookLeadForm({ type, title, subtitle, icon, fields }) {
+  const [data, setData] = useState({});
+  const [status, setStatus] = useState('idle');
+  const set = (name, value) => setData((previous) => ({ ...previous, [name]: value }));
+
+  async function submit(event) {
+    event.preventDefault();
+    setStatus('submitting');
+
+    try {
+      const response = await fetch(DIRECT_FORM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          brand_key: 'dr_dorsey',
+          form_type: type,
+          full_name: data.full_name || '',
+          email: data.email || '',
+          phone: data.phone || '',
+          form_data: data,
+          source: 'kollective_book_promotion',
+          source_url: window.location.href,
+          submitted_at: new Date().toISOString(),
+        }),
+      });
+      const payload = await response.json().catch(() => null);
+      if (!response.ok || payload?.success !== true) {
+        throw new Error(payload?.error || `Submission failed with ${response.status}`);
+      }
+      setStatus('success');
+    } catch (error) {
+      console.error(error);
+      setStatus('error');
+    }
+  }
+
+  if (status === 'success') {
+    return <Shell><div style={{ textAlign: 'center' }}><div style={successIcon}>✓</div><h1 style={titleStyle}>Request received.</h1><p style={copyStyle}>Your information was delivered to The Kollective team. A representative will follow up using the contact details provided.</p><a href="/kollective#book" style={outlineButton}>Return to the book</a></div></Shell>;
+  }
+
+  return (
+    <Shell>
+      <div style={{ textAlign: 'center', marginBottom: 34 }}>
+        <a href="/kollective#book" style={backLink}>← Hakuna Matata</a>
+        <div style={{ fontSize: 40, marginBottom: 12 }}>{icon}</div>
+        <h1 style={titleStyle}>{title}</h1>
+        <p style={copyStyle}>{subtitle}</p>
+      </div>
+      <form onSubmit={submit}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+          {fields.map((field) => <Field key={field.name} field={field} value={data[field.name]} onChange={set} />)}
+        </div>
+        {status === 'error' && <p style={{ color: '#ff7777', textAlign: 'center', marginTop: 18 }}>The request was not delivered. Check your connection and submit again.</p>}
+        <button type="submit" disabled={status === 'submitting'} style={{ ...submitButton, opacity: status === 'submitting' ? 0.55 : 1 }}>{status === 'submitting' ? 'Submitting…' : 'Submit Request'}</button>
+      </form>
+    </Shell>
+  );
+}
+
+function Field({ field, value, onChange }) {
+  const inputStyle = { width: '100%', boxSizing: 'border-box', padding: '14px 16px', borderRadius: 8, border: '1px solid rgba(255,255,255,.18)', background: 'rgba(255,255,255,.1)', color: '#fff', fontSize: 15, outline: 'none' };
+  return <div><label style={labelStyle}>{field.label}{field.required && <span style={{ color: ACCENT }}> *</span>}</label>{field.type === 'textarea' ? <textarea rows={4} required={field.required} value={value || ''} onChange={(event) => onChange(field.name, event.target.value)} style={{ ...inputStyle, resize: 'vertical' }} /> : field.type === 'select' ? <select required={field.required} value={value || ''} onChange={(event) => onChange(field.name, event.target.value)} style={inputStyle}><option value="" style={{ background: '#111' }}>Select…</option>{field.options.map((option) => <option key={option} value={option} style={{ background: '#111' }}>{option}</option>)}</select> : <input type={field.type || 'text'} required={field.required} value={value || ''} onChange={(event) => onChange(field.name, event.target.value)} style={inputStyle} />}</div>;
+}
+
+function Shell({ children }) {
+  return <main style={{ minHeight: '100vh', position: 'relative', padding: '90px 20px', display: 'grid', placeItems: 'center', color: '#fff' }}><div style={{ position: 'fixed', inset: 0, background: `linear-gradient(rgba(0,0,0,.76),rgba(0,0,0,.88)),url(${BG_IMG}) center/cover`, zIndex: -1 }} /><section style={{ width: 'min(580px,100%)', padding: 'clamp(28px,5vw,48px)', border: '1px solid rgba(255,255,255,.15)', borderRadius: 20, background: 'rgba(0,0,0,.56)', backdropFilter: 'blur(24px)', boxShadow: '0 24px 90px rgba(0,0,0,.55)' }}>{children}</section></main>;
+}
+
+const titleStyle = { fontFamily: "'Cormorant Garamond',serif", fontSize: 'clamp(34px,6vw,54px)', fontWeight: 400, lineHeight: 1, margin: '0 0 12px' };
+const copyStyle = { color: 'rgba(255,255,255,.72)', lineHeight: 1.65, margin: 0 };
+const labelStyle = { display: 'block', marginBottom: 8, fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', color: 'rgba(255,255,255,.9)', fontWeight: 600 };
+const submitButton = { width: '100%', marginTop: 28, padding: '16px 24px', border: 0, borderRadius: 8, background: ACCENT, color: '#080604', fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase', cursor: 'pointer' };
+const backLink = { display: 'inline-block', marginBottom: 18, color: ACCENT, textDecoration: 'none', fontSize: 10, letterSpacing: 3, textTransform: 'uppercase' };
+const outlineButton = { display: 'inline-flex', marginTop: 26, padding: '13px 24px', border: `1px solid ${ACCENT}`, color: ACCENT, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: 2, fontSize: 10 };
+const successIcon = { width: 72, height: 72, borderRadius: '50%', border: `2px solid ${ACCENT}`, display: 'grid', placeItems: 'center', margin: '0 auto 24px', fontSize: 32, color: ACCENT };
