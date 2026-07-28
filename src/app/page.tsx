@@ -39,6 +39,27 @@ const rules = [
   ['05', 'Own the outcome.', 'Ideas do not compound until systems make execution repeatable.'],
 ];
 
+const currentMoves = [
+  { name: 'Good Times', kind: 'Current culture', image: '/dorsey/current/good-times.jpg', href: 'https://111atl.com/#events' },
+  { name: 'Taste of Art', kind: 'Signature experience', image: '/dorsey/current/taste-of-art.jpg', href: 'https://111atl.com/#events' },
+  { name: 'Grown-ish', kind: 'Nightlife', image: '/dorsey/current/grownish.jpg', href: 'https://111atl.com/#events' },
+  { name: 'STUSH', kind: 'Fashion', image: '/dorsey/current/stush-fashion.jpg', href: 'https://stushusa.com' },
+  { name: 'Pronto Energy', kind: 'Beverages', image: '/dorsey/current/pronto-energy.jpg', href: 'https://pronto-energy-website.vercel.app' },
+  { name: 'Infinity Water', kind: 'Water products', image: '/dorsey/current/infinity-water.jpg', href: 'https://infinity-water-website.vercel.app' },
+];
+
+const siteWorlds = [
+  ['Companies', 'The full enterprise architecture', '/companies'],
+  ['Directory', 'Every company and entity record', '/directory'],
+  ['Links', 'One page for every public move', '/links'],
+  ['Forms', 'Strategy, speaking, careers, vendors', '/forms'],
+  ['Events', 'What is happening now', '/events'],
+  ['Store', 'Fashion, books, water, energy', '/store'],
+  ['Upcoming', 'What is moving through the pipeline', '/upcoming'],
+  ['Network', 'The Tribe and water ecosystem', '/network'],
+  ['Team', 'Leadership and specialist network', '/team'],
+];
+
 export default function HomePage() {
   const [menu, setMenu] = useState(false);
 
@@ -59,10 +80,10 @@ export default function HomePage() {
           <img src="/dorsey/logo.png" alt="Dr. Dorsey" />
         </a>
         <div className={styles.navLinks}>
-          <a href="#architect">The Architect</a>
-          <a href="#worlds">The Work</a>
-          <a href="#book">The Book</a>
-          <a href="#access">Access</a>
+          <a href="/companies">Companies</a>
+          <a href="/directory">Directory</a>
+          <a href="/events">Current</a>
+          <a href="/links">Links</a>
         </div>
         <a className={styles.navCta} href="/forms/consultation">Book strategy ↗</a>
         <button
@@ -79,36 +100,38 @@ export default function HomePage() {
 
       <div className={`${styles.mobileMenu} ${menu ? styles.open : ''}`}>
         <p>Dr. Dorsey / Direct access</p>
-        <a href="#architect" onClick={() => setMenu(false)}>The Architect <span>01</span></a>
-        <a href="#worlds" onClick={() => setMenu(false)}>The Work <span>02</span></a>
-        <a href="#book" onClick={() => setMenu(false)}>Hakuna Matata <span>03</span></a>
-        <a href="/kollective">The Kollective <span>04</span></a>
-        <a href="/access">All Access <span>05</span></a>
+        <a href="/companies" onClick={() => setMenu(false)}>Companies <span>01</span></a>
+        <a href="/directory" onClick={() => setMenu(false)}>Directory <span>02</span></a>
+        <a href="/events" onClick={() => setMenu(false)}>Current & Events <span>03</span></a>
+        <a href="/network">Network <span>04</span></a>
+        <a href="/links">All Links <span>05</span></a>
       </div>
 
       <section className={styles.hero} id="top">
-        <div className={styles.heroGrid} />
-        <div className={styles.heroCopy}>
-          <p>Founder · Enterprise Architect · Cultural Operator</p>
-          <h1>
-            I BUILD THE
-            <br />
-            <em>MACHINES</em>
-            <br />
-            BEHIND CULTURE.
-          </h1>
-          <div className={styles.heroLower}>
-            <p>
-              Brands are what people see. I build the identity, systems,
-              leverage, and operating world behind them.
-            </p>
-            <a href="#architect">Enter the architecture ↓</a>
-          </div>
+        <video className={styles.heroFilm} autoPlay muted loop playsInline>
+          <source src="/dorsey/motion/founder-hero.mp4" type="video/mp4" />
+        </video>
+        <div className={styles.heroFilmShade} />
+        <a className={styles.heroBook} href={BOOK_URL}>
+          <img src="/dorsey/book-cover.png" alt="Hakuna Matata by Dr. Dorsey" />
+          <span>Buy the book <b>↗</b></span>
+        </a>
+      </section>
+
+      <section className={styles.current}>
+        <header>
+          <p className={styles.kicker}>Current / moving now</p>
+          <h2>THE WORK IS <em>ALIVE.</em></h2>
+          <span>Events, products, campaigns, and releases with a direct route to action.</span>
+        </header>
+        <div className={styles.currentGrid}>
+          {currentMoves.map((item, index) => (
+            <a href={item.href} className={styles[`current${index + 1}`]} key={item.name}>
+              <img src={item.image} alt={item.name} />
+              <div><small>{item.kind}</small><h3>{item.name}</h3><b>Enter ↗</b></div>
+            </a>
+          ))}
         </div>
-        <div className={styles.heroPortrait}>
-          <img src="/dorsey/book-office.png" alt="Dr. Dorsey with Hakuna Matata" />
-        </div>
-        <div className={styles.heroEdge}>DOLO DORSEY / ATLANTA / WORLDWIDE</div>
       </section>
 
       <section className={styles.manifesto}>
@@ -213,6 +236,17 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className={styles.casper}>
+        <video autoPlay muted loop playsInline>
+          <source src="/dorsey/motion/casper-group.mp4" type="video/mp4" />
+        </video>
+        <div>
+          <p className={styles.kicker}>Hospitality / food / licensing</p>
+          <h2>THE CASPER GROUP.</h2>
+          <a href="/companies#casper-group">Enter the portfolio ↗</a>
+        </div>
+      </section>
+
       <section className={styles.rules}>
         <header>
           <p className={styles.kicker}>Field notes</p>
@@ -279,6 +313,15 @@ export default function HomePage() {
           <a href={BOOK_URL}><span>04</span><b>Hakuna Matata</b><small>Order the book</small><i>↗</i></a>
           <a href="/kollective"><span>05</span><b>The Enterprise</b><small>Explore The Kollective</small><i>↗</i></a>
           <a href="/access"><span>06</span><b>All Access</b><small>Every link and form</small><i>↗</i></a>
+        </div>
+      </section>
+
+      <section className={styles.siteMap}>
+        <header><p className={styles.kicker}>The complete platform</p><h2>EVERY DOOR IS <em>OPEN.</em></h2></header>
+        <div>
+          {siteWorlds.map(([name, note, href], index) => (
+            <a href={href} key={name}><span>{String(index + 1).padStart(2, '0')}</span><h3>{name}</h3><p>{note}</p><b>↗</b></a>
+          ))}
         </div>
       </section>
 

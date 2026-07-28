@@ -35,14 +35,6 @@ export const currentFocusBrands: BrandCard[] = [
     destinationType: 'website',
   },
   {
-    name: 'The Sovereign Nation',
-    category: 'Institution · Governance',
-    href: 'https://the-nation-preview.vercel.app',
-    status: 'Building',
-    actionLabel: 'View Platform',
-    destinationType: 'website',
-  },
-  {
     name: 'The Tribe — Memphis',
     category: 'Community · Enterprise',
     href: 'https://the-tribe-wine.vercel.app',
@@ -251,9 +243,9 @@ export const divisions: Division[] = [
   },
   {
     title: 'Institutions & Impact',
-    eyebrow: 'Nation · Education · Youth · Community',
+    eyebrow: 'Education · Water · Youth · Community',
     description: 'Long-term infrastructure for governance, education, water, workforce, youth development, sports and measurable community impact.',
-    brands: ['The Sovereign Nation', 'The Tribe — Memphis', 'The University', 'Everyday Water Group', 'Nativa Waterworks', 'Aquifer Waterworks', 'Trailblazers', 'Little Farmers of the Future', 'Sole Exchange', 'Kid Fit ATL', "Let’s Talk About It", "Playmaker’s Sports Association", "Member’s Elite"],
+    brands: ['The Tribe — Memphis', 'The University', 'Everyday Water Group', 'Nativa Waterworks', 'Aquifer Waterworks', 'Trailblazers', 'Little Farmers of the Future', 'Sole Exchange', 'Kid Fit ATL', "Let’s Talk About It", "Playmaker’s Sports Association", "Member’s Elite"],
     href: '/forms/onboarding',
     cta: 'Join or Support',
   },

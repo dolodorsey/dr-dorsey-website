@@ -25,7 +25,6 @@ const LOGOS = [
 const VISUALS: Record<string, { src: string; fit?: 'contain' | 'cover' }> = {
   'Dr. Dorsey': { src: `${SB}/dr_dorsey/website/penthouse-skyline.jpg` },
   'The Kollective ENT.': { src: `${SB}/dr_dorsey/website/luxury-venue.jpg` },
-  'The Sovereign Nation': { src: '/brand/kollective-hero.svg', fit: 'contain' },
   'The Tribe — Memphis': { src: `${SB}/dr_dorsey/website/garden-district.jpg` },
   'The University': { src: `${SB}/pulse_university/website/WEBSITE_HERO_DRIVE_EVERY_MOMENT.png` },
   'Everyday Water Group': { src: `${SB}/infinity_water/generated/infinity_gold_splash_v2.png`, fit: 'contain' },
