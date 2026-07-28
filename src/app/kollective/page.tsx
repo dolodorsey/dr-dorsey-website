@@ -64,7 +64,16 @@ export default function KollectivePage() {
       </nav>
 
       <section className={styles.hero} id="top" aria-label="The Kollective visual introduction">
-        <img src="/brand/kollective-hero.svg" alt="The Kollective enterprise world" />
+        <video autoPlay muted loop playsInline preload="metadata" poster="/kollective/home.png">
+          <source src="/kollective/kollective-animation.mp4" type="video/mp4" />
+        </video>
+        <div className={styles.heroShade} />
+        <div className={styles.heroCopy}>
+          <p>Independent brands · Shared intelligence · Global ambition</p>
+          <h1>The world<br />we are building.</h1>
+          <div><a href="#intro">Explore the enterprise</a><a href="/forms/inquiry?interest=enterprise_app">Request app access</a></div>
+        </div>
+        <span className={styles.soundLabel}>Brand film · Sound off</span>
         <a className={styles.scrollCue} href="#intro"><span /></a>
       </section>
 
@@ -82,6 +91,19 @@ export default function KollectivePage() {
             <img src={logo.src} alt={logo.name} />
           </a>
         ))}
+      </section>
+
+      <section className={styles.brandAtlas} aria-labelledby="brand-atlas-title">
+        <div className={styles.atlasCopy}>
+          <p className={styles.kicker}>The brand atlas</p>
+          <h2 id="brand-atlas-title">Every company has a place in the world.</h2>
+          <p>Restaurants, experiences, products, services, technology, institutions, and movements—distinct identities connected by one enterprise standard.</p>
+        </div>
+        <div className={styles.atlasGallery}>
+          <figure className={styles.atlasWide}><img src="/kollective/brand-window.png" alt="The Kollective portfolio of company logos" /></figure>
+          <figure><img src="/kollective/home-2.png" alt="The Kollective global city network" /></figure>
+          <figure><img src="/kollective/brand-grid.png" alt="The Kollective full company directory" /></figure>
+        </div>
       </section>
 
       <section className={styles.focus} id="focus">

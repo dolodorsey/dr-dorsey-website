@@ -84,6 +84,21 @@ export default function HomePage() {
         <div className={styles.builderCopy}><p className={styles.kicker}>The operating philosophy</p><h2>Build culture.<br />Install systems.<br />Own the outcome.</h2><div className={styles.builderRows}><div><b>Brand architecture</b><span>Each company receives its own identity, audience, offer, funnel, and operating model.</span></div><div><b>Experience design</b><span>Every touchpoint should feel intentional, premium, useful, and memorable.</span></div><div><b>Automation and data</b><span>Shared technology turns scattered activity into an enterprise system.</span></div><div><b>Expansion</b><span>The goal is repeatable market entry, not one-off success.</span></div></div></div>
       </section>
 
+      <section className={styles.kollectiveFilm} aria-labelledby="kollective-film-title">
+        <div className={styles.filmCopy}>
+          <p className={styles.kicker}>Inside The Kollective</p>
+          <h2 id="kollective-film-title">One vision.<br />A world of brands.</h2>
+          <p>The Kollective is the command layer behind an expanding portfolio of experiences, products, services, technology, and culture.</p>
+          <a href="/kollective">Enter The Kollective <span>↗</span></a>
+        </div>
+        <div className={styles.filmMedia}>
+          <video autoPlay muted loop playsInline preload="metadata" poster="/kollective/home-2.png" aria-label="The Kollective brand animation">
+            <source src="/kollective/kollective-animation.mp4" type="video/mp4" />
+          </video>
+          <span>Brand film · Sound off</span>
+        </div>
+      </section>
+
       <section className={styles.book} id="book">
         <div className={styles.bookVisual}><img src={`${SB}/bodega/hakuna-matata/promo-06-office-navy-suit.png`} alt="Hakuna Matata by Dr. Dorsey" /></div>
         <div className={styles.bookCopy}><p className={styles.kicker}>Hakuna Matata</p><h2>The mindset behind the machine.</h2><p>A founder's philosophy on pressure, ambition, living fully, and building something that lasts.</p><div><a href={BOOK_URL}>Buy the Book</a><a href="/forms/bulk_orders">Bulk Orders</a><a href="/forms/book_club">Book Clubs</a></div></div>
