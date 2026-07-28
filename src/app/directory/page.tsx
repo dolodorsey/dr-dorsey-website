@@ -54,7 +54,11 @@ export default function EnterpriseDirectoryPage() {
     return () => { active = false; };
   }, []);
 
-  const divisions = useMemo(() => Array.from(new Map(entities.filter((entity) => entity.division_slug).map((entity) => [entity.division_slug, entity.division_name || entity.division_slug])).entries()), [entities]);
+  const divisions = useMemo(() => Array.from(new Map(
+    entities
+      .filter((entity): entity is Entity & { division_slug: string } => Boolean(entity.division_slug))
+      .map((entity) => [entity.division_slug, entity.division_name || entity.division_slug] as const),
+  ).entries()), [entities]);
   const statuses = useMemo(() => Array.from(new Set(entities.map((entity) => entity.status))).sort((a, b) => statusOrder.indexOf(a) - statusOrder.indexOf(b)), [entities]);
 
   const filtered = useMemo(() => {

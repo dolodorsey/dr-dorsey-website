@@ -2,10 +2,15 @@
 
 import type { CSSProperties } from 'react';
 import styles from './kollective.module.css';
+import upgradeStyles from './kollective-upgrade.module.css';
 import { accessLinks, currentFocusBrands, divisions, SB } from '@/lib/enterprise';
 import { useEnterpriseRegistry } from '@/lib/use-enterprise-registry';
 
 const EMBLEM = `${SB}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
+const HERO_VIDEO = '/brand/kollective-hero.mp4';
+const HERO_POSTER = '/brand/kollective-hero-poster.png';
+const BOOK_COVER = 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/cover-hero.png?v=1783903956';
+const BOOK_URL = 'https://bodgeaworldwide.myshopify.com/products/hakuna-matata-by-dr-dorsey';
 const LOGOS = [
   { name: 'Dr. Dorsey', src: `${SB}/dr_dorsey/01_logos/DorseyNewW.png`, href: 'https://doctordorsey.com' },
   { name: 'The Kollective', src: EMBLEM, href: '#focus' },
@@ -59,13 +64,24 @@ export default function KollectivePage() {
     <main className={styles.page}>
       <nav className={styles.nav}>
         <a className={styles.navBrand} href="#top"><img src={EMBLEM} alt="The Kollective" /></a>
-        <div className={styles.navLinks}><a href="#focus">Current</a><a href="#enterprise">Enterprise</a><a href="#about">About</a><a href="#access">Access</a></div>
-        <a className={styles.navCta} href="/forms/inquiry?interest=enterprise_app">App Access</a>
+        <div className={styles.navLinks}><a href="#focus">Current</a><a href="#enterprise">Enterprise</a><a href="#about">About</a><a href="#book">The Book</a><a href="#access">Access</a></div>
+        <a className={styles.navCta} href="/access">Open Access</a>
       </nav>
 
       <section className={styles.hero} id="top" aria-label="The Kollective visual introduction">
-        <img src="/brand/kollective-hero.svg" alt="The Kollective enterprise world" />
+        <video className={upgradeStyles.heroVideo} autoPlay muted loop playsInline preload="metadata" poster={HERO_POSTER} aria-label="The Kollective global enterprise animation">
+          <source src={HERO_VIDEO} type="video/mp4" />
+        </video>
         <a className={styles.scrollCue} href="#intro"><span /></a>
+      </section>
+
+      <section className={upgradeStyles.actionBar} aria-label="Fast enterprise actions">
+        <a href="/forms/rsvp"><strong>RSVP</strong><span>Events and guest lists</span></a>
+        <a href="/forms/table_reservation"><strong>Reserve</strong><span>Dining and nightlife</span></a>
+        <a href={BOOK_URL}><strong>Buy</strong><span>Hakuna Matata</span></a>
+        <a href="/forms/sponsor"><strong>Partner</strong><span>Sponsors and enterprise deals</span></a>
+        <a href="/forms/hiring_inquiry"><strong>Join</strong><span>Careers and opportunities</span></a>
+        <a href="/access"><strong>All Access</strong><span>Every form and link</span></a>
       </section>
 
       <section className={styles.intro} id="intro">
@@ -108,6 +124,24 @@ export default function KollectivePage() {
         <div className={styles.aboutCopy}><p className={styles.kicker}>How the enterprise works</p><h2>Separate brands.<br />One command layer.</h2><p>The public sees distinct companies. Behind them is shared enterprise intelligence: strategy, technology, data, creative direction, partnerships, legal coordination, operating systems, and market expansion.</p><div className={styles.aboutRows}><div><b>The Casper Group</b><span>A portfolio of distinct quick-service food brands built for licensing and multi-location expansion.</span></div><div><b>The Fraternity</b><span>A selective cultural organization built around influence, economic empowerment, learning, global reach, and legacy.</span></div><div><b>The Umbrella Group</b><span>A coordinated service network where one request routes to the correct specialized company.</span></div></div></div>
       </section>
 
+      <section className={upgradeStyles.bookPromo} id="book">
+        <div className={upgradeStyles.bookVisual}>
+          <div className={upgradeStyles.bookGlow} />
+          <img src={BOOK_COVER} alt="Hakuna Matata by Dr. Dorsey" />
+        </div>
+        <div className={upgradeStyles.bookCopy}>
+          <span>The Founder’s Field Manual</span>
+          <h2>Hakuna Matata.<br />The mindset behind the machine.</h2>
+          <p>A direct look at the philosophy, pressure, ambition, and discipline behind Dr. Dorsey’s approach to life, leadership, and enterprise building.</p>
+          <div className={upgradeStyles.bookPrice}>Available now · $44.44</div>
+          <div className={upgradeStyles.bookActions}>
+            <a className={upgradeStyles.goldButton} href={BOOK_URL}>Buy the Book</a>
+            <a className={upgradeStyles.lineButton} href="/forms/bulk_orders">Bulk Orders</a>
+            <a className={upgradeStyles.lineButton} href="/forms/speaking">Book Dr. Dorsey</a>
+          </div>
+        </div>
+      </section>
+
       <section className={styles.enterprise} id="enterprise">
         <header className={styles.sectionHead}><div><p className={styles.kicker}>The full portfolio</p><h2>Eight worlds.<br />One ecosystem.</h2></div><p>Open a division to see its companies at a readable scale. Portfolio concepts are not misrepresented as operating companies.</p></header>
         <div className={styles.divisionStack}>
@@ -131,7 +165,7 @@ export default function KollectivePage() {
         <div className={styles.accessButtons}><a href="/access">Open All Access</a><a href="https://111atl.com">111ATL</a><a href="/forms/inquiry?interest=enterprise_app">Unified App Early Access</a></div>
       </section>
 
-      <footer className={styles.footer}><img src={EMBLEM} alt="The Kollective" /><p>Independent brands. Shared enterprise leverage. Direct action.</p><div><a href="https://doctordorsey.com">Dr. Dorsey</a><a href="https://111atl.com">111ATL</a><a href="/access">Access</a></div></footer>
+      <footer className={styles.footer}><img src={EMBLEM} alt="The Kollective" /><p>Independent brands. Shared enterprise leverage. Direct action.</p><div><a href={BOOK_URL}>Buy the Book</a><a href="https://doctordorsey.com">Dr. Dorsey</a><a href="https://111atl.com">111ATL</a><a href="/access">Access</a></div></footer>
     </main>
   );
 }
