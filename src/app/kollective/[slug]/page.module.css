@@ -172,6 +172,21 @@
   color: #e0ddd4;
   line-height: 1.8;
 }
+.sectionLinks {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+.sectionLinks a {
+  padding: 13px 15px;
+  border: 1px solid #d8b04c;
+  color: #f4efe6;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
 .related {
   padding: 70px clamp(22px, 7vw, 105px);
   display: grid;

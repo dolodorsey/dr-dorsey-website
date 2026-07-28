@@ -14,9 +14,9 @@ const BOOK_URL = 'https://bodgeaworldwide.myshopify.com/products/hakuna-matata-b
 const LOGOS = [
   { name: 'Dr. Dorsey', src: `${SB}/dr_dorsey/01_logos/DorseyNewW.png`, href: 'https://doctordorsey.com' },
   { name: 'The Kollective', src: EMBLEM, href: '#focus' },
-  { name: 'The Casper Group', src: `${SB}/casper_group/logos/logo-full.png`, href: 'https://111atl.com/company.html?brand=casper-group' },
+  { name: 'The Casper Group', src: `${SB}/casper_group/logos/logo-full.png`, href: 'https://caspergroupworldwide.com' },
   { name: 'GOOD TIMES', src: `${SB}/good_times/00-brand-assets/logos/good-times-logo-gold-black.png`, href: 'https://thegoodtimesworldwide.com' },
-  { name: 'Sole Exchange', src: `${SB}/email-newsletters/sole-exchange-logo.png`, href: 'https://111atl.com/company.html?brand=sole-exchange' },
+  { name: 'Sole Exchange', src: `${SB}/email-newsletters/sole-exchange-logo.png`, href: 'https://soleexchangeworldwide.com' },
   { name: 'Pronto Energy', src: `${SB}/pronto_energy/logos/pronto-logo.png`, href: 'https://prontoenergydrink.com' },
   { name: 'Help 911', src: `${SB}/umbrella_injury/00-brand-assets/logos/hurt-911-logo-black.png`, href: 'https://www.help911.help' },
   { name: 'Iconic', src: `${SB}/dr_dorsey/00-brand-assets/logos/iconic-logo-gold.png`, href: 'https://111atl.com/company.html?brand=scented-flowers' },
@@ -45,14 +45,15 @@ const VISUALS: Record<string, { src: string; fit?: 'contain' | 'cover' }> = {
 };
 
 const FEATURED_DIVISION_VISUALS = [
-  `${SB}/dr_dorsey/website/penthouse-skyline.jpg`,
   `${SB}/social-dashboard/2026-07-17/dolodorsey/rose-bar-rose-interior-video.mp4`,
-  `${SB}/casper_group/logos/logo-full.png`,
-  `${SB}/taste_of_art/03_event_flyers/TASTE_ROSE_BAR_0717_v4.png`,
-  `${SB}/stush/stush_lineup/063_the_stush_lineup.jpg`,
   `${SB}/good_times/atl-nightlife-elevated.png`,
-  `${SB}/good-times-app/umbrella_group/umbrella_group_landscape.png`,
+  `${SB}/stush/stush_lineup/063_the_stush_lineup.jpg`,
+  `${SB}/infinity_water/website/blue.jpg`,
+  `${SB}/infinity_water/generated/infinity_gold_splash_v2.png`,
+  `${SB}/umbrella_injury/00-brand-assets/logos/hurt-911-logo-black.png`,
   `${SB}/dr_dorsey/website/garden-district.jpg`,
+  `${SB}/casper_group/logos/logo-full.png`,
+  `${SB}/good-times-app/umbrella_group/umbrella_group_landscape.png`,
 ];
 
 export default function KollectivePage() {
@@ -63,7 +64,7 @@ export default function KollectivePage() {
     <main className={styles.page}>
       <nav className={styles.nav}>
         <a className={styles.navBrand} href="#top"><img src={EMBLEM} alt="The Kollective" /></a>
-        <div className={styles.navLinks}><a href="/kollective/about">About</a><a href="/kollective/portfolio">Portfolio</a><a href="/kollective/operating-model">Operating Model</a><a href="/kollective/partnerships">Partnerships</a><a href="/kollective/technology">Technology</a></div>
+        <div className={styles.navLinks}><a href="/entities">Entities</a><a href="/companies">Companies</a><a href="/events">Current</a><a href="/network">Network</a><a href="/links">Links</a></div>
         <a className={styles.navCta} href="/access">Open Access</a>
       </nav>
 
@@ -75,11 +76,11 @@ export default function KollectivePage() {
       </section>
 
       <section className={upgradeStyles.actionBar} aria-label="Fast enterprise actions">
-        <a href="/forms/rsvp"><strong>RSVP</strong><span>Events and guest lists</span></a>
-        <a href="/forms/table_reservation"><strong>Reserve</strong><span>Dining and nightlife</span></a>
+        <a href="https://doctordorsey.com/forms/rsvp"><strong>RSVP</strong><span>Events and guest lists</span></a>
+        <a href="https://doctordorsey.com/forms/table_reservation"><strong>Reserve</strong><span>Dining and nightlife</span></a>
         <a href={BOOK_URL}><strong>Buy</strong><span>Hakuna Matata</span></a>
-        <a href="/forms/sponsor"><strong>Partner</strong><span>Sponsors and enterprise deals</span></a>
-        <a href="/forms/hiring_inquiry"><strong>Join</strong><span>Careers and opportunities</span></a>
+        <a href="https://doctordorsey.com/forms/sponsor"><strong>Partner</strong><span>Sponsors and enterprise deals</span></a>
+        <a href="https://doctordorsey.com/forms/hiring_inquiry"><strong>Join</strong><span>Careers and opportunities</span></a>
         <a href="/access"><strong>All Access</strong><span>Every form and link</span></a>
       </section>
 
@@ -135,14 +136,14 @@ export default function KollectivePage() {
           <div className={upgradeStyles.bookPrice}>Available now · $44.44</div>
           <div className={upgradeStyles.bookActions}>
             <a className={upgradeStyles.goldButton} href={BOOK_URL}>Buy the Book</a>
-            <a className={upgradeStyles.lineButton} href="/forms/bulk_orders">Bulk Orders</a>
-            <a className={upgradeStyles.lineButton} href="/forms/speaking">Book Dr. Dorsey</a>
+            <a className={upgradeStyles.lineButton} href="https://doctordorsey.com/forms/bulk_orders">Bulk Orders</a>
+            <a className={upgradeStyles.lineButton} href="https://doctordorsey.com/forms/speaking">Book Dr. Dorsey</a>
           </div>
         </div>
       </section>
 
       <section className={styles.enterprise} id="enterprise">
-        <header className={styles.sectionHead}><div><p className={styles.kicker}>The full portfolio</p><h2>Eight worlds.<br />One ecosystem.</h2></div><p>Open a division to see its companies at a readable scale. Portfolio concepts are not misrepresented as operating companies.</p></header>
+        <header className={styles.sectionHead}><div><p className={styles.kicker}>The full portfolio</p><h2>Nine worlds.<br />One ecosystem.</h2></div><p>Entertainment, apps, products, water, beverages, response, philanthropy, hospitality, and services—each with its own mandate and atmosphere.</p></header>
         <div className={styles.divisionStack}>
           {divisions.map((division, index) => (
             <details className={styles.division} key={division.title} open={index === 0}>
@@ -160,8 +161,13 @@ export default function KollectivePage() {
 
       <section className={styles.access} id="access">
         <div><p className={styles.kicker}>Direct access</p><h2>Every discovery ends in a move.</h2><p>Buy, reserve, apply, partner, download, request service, or start a protected conversation.</p></div>
-        <div className={styles.accessGrid}>{featuredAccess.map((item) => <a href={item.href} key={item.title}><b>{item.title}</b><span>{item.description}</span><i>↗</i></a>)}</div>
-        <div className={styles.accessButtons}><a href="/access">Open All Access</a><a href="https://111atl.com">111ATL</a><a href="/forms/inquiry?interest=enterprise_app">Unified App Early Access</a></div>
+        <div className={styles.accessGrid}>{featuredAccess.map((item) => {
+          const href = item.href.startsWith('/forms')
+            ? `https://doctordorsey.com${item.href}`
+            : item.href === '/shop' ? '/store' : item.href;
+          return <a href={href} key={item.title}><b>{item.title}</b><span>{item.description}</span><i>↗</i></a>;
+        })}</div>
+        <div className={styles.accessButtons}><a href="/access">Open All Access</a><a href="https://111atl.com">111ATL</a><a href="https://doctordorsey.com/forms/inquiry?interest=enterprise_app">Unified App Early Access</a></div>
       </section>
 
       <footer className={styles.footer}><img src={EMBLEM} alt="The Kollective" /><p>Independent brands. Shared enterprise leverage. Direct action.</p><div><a href={BOOK_URL}>Buy the Book</a><a href="https://doctordorsey.com">Dr. Dorsey</a><a href="https://111atl.com">111ATL</a><a href="/access">Access</a></div></footer>
