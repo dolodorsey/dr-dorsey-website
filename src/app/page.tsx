@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import styles from './home.module.css';
+import upgrade from './dorsey-upgrade.module.css';
 import { BOOK_URL } from '@/lib/enterprise';
-import CinematicHero from '@/components/flagship/CinematicHero';
 
 const worlds = [
   {
@@ -49,6 +49,84 @@ const currentMoves = [
   { name: 'Infinity Water', kind: 'Active water brand', image: '/dorsey/current/infinity-water.jpg', href: 'https://watertoinfinity.com' },
 ];
 
+const ENTITY_CDN =
+  'https://sccmgpssfwhgxefbdwbc.supabase.co/storage/v1/object/public/entity-motion/dorsey';
+
+const entityMotion = [
+  {
+    number: '01',
+    title: 'AQUIFER',
+    note: 'Water infrastructure / stewardship',
+    video: `${ENTITY_CDN}/aquifer.mp4`,
+    poster: '/dorsey/editorial/entity-network-green.png',
+    href: '/network',
+  },
+  {
+    number: '02',
+    title: 'EVERYDAY',
+    note: 'Daily culture / lifestyle',
+    video: `${ENTITY_CDN}/everyday.mp4`,
+    poster: '/dorsey/editorial/entity-gallery-light.png',
+    href: '/directory',
+  },
+  {
+    number: '03',
+    title: 'THE ROSE BAR',
+    note: 'Hospitality / nightlife',
+    video: `${ENTITY_CDN}/rose-bar.mp4`,
+    poster: '/dorsey/editorial/founder-lounge.png',
+    href: '/directory',
+  },
+  {
+    number: '04',
+    title: 'TRAILBLAZER',
+    note: 'Leadership / new markets',
+    video: `${ENTITY_CDN}/trailblazer.mp4`,
+    poster: '/dorsey/editorial/city-architect.png',
+    href: '/directory',
+  },
+  {
+    number: '05',
+    title: 'TRIBAL WATER',
+    note: 'Community water / impact',
+    video: `${ENTITY_CDN}/tribal-water.mp4`,
+    poster: '/dorsey/editorial/entity-network-green.png',
+    href: '/network',
+  },
+  {
+    number: '06',
+    title: 'THE TRIBE',
+    note: 'Membership / shared progress',
+    video: `${ENTITY_CDN}/tribe.mp4`,
+    poster: '/dorsey/editorial/entity-wall-red.png',
+    href: '/network',
+  },
+  {
+    number: '07',
+    title: 'THE UNIVERSITY',
+    note: 'Education / ownership / legacy',
+    video: `${ENTITY_CDN}/university.mp4`,
+    poster: '/dorsey/editorial/mind-behind-movement.png',
+    href: '/directory',
+  },
+  {
+    number: '08',
+    title: 'INFINITY WATER',
+    note: 'Luxury water / elemental design',
+    video: `${ENTITY_CDN}/infinity-water.mp4`,
+    poster: '/dorsey/current/infinity-water.jpg',
+    href: 'https://watertoinfinity.com',
+  },
+  {
+    number: '09',
+    title: 'PRONTO ENERGY',
+    note: 'Energy / flavor multiverse',
+    video: `${ENTITY_CDN}/pronto-energy.mp4`,
+    poster: '/dorsey/editorial/dorsey-kollective-legacy.png',
+    href: 'https://prontoenergydrink.com',
+  },
+];
+
 const siteWorlds = [
   ['Companies', 'The full enterprise architecture', '/companies'],
   ['Directory', 'Every company and entity record', '/directory'],
@@ -76,24 +154,6 @@ export default function HomePage() {
 
   return (
     <main id="main-content" className={styles.page}>
-      <style>{`
-        @media (max-width: 720px) {
-          .${styles.heroBook} {
-            left: 18px;
-            right: 18px;
-            bottom: 18px;
-            width: auto;
-            padding: 8px;
-            display: grid;
-            grid-template-columns: 70px 1fr;
-            align-items: end;
-            gap: 10px;
-            transform: translateY(170px);
-          }
-          .${styles.heroBook} img { aspect-ratio: 2 / 3; }
-          .${styles.heroBook} span { margin-top: 0; padding: 12px 10px; }
-        }
-      `}</style>
       <nav className={styles.nav}>
         <a className={styles.navBrand} href="#top" aria-label="Dr. Dorsey home">
           <img src="/dorsey/logo.png" alt="Dr. Dorsey" />
@@ -126,20 +186,82 @@ export default function HomePage() {
         <a href="/links">All Links <span>05</span></a>
       </div>
 
-      <CinematicHero
-        emblem="/dorsey/logo.png"
-        video="/dorsey/motion/founder-hero.mp4"
-        lines={['Building the future of', 'hospitality, culture', '& enterprise.']}
-        sub="Founder · Architect · Investor · Cultural strategist"
-        cities={[]}
-        cueHref="#current"
-        label="Dr. Dorsey introduction"
-      >
-        <a className={styles.heroBook} href={BOOK_URL}>
-          <img src="/dorsey/book-cover.png" alt="Hakuna Matata by Dr. Dorsey" />
-          <span>Buy the book <b>↗</b></span>
+      <section className={upgrade.hero} id="top" aria-label="Dr. Dorsey introduction">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/dorsey/editorial/dorsey-kollective-legacy.png"
+          aria-hidden="true"
+        >
+          <source src="/dorsey/motion/founder-hero.mp4" type="video/mp4" />
+        </video>
+        <div className={upgrade.heroShade} aria-hidden="true" />
+        <div className={upgrade.heroCaption}>
+          <p>Dr. Dorsey / Founder-led enterprise</p>
+          <h1>THE MIND BEHIND <em>THE MOVEMENT.</em></h1>
+          <div>
+            <span>Hospitality · Culture · Enterprise · Legacy</span>
+            <a href="#entity-motion">Enter the universe ↓</a>
+          </div>
+        </div>
+      </section>
+
+      <section className={upgrade.motion} id="entity-motion">
+        <header>
+          <p>One founder / many independent worlds</p>
+          <h2>THE ENTITIES<br /><em>MOVE.</em></h2>
+          <span>
+            Every company holds its own identity. Together, they reveal the
+            architecture behind the work.
+          </span>
+        </header>
+        <div className={upgrade.motionGrid}>
+          {entityMotion.map((item) => (
+            <a href={item.href} className={upgrade.motionCard} key={item.number}>
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster={item.poster}
+                aria-hidden="true"
+              >
+                <source src={item.video} type="video/mp4" />
+              </video>
+              <div>
+                <span>{item.number}</span>
+                <p>{item.note}</p>
+                <h3>{item.title}</h3>
+                <b>Explore ↗</b>
+              </div>
+            </a>
+          ))}
+        </div>
+        <a className={upgrade.allEntities} href="/directory">
+          <span>60+ brands, companies, concepts, and systems</span>
+          <b>Open the complete directory ↗</b>
         </a>
-      </CinematicHero>
+      </section>
+
+      <section className={upgrade.editorial}>
+        <figure className={upgrade.editorialLead}>
+          <img src="/dorsey/editorial/mind-behind-movement.png" alt="Dr. Dorsey — the mind behind the movement" />
+        </figure>
+        <div className={upgrade.editorialPair}>
+          <figure>
+            <img src="/dorsey/editorial/entity-gallery-light.png" alt="The Dr. Dorsey and Kollective enterprise gallery" />
+            <figcaption><span>01 / Architecture</span><b>Independent identities. Shared intelligence.</b></figcaption>
+          </figure>
+          <figure>
+            <img src="/dorsey/editorial/entity-wall-red.png" alt="Dr. Dorsey surrounded by the enterprise entity portfolio" />
+            <figcaption><span>02 / Portfolio</span><b>A living system of culture and commerce.</b></figcaption>
+          </figure>
+        </div>
+      </section>
 
       <section className={styles.current} id="current">
         <header>
@@ -159,7 +281,7 @@ export default function HomePage() {
 
       <section className={styles.manifesto}>
         <div className={styles.manifestoImage}>
-          <img src="/dorsey/manifesto.webp" alt="Dr. Dorsey manifesto" />
+          <img src="/dorsey/editorial/founder-lounge.png" alt="Dr. Dorsey in the founder lounge" />
         </div>
         <div className={styles.manifestoCopy}>
           <p>The founder’s code</p>
@@ -209,7 +331,7 @@ export default function HomePage() {
           </div>
         </div>
         <div className={styles.architectVisual}>
-          <img src="/dorsey/architect.webp" alt="Dr. Dorsey — The Architect" />
+          <img src="/dorsey/editorial/city-architect.png" alt="Dr. Dorsey — The Architect" />
           <span>Founder / Builder / Architect of Culture</span>
         </div>
       </section>
@@ -237,7 +359,7 @@ export default function HomePage() {
 
       <section className={styles.enterprise}>
         <div className={styles.enterpriseVisual}>
-          <img src="/dorsey/enterprise.webp" alt="The Kollective enterprise overview" />
+          <img src="/dorsey/editorial/entity-network-green.png" alt="The Kollective enterprise network" />
         </div>
         <div className={styles.enterpriseCopy}>
           <img src="/dorsey/kollective.png" alt="The Kollective" />
@@ -311,7 +433,7 @@ export default function HomePage() {
       </section>
 
       <section className={styles.letter}>
-        <img src="/dorsey/letter.webp" alt="A letter from Dr. Dorsey" />
+        <img src="/dorsey/editorial/golf-legacy.png" alt="Dr. Dorsey building legacy on and off the course" />
         <div>
           <p className={styles.kicker}>A note from Dorsey</p>
           <blockquote>
