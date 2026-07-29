@@ -1,5 +1,6 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import styles from './CinematicHero.module.css';
 
 /**
@@ -40,6 +41,8 @@ type CinematicHeroProps = {
   cities?: HeroCity[];
   cueHref?: string;
   label?: string;
+  /** Brand-specific CTA rendered inside the stage, after the statement. */
+  children?: ReactNode;
 };
 
 export default function CinematicHero({
@@ -52,6 +55,7 @@ export default function CinematicHero({
   cities = DEFAULT_CITIES,
   cueHref = '#intro',
   label = 'Enterprise introduction',
+  children,
 }: CinematicHeroProps) {
   return (
     <section className={styles.hero} id="top" aria-label={label}>
@@ -107,6 +111,7 @@ export default function CinematicHero({
         </h1>
 
         {sub && <p className={styles.sub}>{sub}</p>}
+        {children}
       </div>
 
       <a className={styles.cue} href={cueHref} aria-label="Scroll to continue" />

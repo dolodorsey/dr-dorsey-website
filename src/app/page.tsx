@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import styles from './home.module.css';
 import { BOOK_URL } from '@/lib/enterprise';
+import CinematicHero from '@/components/flagship/CinematicHero';
 
 const worlds = [
   {
@@ -107,18 +108,22 @@ export default function HomePage() {
         <a href="/links">All Links <span>05</span></a>
       </div>
 
-      <section className={styles.hero} id="top">
-        <video className={styles.heroFilm} autoPlay muted loop playsInline>
-          <source src="/dorsey/motion/founder-hero.mp4" type="video/mp4" />
-        </video>
-        <div className={styles.heroFilmShade} />
+      <CinematicHero
+        emblem="/dorsey/logo.png"
+        video="/dorsey/motion/founder-hero.mp4"
+        lines={['Building the future of', 'hospitality, culture', '& enterprise.']}
+        sub="Founder · Architect · Investor · Cultural strategist"
+        cities={[]}
+        cueHref="#current"
+        label="Dr. Dorsey introduction"
+      >
         <a className={styles.heroBook} href={BOOK_URL}>
           <img src="/dorsey/book-cover.png" alt="Hakuna Matata by Dr. Dorsey" />
           <span>Buy the book <b>↗</b></span>
         </a>
-      </section>
+      </CinematicHero>
 
-      <section className={styles.current}>
+      <section className={styles.current} id="current">
         <header>
           <p className={styles.kicker}>Current / moving now</p>
           <h2>THE WORK IS <em>ALIVE.</em></h2>
