@@ -75,7 +75,7 @@ export default function HomePage() {
   }, [menu]);
 
   return (
-    <main className={styles.page}>
+    <main id="main-content" className={styles.page}>
       <nav className={styles.nav}>
         <a className={styles.navBrand} href="#top" aria-label="Dr. Dorsey home">
           <img src="/dorsey/logo.png" alt="Dr. Dorsey" />

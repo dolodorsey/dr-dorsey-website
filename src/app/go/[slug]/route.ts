@@ -10,8 +10,8 @@ function detectPlatform(userAgent: string): 'ios' | 'android' | 'web' {
   return 'web';
 }
 
-export async function GET(request: NextRequest, context: { params: { slug: string } }) {
-  const slug = context.params.slug;
+export async function GET(request: NextRequest, context: { params: Promise<{ slug: string }> }) {
+  const slug = (await context.params).slug;
   const platform = detectPlatform(request.headers.get('user-agent') || '');
   const sourceScreen = request.nextUrl.searchParams.get('source') || 'website';
   const sourceCampaign = request.nextUrl.searchParams.get('campaign');

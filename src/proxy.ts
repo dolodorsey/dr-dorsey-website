@@ -5,7 +5,7 @@ const KOLLECTIVE_HOSTS = new Set([
   'www.thekollectivehospitality.com',
 ]);
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const hostname = (request.headers.get('host') || '').split(':')[0].toLowerCase();
   const pathname = request.nextUrl.pathname;
 

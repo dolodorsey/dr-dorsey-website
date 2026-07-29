@@ -51,7 +51,7 @@ export default function EcosystemMap({
             <span className={`${styles.ring} ${styles.ring3}`} aria-hidden="true" />
 
             <div className={styles.orbitCore}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              { }
               <img src={emblem} alt="" aria-hidden="true" />
             </div>
 

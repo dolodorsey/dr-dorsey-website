@@ -94,7 +94,7 @@ export default function CinematicHero({
       </div>
 
       <div className={styles.stage}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+        { }
         <img className={styles.emblem} src={emblem} alt="" aria-hidden="true" />
 
         <h1 className={styles.statement}>

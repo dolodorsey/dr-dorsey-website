@@ -40,10 +40,10 @@ export default function KollectivePage() {
   const featuredAccess = accessLinks.filter((item) => item.featured).slice(0, 6);
 
   return (
-    <main className={styles.page}>
+    <main id="main-content" className={styles.page}>
       <nav className={styles.nav}>
         <a className={styles.navBrand} href="#top">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          { }
           <img src={EMBLEM} alt="The Kollective" />
         </a>
         <div className={styles.navLinks}>
@@ -192,7 +192,6 @@ export default function KollectivePage() {
                   {FEATURED_DIVISION_VISUALS[index]?.endsWith('.mp4') ? (
                     <video autoPlay muted loop playsInline src={FEATURED_DIVISION_VISUALS[index]} />
                   ) : (
-                    // eslint-disable-next-line @next/next/no-img-element
                     <img src={FEATURED_DIVISION_VISUALS[index]} alt="" loading="lazy" decoding="async" />
                   )}
                 </div>
@@ -238,7 +237,7 @@ export default function KollectivePage() {
       </section>
 
       <footer className={styles.footer}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+        { }
         <img src={EMBLEM} alt="The Kollective" />
         <p>Independent brands. Shared enterprise leverage. Direct action.</p>
         <div>

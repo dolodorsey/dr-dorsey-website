@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://doctordorsey.com"),
   title: "Dr. DoLo Dorsey — The Architect Behind the Enterprise",
   description: "The official platform for Dr. DoLo Dorsey: founder, author, cultural operator, and enterprise architect building the systems behind The Kollective.",
+  alternates: { canonical: '/' },
   keywords: "Dr. Dorsey, DoLo Dorsey, The Kollective, Hakuna Matata, enterprise builder, hospitality, technology, consumer brands, Atlanta",
   openGraph: {
     title: "Dr. DoLo Dorsey — I Build the Machines Behind Culture",
@@ -52,7 +53,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body suppressHydrationWarning>{children}</body>
+      <body suppressHydrationWarning>
+        <a className="skip-link" href="#main-content">Skip to main content</a>
+        {children}
+      </body>
     </html>
   );
 }

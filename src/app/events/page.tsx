@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 
 const SB = 'https://dzlmtvodpyhetvektfuo.supabase.co';
-const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR6bG10dm9kcHloZXR2ZWt0ZnVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1ODQ4NjQsImV4cCI6MjA4NTE2MDg2NH0.qmnWB4aWdb7U8Iod9Hv8PQAOJO3AG0vYEGnPS--kfAo';
 const IMG = `${SB}/storage/v1/object/public/brand-graphics`;
 const WEB = `${IMG}/dr_dorsey/website`;
 const KHG_LOGO = `${IMG}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
@@ -78,9 +77,10 @@ export default function EventsPage() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    fetch(`${SB}/rest/v1/dorsey_events?is_active=eq.true&order=sort_order.asc`, {
-      headers: { apikey:ANON, Authorization:`Bearer ${ANON}` }
-    }).then(r => r.json()).then(d => { setEvents(d||[]); setLoading(false); }).catch(() => setLoading(false));
+    fetch('/api/events', { cache: 'no-store' })
+      .then(r => r.ok ? r.json() : Promise.reject(new Error(`Events request failed: ${r.status}`)))
+      .then(d => { setEvents(Array.isArray(d.events) ? d.events : []); setLoading(false); })
+      .catch(() => setLoading(false));
     const fn = () => setScrolled(window.scrollY>60);
     window.addEventListener('scroll', fn); return () => window.removeEventListener('scroll', fn);
   }, []);
@@ -91,10 +91,11 @@ export default function EventsPage() {
     if (!rsvpOpen || !form.name) return;
     setSubmitting(true);
     try {
-      await fetch(`${SB}/rest/v1/dorsey_event_rsvps`, {
-        method:'POST', headers:{ apikey:ANON, Authorization:`Bearer ${ANON}`, 'Content-Type':'application/json', Prefer:'return=minimal' },
+      const response = await fetch('/api/events/rsvp', {
+        method:'POST', headers:{ 'Content-Type':'application/json' },
         body: JSON.stringify({ event_id:rsvpOpen.id, event_title:rsvpOpen.title, name:form.name, email:form.email, phone:form.phone, party_size:form.party_size, special_requests:form.special_requests, booking_type:rsvpOpen.event_type==='table_service'?'table_service':'rsvp' }),
       });
+      if (!response.ok) throw new Error('RSVP could not be saved');
       setSubmitted(true);
       setTimeout(() => { setRsvpOpen(null); setSubmitted(false); setForm({name:'',email:'',phone:'',party_size:2,special_requests:''}); }, 2500);
     } catch {} setSubmitting(false);

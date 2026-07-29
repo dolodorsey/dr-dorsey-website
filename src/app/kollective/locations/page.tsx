@@ -25,7 +25,7 @@ export default function LocationsPage() {
     <main className={styles.page}>
       <nav className={styles.nav}>
         <a className={styles.navBrand} href="/kollective">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          { }
           <img src={EMBLEM} alt="The Kollective" />
         </a>
         <div className={styles.navLinks}>
@@ -71,7 +71,7 @@ export default function LocationsPage() {
       />
 
       <footer className={styles.footer}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+        { }
         <img src={EMBLEM} alt="The Kollective" />
         <p>Independent brands. Shared enterprise leverage. Direct action.</p>
         <div>
