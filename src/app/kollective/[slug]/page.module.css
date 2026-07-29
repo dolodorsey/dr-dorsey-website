@@ -121,6 +121,126 @@
   color: #a6a39c;
   line-height: 1.55;
 }
+.experience {
+  padding: clamp(90px, 12vw, 180px) clamp(22px, 7vw, 105px);
+  overflow: hidden;
+  color: #080808;
+  background: #f1d474;
+}
+.experience > header {
+  display: grid;
+  grid-template-columns: minmax(120px, .35fr) minmax(300px, 1fr) minmax(220px, .62fr);
+  gap: clamp(25px, 5vw, 80px);
+  align-items: start;
+  margin-bottom: clamp(55px, 8vw, 110px);
+}
+.experience > header > p {
+  margin: 8px 0 0;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .22em;
+}
+.experience > header h2 {
+  max-width: 12ch;
+  margin: 0;
+  font: 800 clamp(44px, 6vw, 88px)/.91 Manrope, Inter, sans-serif;
+  letter-spacing: -.06em;
+  text-wrap: balance;
+}
+.experience > header span {
+  max-width: 42ch;
+  color: #302a1a;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.experience > div {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.experience article {
+  min-height: 330px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #080808;
+  border-right: 0;
+}
+.experience article:last-child { border-right: 1px solid #080808; }
+.experience article b {
+  font-size: 10px;
+  letter-spacing: .15em;
+}
+.experience article h3 {
+  margin: auto 0 22px;
+  font: 800 clamp(25px, 3vw, 42px)/.96 Manrope, Inter, sans-serif;
+  letter-spacing: -.045em;
+}
+.experience article p {
+  min-height: 5em;
+  margin: 0;
+  color: #302a1a;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.experience_portfolio {
+  color: #fff;
+  background: #151515;
+}
+.experience_portfolio > header > p { color: #f1d474; }
+.experience_portfolio > header span { color: #aaa69c; }
+.experience_portfolio > div { grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.experience_portfolio article {
+  min-height: 410px;
+  border: 1px solid #ffffff2c;
+  background: linear-gradient(150deg, #222, #0a0a0a);
+}
+.experience_portfolio article b { color: #f1d474; }
+.experience_portfolio article p { color: #aaa69c; }
+.experience_operating_model > div,
+.experience_technology > div { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.experience_operating_model article:nth-child(even) {
+  translate: 0 28px;
+  background: #ddbd59;
+}
+.experience_partnerships {
+  color: #fff;
+  background:
+    radial-gradient(circle at 20% 15%, #d8b04c25, transparent 35%),
+    #050505;
+}
+.experience_partnerships > header > p { color: #f1d474; }
+.experience_partnerships > header span { color: #aaa69c; }
+.experience_partnerships > div { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.experience_partnerships article {
+  min-height: 260px;
+  border-color: #ffffff29;
+  color: #fff;
+}
+.experience_partnerships article:nth-child(3n) { border-right: 1px solid #ffffff29; }
+.experience_partnerships article:nth-child(n + 4) { border-top: 0; }
+.experience_partnerships article b { color: #f1d474; }
+.experience_partnerships article p { color: #aaa69c; }
+.experience_technology {
+  background: #eceae3;
+}
+.experience_technology > div { position: relative; gap: 10px; }
+.experience_technology > div::before {
+  content: "";
+  position: absolute;
+  top: 44px;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: #080808;
+}
+.experience_technology article {
+  position: relative;
+  z-index: 1;
+  min-height: 300px;
+  border: 0;
+  border-top: 6px solid #080808;
+  background: #fff;
+}
 .content {
   padding: clamp(90px, 11vw, 160px) clamp(22px, 7vw, 105px);
   display: grid;
@@ -262,6 +382,10 @@
   .hero > article {
     padding-top: 220px;
   }
+  .experience > header { grid-template-columns: 1fr; }
+  .experience > div,
+  .experience_operating_model > div,
+  .experience_technology > div { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 680px) {
   .action {
@@ -271,6 +395,16 @@
   .related {
     grid-template-columns: 1fr;
   }
+  .experience > div,
+  .experience_portfolio > div,
+  .experience_operating_model > div,
+  .experience_partnerships > div,
+  .experience_technology > div { grid-template-columns: 1fr; }
+  .experience article,
+  .experience_portfolio article,
+  .experience_partnerships article { min-height: 250px; border: 1px solid currentColor; }
+  .experience_operating_model article:nth-child(even) { translate: 0; }
+  .experience_technology > div::before { display: none; }
   .facts article {
     border-right: 0;
     border-bottom: 1px solid #ffffff18;

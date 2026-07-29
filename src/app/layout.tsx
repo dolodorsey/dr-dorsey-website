@@ -8,6 +8,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://doctordorsey.com"),
   title: "Dr. DoLo Dorsey — Founder, Lifestyle Specialist & Enterprise Builder",
   description: "The official platform for Dr. DoLo Dorsey: founder of The Kollective, author of Hakuna Matata, lifestyle specialist, operator and architect of a multi-division enterprise.",
   keywords: "Dr. Dorsey, DoLo Dorsey, The Kollective, Hakuna Matata, enterprise builder, hospitality, technology, consumer brands, Atlanta",
