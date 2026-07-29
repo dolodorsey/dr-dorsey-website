@@ -76,6 +76,23 @@ export default function HomePage() {
 
   return (
     <main id="main-content" className={styles.page}>
+      <style>{`
+        @media (max-width: 720px) {
+          .${styles.heroBook} {
+            left: 18px;
+            right: 18px;
+            bottom: 18px;
+            width: auto;
+            padding: 8px;
+            display: grid;
+            grid-template-columns: 70px 1fr;
+            align-items: end;
+            gap: 10px;
+          }
+          .${styles.heroBook} img { aspect-ratio: 2 / 3; }
+          .${styles.heroBook} span { margin-top: 0; padding: 12px 10px; }
+        }
+      `}</style>
       <nav className={styles.nav}>
         <a className={styles.navBrand} href="#top" aria-label="Dr. Dorsey home">
           <img src="/dorsey/logo.png" alt="Dr. Dorsey" />
