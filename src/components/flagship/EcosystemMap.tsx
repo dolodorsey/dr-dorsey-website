@@ -5,6 +5,24 @@ import Reveal from './Reveal';
 import SectionHead from './SectionHead';
 import styles from './sections.module.css';
 
+const BRAND_MARKS: Record<string, string> = {
+  'Rose on Piedmont': '/brand-logos/rose-on-piedmont.png',
+  'GROWN-ISH': '/brand-logos/grown-ish.png',
+  'Taste of Art': '/brand-logos/taste-of-art.png',
+  'GOOD TIMES': '/brand-logos/good-times.png',
+  'The Casper Group': '/brand-logos/casper-group.png',
+  'Infinity Water': '/brand-logos/infinity-water.png',
+  'Pronto Energy': '/brand-logos/pronto-energy.png',
+  'Tribal Water': '/brand-logos/tribal-water.png',
+  'Help 911': '/brand-logos/help-911.png',
+  'Sole Exchange': '/brand-logos/sole-exchange.png',
+  'The University': '/brand-logos/the-university.png',
+  STUSH: '/brand-logos/stush.png',
+  PULSE: '/brand-logos/pulse.png',
+  Bodega: '/brand-logos/bodega.png',
+  'Make Atlanta Great Again': '/brand-logos/make-atlanta-great-again.png',
+};
+
 export type Branch = {
   name: string;
   count: string;
@@ -87,7 +105,10 @@ export default function EcosystemMap({
           <p>{current.description}</p>
           <div className={styles.orbitList}>
             {current.brands.map((brand) => (
-              <span key={brand}>{brand}</span>
+              <a key={brand} href={`/directory?search=${encodeURIComponent(brand)}`}>
+                {BRAND_MARKS[brand] ? <img src={BRAND_MARKS[brand]} alt="" /> : null}
+                <span>{brand}</span>
+              </a>
             ))}
           </div>
           <a className={styles.orbitCta} href={current.href}>

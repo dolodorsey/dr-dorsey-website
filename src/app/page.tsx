@@ -47,6 +47,10 @@ const currentMoves = [
   { name: 'STUSH', kind: 'Fashion', image: '/brand-logos/stush.png', href: 'https://stushusa.com' },
   { name: 'Pronto Energy', kind: 'Active beverage brand', image: '/brand-logos/pronto-energy.png', href: 'https://prontoenergydrink.com' },
   { name: 'Infinity Water', kind: 'Active water brand', image: '/brand-logos/infinity-water.png', href: 'https://watertoinfinity.com' },
+  { name: 'Bodega', kind: 'Main product store', image: '/brand-logos/bodega.png', href: 'https://bodegabodegabodega.com' },
+  { name: 'Make Atlanta Great Again', kind: 'Atlanta culture store', image: '/brand-logos/make-atlanta-great-again.png', href: 'https://thaoldatlanta.com' },
+  { name: 'PULSE', kind: 'Lifestyle product world', image: '/brand-logos/pulse.png', href: 'https://bodegabodegabodega.com' },
+  { name: 'Hakuna Matata', kind: 'Founder field manual', image: '/dorsey/book-cover.png', href: BOOK_URL },
 ];
 
 const ENTITY_CDN =

@@ -16,6 +16,22 @@ type Entity = {
 const e = (slug: string, name: string, division: string, status: string, line: string, href?: string, logo?: string): Entity =>
   ({ slug, name, division, status, line, href, logo });
 
+const LOCAL_MARKS = new Set([
+  'kollective','dr-dorsey','good-times','casper-group','umbrella-group','sole-exchange',
+  'help-911','pronto-energy','infinity-water','stush','pulse','rose-on-piedmont',
+  'grown-ish','taste-of-art','bodega','myxx','maga-atl','everyday-water',
+  'nativa-waterworks','aquifer-waterworks','tribal-water','the-university',
+]);
+const LOCAL_FILES: Record<string, string> = {
+  'maga-atl': 'make-atlanta-great-again',
+  'everyday-water': 'everyday-water-group',
+};
+const logoFor = (item: Entity) => {
+  if (LOCAL_MARKS.has(item.slug)) return `/brand-logos/${LOCAL_FILES[item.slug] || item.slug}.png`;
+  if (!item.logo) return null;
+  return `https://sccmgpssfwhgxefbdwbc.supabase.co/storage/v1/object/public/brand-graphics/${item.logo}`;
+};
+
 const entities: Entity[] = [
   e('kollective','The Kollective','Enterprise','Command layer','One enterprise. Many worlds.','/','dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png'),
   e('dr-dorsey','Dr. Dorsey','Enterprise','Founder platform','Builder. Architect. Operator.','https://doctordorsey.com','dr_dorsey/01_logos/DorseyNewW.png'),
@@ -113,7 +129,7 @@ export default function EntityDirectory() {
         {visible.map((item, index) => (
           <button onClick={() => setSelected(item)} key={item.slug}>
             <small>{String(index + 1).padStart(2,'0')} / {item.division}</small>
-            <div>{item.logo ? <img src={item.logo} alt={`${item.name} logo`} /> : <strong>{item.name}</strong>}</div>
+            <div>{logoFor(item) ? <img src={logoFor(item)!} alt={`${item.name} logo`} /> : <strong>Identity artwork in preparation</strong>}</div>
             <h2>{item.name}</h2><p>{item.line}</p><span>{item.status}</span><b>Open profile ↗</b>
           </button>
         ))}
@@ -124,7 +140,7 @@ export default function EntityDirectory() {
           <article>
             <button className={styles.close} onClick={() => setSelected(null)}>×</button>
             <small>{selected.division} / {selected.status}</small>
-            <div className={styles.profileMark}>{selected.logo ? <img src={selected.logo} alt={`${selected.name} logo`} /> : <strong>{selected.name}</strong>}</div>
+            <div className={styles.profileMark}>{logoFor(selected) ? <img src={logoFor(selected)!} alt={`${selected.name} logo`} /> : <strong>Identity artwork in preparation</strong>}</div>
             <h2>{selected.name}</h2><p>{selected.line}</p>
             {selected.href ? <a href={selected.href}>Enter live destination ↗</a> : <a href="https://doctordorsey.com/forms/inquiry">Entity inquiry ↗</a>}
           </article>

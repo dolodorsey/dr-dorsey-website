@@ -10,6 +10,7 @@ export type Spread = {
   location: string;
   status: string;
   image: string;
+  video?: string;
   focal?: string;
   fit?: 'cover' | 'contain';
   href: string;
@@ -49,14 +50,20 @@ export default function MagazineSpreads({
           <Reveal key={spread.name} threshold={0.12}>
             <a className={styles.spread} href={spread.href}>
               <div className={styles.spreadMedia}>
-                <KHGImage
-                  src={spread.image}
-                  alt={spread.name}
-                  fill
-                  fit={spread.fit || 'cover'}
-                  focal={spread.focal}
-                  sizes="(max-width: 880px) 100vw, 55vw"
-                />
+                {spread.video ? (
+                  <video autoPlay muted loop playsInline poster={spread.image} aria-label={`${spread.name} animation`}>
+                    <source src={spread.video} type="video/mp4" />
+                  </video>
+                ) : (
+                  <KHGImage
+                    src={spread.image}
+                    alt={spread.name}
+                    fill
+                    fit={spread.fit || 'cover'}
+                    focal={spread.focal}
+                    sizes="(max-width: 880px) 100vw, 55vw"
+                  />
+                )}
                 <span className={styles.spreadIndex}>
                   {String(index + 1).padStart(2, '0')}
                 </span>

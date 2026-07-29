@@ -121,11 +121,42 @@
   color: #a6a39c;
   line-height: 1.55;
 }
+.graphicInterlude {
+  position: relative;
+  min-height: min(82svh, 900px);
+  overflow: hidden;
+  background: #080706;
+}
+.graphicInterlude img {
+  object-fit: cover;
+}
 .content {
   padding: clamp(90px, 11vw, 160px) clamp(22px, 7vw, 105px);
   display: grid;
   grid-template-columns: minmax(240px, 0.6fr) minmax(0, 1.4fr);
   gap: clamp(50px, 9vw, 140px);
+}
+.content > header > img {
+  width: 86px;
+  height: 86px;
+  margin-bottom: 28px;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 24px #000);
+}
+.content > div > article {
+  position: relative;
+  overflow: hidden;
+}
+.content > div > article::after {
+  content: "";
+  position: absolute;
+  right: -7%;
+  bottom: -35%;
+  width: 250px;
+  height: 250px;
+  background: url("/brand-logos/kollective.png") center/contain no-repeat;
+  opacity: .035;
+  pointer-events: none;
 }
 .content > header {
   position: sticky;

@@ -59,6 +59,25 @@ type DorseyEvent = {
 
 type FilterTab = 'all'|'event_brand'|'restaurant_rsvp'|'table_service';
 
+const UPCOMING_ACTIVATIONS: DorseyEvent[] = [
+  {
+    id:'huglife-haunted-house', title:'HugLife Haunted House', event_type:'event_brand',
+    brand_key:'huglife', venue_name:null, venue_address:null, city:'Atlanta',
+    event_date:null, recurring_day:null, start_time:null,
+    description:'An immersive fall activation currently moving through production.',
+    cover_image:null, logo_url:'/brand-logos/kollective.png', website_url:null,
+    is_featured:true, sort_order:1,
+  },
+  {
+    id:'winter-wonderland', title:'The Winter Wonderland', event_type:'event_brand',
+    brand_key:'winter-wonderland', venue_name:null, venue_address:null, city:'Atlanta',
+    event_date:null, recurring_day:null, start_time:null,
+    description:'A large-format winter environment built for gathering, spectacle, and return visits.',
+    cover_image:'/dorsey/current/winter-wonderland.png', logo_url:null, website_url:null,
+    is_featured:true, sort_order:2,
+  },
+];
+
 const C = {
   gold:'#C8A96E', goldBright:'#D4BC8A', goldDim:'rgba(200,169,110,0.3)',
   base:'#060607', elev:'#0C0C0E', surf:'#111114',
@@ -85,7 +104,8 @@ export default function EventsPage() {
     window.addEventListener('scroll', fn); return () => window.removeEventListener('scroll', fn);
   }, []);
 
-  const filtered = filter==='all' ? events : events.filter(e => e.event_type===filter);
+  const visibleEvents = events.length ? events : UPCOMING_ACTIVATIONS;
+  const filtered = filter==='all' ? visibleEvents : visibleEvents.filter(e => e.event_type===filter);
 
   const submitRsvp = async () => {
     if (!rsvpOpen || !form.name) return;

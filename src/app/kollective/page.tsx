@@ -107,9 +107,9 @@ export default function KollectivePage() {
 
       <MagazineSpreads
         id="portfolio"
-        kicker="Selected portfolio"
-        title={<>The work,<br /><em>in the open.</em></>}
-        standfirst="Six entries from the portfolio — the rooms, brands, and platforms currently carrying the enterprise."
+        kicker="Enter the active worlds"
+        title={<>Experience it.<br /><em>Shop it. Join it.</em></>}
+        standfirst="Eight active doors across hospitality, events, fashion, products, publishing, food, and water—followed by the complete entity universe."
         spreads={portfolio}
       />
 
