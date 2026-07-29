@@ -147,7 +147,7 @@ export const portfolio: Spread[] = [
     statement:
       'Twelve original food identities designed for delivery, food halls, licensing, and multi-unit expansion — a restaurant portfolio built like a brand house.',
     category: 'Food & Beverage · 12 brands',
-    location: 'Atlanta · Licensing nationwide',
+    location: 'Atlanta · Multi-market licensing',
     status: 'Operating',
     image: `${SB}/casper_group/logos/logo-full.png`,
     fit: 'contain',

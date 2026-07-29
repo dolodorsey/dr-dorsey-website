@@ -11,6 +11,7 @@ function toBrandCard(entity: RegistryEntity): BrandCard {
     name: entity.name,
     category: entity.category || entity.short_description || '',
     logo: entity.logo_url || undefined,
+    heroUrl: entity.hero_url || undefined,
     href: entity.id.startsWith('fallback-') && primary?.fallback_url
       ? primary.fallback_url
       : `/go/${entity.slug}?source=enterprise_registry`,

@@ -3,7 +3,6 @@
 import styles from './kollective.module.css';
 import upgradeStyles from './kollective-upgrade.module.css';
 import { accessLinks, divisions, SB } from '@/lib/enterprise';
-import CinematicHero from '@/components/flagship/CinematicHero';
 import Timeline from '@/components/flagship/Timeline';
 import EcosystemMap from '@/components/flagship/EcosystemMap';
 import MagazineSpreads from '@/components/flagship/MagazineSpreads';
@@ -58,14 +57,13 @@ export default function KollectivePage() {
         <a className={styles.navCta} href="#build">Build with us</a>
       </nav>
 
-      <CinematicHero
-        video={HERO_VIDEO}
-        poster={HERO_POSTER}
-        lines={['The architects behind', 'culture, hospitality', '& lifestyle.']}
-        sub="Atlanta · Memphis · Houston · Miami · Las Vegas · Los Angeles · New York · Washington DC"
-        cueHref="#intro"
-        label="The Kollective enterprise introduction"
-      />
+      <section className={upgradeStyles.cleanHero} id="top" aria-label="The Kollective enterprise introduction">
+        <video autoPlay muted loop playsInline preload="metadata" poster={HERO_POSTER} aria-hidden="true">
+          <source src={HERO_VIDEO} type="video/mp4" />
+        </video>
+        <h1 className={upgradeStyles.srOnly}>The Kollective — independent brands with shared enterprise leverage</h1>
+        <a href="#intro" aria-label="Continue to The Kollective introduction" />
+      </section>
 
       <section className={upgradeStyles.actionBar} aria-label="Fast enterprise actions">
         <a href="https://doctordorsey.com/forms/rsvp"><strong>RSVP</strong><span>Events and guest lists</span></a>

@@ -58,5 +58,9 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  return NextResponse.json({ entities: data || [], generated_at: new Date().toISOString() }, { headers: { 'Cache-Control': 'no-store, max-age=0' } });
+  const publicEntities = (data || []).filter(
+    (entity) => !/\bnation\b|sovereign/i.test(`${entity.name || ''} ${entity.slug || ''} ${entity.category || ''}`),
+  );
+
+  return NextResponse.json({ entities: publicEntities, generated_at: new Date().toISOString() }, { headers: { 'Cache-Control': 'no-store, max-age=0' } });
 }

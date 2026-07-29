@@ -14,26 +14,6 @@
   width: 100%;
 }
 
-.heroShade {
-  background:
-    linear-gradient(180deg, rgba(0, 0, 0, .05) 48%, rgba(0, 0, 0, .88) 100%),
-    linear-gradient(90deg, rgba(0, 0, 0, .28), transparent 48%);
-  inset: 0;
-  pointer-events: none;
-  position: absolute;
-}
-
-.heroCaption {
-  bottom: 0;
-  color: #f6f2ea;
-  left: 0;
-  padding: clamp(30px, 4vw, 72px);
-  position: absolute;
-  width: min(920px, 88vw);
-  z-index: 2;
-}
-
-.heroCaption > p,
 .motion header > p {
   color: #d3a94f;
   font-size: 10px;
@@ -43,45 +23,48 @@
   text-transform: uppercase;
 }
 
-.heroCaption h1 {
-  font-family: var(--font-display), Georgia, serif;
-  font-size: clamp(3.3rem, 7vw, 7.4rem);
-  font-weight: 400;
-  letter-spacing: -.055em;
-  line-height: .82;
-  margin: 0;
-  text-wrap: balance;
-}
-
-.heroCaption h1 em,
 .motion h2 em {
   color: #d3a94f;
   font-weight: 400;
 }
 
-.heroCaption > div {
-  align-items: center;
-  border-top: 1px solid rgba(255, 255, 255, .28);
-  display: flex;
-  gap: 28px;
-  justify-content: space-between;
-  margin-top: 28px;
-  padding-top: 18px;
+.srOnly {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
 
-.heroCaption span {
-  color: rgba(255, 255, 255, .62);
-  font-size: 10px;
-  letter-spacing: .2em;
-  text-transform: uppercase;
+.heroCue {
+  border: 1px solid rgba(255, 255, 255, .72);
+  border-radius: 999px;
+  bottom: 24px;
+  height: 42px;
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 42px;
 }
 
-.heroCaption a {
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .16em;
-  text-transform: uppercase;
+.heroCue::after {
+  border-bottom: 1px solid #fff;
+  border-right: 1px solid #fff;
+  content: '';
+  height: 8px;
+  left: 16px;
+  position: absolute;
+  top: 13px;
+  transform: rotate(45deg);
+  width: 8px;
+}
+
+.logoCard > img {
+  background: radial-gradient(circle at 50% 42%, #3a2a16 0, #15120c 62%, #090806 100%);
+  object-fit: contain !important;
+  padding: clamp(44px, 7vw, 110px);
 }
 
 .motion {

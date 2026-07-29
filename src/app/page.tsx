@@ -41,12 +41,12 @@ const rules = [
 ];
 
 const currentMoves = [
-  { name: 'GOOD TIMES', kind: 'The culture calendar', image: '/dorsey/current/good-times.jpg', href: 'https://www.thegoodtimesworldwide.com' },
-  { name: 'Taste of Art', kind: 'August 22 · Atlanta', image: '/dorsey/current/taste-of-art.jpg', href: 'https://www.eventbrite.com/e/the-taste-of-art-aug-22-tickets-1988881972519' },
-  { name: 'GROWN-ISH', kind: 'August 7 · Atlanta', image: '/dorsey/current/grownish.jpg', href: 'https://www.eventbrite.com/e/the-grown-ish-aug-07-tickets-1988881854165' },
-  { name: 'STUSH', kind: 'Fashion', image: '/dorsey/current/stush-fashion.jpg', href: 'https://stushusa.com' },
-  { name: 'Pronto Energy', kind: 'Active beverage brand', image: '/dorsey/current/pronto-energy.jpg', href: 'https://prontoenergydrink.com' },
-  { name: 'Infinity Water', kind: 'Active water brand', image: '/dorsey/current/infinity-water.jpg', href: 'https://watertoinfinity.com' },
+  { name: 'GOOD TIMES', kind: 'The culture calendar', image: '/brand-logos/good-times.png', href: 'https://www.thegoodtimesworldwide.com' },
+  { name: 'Taste of Art', kind: 'Art show / event series', image: '/brand-logos/taste-of-art.png', href: 'https://thatasteofart.com' },
+  { name: 'GROWN-ISH', kind: 'Nightlife event series', image: '/brand-logos/grown-ish.png', href: 'https://111atl.com/company.html?brand=grown-ish' },
+  { name: 'STUSH', kind: 'Fashion', image: '/brand-logos/stush.png', href: 'https://stushusa.com' },
+  { name: 'Pronto Energy', kind: 'Active beverage brand', image: '/brand-logos/pronto-energy.png', href: 'https://prontoenergydrink.com' },
+  { name: 'Infinity Water', kind: 'Active water brand', image: '/brand-logos/infinity-water.png', href: 'https://watertoinfinity.com' },
 ];
 
 const ENTITY_CDN =
@@ -59,7 +59,7 @@ const entityMotion = [
     note: 'Water infrastructure / stewardship',
     video: `${ENTITY_CDN}/aquifer.mp4`,
     poster: '/dorsey/editorial/entity-network-green.png',
-    href: '/network',
+    href: 'https://aquifer-waterworks.vercel.app',
   },
   {
     number: '02',
@@ -67,15 +67,15 @@ const entityMotion = [
     note: 'Daily culture / lifestyle',
     video: `${ENTITY_CDN}/everyday.mp4`,
     poster: '/dorsey/editorial/entity-gallery-light.png',
-    href: '/directory',
+    href: 'https://everyday-water-group.vercel.app',
   },
   {
     number: '03',
     title: 'THE ROSE BAR',
     note: 'Hospitality / nightlife',
     video: `${ENTITY_CDN}/rose-bar.mp4`,
-    poster: '/dorsey/editorial/founder-lounge.png',
-    href: '/directory',
+    poster: '/brand-logos/rose-on-piedmont.png',
+    href: 'https://111atl.com/company.html?brand=rose-on-piedmont',
   },
   {
     number: '04',
@@ -83,7 +83,7 @@ const entityMotion = [
     note: 'Leadership / new markets',
     video: `${ENTITY_CDN}/trailblazer.mp4`,
     poster: '/dorsey/editorial/city-architect.png',
-    href: '/directory',
+    href: 'https://111atl.com/forms/inquiry?brand=trailblazers',
   },
   {
     number: '05',
@@ -91,7 +91,7 @@ const entityMotion = [
     note: 'Community water / impact',
     video: `${ENTITY_CDN}/tribal-water.mp4`,
     poster: '/dorsey/editorial/entity-network-green.png',
-    href: '/network',
+    href: 'https://tribal-water.vercel.app',
   },
   {
     number: '06',
@@ -99,7 +99,7 @@ const entityMotion = [
     note: 'Membership / shared progress',
     video: `${ENTITY_CDN}/tribe.mp4`,
     poster: '/dorsey/editorial/entity-wall-red.png',
-    href: '/network',
+    href: 'https://the-tribe-wine.vercel.app',
   },
   {
     number: '07',
@@ -107,7 +107,7 @@ const entityMotion = [
     note: 'Education / ownership / legacy',
     video: `${ENTITY_CDN}/university.mp4`,
     poster: '/dorsey/editorial/mind-behind-movement.png',
-    href: '/directory',
+    href: 'https://the-university.vercel.app',
   },
   {
     number: '08',
@@ -198,15 +198,8 @@ export default function HomePage() {
         >
           <source src="/dorsey/motion/founder-hero.mp4" type="video/mp4" />
         </video>
-        <div className={upgrade.heroShade} aria-hidden="true" />
-        <div className={upgrade.heroCaption}>
-          <p>Dr. Dorsey / Founder-led enterprise</p>
-          <h1>THE MIND BEHIND <em>THE MOVEMENT.</em></h1>
-          <div>
-            <span>Hospitality · Culture · Enterprise · Legacy</span>
-            <a href="#entity-motion">Enter the universe ↓</a>
-          </div>
-        </div>
+        <h1 className={upgrade.srOnly}>Dr. Dorsey — founder, architect, investor, and cultural strategist</h1>
+        <a className={upgrade.heroCue} href="#entity-motion" aria-label="Continue to the Dr. Dorsey company portfolio" />
       </section>
 
       <section className={upgrade.motion} id="entity-motion">
@@ -271,7 +264,7 @@ export default function HomePage() {
         </header>
         <div className={styles.currentGrid}>
           {currentMoves.map((item, index) => (
-            <a href={item.href} className={styles[`current${index + 1}`]} key={item.name}>
+            <a href={item.href} className={`${styles[`current${index + 1}`]} ${upgrade.logoCard}`} key={item.name}>
               <img src={item.image} alt={item.name} />
               <div><small>{item.kind}</small><h3>{item.name}</h3><b>Enter ↗</b></div>
             </a>

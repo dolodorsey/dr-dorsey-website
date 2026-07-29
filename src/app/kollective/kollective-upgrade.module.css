@@ -306,3 +306,51 @@
     font-size: 48px;
   }
 }
+.cleanHero {
+  background: #050505;
+  height: min(920px, calc(100svh - 74px));
+  min-height: 680px;
+  overflow: hidden;
+  position: relative;
+}
+
+.cleanHero video {
+  height: 100%;
+  inset: 0;
+  object-fit: cover;
+  position: absolute;
+  width: 100%;
+}
+
+.cleanHero > a {
+  border: 1px solid rgba(255, 255, 255, .72);
+  border-radius: 999px;
+  bottom: 24px;
+  height: 42px;
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 42px;
+}
+
+.cleanHero > a::after {
+  border-bottom: 1px solid #fff;
+  border-right: 1px solid #fff;
+  content: '';
+  height: 8px;
+  left: 16px;
+  position: absolute;
+  top: 13px;
+  transform: rotate(45deg);
+  width: 8px;
+}
+
+.srOnly {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
