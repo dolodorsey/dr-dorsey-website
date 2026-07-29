@@ -5,6 +5,7 @@ import styles from './kollective.module.css';
 import upgradeStyles from './kollective-upgrade.module.css';
 import { accessLinks, currentFocusBrands, divisions, SB } from '@/lib/enterprise';
 import { useEnterpriseRegistry } from '@/lib/use-enterprise-registry';
+import CinematicHero from '@/components/flagship/CinematicHero';
 
 const EMBLEM = `${SB}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
 const HERO_VIDEO = '/brand/kollective-hero.mp4';
@@ -68,12 +69,15 @@ export default function KollectivePage() {
         <a className={styles.navCta} href="/access">Open Access</a>
       </nav>
 
-      <section className={styles.hero} id="top" aria-label="The Kollective visual introduction">
-        <video className={upgradeStyles.heroVideo} autoPlay muted loop playsInline preload="metadata" poster={HERO_POSTER} aria-label="The Kollective global enterprise animation">
-          <source src={HERO_VIDEO} type="video/mp4" />
-        </video>
-        <a className={styles.scrollCue} href="#intro"><span /></a>
-      </section>
+      <CinematicHero
+        emblem={EMBLEM}
+        video={HERO_VIDEO}
+        poster={HERO_POSTER}
+        lines={['The architects behind', 'culture, hospitality', '& lifestyle.']}
+        sub="Atlanta · Houston · Miami · Las Vegas · Los Angeles · New York · Washington DC"
+        cueHref="#intro"
+        label="The Kollective enterprise introduction"
+      />
 
       <section className={upgradeStyles.actionBar} aria-label="Fast enterprise actions">
         <a href="https://doctordorsey.com/forms/rsvp"><strong>RSVP</strong><span>Events and guest lists</span></a>

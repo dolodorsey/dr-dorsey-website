@@ -1,0 +1,159 @@
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 620px;
+  overflow: hidden;
+  background: #000;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+}
+
+/* --- Layer 1: film underlay, fades up after the emblem lands --- */
+.film {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.08);
+  animation: filmIn 2600ms var(--ease-out-expo) 1600ms forwards;
+  z-index: 0;
+}
+.shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(120% 90% at 50% 45%, transparent 0%, rgba(0,0,0,0.55) 62%, rgba(0,0,0,0.9) 100%),
+    linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, transparent 35%, rgba(0,0,0,0.85) 100%);
+}
+
+/* --- Layer 2: city constellation --- */
+.cities {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.city {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  animation: cityIgnite 1200ms var(--ease-out-expo) forwards;
+}
+.cityDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold-bright, #D4BC8A);
+  box-shadow: 0 0 0 0 rgba(212,188,138,0.5);
+  animation: pulse 3600ms ease-out infinite;
+}
+.cityName {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.62);
+  white-space: nowrap;
+}
+
+/* --- Layer 3: emblem + statement --- */
+.stage {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 var(--gutter, 24px);
+}
+.emblem {
+  width: clamp(84px, 9vw, 132px);
+  height: auto;
+  opacity: 0;
+  filter: drop-shadow(0 0 34px rgba(200,169,110,0.4));
+  animation: emblemIn 1600ms var(--ease-out-expo) 320ms forwards;
+}
+.statement {
+  margin-top: clamp(1.6rem, 4vh, 3rem);
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(1.85rem, 4.6vw, 4.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: #F5F0E8;
+  max-width: 18ch;
+}
+.statement em {
+  font-style: italic;
+  color: var(--gold-bright, #D4BC8A);
+}
+.line {
+  display: block;
+  overflow: hidden;
+}
+.line > span {
+  display: block;
+  transform: translate3d(0, 105%, 0);
+  animation: lineUp 1150ms var(--ease-out-expo) forwards;
+}
+.sub {
+  margin-top: clamp(1.1rem, 2.4vh, 1.8rem);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: clamp(0.72rem, 1vw, 0.86rem);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.5);
+  opacity: 0;
+  animation: fadeIn 1000ms ease-out 4200ms forwards;
+}
+
+.cue {
+  position: absolute;
+  bottom: clamp(1.5rem, 4vh, 3rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  width: 1px;
+  height: 54px;
+  background: linear-gradient(to bottom, transparent, rgba(200,169,110,0.85));
+  opacity: 0;
+  animation: fadeIn 900ms ease-out 4600ms forwards;
+}
+
+@keyframes emblemIn {
+  0%   { opacity: 0; transform: scale(0.82); filter: blur(9px) drop-shadow(0 0 0 rgba(200,169,110,0)); }
+  100% { opacity: 1; transform: scale(1);    filter: blur(0)   drop-shadow(0 0 34px rgba(200,169,110,0.4)); }
+}
+@keyframes filmIn  { to { opacity: 0.58; transform: scale(1); } }
+@keyframes cityIgnite { 0% { opacity: 0; transform: translate(-50%,-50%) scale(0.6);} 100% { opacity: 1; transform: translate(-50%,-50%) scale(1);} }
+@keyframes lineUp  { to { transform: translate3d(0,0,0); } }
+@keyframes fadeIn  { to { opacity: 1; } }
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(212,188,138,0.45); }
+  70%  { box-shadow: 0 0 0 13px rgba(212,188,138,0); }
+  100% { box-shadow: 0 0 0 0 rgba(212,188,138,0); }
+}
+
+/* Mobile: lighter sequence, no scaling film, tighter constellation */
+@media (max-width: 768px) {
+  .film { animation-duration: 1800ms; animation-delay: 900ms; transform: none; }
+  .cityName { font-size: 0.52rem; letter-spacing: 0.18em; }
+  .hero { min-height: 560px; }
+}
+
+/* Accessibility: land on the final frame immediately */
+@media (prefers-reduced-motion: reduce) {
+  .film, .emblem, .city, .sub, .cue { animation: none !important; opacity: 1 !important; transform: none !important; }
+  .film { opacity: 0.58 !important; }
+  .city { transform: translate(-50%, -50%) !important; }
+  .line > span { animation: none !important; transform: none !important; }
+}

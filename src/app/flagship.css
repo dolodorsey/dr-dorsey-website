@@ -1,0 +1,73 @@
+/* ============================================================
+   FLAGSHIP V2 — design token + typography layer
+   Extends globals.css. Does not override existing brand tokens.
+   ============================================================ */
+
+:root {
+  /* Editorial type scale — fluid, 1.25 ratio anchored to viewport */
+  --fs-display: clamp(3.2rem, 9vw, 9rem);
+  --fs-h1: clamp(2.4rem, 6vw, 5.5rem);
+  --fs-h2: clamp(1.9rem, 4vw, 3.6rem);
+  --fs-h3: clamp(1.3rem, 2.2vw, 2rem);
+  --fs-lead: clamp(1rem, 1.5vw, 1.35rem);
+  --fs-kicker: clamp(0.62rem, 0.85vw, 0.78rem);
+
+  /* Editorial rhythm */
+  --space-section: clamp(6rem, 14vh, 12rem);
+  --space-block: clamp(2.5rem, 6vh, 5rem);
+  --measure: 62ch;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+  --dur-fast: 320ms;
+  --dur-base: 720ms;
+  --dur-cinematic: 1400ms;
+}
+
+.fx-display {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 300;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+}
+
+.fx-kicker {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: var(--fs-kicker);
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.fx-lead {
+  font-size: var(--fs-lead);
+  line-height: 1.55;
+  max-width: var(--measure);
+  color: var(--light-muted);
+}
+
+/* Scroll reveal primitive — paired with <Reveal /> */
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition:
+    opacity var(--dur-base) var(--ease-out-expo),
+    transform var(--dur-base) var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+[data-reveal='in'] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal='in'] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
