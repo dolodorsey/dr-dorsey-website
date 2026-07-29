@@ -49,6 +49,73 @@
   line-height: 1.5;
 }
 
+.familyIntro {
+  isolation: isolate;
+  max-width: none !important;
+  overflow: hidden;
+  position: relative;
+}
+
+.familyIntro::before {
+  background:
+    linear-gradient(90deg, #050505 0%, rgba(5, 5, 5, .9) 38%, rgba(5, 5, 5, .3) 100%),
+    url('https://sccmgpssfwhgxefbdwbc.supabase.co/storage/v1/object/public/brand-graphics/kollective/skyline-negative-space.png') right center / cover no-repeat;
+  content: '';
+  inset: 0;
+  opacity: .82;
+  position: absolute;
+  z-index: -1;
+}
+
+.familyIntro > * {
+  max-width: 980px;
+}
+
+.familyInterlude {
+  align-items: flex-end;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, .95) 0%, rgba(0, 0, 0, .66) 45%, rgba(0, 0, 0, .12) 100%),
+    url('https://sccmgpssfwhgxefbdwbc.supabase.co/storage/v1/object/public/brand-graphics/kollective/world-stage.png') center / cover no-repeat;
+  display: flex;
+  min-height: min(780px, 72vw);
+  padding: clamp(60px, 8vw, 130px);
+}
+
+.familyInterlude > div {
+  max-width: 920px;
+}
+
+.familyInterlude p {
+  color: #f0d37e;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+
+.familyInterlude h2 {
+  font: 800 clamp(56px, 8vw, 130px)/.82 Manrope, Inter, sans-serif;
+  letter-spacing: -.06em;
+  margin: 18px 0 38px;
+}
+
+.familyInterlude h2 em {
+  color: #f0d37e;
+  font-style: normal;
+}
+
+.familyInterlude a {
+  border: 1px solid rgba(255, 255, 255, .42);
+  color: #fff;
+  display: inline-flex;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  padding: 16px 20px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
 .bookPromo {
   position: relative;
   overflow: hidden;
@@ -179,6 +246,17 @@
 
   .actionBar {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .familyIntro::before {
+    background-position: 72% center;
+    opacity: .48;
+  }
+
+  .familyInterlude {
+    background-position: 66% center;
+    min-height: 720px;
+    padding: 34px 22px 70px;
   }
 
   .actionBar a {

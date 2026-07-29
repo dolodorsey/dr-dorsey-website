@@ -19,8 +19,10 @@ import {
   partnerPaths,
 } from '@/lib/flagship-kollective';
 
-const HERO_VIDEO = '/brand/kollective-hero.mp4';
-const HERO_POSTER = '/brand/kollective-hero-poster.png';
+const KOLLECTIVE_GRAPHICS =
+  'https://sccmgpssfwhgxefbdwbc.supabase.co/storage/v1/object/public/brand-graphics/kollective';
+const HERO_VIDEO = `${KOLLECTIVE_GRAPHICS}/kollective-ani.mp4`;
+const HERO_POSTER = `${KOLLECTIVE_GRAPHICS}/kollective-home.png`;
 const BOOK_COVER = 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/cover-hero.png?v=1783903956';
 const BOOK_URL = 'https://bodgeaworldwide.myshopify.com/products/hakuna-matata-by-dr-dorsey';
 
@@ -57,7 +59,6 @@ export default function KollectivePage() {
       </nav>
 
       <CinematicHero
-        emblem={EMBLEM}
         video={HERO_VIDEO}
         poster={HERO_POSTER}
         lines={['The architects behind', 'culture, hospitality', '& lifestyle.']}
@@ -75,7 +76,7 @@ export default function KollectivePage() {
         <a href="/access"><strong>All Access</strong><span>Every form and link</span></a>
       </section>
 
-      <section className={styles.intro} id="intro">
+      <section className={`${styles.intro} ${upgradeStyles.familyIntro}`} id="intro">
         <p className={styles.kicker}>One enterprise. Independent brands.</p>
         <h1>Built to move culture.<br />Structured to scale.</h1>
         <p>
@@ -116,12 +117,11 @@ export default function KollectivePage() {
 
       <section className={styles.about} id="about">
         <div className={styles.aboutVisual}>
-          <KHGImage
-            src={`${SB}/dr_dorsey/website/luxury-venue.jpg`}
+          <img
+            src={`${KOLLECTIVE_GRAPHICS}/boardroom.png`}
             alt="The Kollective executive environment"
-            width={1200}
-            height={1500}
-            sizes="(max-width: 900px) 100vw, 45vw"
+            loading="lazy"
+            decoding="async"
           />
         </div>
         <div className={styles.aboutCopy}>
@@ -137,6 +137,14 @@ export default function KollectivePage() {
             <div><b>The Fraternity</b><span>A selective cultural organization built around influence, economic empowerment, learning, global reach, and legacy.</span></div>
             <div><b>The Umbrella Group</b><span>A coordinated service network where one request routes to the correct specialized company.</span></div>
           </div>
+        </div>
+      </section>
+
+      <section className={upgradeStyles.familyInterlude} aria-label="The Kollective global family">
+        <div>
+          <p>Part of something larger</p>
+          <h2>ONE FAMILY.<br /><em>MANY WORLDS.</em></h2>
+          <a href="/kollective/entities">Explore every entity ↗</a>
         </div>
       </section>
 

@@ -31,7 +31,7 @@ const DEFAULT_CITIES: HeroCity[] = [
 ];
 
 type CinematicHeroProps = {
-  emblem: string;
+  emblem?: string;
   video?: string;
   poster?: string;
   /** Each string renders as its own rising line. Wrap italics with <em> via `accentLast`. */
@@ -95,7 +95,7 @@ export default function CinematicHero({
 
       <div className={styles.stage}>
         { }
-        <img className={styles.emblem} src={emblem} alt="" aria-hidden="true" />
+        {emblem && <img className={styles.emblem} src={emblem} alt="" aria-hidden="true" />}
 
         <h1 className={styles.statement}>
           {lines.map((line, i) => {

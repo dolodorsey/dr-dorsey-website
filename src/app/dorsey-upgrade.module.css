@@ -85,7 +85,10 @@
 }
 
 .motion {
-  background: #080706;
+  background:
+    linear-gradient(180deg, rgba(8, 7, 6, .84), #080706 720px),
+    url('https://sccmgpssfwhgxefbdwbc.supabase.co/storage/v1/object/public/brand-graphics/kollective/city-road-negative-space.png') center top / 100% auto no-repeat,
+    #080706;
   color: #f5f0e7;
   padding: clamp(90px, 12vw, 180px) clamp(18px, 5vw, 82px);
 }
