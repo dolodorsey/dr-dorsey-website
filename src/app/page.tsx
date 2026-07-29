@@ -88,6 +88,7 @@ export default function HomePage() {
             grid-template-columns: 70px 1fr;
             align-items: end;
             gap: 10px;
+            transform: translateY(170px);
           }
           .${styles.heroBook} img { aspect-ratio: 2 / 3; }
           .${styles.heroBook} span { margin-top: 0; padding: 12px 10px; }
