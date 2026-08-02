@@ -16,6 +16,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import styles from "./customer-app-v2.module.css";
 import motion from "./customer-app-v2-motion.module.css";
+import { motion as motionLibrary } from "@/lib/motion";
 
 type Destination = {
   fallback_url?: string;
@@ -90,9 +91,11 @@ interface BeforeInstallPromptEvent extends Event {
 const BRAND_GRAPHICS =
   "https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics";
 const EMBLEM = `${BRAND_GRAPHICS}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
-const HERO_VIDEO = `${BRAND_GRAPHICS}/dr_dorsey/website/hero-video.mp4`;
+/** Same enterprise film the websites run behind their departments band. */
+const HERO_VIDEO = motionLibrary.kollectiveGlobal.src;
 const HERO_POSTER = `${BRAND_GRAPHICS}/dr_dorsey/website/hero-bg.jpg`;
-const GOOD_TIMES_ANIMATION = `${BRAND_GRAPHICS}/good_times/00-brand-assets/logos/good-times-logo-animation.mp4`;
+/** The GOOD TIMES cut from the shared library, so the app and the sites move together. */
+const GOOD_TIMES_ANIMATION = motionLibrary.goodTimes.src;
 
 const tabs: Array<{ key: Tab; label: string; icon: typeof Home }> = [
   { key: "home", label: "Home", icon: Home },
