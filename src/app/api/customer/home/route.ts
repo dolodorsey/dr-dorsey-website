@@ -53,6 +53,78 @@ function isCurrentlyActive(row: Row, now: Date) {
   return (!startsAt || startsAt <= now) && (!endsAt || endsAt >= now);
 }
 
+function decodeHtml(value: unknown) {
+  if (typeof value !== "string") return value;
+
+  const named: Record<string, string> = {
+    amp: "&",
+    apos: "'",
+    gt: ">",
+    lt: "<",
+    nbsp: " ",
+    quot: '"',
+  };
+
+  return value
+    .replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, code: string) => String.fromCodePoint(Number.parseInt(code, 16)))
+    .replace(/&(amp|apos|gt|lt|nbsp|quot);/g, (_, entity: string) => named[entity] ?? _)
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function normalizedCity(value: unknown) {
+  const city = String(value ?? "").trim().toLowerCase();
+  if (["atl", "atlanta, ga", "atlanta ga"].includes(city)) return "atlanta";
+  return city;
+}
+
+function normalizeEvents(rows: Row[], preferredCity: string, limit: number) {
+  const seen = new Set<string>();
+
+  return rows
+    .map((row) => {
+      const eventName = String(decodeHtml(row.event_name) ?? "Event");
+      const ticketPrice = String(decodeHtml(row.ticket_price) ?? "");
+      const description = decodeHtml(row.description);
+      const aiSummary = decodeHtml(row.ai_summary);
+      const city = decodeHtml(row.city);
+      const venueName = decodeHtml(row.venue_name);
+      const isFree = Boolean(row.is_free) || /\bfree\b/i.test(ticketPrice);
+
+      return {
+        ...row,
+        city,
+        event_name: eventName,
+        venue_name: venueName,
+        description,
+        ai_summary: aiSummary,
+        ticket_price: ticketPrice || null,
+        is_free: isFree,
+        _preferredCity: normalizedCity(city) === preferredCity ? 1 : 0,
+      };
+    })
+    .filter((event) => {
+      const key = [event.event_name, event.event_date, event.venue_name]
+        .map((value) => String(value ?? "").trim().toLowerCase())
+        .join("|");
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .sort((a, b) => {
+      const cityDifference = Number(b._preferredCity) - Number(a._preferredCity);
+      if (cityDifference !== 0) return cityDifference;
+
+      const dateDifference = String(a.event_date ?? "").localeCompare(String(b.event_date ?? ""));
+      if (dateDifference !== 0) return dateDifference;
+
+      return Number(b.ai_vibe_score ?? 0) - Number(a.ai_vibe_score ?? 0);
+    })
+    .slice(0, limit)
+    .map(({ _preferredCity: _ignored, ...event }) => event);
+}
+
 export async function GET() {
   const warnings: string[] = [];
   let config: Row = DEFAULT_CONFIG;
@@ -71,6 +143,7 @@ export async function GET() {
 
   const featuredLimit = Number(config.featured_limit) || 12;
   const eventLimit = Number(config.event_limit) || 16;
+  const preferredCity = normalizedCity(config.city || "Atlanta");
   const today = new Date().toISOString().slice(0, 10);
 
   const [entitiesResult, contentResult, eventsResult] = await Promise.allSettled([
@@ -89,7 +162,7 @@ export async function GET() {
       event_date: `gte.${today}`,
       select: "id,city,event_name,event_date,event_time,end_date,end_time,venue_name,venue_address,neighborhood,event_type,event_category,description,ticket_url,ticket_price,image_url,organizer,tags,vibe_tags,is_free,ai_summary,ai_vibe_score",
       order: "event_date.asc,ai_vibe_score.desc",
-      limit: String(eventLimit),
+      limit: String(Math.max(eventLimit * 4, 64)),
     }),
   ]);
 
@@ -105,14 +178,24 @@ export async function GET() {
 
   const now = new Date();
   const content = contentResult.status === "fulfilled"
-    ? contentResult.value.filter((item) => isCurrentlyActive(item, now)).slice(0, 18)
+    ? contentResult.value
+        .filter((item) => isCurrentlyActive(item, now))
+        .map((item) => ({
+          ...item,
+          title: decodeHtml(item.title),
+          summary: decodeHtml(item.summary),
+          body: decodeHtml(item.body),
+        }))
+        .slice(0, 18)
     : [];
   if (contentResult.status === "rejected") {
     warnings.push("Featured content is temporarily unavailable.");
     console.error("Customer content unavailable", contentResult.reason);
   }
 
-  const events = eventsResult.status === "fulfilled" ? eventsResult.value : [];
+  const events = eventsResult.status === "fulfilled"
+    ? normalizeEvents(eventsResult.value, preferredCity, eventLimit)
+    : [];
   if (eventsResult.status === "rejected") {
     warnings.push("Event discovery is temporarily unavailable.");
     console.error("Customer events unavailable", eventsResult.reason);

@@ -1,10 +1,17 @@
 import type { Metadata, Viewport } from "next";
 
+const title = "Kollective — Events, Brands & Experiences";
+const description = "A simplified mobile front door to the Kollective: discover events, brands, experiences, and Good Times energy.";
+
 export const metadata: Metadata = {
-  title: "Kollective — Events, Brands & Experiences",
-  description: "A simplified mobile front door to the Kollective: discover events, brands, experiences, and Good Times energy.",
+  metadataBase: new URL("https://doctordorsey.com"),
+  title,
+  description,
   applicationName: "Kollective",
   manifest: "/manifest.webmanifest",
+  alternates: {
+    canonical: "/app",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -13,9 +20,17 @@ export const metadata: Metadata = {
   formatDetection: {
     telephone: false,
   },
-  icons: {
-    icon: "/kollective-app-icon.svg",
-    apple: "/kollective-app-icon.svg",
+  openGraph: {
+    title,
+    description,
+    url: "/app",
+    siteName: "Kollective",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
   },
 };
 
