@@ -185,7 +185,7 @@ export const kollectivePages: Record<string, KollectivePage> = {
   },
   companies: {
     eyebrow: 'THE ENTERPRISE IN DEPTH',
-    title: 'Nine departments. Nine different worlds.',
+    title: 'Fourteen departments. One enterprise.',
     description: 'The complete Kollective company and department architecture.',
     intro: 'Entertainment, apps and technology, products, water sourcing, beverages, response, philanthropy, hospitality, and services operate with distinct identities while sharing enterprise intelligence.',
     facts: [['09', 'Independent department worlds'], ['60+', 'Entities, companies, concepts, and institutions'], ['01', 'Shared command layer']],

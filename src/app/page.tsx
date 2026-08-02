@@ -88,7 +88,7 @@ export default function HomePage() {
         <FilmBackdrop animation={motion.kollectiveGlobal} opacity={0.16} />
         <header>
           <p className={styles.kicker}>The departments</p>
-          <h2>NINE DEPARTMENTS. <em>ONE ENTERPRISE.</em></h2>
+          <h2>FOURTEEN DEPARTMENTS. <em>ONE ENTERPRISE.</em></h2>
           <span>Every department runs its own companies, audience, economics, and atmosphere.</span>
         </header>
         <DepartmentGrid />
@@ -134,7 +134,7 @@ export default function HomePage() {
         </div>
         <div className={styles.manifestoStats}>
           <div><b>60+</b><span>Entities and concepts</span></div>
-          <div><b>09</b><span>Enterprise worlds</span></div>
+          <div><b>14</b><span>Operating departments</span></div>
           <div><b>01</b><span>Command philosophy</span></div>
         </div>
       </section>

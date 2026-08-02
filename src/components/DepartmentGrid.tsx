@@ -3,16 +3,28 @@
 import styles from './DepartmentGrid.module.css';
 import MotionCover from './MotionCover';
 import { departments } from '@/lib/departments';
+import { useVisitRotation } from '@/lib/use-visit-rotation';
 
 /**
- * The nine departments, two featured then four across.
- * Leads both homepages.
+ * The fourteen departments — two featured, then four across, which lands as
+ * exactly three full rows. Leads both homepages.
+ *
+ * Each department is represented by one of its own companies' animations, and
+ * the pick rotates every visit, so the page has a different face each time
+ * someone comes back to it.
  */
 export default function DepartmentGrid({ featuredCount = 2 }: { featuredCount?: number }) {
+  const visit = useVisitRotation();
+
   return (
     <div className={styles.grid}>
       {departments.map((department, index) => {
         const featured = index < featuredCount;
+        const pool = department.animations;
+        // Offsetting by the card index as well as the visit means two
+        // departments sharing an animation rarely land on it at the same time.
+        const animation = pool[(visit + index) % pool.length];
+
         return (
           <a
             className={`${styles.card} ${featured ? styles.feature : styles.tile}`}
@@ -21,8 +33,8 @@ export default function DepartmentGrid({ featuredCount = 2 }: { featuredCount?: 
           >
             <span className={styles.media}>
               <MotionCover
-                name={department.title}
-                animation={department.animation}
+                key={animation.src}
+                animation={animation}
                 alt={department.title}
               />
             </span>

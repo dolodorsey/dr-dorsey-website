@@ -54,7 +54,7 @@ export default function KollectivePage() {
         <header className={styles.sectionHead}>
           <div>
             <p className={styles.kicker}>The departments</p>
-            <h2>Nine departments.<br />One enterprise.</h2>
+            <h2>Fourteen departments.<br />One enterprise.</h2>
           </div>
           <p>Every department runs its own companies, audience, economics, and atmosphere. The full company roster sits one click away.</p>
         </header>
