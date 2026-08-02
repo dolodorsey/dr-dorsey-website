@@ -1,9 +1,14 @@
 /*
- * The Kollective surface system.
+ * Shared surface SYSTEM — not a shared identity.
  *
- * One background language shared by doctordorsey.com and
- * thekollectivehospitality.com. Global (not module-scoped) so any section on
- * either site can opt in with a class name.
+ * Dr. Dorsey and The Kollective are separate entities and must not converge.
+ * What they share is the technique: an ink ground, a gold aurora, fine grain,
+ * and a brand graphic set large and low-contrast behind the content.
+ * What they do NOT share is the palette or the type.
+ *
+ * Every value below reads from a token. The defaults are Dr. Dorsey's.
+ * A Kollective surface declares data-brand="kollective" and gets its own
+ * gold, ink and paper — same build-up, different brand.
  *
  * Layers, back to front:
  *   1. base ink
@@ -13,15 +18,38 @@
  */
 
 :root {
-  --k-ink: #08070600;
-  --k-ink-solid: #080706;
+  /* Dr. Dorsey — founder platform. Warm gold, Georgia, paper accents. */
+  --k-ink-solid: #080807;
   --k-ink-warm: #0c0a07;
+  --k-ink-deep: #050403;
   --k-gold: #c8a35a;
+  --k-gold-soft: #efd492;
+  --k-paper: #eae3d6;
+  /* Dorsey sets headlines in a serif; the Kollective does not. */
+  --k-display: Georgia, 'Times New Roman', serif;
+  --k-display-weight: 400;
+  --k-display-tracking: -0.04em;
   --k-emblem: url('https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png');
   --k-collage: url('/dorsey/kollective.png');
   --k-max: 1720px;
   --k-gap: 16px;
   --k-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.055'/%3E%3C/svg%3E");
+}
+
+/*
+ * The Kollective — enterprise. Brighter gold, deeper black, its own paper.
+ * Applied at the root of any Kollective surface.
+ */
+[data-brand="kollective"] {
+  --k-ink-solid: #050505;
+  --k-ink-warm: #0a0a09;
+  --k-ink-deep: #030303;
+  --k-gold: #d8b04c;
+  --k-gold-soft: #f3d67d;
+  --k-paper: #f2f0ea;
+  --k-display: Manrope, Inter, Arial, sans-serif;
+  --k-display-weight: 800;
+  --k-display-tracking: -0.055em;
 }
 
 /* Base panel. Everything else builds on this. */
@@ -44,8 +72,8 @@
 /* Gold aurora + grain. */
 .k-surface::before {
   background-image:
-    radial-gradient(ellipse 60% 45% at 14% 8%, #c8a35a1f, transparent 62%),
-    radial-gradient(ellipse 55% 50% at 88% 92%, #c8a35a17, transparent 64%),
+    radial-gradient(ellipse 60% 45% at 14% 8%, color-mix(in srgb, var(--k-gold) 12%, transparent), transparent 62%),
+    radial-gradient(ellipse 55% 50% at 88% 92%, color-mix(in srgb, var(--k-gold) 9%, transparent), transparent 64%),
     var(--k-grain);
   background-size: auto, auto, 320px 320px;
 }
@@ -57,20 +85,20 @@
 
 .k-surface-warm::before {
   background-image:
-    radial-gradient(ellipse 70% 60% at 22% 12%, #c8a35a2b, transparent 60%),
-    radial-gradient(ellipse 50% 55% at 92% 88%, #7d5a2417, transparent 62%),
+    radial-gradient(ellipse 70% 60% at 22% 12%, color-mix(in srgb, var(--k-gold) 17%, transparent), transparent 60%),
+    radial-gradient(ellipse 50% 55% at 92% 88%, color-mix(in srgb, var(--k-gold) 9%, transparent), transparent 62%),
     var(--k-grain);
   background-size: auto, auto, 320px 320px;
 }
 
 /* Deep variant for the darkest bands. */
 .k-surface-deep {
-  background-color: #050403;
+  background-color: var(--k-ink-deep);
 }
 
 .k-surface-deep::before {
   background-image:
-    radial-gradient(ellipse 50% 40% at 50% 0%, #c8a35a14, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 50% 0%, color-mix(in srgb, var(--k-gold) 8%, transparent), transparent 70%),
     var(--k-grain);
   background-size: auto, 320px 320px;
 }
@@ -132,7 +160,7 @@
 }
 
 .k-bleed.k-surface-deep::before {
-  background-color: #050403;
+  background-color: var(--k-ink-deep);
 }
 
 .k-bleed.k-emblem::after {
@@ -149,7 +177,7 @@
 
 /* A hairline of gold at the top edge, for stacked panels. */
 .k-edge {
-  border-top: 1px solid #c8a35a2e;
+  border-top: 1px solid color-mix(in srgb, var(--k-gold) 18%, transparent);
 }
 
 /*

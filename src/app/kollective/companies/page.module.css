@@ -1,6 +1,7 @@
 .page {
-  --gold: #c8a35a;
-  --gold2: #efd492;
+  /* Inherits the Kollective scope set by the /kollective layout. */
+  --gold: var(--k-gold, #d8b04c);
+  --gold2: var(--k-gold-soft, #f3d67d);
   min-height: 100vh;
   color: #f4efe6;
   font-family: 'Manrope', var(--font-geist), Arial, sans-serif;

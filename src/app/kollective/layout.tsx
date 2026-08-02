@@ -15,6 +15,12 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * The Kollective is a separate entity from Dr. Dorsey and keeps its own
+ * identity — brighter gold, deeper black, its own paper and type. The surface
+ * technique is shared; the brand is not. This scope supplies the Kollective
+ * tokens to every surface underneath it.
+ */
 export default function KollectiveLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return <div data-brand="kollective">{children}</div>;
 }

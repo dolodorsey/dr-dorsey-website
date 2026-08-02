@@ -24,7 +24,7 @@
 .card:hover {
   z-index: 3;
   transform: translateY(-9px);
-  border-color: #c8a35a7a;
+  border-color: color-mix(in srgb, var(--k-gold, #c8a35a) 48%, transparent);
   box-shadow: 0 34px 88px #000000b3;
 }
 
@@ -71,7 +71,7 @@
 
 .eyebrow {
   margin: 0;
-  color: #e1c882;
+  color: var(--k-gold-soft, #efd492);
   font-size: 8px;
   font-weight: 800;
   letter-spacing: 0.17em;
@@ -80,7 +80,7 @@
 
 .title {
   margin: 0;
-  font: 400 clamp(30px, 2.6vw, 46px) / 0.94 Georgia, serif;
+  font: var(--k-display-weight, 400) clamp(30px, 2.6vw, 46px) / 0.94 var(--k-display, Georgia, serif);
   letter-spacing: -0.035em;
 }
 
@@ -119,7 +119,7 @@
 .cta {
   margin-top: auto;
   padding-top: 4px;
-  color: var(--gold, #c8a35a);
+  color: var(--k-gold, var(--gold, #c8a35a));
   font-size: 8px;
   font-weight: 800;
   letter-spacing: 0.15em;
