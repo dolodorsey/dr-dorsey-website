@@ -46,8 +46,9 @@
 
 .hero {
   position: relative;
-  padding: 150px 5vw 60px;
+  padding: 150px 5vw 66px;
   overflow: hidden;
+  text-align: center;
 }
 
 .kicker {
@@ -61,7 +62,7 @@
 
 .hero h1 {
   max-width: 1180px;
-  margin: 0;
+  margin-inline: auto;
   font: 800 clamp(46px, 6.4vw, 100px) / 0.92 Manrope, Arial, sans-serif;
   letter-spacing: -0.05em;
 }
@@ -72,8 +73,8 @@
 }
 
 .hero p {
-  max-width: 620px;
-  margin: 26px 0 0;
+  max-width: 640px;
+  margin: 26px auto 0;
   color: #ffffff9c;
   font-size: 12px;
   line-height: 1.75;
@@ -83,8 +84,16 @@
   padding: 54px 5vw 100px;
 }
 
+.inner {
+  width: 100%;
+  max-width: var(--k-max, 1720px);
+  margin-inline: auto;
+}
+
 .footer {
   padding: 44px 5vw;
+  max-width: var(--k-max, 1720px);
+  margin-inline: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;

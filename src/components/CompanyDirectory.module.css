@@ -5,8 +5,10 @@
 .chips {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 8px;
-  margin-bottom: 42px;
+  max-width: var(--k-max, 1720px);
+  margin: 0 auto 48px;
 }
 
 .chips a {
@@ -33,24 +35,31 @@
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--k-gap, 16px);
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  max-width: var(--k-max, 1720px);
+  margin-inline: auto;
 }
 
 .section {
-  margin-bottom: 66px;
+  max-width: var(--k-max, 1720px);
+  margin: 0 auto 66px;
   scroll-margin-top: 90px;
 }
 
 .sectionHead {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 22px;
-  padding-bottom: 14px;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 26px;
+  padding-bottom: 16px;
   border-bottom: 1px solid #ffffff20;
+  text-align: center;
 }
 
 .sectionHead h3 {
@@ -70,7 +79,8 @@
 
 .card {
   position: relative;
-  display: block;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   color: #fff;
   background: #0d0b08;
@@ -87,22 +97,19 @@
 }
 
 .feature {
-  grid-column: span 6;
+  width: calc((100% - var(--k-gap, 16px)) / 2);
 }
 
 .tile {
-  grid-column: span 3;
+  width: calc((100% - 3 * var(--k-gap, 16px)) / 4);
 }
 
 .media {
   position: relative;
   display: block;
+  flex: none;
   width: 100%;
-  height: 235px;
-}
-
-.feature .media {
-  height: 400px;
+  aspect-ratio: 16 / 9;
 }
 
 .logoCover {
@@ -144,6 +151,7 @@
 }
 
 .body {
+  flex: 1;
   padding: 18px 20px 20px;
 }
 
@@ -194,36 +202,20 @@
 
 @media (max-width: 1240px) {
   .tile {
-    grid-column: span 4;
+    width: calc((100% - 2 * var(--k-gap, 16px)) / 3);
   }
 }
 
 @media (max-width: 900px) {
-  .feature {
-    grid-column: span 12;
-  }
-
+  .feature,
   .tile {
-    grid-column: span 6;
-  }
-
-  .feature .media {
-    height: 300px;
-  }
-
-  .media {
-    height: 210px;
+    width: calc((100% - var(--k-gap, 16px)) / 2);
   }
 }
 
 @media (max-width: 620px) {
   .feature,
   .tile {
-    grid-column: span 12;
-  }
-
-  .feature .media,
-  .media {
-    height: 220px;
+    width: 100%;
   }
 }

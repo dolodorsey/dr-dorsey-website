@@ -42,7 +42,9 @@ export default function CompaniesPage() {
       </header>
 
       <div className={`${styles.body} k-surface k-emblem k-edge`}>
-        <CompanyDirectory />
+        <div className={styles.inner}>
+          <CompanyDirectory />
+        </div>
       </div>
 
       <footer className={`${styles.footer} k-surface k-surface-deep`}>

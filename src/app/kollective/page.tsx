@@ -59,7 +59,7 @@ export default function KollectivePage() {
           <p>Every department runs its own companies, audience, economics, and atmosphere. The full company roster sits one click away.</p>
         </header>
         <DepartmentGrid />
-        <div className={upgradeStyles.bookActions} style={{ marginTop: 38 }}>
+        <div className={upgradeStyles.bookActions} style={{ marginTop: 40, justifyContent: 'center' }}>
           <a className={upgradeStyles.goldButton} href="/companies">See every company</a>
           <a className={upgradeStyles.lineButton} href="/entities">Open the Entity Universe</a>
         </div>
