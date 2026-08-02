@@ -2,13 +2,17 @@
  * Brand motion library.
  *
  * Single source of truth for every animated company cover across
- * doctordorsey.com, thekollectivehospitality.com, and the Companies pages.
+ * doctordorsey.com, thekollectivehospitality.com, the Companies pages, and
+ * the Kollective customer app.
  *
- * To move these to Supabase storage later, change MOTION_BASE to
- * `${SB}/motion` (or any CDN root) — nothing else needs to change.
+ * The files live in Supabase storage (brand-graphics/motion) rather than in
+ * this repo — 48 MB of video does not belong in a git history, and hosting
+ * them centrally means the customer app and the mobile shell read the same
+ * assets. Point MOTION_BASE at any CDN root to move them again.
  */
 
-export const MOTION_BASE = '/motion';
+export const MOTION_BASE =
+  'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/motion';
 
 export type Orientation = 'landscape' | 'portrait';
 
@@ -167,6 +171,9 @@ const NAME_MOTION: Record<string, MotionAsset> = {
  */
 export function motionManifest(origin = '') {
   const base = origin.replace(/\/$/, '');
+  // Paths are already absolute once MOTION_BASE points at a CDN — only
+  // relative sources need the origin prepended.
+  const abs = (path: string) => (/^https?:\/\//.test(path) ? path : `${base}${path}`);
   const byAsset = new Map<string, string[]>();
   for (const [name, entry] of Object.entries(NAME_MOTION)) {
     const list = byAsset.get(entry.src) || [];
@@ -177,8 +184,8 @@ export function motionManifest(origin = '') {
   return Object.entries(motion).map(([key, entry]) => ({
     key,
     slug: entry.src.split('/').pop()!.replace(/\.mp4$/, ''),
-    video: `${base}${entry.src}`,
-    poster: `${base}${entry.poster}`,
+    video: abs(entry.src),
+    poster: abs(entry.poster),
     orientation: entry.orientation,
     matches: byAsset.get(entry.src) || [],
   }));
