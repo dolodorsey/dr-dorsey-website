@@ -37,12 +37,15 @@
   width: 30px;
   height: 30px;
   border-radius: 10px;
-  background: linear-gradient(145deg, #f1d687, #b48828);
-  color: #080808;
-  font-size: 14px;
-  font-weight: 900;
+  background: #090909;
+  color: transparent;
+  font-size: 0;
+  overflow: hidden;
+  border: 1px solid rgba(216,176,76,.28);
   box-shadow: 0 8px 30px rgba(216,176,76,.18);
+  animation: emblemFloat 4.8s ease-in-out infinite;
 }
+.emblem img { width: 82%; height: 82%; object-fit: contain; filter: drop-shadow(0 5px 12px rgba(216,176,76,.2)); }
 .brandName { font-family: Manrope, sans-serif; font-weight: 900; letter-spacing: .18em; font-size: 13px; }
 .location { display: flex; align-items: center; gap: 4px; color: #7d7d7d; margin: 5px 0 0 40px; font-size: 10px; text-transform: uppercase; letter-spacing: .12em; }
 .headerActions { display: flex; gap: 9px; }
@@ -84,6 +87,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
+  isolation: isolate;
   background:
     linear-gradient(180deg, rgba(4,4,4,.05), rgba(4,4,4,.94)),
     radial-gradient(circle at top right, #3b2e10, #101010 52%);
@@ -93,7 +98,29 @@
   box-shadow: 0 22px 60px rgba(0,0,0,.38);
   overflow: hidden;
 }
+.heroVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: -3;
+  opacity: .76;
+  filter: saturate(.9) contrast(1.07);
+}
+.heroScrim {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(180deg, rgba(2,2,2,.08) 0%, rgba(2,2,2,.18) 35%, rgba(2,2,2,.95) 92%),
+    radial-gradient(circle at 78% 15%, rgba(216,176,76,.14), transparent 36%);
+  pointer-events: none;
+}
 .heroBadge {
+  position: relative;
+  z-index: 1;
   align-self: flex-start;
   display: flex;
   align-items: center;
@@ -107,7 +134,7 @@
   font-weight: 900;
   letter-spacing: .17em;
 }
-.heroCopy { padding: 110px 4px 4px; }
+.heroCopy { position: relative; z-index: 1; padding: 110px 4px 4px; }
 .heroCopy > p, .pageIntro > p, .profileHero > p, .sectionHeading p, .brandCard > p, .entityCard p, .eventListCard p {
   margin: 0;
   color: #d8b04c;
@@ -116,8 +143,8 @@
   letter-spacing: .16em;
   text-transform: uppercase;
 }
-.heroCopy h1 { margin: 10px 0 12px; max-width: 540px; font: 900 clamp(38px, 10vw, 62px)/.96 Manrope, sans-serif; letter-spacing: -.055em; }
-.heroCopy > span { display: block; max-width: 520px; color: #c2c2c2; font-size: 14px; line-height: 1.55; }
+.heroCopy h1 { margin: 10px 0 12px; max-width: 540px; font: 900 clamp(38px, 10vw, 62px)/.96 Manrope, sans-serif; letter-spacing: -.055em; text-shadow: 0 8px 32px rgba(0,0,0,.55); }
+.heroCopy > span { display: block; max-width: 520px; color: #d2d2d2; font-size: 14px; line-height: 1.55; text-shadow: 0 4px 18px rgba(0,0,0,.65); }
 .heroAction {
   margin-top: 22px;
   display: inline-flex;
@@ -152,9 +179,29 @@
   padding: 14px 12px;
   text-decoration: none;
   cursor: pointer;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
 }
 .quickGrid svg { color: #d8b04c; width: 20px; }
 .quickGrid span { font-size: 11px; font-weight: 800; }
+.motionQuick video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -3;
+  opacity: .8;
+  filter: saturate(.8) contrast(1.12);
+}
+.motionQuickScrim {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(145deg, rgba(6,6,6,.25), rgba(6,6,6,.92));
+}
+.motionQuick > svg, .motionQuick > span { position: relative; z-index: 1; filter: drop-shadow(0 4px 9px rgba(0,0,0,.8)); }
 
 .horizontalRail { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(220px, 70%); gap: 12px; overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: inline mandatory; padding: 2px 1px 10px; scrollbar-width: none; }
 .horizontalRail::-webkit-scrollbar { display: none; }
@@ -206,7 +253,8 @@
 .entityCard > div:nth-child(2) > span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; color: #7e7e7e; font-size: 11px; line-height: 1.45; }
 
 .profileHero { border: 1px solid #292929; border-radius: 26px; padding: 26px 22px; background: radial-gradient(circle at 80% 0%, rgba(216,176,76,.25), transparent 17rem), #101010; }
-.profileMark { width: 68px; height: 68px; display: grid; place-items: center; border-radius: 22px; background: linear-gradient(145deg, #f0d27b, #a77b1c); color: #070707; font: 900 30px Manrope, sans-serif; margin-bottom: 28px; }
+.profileMark { width: 68px; height: 68px; display: grid; place-items: center; border-radius: 22px; background: #090909; color: transparent; font-size: 0; margin-bottom: 28px; overflow: hidden; border: 1px solid rgba(216,176,76,.34); animation: emblemFloat 5.4s ease-in-out infinite; }
+.profileMark img { width: 78%; height: 78%; object-fit: contain; filter: drop-shadow(0 8px 18px rgba(216,176,76,.18)); }
 .profileHero h1 { margin: 10px 0 14px; font: 900 38px/.98 Manrope, sans-serif; letter-spacing: -.055em; }
 .profileHero > span:last-child { display: block; color: #8a8a8a; font-size: 13px; line-height: 1.6; }
 .installCard, .profileLink { width: 100%; display: flex; align-items: center; gap: 14px; padding: 17px; border: 1px solid #292929; border-radius: 18px; background: #111; color: #fff; text-align: left; text-decoration: none; cursor: pointer; }
@@ -245,6 +293,15 @@
 .bottomNav .navActive { color: #d8b04c; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
+@keyframes emblemFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-2px) rotate(1.5deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroVideo, .motionQuick video { display: none; }
+  .emblem, .profileMark, .loader { animation: none; }
+}
 
 @media (min-width: 720px) {
   .appFrame { border-inline: 1px solid #171717; box-shadow: 0 0 90px rgba(0,0,0,.65); }

@@ -1,5 +1,5 @@
-import CustomerApp from "./customer-app";
+import CustomerAppV2 from "./customer-app-v2";
 
 export default function KollectiveCustomerAppPage() {
-  return <CustomerApp />;
+  return <CustomerAppV2 />;
 }

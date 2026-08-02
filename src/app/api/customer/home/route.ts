@@ -1,237 +1,49 @@
 import { NextResponse } from "next/server";
-import {
-  KOLLECTIVE_SUPABASE_PUBLISHABLE_KEY,
-  KOLLECTIVE_SUPABASE_URL,
-} from "@/lib/kollective-public";
+import { KOLLECTIVE_SUPABASE_PUBLISHABLE_KEY, KOLLECTIVE_SUPABASE_URL } from "@/lib/kollective-public";
 
-export const revalidate = 300;
-
-const headers = {
-  apikey: KOLLECTIVE_SUPABASE_PUBLISHABLE_KEY,
-  Authorization: `Bearer ${KOLLECTIVE_SUPABASE_PUBLISHABLE_KEY}`,
-};
-
-const DEFAULT_CONFIG = {
-  app_scope: "customer",
-  app_name: "Kollective",
-  tagline: "The best of the Kollective, all in one place.",
-  city: "Atlanta",
-  minimum_version: "1.0.0",
-  latest_version: "1.0.0",
-  maintenance_mode: false,
-  maintenance_message: null,
-  featured_limit: 12,
-  event_limit: 16,
-  config: {
-    experience: "good-times-inspired",
-    primaryNavigation: ["home", "events", "brands", "profile"],
-  },
-};
-
+export const revalidate = 120;
+const headers = { apikey: KOLLECTIVE_SUPABASE_PUBLISHABLE_KEY, Authorization: `Bearer ${KOLLECTIVE_SUPABASE_PUBLISHABLE_KEY}` };
+const DEFAULT_CONFIG = { app_scope: "customer", app_name: "Kollective", tagline: "The best of the Kollective, all in one place.", city: "Atlanta", maintenance_mode: false, featured_limit: 12, event_limit: 16, config: { markets: ["All Markets", "Atlanta"], defaultMarket: "Atlanta", experienceControl: true } };
 type Row = Record<string, unknown>;
 
 async function fetchRows(table: string, params: Record<string, string>) {
   const url = new URL(`${KOLLECTIVE_SUPABASE_URL}/rest/v1/${table}`);
   Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value));
-
-  const response = await fetch(url, {
-    headers,
-    next: { revalidate: 300 },
-  });
-
-  if (!response.ok) {
-    const detail = await response.text();
-    throw new Error(`${table} returned ${response.status}: ${detail}`);
-  }
-
+  const response = await fetch(url, { headers, next: { revalidate: 120 } });
+  if (!response.ok) throw new Error(`${table} returned ${response.status}: ${await response.text()}`);
   return (await response.json()) as Row[];
 }
-
-function isCurrentlyActive(row: Row, now: Date) {
-  const startsAt = typeof row.starts_at === "string" ? new Date(row.starts_at) : null;
-  const endsAt = typeof row.ends_at === "string" ? new Date(row.ends_at) : null;
-  return (!startsAt || startsAt <= now) && (!endsAt || endsAt >= now);
-}
-
-function decodeHtml(value: unknown) {
-  if (typeof value !== "string") return value;
-
-  const named: Record<string, string> = {
-    amp: "&",
-    apos: "'",
-    gt: ">",
-    lt: "<",
-    nbsp: " ",
-    quot: '"',
-  };
-
-  return value
-    .replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
-    .replace(/&#x([0-9a-f]+);/gi, (_, code: string) => String.fromCodePoint(Number.parseInt(code, 16)))
-    .replace(/&(amp|apos|gt|lt|nbsp|quot);/g, (_, entity: string) => named[entity] ?? _)
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function normalizedCity(value: unknown) {
-  const city = String(value ?? "").trim().toLowerCase();
-  if (["atl", "atlanta, ga", "atlanta ga"].includes(city)) return "atlanta";
-  return city;
-}
-
-function normalizeEvents(rows: Row[], preferredCity: string, limit: number) {
-  const seen = new Set<string>();
-
-  return rows
-    .map((row) => {
-      const eventName = String(decodeHtml(row.event_name) ?? "Event");
-      const ticketPrice = String(decodeHtml(row.ticket_price) ?? "");
-      const description = decodeHtml(row.description);
-      const aiSummary = decodeHtml(row.ai_summary);
-      const city = decodeHtml(row.city);
-      const venueName = decodeHtml(row.venue_name);
-      const isFree = Boolean(row.is_free) || /\bfree\b/i.test(ticketPrice);
-
-      return {
-        ...row,
-        city,
-        event_name: eventName,
-        venue_name: venueName,
-        description,
-        ai_summary: aiSummary,
-        ticket_price: ticketPrice || null,
-        is_free: isFree,
-        _preferredCity: normalizedCity(city) === preferredCity ? 1 : 0,
-      };
-    })
-    .filter((event) => {
-      const key = [event.event_name, event.event_date, event.venue_name]
-        .map((value) => String(value ?? "").trim().toLowerCase())
-        .join("|");
-      if (seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    })
-    .sort((a, b) => {
-      const cityDifference = Number(b._preferredCity) - Number(a._preferredCity);
-      if (cityDifference !== 0) return cityDifference;
-
-      const dateDifference = String(a.event_date ?? "").localeCompare(String(b.event_date ?? ""));
-      if (dateDifference !== 0) return dateDifference;
-
-      return Number(b.ai_vibe_score ?? 0) - Number(a.ai_vibe_score ?? 0);
-    })
-    .slice(0, limit)
-    .map(({ _preferredCity: _ignored, ...event }) => event);
+function decode(value: unknown) { if (typeof value !== "string") return value; const named: Record<string,string> = { amp:"&", apos:"'", gt:">", lt:"<", nbsp:" ", quot:'"' }; return value.replace(/&#(\d+);/g,(_,c:string)=>String.fromCodePoint(Number(c))).replace(/&#x([0-9a-f]+);/gi,(_,c:string)=>String.fromCodePoint(Number.parseInt(c,16))).replace(/&(amp|apos|gt|lt|nbsp|quot);/g,(_,e:string)=>named[e]??_).replace(/\s+/g," ").trim(); }
+function cityKey(value: unknown) { const city=String(value??"").trim().toLowerCase(); if (["atl","atlanta, ga","atlanta ga"].includes(city)) return "atlanta"; if (["la","los angeles, ca"].includes(city)) return "los angeles"; if (["nyc","new york","new york city"].includes(city)) return "nyc"; return city; }
+function displayMarket(value: unknown) { const key=cityKey(value); const labels:Record<string,string>={atlanta:"Atlanta",dc:"DC",dallas:"Dallas","los angeles":"Los Angeles",nyc:"NYC",charlotte:"Charlotte",scottsdale:"Scottsdale"}; return labels[key] || String(value??"Other"); }
+function canonical(value: unknown) { return String(value??"").toLowerCase().replace(/\b20\d{2}\b/g,"").replace(/&/g," and ").replace(/\b(the|official|free|rsvp)\b/g," ").replace(/[^a-z0-9]+/g," ").replace(/\s+/g," ").trim(); }
+function active(row: Row, now: Date) { const start=typeof row.starts_at==="string"?new Date(row.starts_at):null; const end=typeof row.ends_at==="string"?new Date(row.ends_at):null; return (!start||start<=now)&&(!end||end>=now); }
+function quality(event: Row, preferred: string) { let score=Number(event.ai_vibe_score??0)+Number(event.sort_priority??0)*20; if (event.is_featured) score+=500; if (cityKey(event.market)===preferred) score+=100; if (event.image_url) score+=15; if (event.ticket_url) score+=10; if (event.ai_summary) score+=6; return score; }
+function normalizeEvents(rows: Row[], overrides: Row[], preferred: string, limit: number) {
+  const byId=new Map(overrides.map(row=>[String(row.event_id),row]));
+  const seen=new Set<string>();
+  return rows.map(row=>{
+    const override=byId.get(String(row.id))||{};
+    const market=override.market_override||row.city;
+    return { ...row, event_name:String(decode(override.display_title||row.event_name)||"Event"), city:decode(row.city), market:displayMarket(market), venue_name:decode(row.venue_name), description:decode(row.description), ai_summary:decode(override.display_summary||row.ai_summary), image_url:override.display_image_url||row.image_url, ticket_price:decode(row.ticket_price)||null, is_free:Boolean(row.is_free)||/\bfree\b/i.test(String(row.ticket_price||"")), is_hidden:Boolean(override.is_hidden), is_featured:Boolean(override.is_featured), is_curated:Boolean(byId.has(String(row.id))), sort_priority:Number(override.sort_priority||0) };
+  }).filter(event=>!event.is_hidden).sort((a,b)=>String(a.event_date).localeCompare(String(b.event_date))||quality(b,preferred)-quality(a,preferred)).filter(event=>{ const key=[canonical(event.event_name),event.event_date,cityKey(event.market)].join("|"); if (!canonical(event.event_name)||seen.has(key)) return false; seen.add(key); return true; }).sort((a,b)=>Number(Boolean(b.is_featured))-Number(Boolean(a.is_featured))||Number(cityKey(b.market)===preferred)-Number(cityKey(a.market)===preferred)||String(a.event_date).localeCompare(String(b.event_date))||quality(b,preferred)-quality(a,preferred)).slice(0,limit);
 }
 
 export async function GET() {
-  const warnings: string[] = [];
-  let config: Row = DEFAULT_CONFIG;
-
-  try {
-    const rows = await fetchRows("kollective_customer_app_config", {
-      app_scope: "eq.customer",
-      select: "*",
-      limit: "1",
-    });
-    config = rows[0] ?? DEFAULT_CONFIG;
-  } catch (error) {
-    warnings.push("Customer app configuration is using safe defaults.");
-    console.error("Customer app config unavailable", error);
-  }
-
-  const featuredLimit = Number(config.featured_limit) || 12;
-  const eventLimit = Number(config.event_limit) || 16;
-  const preferredCity = normalizedCity(config.city || "Atlanta");
-  const today = new Date().toISOString().slice(0, 10);
-
-  const [entitiesResult, contentResult, eventsResult] = await Promise.allSettled([
-    fetchRows("kollective_public_entity_directory", {
-      select: "id,slug,name,category,short_description,status,status_label,current_focus,logo_url,hero_url,website_url,city_scope,access_level,featured_priority,division_slug,division_name,destinations",
-      order: "current_focus.desc,featured_priority.desc,name.asc",
-      limit: String(Math.max(featuredLimit, 18)),
-    }),
-    fetchRows("kollective_public_content", {
-      is_published: "eq.true",
-      select: "id,entity_id,destination_id,slug,content_type,title,summary,body,image_url,city_scope,audience,priority,starts_at,ends_at",
-      order: "priority.desc,starts_at.desc",
-      limit: "30",
-    }),
-    fetchRows("v_gt_public_events", {
-      event_date: `gte.${today}`,
-      select: "id,city,event_name,event_date,event_time,end_date,end_time,venue_name,venue_address,neighborhood,event_type,event_category,description,ticket_url,ticket_price,image_url,organizer,tags,vibe_tags,is_free,ai_summary,ai_vibe_score",
-      order: "event_date.asc,ai_vibe_score.desc",
-      limit: String(Math.max(eventLimit * 4, 64)),
-    }),
+  const warnings:string[]=[]; let config:Row=DEFAULT_CONFIG;
+  try { const rows=await fetchRows("kollective_customer_app_config",{app_scope:"eq.customer",select:"*",limit:"1"}); config=rows[0]??DEFAULT_CONFIG; } catch { warnings.push("Customer configuration is using safe defaults."); }
+  const featuredLimit=Number(config.featured_limit)||12; const eventLimit=Number(config.event_limit)||16; const preferred=cityKey(config.city||"Atlanta"); const today=new Date().toISOString().slice(0,10);
+  const [entitiesResult,contentResult,eventsResult,overridesResult]=await Promise.allSettled([
+    fetchRows("kollective_public_entity_directory",{select:"id,slug,name,category,short_description,status,status_label,current_focus,logo_url,hero_url,website_url,city_scope,access_level,featured_priority,division_slug,division_name,destinations",order:"current_focus.desc,featured_priority.desc,name.asc",limit:String(Math.max(featuredLimit,18))}),
+    fetchRows("kollective_public_content",{is_published:"eq.true",select:"id,entity_id,destination_id,slug,content_type,title,summary,body,image_url,city_scope,audience,priority,starts_at,ends_at",order:"priority.desc,starts_at.desc",limit:"30"}),
+    fetchRows("v_gt_public_events",{event_date:`gte.${today}`,select:"id,city,event_name,event_date,event_time,end_date,end_time,venue_name,venue_address,neighborhood,event_type,event_category,description,ticket_url,ticket_price,image_url,organizer,tags,vibe_tags,is_free,ai_summary,ai_vibe_score",order:"event_date.asc,ai_vibe_score.desc",limit:String(Math.max(eventLimit*8,128))}),
+    fetchRows("kollective_customer_event_overrides",{select:"*",limit:"500"}),
   ]);
-
-  const entities = entitiesResult.status === "fulfilled"
-    ? entitiesResult.value
-        .filter((entity) => !["inactive", "archived", "closed"].includes(String(entity.status ?? "").toLowerCase()))
-        .slice(0, featuredLimit)
-    : [];
-  if (entitiesResult.status === "rejected") {
-    warnings.push("Brand directory is temporarily unavailable.");
-    console.error("Customer entities unavailable", entitiesResult.reason);
-  }
-
-  const now = new Date();
-  const content = contentResult.status === "fulfilled"
-    ? contentResult.value
-        .filter((item) => isCurrentlyActive(item, now))
-        .map((item) => ({
-          ...item,
-          title: decodeHtml(item.title),
-          summary: decodeHtml(item.summary),
-          body: decodeHtml(item.body),
-        }))
-        .slice(0, 18)
-    : [];
-  if (contentResult.status === "rejected") {
-    warnings.push("Featured content is temporarily unavailable.");
-    console.error("Customer content unavailable", contentResult.reason);
-  }
-
-  const events = eventsResult.status === "fulfilled"
-    ? normalizeEvents(eventsResult.value, preferredCity, eventLimit)
-    : [];
-  if (eventsResult.status === "rejected") {
-    warnings.push("Event discovery is temporarily unavailable.");
-    console.error("Customer events unavailable", eventsResult.reason);
-  }
-
-  return NextResponse.json(
-    {
-      app: config,
-      home: {
-        featured: content,
-        events,
-        entities,
-      },
-      source: "doctordorsey.com + Kollective MCP Gateway",
-      generatedAt: new Date().toISOString(),
-      partial: warnings.length > 0,
-      warnings,
-    },
-    {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=1800",
-      },
-    },
-  );
+  const entities=entitiesResult.status==="fulfilled"?entitiesResult.value.filter(e=>!["inactive","archived","closed"].includes(String(e.status??"").toLowerCase())).slice(0,featuredLimit):[];
+  const now=new Date(); const content=contentResult.status==="fulfilled"?contentResult.value.filter(i=>active(i,now)).map(i=>({...i,title:decode(i.title),summary:decode(i.summary),body:decode(i.body)})).slice(0,18):[];
+  const overrides=overridesResult.status==="fulfilled"?overridesResult.value:[]; if (overridesResult.status==="rejected") warnings.push("Operator curation is temporarily unavailable.");
+  const events=eventsResult.status==="fulfilled"?normalizeEvents(eventsResult.value,overrides,preferred,eventLimit*3):[];
+  const marketCounts=events.reduce<Record<string,number>>((acc,event)=>{ const market=String(event.market||"Other"); acc[market]=(acc[market]||0)+1; return acc; },{});
+  return NextResponse.json({ app:config, experience:{ controlEnabled:true, marketCounts, curatedCount:events.filter(e=>e.is_curated).length, featuredCount:events.filter(e=>e.is_featured).length }, home:{featured:content,events,entities}, source:"Kollective Customer Experience Control", generatedAt:new Date().toISOString(), partial:warnings.length>0, warnings },{headers:{"Access-Control-Allow-Origin":"*","Cache-Control":"public, s-maxage=120, stale-while-revalidate=600"}});
 }
-
-export async function OPTIONS() {
-  return new NextResponse(null, {
-    status: 204,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-    },
-  });
-}
+export async function OPTIONS(){return new NextResponse(null,{status:204,headers:{"Access-Control-Allow-Origin":"*","Access-Control-Allow-Methods":"GET, OPTIONS","Access-Control-Allow-Headers":"Content-Type"}});}

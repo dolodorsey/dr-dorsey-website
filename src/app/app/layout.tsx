@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./customer-emblem.css";
+import "./customer-ui-continuity.css";
 
 const title = "Kollective — Events, Brands & Experiences";
 const description = "A simplified mobile front door to the Kollective: discover events, brands, experiences, and Good Times energy.";
@@ -48,5 +49,5 @@ export const viewport: Viewport = {
 };
 
 export default function CustomerAppLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return <div data-kollective-app>{children}</div>;
 }
