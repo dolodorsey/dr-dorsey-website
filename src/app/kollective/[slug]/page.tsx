@@ -6,7 +6,10 @@ import { kollectiveNav, kollectivePages } from '@/lib/kollective-pages';
 import styles from './page.module.css';
 
 export function generateStaticParams() {
-  return Object.keys(kollectivePages).map((slug) => ({ slug }));
+  // `/kollective/companies` has its own route now — the live company roster.
+  return Object.keys(kollectivePages)
+    .filter((slug) => slug !== 'companies')
+    .map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({

@@ -4,42 +4,7 @@ import { useEffect, useState } from 'react';
 import styles from './home.module.css';
 import { BOOK_URL } from '@/lib/enterprise';
 import MotionCover from '@/components/MotionCover';
-import { legacyMotion } from '@/lib/motion';
-
-const worlds = [
-  {
-    number: '01',
-    name: 'Culture',
-    line: 'I create the moments people remember.',
-    detail: 'Hospitality, nightlife, music, live programming, and original cultural IP built from the inside of the room.',
-  },
-  {
-    number: '02',
-    name: 'Companies',
-    line: 'I turn ideas into independent identities.',
-    detail: 'Distinct brands with their own audience, offer, visual system, route to market, and reason to exist.',
-  },
-  {
-    number: '03',
-    name: 'Systems',
-    line: 'I build the machine behind the magic.',
-    detail: 'Shared operating intelligence, technology, data, creative direction, partnerships, and repeatable execution.',
-  },
-  {
-    number: '04',
-    name: 'Legacy',
-    line: 'I design for what survives the moment.',
-    detail: 'Education, institutions, water, ownership, mentorship, and infrastructure built to outlive a trend.',
-  },
-];
-
-const rules = [
-  ['01', 'Identity before attention.', 'The goal is not to look busy. The goal is to become unmistakable.'],
-  ['02', 'Culture is an operating system.', 'It shapes the product, the room, the language, the customer, and the standard.'],
-  ['03', 'Make the world feel complete.', 'A company becomes powerful when every detail reinforces the same belief.'],
-  ['04', 'Build the route to action.', 'Discovery should end in a move: buy, book, join, partner, invest, or enter.'],
-  ['05', 'Own the outcome.', 'Ideas do not compound until systems make execution repeatable.'],
-];
+import DepartmentGrid from '@/components/DepartmentGrid';
 
 /**
  * The first two entries render as the large featured pair.
@@ -58,17 +23,6 @@ const currentMoves = [
   { name: 'Hakuna Matata', kind: 'The founder’s field manual', href: BOOK_URL },
 ];
 
-const siteWorlds = [
-  ['Companies', 'The full enterprise architecture', '/companies'],
-  ['Directory', 'Every company and entity record', '/directory'],
-  ['Links', 'One page for every public move', '/links'],
-  ['Forms', 'Strategy, speaking, careers, vendors', '/forms'],
-  ['Events', 'What is happening now', '/events'],
-  ['Store', 'Fashion, books, water, energy', '/store'],
-  ['Upcoming', 'What is moving through the pipeline', '/upcoming'],
-  ['Network', 'The Tribe and water ecosystem', '/network'],
-  ['Team', 'Leadership and specialist network', '/team'],
-];
 
 export default function HomePage() {
   const [menu, setMenu] = useState(false);
@@ -128,6 +82,19 @@ export default function HomePage() {
         </a>
       </section>
 
+      <section className={styles.current} id="departments">
+        <header>
+          <p className={styles.kicker}>The departments</p>
+          <h2>NINE DEPARTMENTS. <em>ONE ENTERPRISE.</em></h2>
+          <span>Every department runs its own companies, audience, economics, and atmosphere.</span>
+        </header>
+        <DepartmentGrid />
+        <div className={styles.departmentsCta}>
+          <a href="/companies">See every company ↗</a>
+          <a href="/directory">Open the directory ↗</a>
+        </div>
+      </section>
+
       <section className={styles.current}>
         <header>
           <p className={styles.kicker}>Current / moving now</p>
@@ -135,12 +102,8 @@ export default function HomePage() {
           <span>Events, products, campaigns, and releases with a direct route to action.</span>
         </header>
         <div className={styles.currentGrid}>
-          {currentMoves.map((item, index) => (
-            <a
-              href={item.href}
-              className={index < 2 ? styles.currentFeature : styles.currentTile}
-              key={item.name}
-            >
+          {currentMoves.map((item) => (
+            <a href={item.href} className={styles.currentTile} key={item.name}>
               <MotionCover name={item.name} image={item.image} alt={item.name} veil />
               <div><small>{item.kind}</small><h3>{item.name}</h3><b>Enter ↗</b></div>
             </a>
@@ -205,27 +168,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className={styles.worlds} id="worlds">
-        <header>
-          <p className={styles.kicker}>What I actually build</p>
-          <h2>
-            FOUR DISCIPLINES.
-            <br />
-            <em>ONE PRACTICE.</em>
-          </h2>
-        </header>
-        <div className={styles.worldGrid}>
-          {worlds.map((world) => (
-            <article key={world.number}>
-              <span>{world.number}</span>
-              <h3>{world.name}</h3>
-              <blockquote>{world.line}</blockquote>
-              <p>{world.detail}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
       <section className={styles.enterprise}>
         <div className={styles.enterpriseVisual}>
           <img src="/dorsey/enterprise.webp" alt="The Kollective enterprise overview" />
@@ -247,33 +189,6 @@ export default function HomePage() {
             <a href="/kollective">Enter The Kollective ↗</a>
             <a href="https://thekollectivehospitality.com/entities">Open Entity Universe ↗</a>
           </div>
-        </div>
-      </section>
-
-      <section className={styles.casper}>
-        <video autoPlay muted loop playsInline>
-          <source src="/dorsey/motion/casper-group.mp4" type="video/mp4" />
-        </video>
-        <div>
-          <p className={styles.kicker}>Hospitality / food / licensing</p>
-          <h2>THE CASPER GROUP.</h2>
-          <a href="https://caspergroupworldwide.com">Enter the portfolio ↗</a>
-        </div>
-      </section>
-
-      <section className={styles.rules}>
-        <header>
-          <p className={styles.kicker}>Field notes</p>
-          <h2>THE RULES I BUILD BY.</h2>
-        </header>
-        <div>
-          {rules.map(([number, title, detail]) => (
-            <article key={number}>
-              <span>{number}</span>
-              <h3>{title}</h3>
-              <p>{detail}</p>
-            </article>
-          ))}
         </div>
       </section>
 
@@ -327,15 +242,6 @@ export default function HomePage() {
           <a href={BOOK_URL}><span>04</span><b>Hakuna Matata</b><small>Order the book</small><i>↗</i></a>
           <a href="/kollective"><span>05</span><b>The Enterprise</b><small>Explore The Kollective</small><i>↗</i></a>
           <a href="/access"><span>06</span><b>All Access</b><small>Every link and form</small><i>↗</i></a>
-        </div>
-      </section>
-
-      <section className={styles.siteMap}>
-        <header><p className={styles.kicker}>The complete platform</p><h2>EVERY DOOR IS <em>OPEN.</em></h2></header>
-        <div>
-          {siteWorlds.map(([name, note, href], index) => (
-            <a href={href} key={name}><span>{String(index + 1).padStart(2, '0')}</span><h3>{name}</h3><p>{note}</p><b>↗</b></a>
-          ))}
         </div>
       </section>
 

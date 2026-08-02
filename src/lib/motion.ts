@@ -106,6 +106,31 @@ const NAME_MOTION: Record<string, MotionAsset> = {
   'kollective network': motion.kollectiveNetwork,
 };
 
+/**
+ * The whole library as a flat, consumable list.
+ *
+ * Served from /api/motion so the Kollective customer app, the mobile shell,
+ * and any future surface can pull the same animations without copying files.
+ * Pass an origin to get absolute URLs.
+ */
+export function motionManifest(origin = '') {
+  const base = origin.replace(/\/$/, '');
+  const byAsset = new Map<string, string[]>();
+  for (const [name, entry] of Object.entries(NAME_MOTION)) {
+    const list = byAsset.get(entry.src) || [];
+    list.push(name);
+    byAsset.set(entry.src, list);
+  }
+
+  return Object.entries(motion).map(([key, entry]) => ({
+    key,
+    slug: entry.src.split('/').pop()!.replace(/\.mp4$/, ''),
+    video: `${base}${entry.src}`,
+    poster: `${base}${entry.poster}`,
+    matches: byAsset.get(entry.src) || [],
+  }));
+}
+
 function normalise(name: string): string {
   return name
     .toLowerCase()
