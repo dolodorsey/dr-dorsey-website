@@ -25,8 +25,8 @@
 
 .chips a:hover {
   color: #0a0907;
-  background: var(--k-gold, var(--gold, #c8a35a));
-  border-color: var(--k-gold, var(--gold, #c8a35a));
+  background: var(--k-gold);
+  border-color: var(--k-gold);
 }
 
 .chips b {
@@ -58,8 +58,8 @@
 
 .chipLead {
   color: #0a0907 !important;
-  background: var(--k-gold, #c8a35a);
-  border-color: var(--k-gold, #c8a35a) !important;
+  background: var(--k-gold);
+  border-color: var(--k-gold) !important;
 }
 
 .sectionHead {
@@ -75,12 +75,12 @@
 
 .sectionHead h3 {
   margin: 0;
-  font: var(--k-display-weight, 400) clamp(28px, 3vw, 48px) / 0.95 var(--k-display, Georgia, serif);
-  letter-spacing: var(--k-display-tracking, -0.04em);
+  font: var(--k-display-weight) clamp(28px, 3vw, 48px) / 0.95 var(--k-display);
+  letter-spacing: var(--k-display-tracking);
 }
 
 .sectionHead span {
-  color: var(--k-gold-soft, #efd492);
+  color: var(--k-gold-soft);
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.16em;
@@ -103,7 +103,7 @@
 .card:hover {
   z-index: 3;
   transform: translateY(-8px);
-  border-color: color-mix(in srgb, var(--k-gold, #c8a35a) 48%, transparent);
+  border-color: color-mix(in srgb, var(--k-gold) 48%, transparent);
   box-shadow: 0 30px 76px #000000b3;
 }
 
@@ -135,7 +135,7 @@
  */
 .awaiting {
   background:
-    radial-gradient(ellipse 90% 80% at 50% 0%, color-mix(in srgb, var(--k-gold, #c8a35a) 10%, transparent), transparent 68%),
+    radial-gradient(ellipse 90% 80% at 50% 0%, color-mix(in srgb, var(--k-gold) 10%, transparent), transparent 68%),
     linear-gradient(160deg, #14100b, #0a0806);
 }
 
@@ -153,13 +153,13 @@
 
 .plate b {
   color: #f4efe6;
-  font: var(--k-display-weight, 400) clamp(19px, 1.6vw, 27px) / 1.1 var(--k-display, Georgia, serif);
+  font: var(--k-display-weight) clamp(19px, 1.6vw, 27px) / 1.1 var(--k-display);
   letter-spacing: -0.02em;
   opacity: 0.5;
 }
 
 .plate i {
-  color: var(--k-gold, #c8a35a);
+  color: var(--k-gold);
   font-style: normal;
   font-size: 7px;
   font-weight: 800;
@@ -198,7 +198,7 @@
 .status {
   display: block;
   margin-bottom: 7px;
-  color: var(--k-gold-soft, #efd492);
+  color: var(--k-gold-soft);
   font-size: 8px;
   font-weight: 800;
   letter-spacing: 0.15em;
@@ -207,7 +207,7 @@
 
 .name {
   margin: 0 0 6px;
-  font: var(--k-display-weight, 400) clamp(20px, 1.7vw, 28px) / 1 var(--k-display, Georgia, serif);
+  font: var(--k-display-weight) clamp(20px, 1.7vw, 28px) / 1 var(--k-display);
   letter-spacing: -0.03em;
 }
 
@@ -223,7 +223,7 @@
 }
 
 .open {
-  color: var(--k-gold, var(--gold, #c8a35a));
+  color: var(--k-gold);
   font-size: 8px;
   font-weight: 800;
   letter-spacing: 0.15em;

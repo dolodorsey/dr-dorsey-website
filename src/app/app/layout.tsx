@@ -48,6 +48,16 @@ export const viewport: Viewport = {
   themeColor: "#050505",
 };
 
+/**
+ * The customer app is a KOLLECTIVE product, not a Dorsey one. Declaring the
+ * brand here hands it the Kollective palette from src/lib/brand-tokens.ts —
+ * the same tokens thekollectivehospitality.com uses — so it can never drift
+ * onto the founder palette again.
+ */
 export default function CustomerAppLayout({ children }: { children: React.ReactNode }) {
-  return <div data-kollective-app>{children}</div>;
+  return (
+    <div data-kollective-app data-brand="kollective">
+      {children}
+    </div>
+  );
 }
