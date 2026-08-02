@@ -1,0 +1,23 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "AFU6P8WW9K.com.kollective.enterprise",
+        "paths": [
+          "/ops-os/*",
+          "/api/mobile/*",
+          "/api/enterprise/mobile/*"
+        ]
+      },
+      {
+        "appID": "AFU6P8WW9K.com.kollective.customer",
+        "paths": [
+          "/app",
+          "/app/*",
+          "/kollective/*"
+        ]
+      }
+    ]
+  }
+}
