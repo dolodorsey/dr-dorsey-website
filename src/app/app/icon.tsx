@@ -4,6 +4,9 @@ export const runtime = "edge";
 export const size = { width: 512, height: 512 };
 export const contentType = "image/png";
 
+const EMBLEM_URL =
+  "https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png";
+
 export default function Icon() {
   return new ImageResponse(
     (
@@ -30,30 +33,24 @@ export default function Icon() {
         />
         <div
           style={{
+            width: 370,
+            height: 370,
             display: "flex",
-            color: "#d8b04c",
-            fontSize: 292,
-            lineHeight: 1,
-            fontWeight: 900,
-            letterSpacing: -32,
-            transform: "translateX(-9px)",
-            textShadow: "0 24px 60px rgba(0,0,0,.55)",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 32,
+            borderRadius: 84,
+            background: "radial-gradient(circle, rgba(216,176,76,.16), rgba(5,5,5,0) 68%)",
           }}
         >
-          K
+          <img
+            src={EMBLEM_URL}
+            alt="Kollective emblem"
+            width="306"
+            height="306"
+            style={{ objectFit: "contain", filter: "drop-shadow(0 28px 40px rgba(0,0,0,.6))" }}
+          />
         </div>
-        <div
-          style={{
-            position: "absolute",
-            right: 92,
-            top: 92,
-            width: 34,
-            height: 34,
-            borderRadius: 999,
-            background: "#f3dc94",
-            boxShadow: "0 0 38px rgba(243,220,148,.42)",
-          }}
-        />
       </div>
     ),
     size,

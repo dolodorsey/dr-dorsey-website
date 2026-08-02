@@ -12,6 +12,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/app",
   },
+  icons: {
+    icon: [{ url: "/app/icon", type: "image/png", sizes: "512x512" }],
+    apple: [{ url: "/app/apple-icon", type: "image/png", sizes: "180x180" }],
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
