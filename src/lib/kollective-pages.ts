@@ -192,7 +192,7 @@ export const kollectivePages: Record<string, KollectivePage> = {
     sections: [
       {
         title: 'Culture, technology, and commerce',
-        body: ['Entertainment includes Rose on Piedmont, GROWN-ISH, Taste of Art, HugLife, Iconic, GOOD TIMES, and original cultural IP. The technology world includes active platforms GOOD TIMES, On Call, and S.O.S., alongside products in development and planning.', 'Products and commerce include Hakuna Matata, Bodega, STUSH, PULSE, Make Atlanta Great Again, MYXX, Ace Theory, MATCH, and Scented Flowers.'],
+        body: ['Entertainment includes Rose on Piedmont, GROWN-ISH, Taste of Art, HugLife, Iconic, GOOD TIMES, and original cultural IP. The technology world includes active platforms GOOD TIMES, On Call, and S.O.S., alongside products in development and planning.', 'Products and commerce include Hakuna Matata, Bodega, STUSH, PULSE, Make Atlanta Great Again, and Scented Flowers.'],
         links: [['Open every entity', '/entities'], ['Current experiences', '/events'], ['Shop the portfolio', '/store']],
       },
       {
@@ -244,10 +244,10 @@ export const kollectivePages: Record<string, KollectivePage> = {
     eyebrow: 'CURRENT CULTURE',
     title: 'What is moving now.',
     description: 'Current public events and cultural programming after July 28, 2026.',
-    intro: 'The upcoming calendar includes GROWN-ISH, Back to School Drive, Soul Session, REMIX, The Kulture Market, Taste of Art, Sunday’s Best, Labor Day programming, and the Beauty & Beast Greek Ball.',
-    facts: [['AUG 07', 'GROWN-ISH'], ['AUG 22', 'The Kulture Market and Taste of Art'], ['ATLANTA', 'Venue details confirmed by each event listing']],
+    intro: 'The upcoming calendar includes GROWN-ISH, the Back to School Drive, Soul Session, Taste of Art, Labor Day programming, and the Beauty & Beast Greek Ball.',
+    facts: [['AUG 07', 'GROWN-ISH'], ['AUG 22', 'Taste of Art'], ['ATLANTA', 'Venue details confirmed by each event listing']],
     sections: [
-      { title: 'August 2026', body: ['Use the official event listing for current time, location, availability, and ticket terms.'], links: [['GROWN-ISH · Aug 07', 'https://www.eventbrite.com/e/the-grown-ish-aug-07-tickets-1988881854165'], ['Back to School Drive · Aug 08', 'https://www.eventbrite.com/e/the-back-to-school-drive-aug-08-tickets-1988881869210'], ['Soul Session · Aug 09', 'https://www.eventbrite.com/e/the-soul-session-aug-09-tickets-1988881865198'], ['REMIX · Aug 15', 'https://www.eventbrite.com/e/the-remix-aug-15-tickets-1988881875228'], ['The Kulture Market · Aug 22', 'https://www.eventbrite.com/e/the-kulture-market-aug-22-tickets-1988881958477'], ['Taste of Art · Aug 22', 'https://www.eventbrite.com/e/the-taste-of-art-aug-22-tickets-1988881972519']] },
+      { title: 'August 2026', body: ['Use the official event listing for current time, location, availability, and ticket terms.'], links: [['GROWN-ISH · Aug 07', 'https://www.eventbrite.com/e/the-grown-ish-aug-07-tickets-1988881854165'], ['Back to School Drive · Aug 08', 'https://www.eventbrite.com/e/the-back-to-school-drive-aug-08-tickets-1988881869210'], ['Soul Session · Aug 09', 'https://www.eventbrite.com/e/the-soul-session-aug-09-tickets-1988881865198'], ['Taste of Art · Aug 22', 'https://www.eventbrite.com/e/the-taste-of-art-aug-22-tickets-1988881972519']] },
       { title: 'Complete live calendar', body: ['111ATL and GOOD TIMES remain the public hubs for current experiences, reservations, and discovery.'], links: [['111ATL', 'https://111atl.com'], ['GOOD TIMES', 'https://www.thegoodtimesworldwide.com']] },
     ],
   },

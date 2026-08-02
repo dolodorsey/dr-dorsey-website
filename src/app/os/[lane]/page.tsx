@@ -76,8 +76,7 @@ export const metadata = {
   description: 'Full-view workspace for the Kollective operating system.',
 };
 
-export default async function LanePage(props: { params: Promise<{ lane: string }> }) {
-  const params = await props.params;
+export default async function LanePage({ params }: { params: { lane: string } }) {
   const lane = normalizeLane(params.lane);
   const config = await getConfig();
   const sections = config.sections || [];

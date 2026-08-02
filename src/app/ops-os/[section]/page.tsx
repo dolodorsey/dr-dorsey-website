@@ -7,8 +7,7 @@ export function generateStaticParams() {
   return sections.map((section) => ({ section }));
 }
 
-export default async function OpsSectionPage(props: { params: Promise<{ section: string }> }) {
-  const params = await props.params;
+export default function OpsSectionPage({ params }: { params: { section: string } }) {
   if (!sections.includes(params.section)) notFound();
   return <SectionSwitcher section={params.section} />;
 }

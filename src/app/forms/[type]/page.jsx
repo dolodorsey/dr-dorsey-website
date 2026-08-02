@@ -1,9 +1,9 @@
 'use client';
-import { useState, use } from 'react';
+import { useState } from 'react';
 
 const BRAND_KEY = 'dr_dorsey';
 const BRAND = { name: 'Dr. Dorsey', bg: '#080604', accent: '#D4B87A', text: '#F5F0E8', font: "'Cormorant Garamond', serif" };
-const WEBHOOK = '/api/forms/submit';
+const WEBHOOK = 'https://dorsey.app.n8n.cloud/webhook/khg-form-submit';
 const BG_IMG = '/images/forms-bg.png';
 
 const FORMS = {
@@ -159,8 +159,7 @@ function FormsIndex(){
   );
 }
 
-export default function FormPage(props) {
-  const params = use(props.params);
+export default function FormPage({params}){
   const type=params?.type;
   const form=FORMS[type];
   const [data,setData]=useState({});
@@ -168,11 +167,7 @@ export default function FormPage(props) {
   const set=(n,v)=>setData(p=>({...p,[n]:v}));
   const submit=async(e)=>{
     e.preventDefault();setStatus('submitting');
-    try{
-      const response=await fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({brand_key:BRAND_KEY,form_type:type,full_name:data.full_name||'',email:data.email||'',phone:data.phone||'',form_data:data,source:'standalone_form',submitted_at:new Date().toISOString()})});
-      if(!response.ok) throw new Error('Submission failed');
-      setStatus('success');
-    }catch{setStatus('error');}
+    try{await fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({brand_key:BRAND_KEY,form_type:type,full_name:data.full_name||'',email:data.email||'',phone:data.phone||'',form_data:data,source:'standalone_form',submitted_at:new Date().toISOString()})});setStatus('success');}catch{setStatus('error');}
   };
 
   if(!form) return <FormsIndex/>;

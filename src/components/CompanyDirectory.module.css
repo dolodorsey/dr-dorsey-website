@@ -1,0 +1,257 @@
+.wrap {
+  display: block;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: var(--k-max, 1720px);
+  margin: 0 auto 48px;
+}
+
+.chips a {
+  padding: 10px 13px;
+  color: #ffffffc4;
+  border: 1px solid #ffffff2b;
+  font-size: 8px;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: 0.25s;
+}
+
+.chips a:hover {
+  color: #0a0907;
+  background: var(--k-gold);
+  border-color: var(--k-gold);
+}
+
+.chips b {
+  margin-left: 7px;
+  opacity: 0.55;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--k-gap, 16px);
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  max-width: var(--k-max, 1720px);
+  margin-inline: auto;
+}
+
+.section {
+  max-width: var(--k-max, 1720px);
+  margin: 0 auto 66px;
+  scroll-margin-top: 90px;
+}
+
+/* Spacing between the landscape block and the portrait block of a section. */
+.gridNext {
+  margin-top: var(--k-gap, 16px);
+}
+
+.chipLead {
+  color: #0a0907 !important;
+  background: var(--k-gold);
+  border-color: var(--k-gold) !important;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 26px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ffffff20;
+  text-align: center;
+}
+
+.sectionHead h3 {
+  margin: 0;
+  font: var(--k-display-weight) clamp(28px, 3vw, 48px) / 0.95 var(--k-display);
+  letter-spacing: var(--k-display-tracking);
+}
+
+.sectionHead span {
+  color: var(--k-gold-soft);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: #fff;
+  background: #0d0b08;
+  border: 1px solid #ffffff1c;
+  text-decoration: none;
+  transition: 0.32s;
+}
+
+.card:hover {
+  z-index: 3;
+  transform: translateY(-8px);
+  border-color: color-mix(in srgb, var(--k-gold) 48%, transparent);
+  box-shadow: 0 30px 76px #000000b3;
+}
+
+.feature {
+  width: calc((100% - var(--k-gap, 16px)) / 2);
+}
+
+.tile {
+  width: calc((100% - 3 * var(--k-gap, 16px)) / 4);
+}
+
+.media {
+  position: relative;
+  display: block;
+  flex: none;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+/* 9:16 sources get a tall frame so they fill it instead of letterboxing. */
+.portrait {
+  aspect-ratio: 3 / 4;
+}
+
+/*
+ * Holding plate for a company whose artwork has not landed yet.
+ * Deliberately typographic — the brief is artwork or nothing, never a logo
+ * stretched to fill a cover.
+ */
+.awaiting {
+  background:
+    radial-gradient(ellipse 90% 80% at 50% 0%, color-mix(in srgb, var(--k-gold) 10%, transparent), transparent 68%),
+    linear-gradient(160deg, #14100b, #0a0806);
+}
+
+.plate {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12% 10%;
+  text-align: center;
+}
+
+.plate b {
+  color: #f4efe6;
+  font: var(--k-display-weight) clamp(19px, 1.6vw, 27px) / 1.1 var(--k-display);
+  letter-spacing: -0.02em;
+  opacity: 0.5;
+}
+
+.plate i {
+  color: var(--k-gold);
+  font-style: normal;
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.logo {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  z-index: 3;
+  max-width: 108px;
+  max-height: 58px;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 20px #000);
+}
+
+.feature .logo {
+  left: 26px;
+  top: 26px;
+  max-width: 170px;
+  max-height: 92px;
+}
+
+.body {
+  flex: 1;
+  padding: 18px 20px 20px;
+}
+
+.feature .body {
+  padding: 24px 26px 26px;
+}
+
+.status {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--k-gold-soft);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.name {
+  margin: 0 0 6px;
+  font: var(--k-display-weight) clamp(20px, 1.7vw, 28px) / 1 var(--k-display);
+  letter-spacing: -0.03em;
+}
+
+.feature .name {
+  font-size: clamp(32px, 3vw, 50px);
+}
+
+.category {
+  margin: 0 0 12px;
+  color: #ffffff8f;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.open {
+  color: var(--k-gold);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.empty {
+  padding: 60px 0;
+  color: #ffffff7a;
+  font-size: 12px;
+}
+
+@media (max-width: 1240px) {
+  .tile {
+    width: calc((100% - 2 * var(--k-gap, 16px)) / 3);
+  }
+}
+
+@media (max-width: 900px) {
+  .feature,
+  .tile {
+    width: calc((100% - var(--k-gap, 16px)) / 2);
+  }
+}
+
+@media (max-width: 620px) {
+  .feature,
+  .tile {
+    width: 100%;
+  }
+}

@@ -5,23 +5,11 @@ import { notFound } from 'next/navigation';
 import { kollectiveNav, kollectivePages } from '@/lib/kollective-pages';
 import styles from './page.module.css';
 
-const KOLLECTIVE_GRAPHICS =
-  'https://sccmgpssfwhgxefbdwbc.supabase.co/storage/v1/object/public/brand-graphics/kollective';
-const PAGE_GRAPHICS: Record<string, string> = {
-  companies: `${KOLLECTIVE_GRAPHICS}/world-stage.png`,
-  directory: `${KOLLECTIVE_GRAPHICS}/boardroom.png`,
-  links: `${KOLLECTIVE_GRAPHICS}/skyline-negative-space.png`,
-  forms: `${KOLLECTIVE_GRAPHICS}/boardroom.png`,
-  events: `${KOLLECTIVE_GRAPHICS}/world-stage.png`,
-  store: `${KOLLECTIVE_GRAPHICS}/city-road-negative-space.png`,
-  upcoming: `${KOLLECTIVE_GRAPHICS}/skyline-negative-space.png`,
-  network: `${KOLLECTIVE_GRAPHICS}/kollective-home.png`,
-  team: `${KOLLECTIVE_GRAPHICS}/boardroom.png`,
-  access: `${KOLLECTIVE_GRAPHICS}/world-stage.png`,
-};
-
 export function generateStaticParams() {
-  return Object.keys(kollectivePages).map((slug) => ({ slug }));
+  // `/kollective/companies` has its own route now — the live company roster.
+  return Object.keys(kollectivePages)
+    .filter((slug) => slug !== 'companies')
+    .map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -79,12 +67,8 @@ export default async function KollectiveInformationPage({
           {page.facts.map(([value, label]) => <article key={value}><strong>{value}</strong><span>{label}</span></article>)}
         </section>
 
-        <section className={styles.graphicInterlude} aria-label={`${page.title} visual`}>
-          <Image src={PAGE_GRAPHICS[slug] || `${KOLLECTIVE_GRAPHICS}/kollective-home.png`} alt="" fill sizes="100vw" />
-        </section>
-
         <section className={styles.content}>
-          <header><img src="/brand-logos/kollective.png" alt="" /><p>ENTERPRISE BRIEF</p><h2>{page.title}</h2></header>
+          <header><p>ENTERPRISE BRIEF</p><h2>Clear structure.<br />Direct language.</h2></header>
           <div>
             {page.sections.map((section, index) => (
               <article key={section.title}>

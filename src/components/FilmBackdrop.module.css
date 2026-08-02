@@ -1,0 +1,35 @@
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: #060504;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.1s ease;
+  filter: saturate(0.72) contrast(1.05);
+}
+
+.ready {
+  opacity: var(--film-opacity, 0.18);
+}
+
+.shade {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 50%, transparent 8%, #060504cc 78%),
+    linear-gradient(#060504a8, #06050466 42%, #060504d9);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video {
+    display: none;
+  }
+}

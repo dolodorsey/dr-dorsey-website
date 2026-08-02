@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import "./flagship.css";
-import { fontVars } from "@/lib/fonts";
+import "./kollective-surface.css";
+import { brandVariablesCss } from "@/lib/brand-tokens";
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -13,7 +13,6 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://doctordorsey.com"),
   title: "Dr. DoLo Dorsey — The Architect Behind the Enterprise",
   description: "The official platform for Dr. DoLo Dorsey: founder, author, cultural operator, and enterprise architect building the systems behind The Kollective.",
-  alternates: { canonical: '/' },
   keywords: "Dr. Dorsey, DoLo Dorsey, The Kollective, Hakuna Matata, enterprise builder, hospitality, technology, consumer brands, Atlanta",
   openGraph: {
     title: "Dr. DoLo Dorsey — I Build the Machines Behind Culture",
@@ -35,8 +34,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={fontVars}>
+    <html lang="en">
       <head>
+        {/* Brand palettes, emitted from src/lib/brand-tokens.ts so no
+            stylesheet carries a hex and the four properties cannot drift. */}
+        <style dangerouslySetInnerHTML={{ __html: brandVariablesCss() }} />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -53,10 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body suppressHydrationWarning>
-        <a className="skip-link" href="#main-content">Skip to main content</a>
-        {children}
-      </body>
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

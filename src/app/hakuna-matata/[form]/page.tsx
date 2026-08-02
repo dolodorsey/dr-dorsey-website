@@ -8,8 +8,7 @@ const FORMS = new Set([
   'general-inquiry',
 ]);
 
-export default async function HakunaMatataFormAlias(props: { params: Promise<{ form: string }> }) {
-  const params = await props.params;
+export default function HakunaMatataFormAlias({ params }: { params: { form: string } }) {
   if (!FORMS.has(params.form)) notFound();
   redirect(`https://khg-forms.vercel.app/hakuna-matata/${params.form}`);
 }

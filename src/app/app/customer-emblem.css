@@ -1,0 +1,13 @@
+[class*="customer-app_emblem"],
+[class*="customer-app_profileMark"] {
+  color: transparent !important;
+  font-size: 0 !important;
+  background-image: none !important;
+}
+
+[class*="customer-app_emblem"] img,
+[class*="customer-app_profileMark"] img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}

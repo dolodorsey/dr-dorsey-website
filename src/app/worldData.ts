@@ -1,30 +1,23 @@
+import { motion, type MotionAsset } from '@/lib/motion';
+
 export type World = {
   title: string;
   eyebrow: string;
   intro: string;
   image: string;
-  items: { title: string; eyebrow: string; detail: string; href: string; image?: string }[];
+  items: {
+    title: string;
+    eyebrow: string;
+    detail: string;
+    href: string;
+    image?: string;
+    /** Animated cover. Overrides the name-based lookup in MotionCover. */
+    animation?: MotionAsset;
+  }[];
   videos?: { title: string; src: string; href: string }[];
 };
 
 export const worlds: Record<string, World> = {
-  companies: {
-    title: 'THE ENTERPRISE ARCHITECTURE.',
-    eyebrow: 'Companies / departments / worlds',
-    intro: 'The founder’s enterprise is not one generic portfolio. Every department has its own language, audience, economics, and atmosphere—connected through one operating architecture.',
-    image: '/dorsey/enterprise.webp',
-    items: [
-      { title: 'Entertainment', eyebrow: 'Culture', detail: 'Music, nightlife, events, programming, media, and original cultural IP.', href: 'https://111atl.com' },
-      { title: 'Apps / Tech', eyebrow: 'Platforms', detail: 'GOOD TIMES, On Call and S.O.S. are active; Luxe on Demand and The Law are in development; The Vote is in planning.', href: '/directory' },
-      { title: 'Products / Shop', eyebrow: 'Commerce', detail: 'Fashion, books, wellness, art, water, and beverages.', href: '/store' },
-      { title: 'Water Sourcing', eyebrow: 'Infrastructure', detail: 'Aquifer, source, supply, distribution, stewardship, and resilience.', href: '/network' },
-      { title: 'Beverages', eyebrow: 'Consumer', detail: 'Infinity Water, Tribal Water, The Tribe Wine, and Pronto Energy.', href: '/network' },
-      { title: 'Help 911', eyebrow: 'Response', detail: 'An active human-centered response network for the moments people need help.', href: 'https://www.help911.help' },
-      { title: 'Philanthropy', eyebrow: 'Impact', detail: 'Sole Exchange, Playmakers Sports Association, Members Elite, youth, access, and education.', href: 'https://soleexchangeworldwide.com' },
-      { title: 'Casper Group', eyebrow: 'Hospitality / 12 brands', detail: 'American Dragon, Peace Pizza, Taco Yaki, Pasta Bish, Angel Wings, and seven more concepts.', href: 'https://caspergroupworldwide.com' },
-      { title: 'Umbrella Group', eyebrow: 'Services', detail: 'Property, mobility, cleaning, accounting, travel, wellness, people operations, and support.', href: 'https://theumbrella.group' },
-    ],
-  },
   links: {
     title: 'EVERY PUBLIC DOOR.',
     eyebrow: 'The Dr. Dorsey links',
@@ -40,27 +33,27 @@ export const worlds: Record<string, World> = {
     ],
   },
   store: {
-    title: 'THE STORES.',
-    eyebrow: 'Shop the enterprise',
-    intro: 'Distinct storefronts for fashion, culture, lifestyle, and original products.',
+    title: 'THE PORTFOLIO, IN HAND.',
+    eyebrow: 'Shop / wear / read / drink',
+    intro: 'Products built with an identity: fashion, founder media, premium water, and energy.',
     image: '/dorsey/book-office.png',
     items: [
-      { title: 'Bodega', eyebrow: 'Main product store', detail: 'The central commerce home for enterprise product releases.', href: 'https://bodegabodegabodega.com', image: '/brand-logos/bodega.png' },
+      { title: 'Hakuna Matata', eyebrow: 'Book', detail: 'The mindset behind the machine.', href: 'https://bodgeaworldwide.myshopify.com/products/hakuna-matata-by-dr-dorsey', image: '/dorsey/book-cover.png' },
       { title: 'STUSH', eyebrow: 'Fashion', detail: 'Original apparel and elevated streetwear.', href: 'https://stushusa.com', image: '/dorsey/current/stush-fashion.jpg' },
-      { title: 'Make Atlanta Great Again', eyebrow: 'Atlanta culture', detail: 'Original Atlanta apparel and cultural products.', href: 'https://thaoldatlanta.com', image: '/brand-logos/make-atlanta-great-again.png' },
-      { title: 'PULSE', eyebrow: 'Lifestyle', detail: 'Movement-led products built for an active life.', href: 'https://bodegabodegabodega.com', image: '/brand-logos/pulse.png' },
-      { title: 'MYXX', eyebrow: 'Lifestyle', detail: 'A distinct product world inside the Bodega portfolio.', href: 'https://bodegabodegabodega.com', image: '/brand-logos/myxx.png' },
-      { title: 'Hakuna Matata', eyebrow: 'Book', detail: 'The founder’s field manual for life, leadership, and building.', href: 'https://bodgeaworldwide.myshopify.com/products/hakuna-matata-by-dr-dorsey', image: '/dorsey/book-cover.png' },
+      { title: 'Pronto Energy', eyebrow: 'Beverages', detail: 'An active energy brand designed for movement.', href: 'https://prontoenergydrink.com', image: '/dorsey/current/pronto-energy.jpg' },
+      { title: 'Infinity Water', eyebrow: 'Premium water', detail: 'An active premium-water brand at the intersection of hydration and hospitality.', href: 'https://watertoinfinity.com', image: '/dorsey/current/infinity-water.jpg' },
     ],
   },
   upcoming: {
-    title: 'UPCOMING ACTIVATIONS.',
-    eyebrow: 'Seasonal experiences',
-    intro: 'The next large-format worlds currently moving through production.',
-    image: '/dorsey/current/winter-wonderland.png',
+    title: 'WHAT I’M BUILDING NEXT.',
+    eyebrow: 'Upcoming / in development',
+    intro: 'A selective view into concepts moving through design, partnerships, production, and market readiness.',
+    image: '/dorsey/architect.webp',
     items: [
-      { title: 'HugLife Haunted House', eyebrow: 'Fall activation', detail: 'An immersive seasonal HugLife experience now in development.', href: '/forms/inquiry', image: '/brand-logos/kollective.png' },
-      { title: 'The Winter Wonderland', eyebrow: 'Winter activation', detail: 'A large-format winter environment built for gathering, spectacle, and return visits.', href: '/forms/inquiry', image: '/dorsey/current/winter-wonderland.png' },
+      { title: 'Hospitality Expansion', eyebrow: 'Casper Group / 12 brands', detail: 'A full licensing portfolio with original concepts built for new markets.', href: 'https://caspergroupworldwide.com' },
+      { title: 'Water Infrastructure', eyebrow: 'Source to product', detail: 'Connected systems across Aquifer, Nativa, Everyday, and Tribal Water.', href: '/network' },
+      { title: 'Product Releases', eyebrow: 'Commerce', detail: 'New fashion, beverage, publishing, and consumer drops.', href: '/store' },
+      { title: 'Platform Expansion', eyebrow: 'Apps / Tech', detail: 'On Call and S.O.S. are active; Luxe on Demand and The Law are in development.', href: '/directory' },
     ],
   },
   network: {
@@ -88,16 +81,17 @@ export const worlds: Record<string, World> = {
     ],
   },
   team: {
-    title: 'THE PEOPLE BEHIND THE WORK.',
-    eyebrow: 'Leadership / operators / specialists',
-    intro: 'A founder-led team and accountable operating network built around distinct companies.',
+    title: 'FOUNDER-LED. NETWORK-POWERED.',
+    eyebrow: 'Team / specialists / operators',
+    intro: 'The enterprise assembles the right specialists around each world while preserving one founder-led direction and one standard.',
     image: '/dorsey/profile.webp',
     items: [
       { title: 'Dr. Dorsey', eyebrow: 'Founder & CEO', detail: 'Enterprise vision, architecture, culture, and strategic direction.', href: '/forms/consultation' },
-      { title: 'Hospitality Leadership', eyebrow: 'Operations', detail: 'Venue, food, licensing, guest experience, and accountable execution.', href: '/forms/inquiry' },
-      { title: 'Creative Leadership', eyebrow: 'Identity & culture', detail: 'Brand worlds, campaigns, programming, and storytelling.', href: '/forms/inquiry' },
-      { title: 'Technology Leadership', eyebrow: 'Platforms & systems', detail: 'Consumer experiences, data, and enterprise tools.', href: '/forms/inquiry' },
-      { title: 'Infrastructure Leadership', eyebrow: 'Water & institutions', detail: 'Sourcing, supply, distribution, education, and long-term systems.', href: '/network' },
+      { title: 'Hospitality Operations', eyebrow: 'Operators', detail: 'Venue, food, licensing, guest experience, and execution.', href: '/forms/hiring_inquiry' },
+      { title: 'Creative & Culture', eyebrow: 'Identity', detail: 'Brand worlds, campaigns, programming, and storytelling.', href: '/forms/what_you_do' },
+      { title: 'Technology & Product', eyebrow: 'Systems', detail: 'Platforms, consumer experiences, data, and enterprise tools.', href: '/forms/what_you_do' },
+      { title: 'Water & Infrastructure', eyebrow: 'Long-term systems', detail: 'Sourcing, supply, distribution, products, and education.', href: '/network' },
+      { title: 'Partnership Network', eyebrow: 'Growth', detail: 'Sponsors, vendors, specialists, properties, and collaborators.', href: '/forms/sponsor' },
     ],
   },
 };

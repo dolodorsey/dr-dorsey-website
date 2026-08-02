@@ -2,146 +2,29 @@
 
 import { useEffect, useState } from 'react';
 import styles from './home.module.css';
-import upgrade from './dorsey-upgrade.module.css';
 import { BOOK_URL } from '@/lib/enterprise';
+import MotionCover from '@/components/MotionCover';
+import DepartmentGrid from '@/components/DepartmentGrid';
+import FilmBackdrop from '@/components/FilmBackdrop';
+import { motion } from '@/lib/motion';
 
-const worlds = [
-  {
-    number: '01',
-    name: 'Culture',
-    line: 'I create the moments people remember.',
-    detail: 'Hospitality, nightlife, music, live programming, and original cultural IP built from the inside of the room.',
-  },
-  {
-    number: '02',
-    name: 'Companies',
-    line: 'I turn ideas into independent identities.',
-    detail: 'Distinct brands with their own audience, offer, visual system, route to market, and reason to exist.',
-  },
-  {
-    number: '03',
-    name: 'Systems',
-    line: 'I build the machine behind the magic.',
-    detail: 'Shared operating intelligence, technology, data, creative direction, partnerships, and repeatable execution.',
-  },
-  {
-    number: '04',
-    name: 'Legacy',
-    line: 'I design for what survives the moment.',
-    detail: 'Education, institutions, water, ownership, mentorship, and infrastructure built to outlive a trend.',
-  },
-];
-
-const rules = [
-  ['01', 'Identity before attention.', 'The goal is not to look busy. The goal is to become unmistakable.'],
-  ['02', 'Culture is an operating system.', 'It shapes the product, the room, the language, the customer, and the standard.'],
-  ['03', 'Make the world feel complete.', 'A company becomes powerful when every detail reinforces the same belief.'],
-  ['04', 'Build the route to action.', 'Discovery should end in a move: buy, book, join, partner, invest, or enter.'],
-  ['05', 'Own the outcome.', 'Ideas do not compound until systems make execution repeatable.'],
-];
-
+/**
+ * The first two entries render as the large featured pair.
+ * Everything after them renders four across.
+ */
 const currentMoves = [
-  { name: 'GOOD TIMES', kind: 'The culture calendar', image: '/brand-logos/good-times.png', href: 'https://www.thegoodtimesworldwide.com' },
-  { name: 'Taste of Art', kind: 'Art show / event series', image: '/brand-logos/taste-of-art.png', href: 'https://thatasteofart.com' },
-  { name: 'GROWN-ISH', kind: 'Nightlife event series', image: '/brand-logos/grown-ish.png', href: 'https://111atl.com/company.html?brand=grown-ish' },
-  { name: 'STUSH', kind: 'Fashion', image: '/brand-logos/stush.png', href: 'https://stushusa.com' },
-  { name: 'Pronto Energy', kind: 'Active beverage brand', image: '/brand-logos/pronto-energy.png', href: 'https://prontoenergydrink.com' },
-  { name: 'Infinity Water', kind: 'Active water brand', image: '/brand-logos/infinity-water.png', href: 'https://watertoinfinity.com' },
-  { name: 'Bodega', kind: 'Main product store', image: '/brand-logos/bodega.png', href: 'https://bodegabodegabodega.com' },
-  { name: 'Make Atlanta Great Again', kind: 'Atlanta culture store', image: '/brand-logos/make-atlanta-great-again.png', href: 'https://thaoldatlanta.com' },
-  { name: 'PULSE', kind: 'Lifestyle product world', image: '/brand-logos/pulse.png', href: 'https://bodegabodegabodega.com' },
-  { name: 'Hakuna Matata', kind: 'Founder field manual', image: '/dorsey/book-cover.png', href: BOOK_URL },
+  { name: 'GOOD TIMES', kind: 'The culture calendar', image: '/dorsey/current/good-times.jpg', href: 'https://www.thegoodtimesworldwide.com' },
+  { name: 'Taste of Art', kind: 'August 22 · Atlanta', image: '/dorsey/current/taste-of-art.jpg', href: 'https://www.eventbrite.com/e/the-taste-of-art-aug-22-tickets-1988881972519' },
+  { name: 'GROWN-ISH', kind: 'August 7 · Atlanta', image: '/dorsey/current/grownish.jpg', href: 'https://www.eventbrite.com/e/the-grown-ish-aug-07-tickets-1988881854165' },
+  { name: 'STUSH', kind: 'Fashion', image: '/dorsey/current/stush-fashion.jpg', href: 'https://stushusa.com' },
+  { name: 'Pronto Energy', kind: 'Active beverage brand', image: '/dorsey/current/pronto-energy.jpg', href: 'https://prontoenergydrink.com' },
+  { name: 'Infinity Water', kind: 'Active water brand', image: '/dorsey/current/infinity-water.jpg', href: 'https://watertoinfinity.com' },
+  { name: 'Sole Exchange', kind: 'Impact · Philanthropy', href: 'https://soleexchangeworldwide.com' },
+  { name: 'Help 911', kind: 'Response network', href: 'https://www.help911.help' },
+  { name: 'The University', kind: 'Trades · Workforce · Ownership', href: 'https://the-university.vercel.app' },
+  { name: 'Hakuna Matata', kind: 'The founder’s field manual', href: BOOK_URL },
 ];
 
-const ENTITY_CDN =
-  'https://sccmgpssfwhgxefbdwbc.supabase.co/storage/v1/object/public/entity-motion/dorsey';
-
-const entityMotion = [
-  {
-    number: '01',
-    title: 'AQUIFER',
-    note: 'Water infrastructure / stewardship',
-    video: `${ENTITY_CDN}/aquifer.mp4`,
-    poster: '/dorsey/editorial/entity-network-green.png',
-    href: 'https://aquifer-waterworks.vercel.app',
-  },
-  {
-    number: '02',
-    title: 'EVERYDAY',
-    note: 'Daily culture / lifestyle',
-    video: `${ENTITY_CDN}/everyday.mp4`,
-    poster: '/dorsey/editorial/entity-gallery-light.png',
-    href: 'https://everyday-water-group.vercel.app',
-  },
-  {
-    number: '03',
-    title: 'THE ROSE BAR',
-    note: 'Hospitality / nightlife',
-    video: `${ENTITY_CDN}/rose-bar.mp4`,
-    poster: '/brand-logos/rose-on-piedmont.png',
-    href: 'https://111atl.com/company.html?brand=rose-on-piedmont',
-  },
-  {
-    number: '04',
-    title: 'TRAILBLAZER',
-    note: 'Leadership / new markets',
-    video: `${ENTITY_CDN}/trailblazer.mp4`,
-    poster: '/dorsey/editorial/city-architect.png',
-    href: 'https://111atl.com/forms/inquiry?brand=trailblazers',
-  },
-  {
-    number: '05',
-    title: 'TRIBAL WATER',
-    note: 'Community water / impact',
-    video: `${ENTITY_CDN}/tribal-water.mp4`,
-    poster: '/dorsey/editorial/entity-network-green.png',
-    href: 'https://tribal-water.vercel.app',
-  },
-  {
-    number: '06',
-    title: 'THE TRIBE',
-    note: 'Membership / shared progress',
-    video: `${ENTITY_CDN}/tribe.mp4`,
-    poster: '/dorsey/editorial/entity-wall-red.png',
-    href: 'https://the-tribe-wine.vercel.app',
-  },
-  {
-    number: '07',
-    title: 'THE UNIVERSITY',
-    note: 'Education / ownership / legacy',
-    video: `${ENTITY_CDN}/university.mp4`,
-    poster: '/dorsey/editorial/mind-behind-movement.png',
-    href: 'https://the-university.vercel.app',
-  },
-  {
-    number: '08',
-    title: 'INFINITY WATER',
-    note: 'Luxury water / elemental design',
-    video: `${ENTITY_CDN}/infinity-water.mp4`,
-    poster: '/dorsey/current/infinity-water.jpg',
-    href: 'https://watertoinfinity.com',
-  },
-  {
-    number: '09',
-    title: 'PRONTO ENERGY',
-    note: 'Energy / flavor multiverse',
-    video: `${ENTITY_CDN}/pronto-energy.mp4`,
-    poster: '/dorsey/editorial/dorsey-kollective-legacy.png',
-    href: 'https://prontoenergydrink.com',
-  },
-];
-
-const siteWorlds = [
-  ['Companies', 'The full enterprise architecture', '/companies'],
-  ['Directory', 'Every company and entity record', '/directory'],
-  ['Links', 'One page for every public move', '/links'],
-  ['Forms', 'Strategy, speaking, careers, vendors', '/forms'],
-  ['Events', 'What is happening now', '/events'],
-  ['Store', 'Fashion, books, water, energy', '/store'],
-  ['Upcoming', 'What is moving through the pipeline', '/upcoming'],
-  ['Network', 'The Tribe and water ecosystem', '/network'],
-  ['Team', 'Leadership and specialist network', '/team'],
-];
 
 export default function HomePage() {
   const [menu, setMenu] = useState(false);
@@ -157,7 +40,7 @@ export default function HomePage() {
   }, [menu]);
 
   return (
-    <main id="main-content" className={styles.page}>
+    <main className={styles.page}>
       <nav className={styles.nav}>
         <a className={styles.navBrand} href="#top" aria-label="Dr. Dorsey home">
           <img src="/dorsey/logo.png" alt="Dr. Dorsey" />
@@ -190,95 +73,50 @@ export default function HomePage() {
         <a href="/links">All Links <span>05</span></a>
       </div>
 
-      <section className={upgrade.hero} id="top" aria-label="Dr. Dorsey introduction">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster="/dorsey/editorial/dorsey-kollective-legacy.png"
-          aria-hidden="true"
-        >
+      <section className={styles.hero} id="top">
+        <video className={styles.heroFilm} autoPlay muted loop playsInline>
           <source src="/dorsey/motion/founder-hero.mp4" type="video/mp4" />
         </video>
-        <h1 className={upgrade.srOnly}>Dr. Dorsey — founder, architect, investor, and cultural strategist</h1>
-        <a className={upgrade.heroCue} href="#entity-motion" aria-label="Continue to the Dr. Dorsey company portfolio" />
-      </section>
-
-      <section className={upgrade.motion} id="entity-motion">
-        <header>
-          <p>One founder / many independent worlds</p>
-          <h2>THE ENTITIES<br /><em>MOVE.</em></h2>
-          <span>
-            Every company holds its own identity. Together, they reveal the
-            architecture behind the work.
-          </span>
-        </header>
-        <div className={upgrade.motionGrid}>
-          {entityMotion.map((item) => (
-            <a href={item.href} className={upgrade.motionCard} key={item.number}>
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                poster={item.poster}
-                aria-hidden="true"
-              >
-                <source src={item.video} type="video/mp4" />
-              </video>
-              <div>
-                <span>{item.number}</span>
-                <p>{item.note}</p>
-                <h3>{item.title}</h3>
-                <b>Explore ↗</b>
-              </div>
-            </a>
-          ))}
-        </div>
-        <a className={upgrade.allEntities} href="/directory">
-          <span>60+ brands, companies, concepts, and systems</span>
-          <b>Open the complete directory ↗</b>
+        <div className={styles.heroFilmShade} />
+        <a className={styles.heroBook} href={BOOK_URL}>
+          <img src="/dorsey/book-cover.png" alt="Hakuna Matata by Dr. Dorsey" />
+          <span>Buy the book <b>↗</b></span>
         </a>
       </section>
 
-      <section className={upgrade.editorial}>
-        <figure className={upgrade.editorialLead}>
-          <img src="/dorsey/editorial/mind-behind-movement.png" alt="Dr. Dorsey — the mind behind the movement" />
-        </figure>
-        <div className={upgrade.editorialPair}>
-          <figure>
-            <img src="/dorsey/editorial/entity-gallery-light.png" alt="The Dr. Dorsey and Kollective enterprise gallery" />
-            <figcaption><span>01 / Architecture</span><b>Independent identities. Shared intelligence.</b></figcaption>
-          </figure>
-          <figure>
-            <img src="/dorsey/editorial/entity-wall-red.png" alt="Dr. Dorsey surrounded by the enterprise entity portfolio" />
-            <figcaption><span>02 / Portfolio</span><b>A living system of culture and commerce.</b></figcaption>
-          </figure>
+      <section className={`${styles.current} k-surface k-surface-deep`} id="departments">
+        <FilmBackdrop animation={motion.kollectiveGlobal} opacity={0.16} />
+        <header>
+          <p className={styles.kicker}>The departments</p>
+          <h2>NINE DEPARTMENTS. <em>ONE ENTERPRISE.</em></h2>
+          <span>Every department runs its own companies, audience, economics, and atmosphere.</span>
+        </header>
+        <DepartmentGrid />
+        <div className={styles.departmentsCta}>
+          <a href="/companies">See every company ↗</a>
+          <a href="/directory">Open the directory ↗</a>
         </div>
       </section>
 
-      <section className={styles.current} id="current">
+      <section className={`${styles.current} k-surface k-emblem k-edge`}>
         <header>
           <p className={styles.kicker}>Current / moving now</p>
           <h2>THE WORK IS <em>ALIVE.</em></h2>
           <span>Events, products, campaigns, and releases with a direct route to action.</span>
         </header>
         <div className={styles.currentGrid}>
-          {currentMoves.map((item, index) => (
-            <a href={item.href} className={`${styles[`current${index + 1}`]} ${upgrade.logoCard}`} key={item.name}>
-              <img src={item.image} alt={item.name} />
+          {currentMoves.map((item) => (
+            <a href={item.href} className={styles.currentTile} key={item.name}>
+              <MotionCover name={item.name} image={item.image} alt={item.name} veil />
               <div><small>{item.kind}</small><h3>{item.name}</h3><b>Enter ↗</b></div>
             </a>
           ))}
         </div>
       </section>
 
-      <section className={styles.manifesto}>
+      <section className={`${styles.manifesto} k-surface k-surface-warm k-collage k-inverted`}>
         <div className={styles.manifestoImage}>
-          <img src="/dorsey/editorial/founder-lounge.png" alt="Dr. Dorsey in the founder lounge" />
+          <img src="/dorsey/manifesto.webp" alt="Dr. Dorsey manifesto" />
         </div>
         <div className={styles.manifestoCopy}>
           <p>The founder’s code</p>
@@ -301,7 +139,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className={styles.architect} id="architect">
+      <section className={`${styles.architect} k-surface k-emblem k-emblem-left`} id="architect">
         <div className={styles.architectCopy}>
           <p className={styles.kicker}>The architect / not the influencer</p>
           <h2>
@@ -328,35 +166,15 @@ export default function HomePage() {
           </div>
         </div>
         <div className={styles.architectVisual}>
-          <img src="/dorsey/editorial/city-architect.png" alt="Dr. Dorsey — The Architect" />
+          <img src="/dorsey/architect.webp" alt="Dr. Dorsey — The Architect" />
           <span>Founder / Builder / Architect of Culture</span>
         </div>
       </section>
 
-      <section className={styles.worlds} id="worlds">
-        <header>
-          <p className={styles.kicker}>What I actually build</p>
-          <h2>
-            FOUR DISCIPLINES.
-            <br />
-            <em>ONE PRACTICE.</em>
-          </h2>
-        </header>
-        <div className={styles.worldGrid}>
-          {worlds.map((world) => (
-            <article key={world.number}>
-              <span>{world.number}</span>
-              <h3>{world.name}</h3>
-              <blockquote>{world.line}</blockquote>
-              <p>{world.detail}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className={styles.enterprise}>
+      <section className={`${styles.enterprise} k-surface k-surface-deep`}>
+        <FilmBackdrop animation={motion.kollectiveNetwork} opacity={0.14} />
         <div className={styles.enterpriseVisual}>
-          <img src="/dorsey/editorial/entity-network-green.png" alt="The Kollective enterprise network" />
+          <img src="/dorsey/enterprise.webp" alt="The Kollective enterprise overview" />
         </div>
         <div className={styles.enterpriseCopy}>
           <img src="/dorsey/kollective.png" alt="The Kollective" />
@@ -378,34 +196,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className={styles.casper}>
-        <video autoPlay muted loop playsInline>
-          <source src="/dorsey/motion/casper-group.mp4" type="video/mp4" />
-        </video>
-        <div>
-          <p className={styles.kicker}>Hospitality / food / licensing</p>
-          <h2>THE CASPER GROUP.</h2>
-          <a href="https://caspergroupworldwide.com">Enter the portfolio ↗</a>
-        </div>
-      </section>
-
-      <section className={styles.rules}>
-        <header>
-          <p className={styles.kicker}>Field notes</p>
-          <h2>THE RULES I BUILD BY.</h2>
-        </header>
-        <div>
-          {rules.map(([number, title, detail]) => (
-            <article key={number}>
-              <span>{number}</span>
-              <h3>{title}</h3>
-              <p>{detail}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className={styles.book} id="book">
+      <section className={`${styles.book} k-surface k-emblem`} id="book">
         <div className={styles.bookCopy}>
           <p className={styles.kicker}>The founder’s field manual</p>
           <h2>
@@ -425,12 +216,12 @@ export default function HomePage() {
           </div>
         </div>
         <div className={styles.bookVisual}>
-          <img src="/dorsey/book-office.png" alt="Hakuna Matata by Dr. Dorsey" />
+          <MotionCover animation={motion.hakunaMatata} alt="Hakuna Matata by Dr. Dorsey" />
         </div>
       </section>
 
-      <section className={styles.letter}>
-        <img src="/dorsey/editorial/golf-legacy.png" alt="Dr. Dorsey building legacy on and off the course" />
+      <section className={`${styles.letter} k-surface k-surface-warm k-emblem k-inverted`}>
+        <img src="/dorsey/letter.webp" alt="A letter from Dr. Dorsey" />
         <div>
           <p className={styles.kicker}>A note from Dorsey</p>
           <blockquote>
@@ -441,7 +232,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className={styles.access} id="access">
+      <section className={`${styles.access} k-surface k-surface-deep k-edge`} id="access">
         <p className={styles.kicker}>Direct access / choose the move</p>
         <h2>
           STRATEGY. SPEAKING.
@@ -455,15 +246,6 @@ export default function HomePage() {
           <a href={BOOK_URL}><span>04</span><b>Hakuna Matata</b><small>Order the book</small><i>↗</i></a>
           <a href="/kollective"><span>05</span><b>The Enterprise</b><small>Explore The Kollective</small><i>↗</i></a>
           <a href="/access"><span>06</span><b>All Access</b><small>Every link and form</small><i>↗</i></a>
-        </div>
-      </section>
-
-      <section className={styles.siteMap}>
-        <header><p className={styles.kicker}>The complete platform</p><h2>EVERY DOOR IS <em>OPEN.</em></h2></header>
-        <div>
-          {siteWorlds.map(([name, note, href], index) => (
-            <a href={href} key={name}><span>{String(index + 1).padStart(2, '0')}</span><h3>{name}</h3><p>{note}</p><b>↗</b></a>
-          ))}
         </div>
       </section>
 

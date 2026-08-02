@@ -1,4 +1,5 @@
 export type BrandStatus = 'flagship' | 'active' | 'seasonal' | 'legacy' | 'dev';
+import { isRetired } from '@/lib/roster';
 
 export interface Brand {
   name: string;
@@ -13,7 +14,7 @@ export interface Brand {
 
 const SB = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics';
 
-export const brands: Brand[] = [
+const allBrands: Brand[] = [
   { name: 'HugLife Events', division: 'Events', status: 'flagship', featured: true, logo: `${SB}/huglife_events/00-brand-assets/logos/huglife-logo-buddha-black.png`, website: 'https://huglife.vercel.app' },
   { name: 'Forever Futbol', division: 'Museums', status: 'flagship', featured: true, logo: `${SB}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png`, website: 'https://forever-futbol.vercel.app' },
   { name: 'Casper Group', division: 'F&B', status: 'flagship', featured: true, logo: `${SB}/casper_group/logos/casper-white.png`, website: 'https://casper-group.vercel.app' },
@@ -46,6 +47,10 @@ export const brands: Brand[] = [
   { name: 'ICONIC', division: 'Events', status: 'active', logo: `${SB}/dr_dorsey/00-brand-assets/logos/iconic-logo-gold.png` },
   { name: 'Pawchella', division: 'Events', status: 'seasonal', flyer: `${SB}/pawchella/03_event_flyers/PAWCHELLA_MAIN.JPEG`, website: 'https://pawchella-event.vercel.app' },
 ];
+
+/** Retired brands are dropped enterprise-wide. */
+export const brands: Brand[] = allBrands.filter((brand) => !isRetired(brand.name));
+
 
 export const statusColors: Record<BrandStatus, string> = {
   flagship: '#C8A96E',

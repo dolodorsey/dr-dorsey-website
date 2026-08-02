@@ -1,0 +1,152 @@
+.page {
+  --gold: #c8a35a;
+  --gold2: #efd492;
+  min-height: 100vh;
+  color: #f4efe6;
+  font-family: var(--font-geist), Arial, sans-serif;
+}
+
+.nav {
+  position: fixed;
+  z-index: 100;
+  inset: 0 0 auto;
+  height: 64px;
+  padding: 0 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #070706e8;
+  border-bottom: 1px solid #ffffff1c;
+  backdrop-filter: blur(13px);
+}
+
+.navLogo {
+  width: 142px;
+  height: 38px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.nav a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.nav div {
+  display: flex;
+  gap: 26px;
+}
+
+.nav div a {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.hero {
+  position: relative;
+  padding: 150px 5vw 66px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.kicker {
+  margin: 0 0 16px;
+  color: var(--gold2);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  max-width: 1180px;
+  margin-inline: auto;
+  font: 400 clamp(52px, 7.4vw, 118px) / 0.84 Georgia, serif;
+  letter-spacing: -0.06em;
+}
+
+.hero h1 em {
+  color: var(--gold);
+  font-weight: 400;
+}
+
+.hero p {
+  max-width: 640px;
+  margin: 26px auto 0;
+  color: #ffffff9c;
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.body {
+  padding: 54px 5vw 100px;
+}
+
+.inner {
+  width: 100%;
+  max-width: var(--k-max, 1720px);
+  margin-inline: auto;
+}
+
+.footer {
+  padding: 44px 5vw;
+  max-width: var(--k-max, 1720px);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  border-top: 1px solid #ffffff1c;
+}
+
+.footerLogo {
+  width: 128px;
+  height: 34px;
+  object-fit: contain;
+}
+
+.footer p {
+  margin: 0;
+  color: #ffffff7a;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.footer a {
+  color: var(--gold);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+@media (max-width: 900px) {
+  .nav {
+    height: 58px;
+    padding: 0 18px;
+  }
+
+  .nav div {
+    display: none;
+  }
+
+  .hero {
+    padding: 120px 20px 44px;
+  }
+
+  .body {
+    padding: 40px 20px 80px;
+  }
+
+  .footer {
+    padding: 34px 20px;
+    flex-direction: column;
+    text-align: center;
+  }
+}

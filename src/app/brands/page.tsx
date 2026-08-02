@@ -1,4 +1,5 @@
 'use client';
+import { isRetired } from '@/lib/roster';
 import { useEffect, useRef, useState } from 'react';
 
 const SB = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics';
@@ -31,7 +32,7 @@ interface Division {
   brands: BrandItem[];
 }
 
-const DIVISIONS: Division[] = [
+const ALL_DIVISIONS: Division[] = [
   {
     name: 'HugLife × ICONIC',
     tagline: 'The Night District',
@@ -137,6 +138,11 @@ const DIVISIONS: Division[] = [
     ]
   },
 ];
+/** Retired brands are dropped, and a division emptied by that is dropped too. */
+const DIVISIONS: Division[] = ALL_DIVISIONS
+  .map((division) => ({ ...division, brands: division.brands.filter((b) => !isRetired(b.name)) }))
+  .filter((division) => division.brands.length > 0);
+
 
 const statusBadge = (s: string) => {
   const colors: Record<string,string> = { flagship:'#C8A96E', active:'rgba(111,168,111,0.9)', seasonal:'rgba(111,143,168,0.9)', development:'rgba(168,111,111,0.7)' };

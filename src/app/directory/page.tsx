@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import styles from './directory.module.css';
+import { isRetired } from '@/lib/roster';
 
 type Destination = {
   action_key: string;
@@ -49,7 +50,12 @@ export default function EnterpriseDirectoryPage() {
       .then((payload) => {
         if (active) {
           const records = Array.isArray(payload.entities) ? payload.entities : [];
-          setEntities(records.filter((entity: Entity) => !/\bnation\b|sovereign/i.test(`${entity.name} ${entity.slug}`)));
+          setEntities(
+            records.filter(
+              (entity: Entity) =>
+                !/nation|sovereign/i.test(`${entity.name} ${entity.slug}`) && !isRetired(entity.name),
+            ),
+          );
         }
       })
       .catch((error) => console.error('enterprise_directory_load_failed', error))
@@ -101,10 +107,8 @@ export default function EnterpriseDirectoryPage() {
             return (
               <article className={styles.card} key={entity.id}>
                 <a className={styles.media} href={profileUrl(entity.slug)}>
-                  {entity.hero_url ? <img className={styles.cover} src={entity.hero_url} alt={`${entity.name} visual`} /> : null}
-                  {entity.logo_url
-                    ? <img className={entity.hero_url ? styles.logo : styles.logoCover} src={entity.logo_url} alt={`${entity.name} logo`} />
-                    : <div className={styles.identityPending}><span>Identity artwork in preparation</span></div>}
+                  {entity.hero_url ? <img className={styles.cover} src={entity.hero_url} alt={`${entity.name} visual`} /> : <div className={styles.fallback}>{entity.name.slice(0, 2)}</div>}
+                  {entity.logo_url && <img className={styles.logo} src={entity.logo_url} alt={`${entity.name} logo`} />}
                   <b>{String(index + 1).padStart(3, '0')}</b>
                 </a>
                 <div className={styles.copy}>

@@ -1,3 +1,5 @@
+import { pruneNames } from '@/lib/roster';
+
 export const SB = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics';
 
 export const BOOK_URL = 'https://bodgeaworldwide.myshopify.com/products/hakuna-matata-by-dr-dorsey';
@@ -9,7 +11,6 @@ export type BrandCard = {
   name: string;
   category: string;
   logo?: string;
-  heroUrl?: string;
   href: string;
   status: string;
   actionLabel?: string;
@@ -20,7 +21,7 @@ export const currentFocusBrands: BrandCard[] = [
   {
     name: 'Dr. Dorsey',
     category: 'Founder · Author · Strategist',
-    logo: '/brand-logos/dr-dorsey.png',
+    logo: `${SB}/dr_dorsey/01_logos/DorseyNewW.png`,
     href: 'https://doctordorsey.com',
     status: 'Founder Platform',
     actionLabel: 'Enter',
@@ -29,8 +30,8 @@ export const currentFocusBrands: BrandCard[] = [
   {
     name: 'The Kollective ENT.',
     category: 'Enterprise Command',
-    logo: '/brand-logos/kollective.png',
-    href: '/kollective',
+    logo: `${SB}/dr_dorsey/01_logos/KOLLECTIVEemblemW.png`,
+    href: 'https://thekollectivehospitality.com',
     status: 'Enterprise',
     actionLabel: 'Explore',
     destinationType: 'website',
@@ -38,7 +39,6 @@ export const currentFocusBrands: BrandCard[] = [
   {
     name: 'The Tribe — Memphis',
     category: 'Community · Enterprise',
-    logo: '/brand-logos/trailblazers.png',
     href: 'https://the-tribe-wine.vercel.app',
     status: 'Building',
     actionLabel: 'View Platform',
@@ -47,7 +47,6 @@ export const currentFocusBrands: BrandCard[] = [
   {
     name: 'The University',
     category: 'Trades · Workforce · Ownership',
-    logo: '/brand-logos/the-university.png',
     href: 'https://the-university.vercel.app',
     status: 'Building',
     actionLabel: 'Explore Programs',
@@ -56,7 +55,6 @@ export const currentFocusBrands: BrandCard[] = [
   {
     name: 'Everyday Water Group',
     category: 'Water Enterprise',
-    logo: '/brand-logos/everyday-water-group.png',
     href: 'https://everyday-water-group.vercel.app',
     status: 'Building',
     actionLabel: 'View Group',
@@ -65,7 +63,6 @@ export const currentFocusBrands: BrandCard[] = [
   {
     name: 'Aquifer Waterworks',
     category: 'Water Source · Infrastructure',
-    logo: '/brand-logos/aquifer.png',
     href: 'https://aquifer-waterworks.vercel.app',
     status: 'Building',
     actionLabel: 'Explore',
@@ -74,7 +71,6 @@ export const currentFocusBrands: BrandCard[] = [
   {
     name: 'Nativa Waterworks',
     category: 'Water Source · Infrastructure',
-    logo: '/brand-logos/nativa-waterworks.png',
     href: 'https://nativa-waterworks.vercel.app',
     status: 'Building',
     actionLabel: 'Explore',
@@ -83,7 +79,6 @@ export const currentFocusBrands: BrandCard[] = [
   {
     name: 'Infinity Water',
     category: 'Luxury Water',
-    logo: '/brand-logos/infinity-water.png',
     href: 'https://watertoinfinity.com',
     status: 'Active Brand',
     actionLabel: 'Explore',
@@ -92,7 +87,6 @@ export const currentFocusBrands: BrandCard[] = [
   {
     name: 'Tribal Water',
     category: 'Water Brand',
-    logo: '/brand-logos/tribal-water.png',
     href: 'https://tribal-water.vercel.app',
     status: 'Building',
     actionLabel: 'Explore',
@@ -101,7 +95,7 @@ export const currentFocusBrands: BrandCard[] = [
   {
     name: 'Pronto Energy',
     category: 'Consumer Beverage',
-    logo: '/brand-logos/pronto-energy.png',
+    logo: `${SB}/pronto_energy/logos/pronto-logo.png`,
     href: 'https://prontoenergydrink.com',
     status: 'Active Brand',
     actionLabel: 'Explore',
@@ -110,8 +104,7 @@ export const currentFocusBrands: BrandCard[] = [
   {
     name: 'Rose on Piedmont',
     category: 'Hospitality · Weekly Programming',
-    logo: '/brand-logos/rose-on-piedmont.png',
-    href: 'https://111atl.com/company.html?brand=rose-on-piedmont',
+    href: 'https://111atl.com/#events',
     status: 'Operating',
     actionLabel: 'See This Week',
     destinationType: 'website',
@@ -119,8 +112,7 @@ export const currentFocusBrands: BrandCard[] = [
   {
     name: 'GROWN-ISH',
     category: 'Friday Nightlife · Rose on Piedmont',
-    logo: '/brand-logos/grown-ish.png',
-    href: 'https://111atl.com/company.html?brand=grown-ish',
+    href: 'https://111atl.com/#events',
     status: 'Operating',
     actionLabel: 'Reserve Friday',
     destinationType: 'website',
@@ -128,11 +120,11 @@ export const currentFocusBrands: BrandCard[] = [
   {
     name: 'Sole Exchange',
     category: 'Community · Sneaker Impact',
-    logo: '/brand-logos/sole-exchange.png',
+    logo: `${SB}/email-newsletters/sole-exchange-logo.png`,
     href: 'https://soleexchangeworldwide.com',
     status: 'Active Initiative',
     actionLabel: 'Support',
-    destinationType: 'website',
+    destinationType: 'form',
   },
   {
     name: 'Hakuna Matata',
@@ -145,7 +137,6 @@ export const currentFocusBrands: BrandCard[] = [
   {
     name: 'Bodega',
     category: 'Commerce · Lifestyle Products',
-    logo: '/brand-logos/bodega.png',
     href: 'https://bodegabodegabodega.com',
     status: 'Active Platform',
     actionLabel: 'Shop',
@@ -154,7 +145,6 @@ export const currentFocusBrands: BrandCard[] = [
   {
     name: 'STUSH',
     category: 'Fashion · Elevated Streetwear',
-    logo: '/brand-logos/stush.png',
     href: 'https://stushusa.com',
     status: 'Active Brand',
     actionLabel: 'Shop',
@@ -163,16 +153,14 @@ export const currentFocusBrands: BrandCard[] = [
   {
     name: 'PULSE',
     category: 'Athletic · Golf · Lifestyle',
-    logo: '/brand-logos/pulse.png',
-    href: 'https://yourpulsehq.com',
+    href: 'https://111atl.com/#forms',
     status: 'Building',
     actionLabel: 'Inquire',
-    destinationType: 'website',
+    destinationType: 'form',
   },
   {
     name: 'Make Atlanta Great Again',
     category: 'Atlanta Culture · Apparel',
-    logo: '/brand-logos/make-atlanta-great-again.png',
     href: 'https://thaoldatlanta.com',
     status: 'Active Brand',
     actionLabel: 'Explore',
@@ -181,7 +169,7 @@ export const currentFocusBrands: BrandCard[] = [
   {
     name: 'GOOD TIMES',
     category: 'Lifestyle Technology · Concierge',
-    logo: '/brand-logos/good-times.png',
+    logo: `${SB}/good_times/00-brand-assets/logos/good-times-logo-gold-black.png`,
     href: 'https://thegoodtimesworldwide.com',
     status: 'Active Platform',
     actionLabel: 'Open',
@@ -198,7 +186,7 @@ export type Division = {
   cta: string;
 };
 
-export const divisions: Division[] = [
+const allDivisions: Division[] = [
   {
     title: 'Entertainment',
     eyebrow: 'Culture & IP',
@@ -272,6 +260,12 @@ export const divisions: Division[] = [
     cta: 'Enter the Service Network',
   },
 ];
+/** Retired brands never appear in a division's brand list. */
+export const divisions: Division[] = allDivisions.map((division) => ({
+  ...division,
+  brands: pruneNames(division.brands),
+}));
+
 
 export type AccessLink = {
   title: string;
