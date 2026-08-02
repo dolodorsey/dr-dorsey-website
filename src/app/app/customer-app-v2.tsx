@@ -560,11 +560,11 @@ export default function CustomerAppV2() {
                   </button>
                 ) : null}
                 <ProfileLink
-                  href="https://doctordorsey.com/kollective"
+                  href="https://thekollectivehospitality.com"
                   label="Explore the full Kollective website"
                 />
                 <ProfileLink
-                  href="https://doctordorsey.com/contact"
+                  href="mailto:thekollectivehospitality@gmail.com"
                   label="Contact the Kollective"
                 />
                 <ProfileLink

@@ -15,6 +15,7 @@ export function middleware(request: NextRequest) {
   if (
     KOLLECTIVE_HOSTS.has(hostname) &&
     !pathname.startsWith('/kollective') &&
+    !pathname.startsWith('/app') &&
     !pathname.startsWith('/api/') &&
     !pathname.startsWith('/go/')
   ) {

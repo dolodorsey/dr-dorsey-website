@@ -39,6 +39,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       bundleIdentifier: "com.kollective.customer",
       buildNumber: "1",
       associatedDomains: [
+        "applinks:thekollectivehospitality.com",
+        "applinks:www.thekollectivehospitality.com",
         "applinks:doctordorsey.com",
         "applinks:www.doctordorsey.com",
       ],
@@ -58,6 +60,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           action: "VIEW",
           autoVerify: true,
           data: [
+            { scheme: "https", host: "thekollectivehospitality.com", pathPrefix: "/app" },
+            { scheme: "https", host: "www.thekollectivehospitality.com", pathPrefix: "/app" },
             { scheme: "https", host: "doctordorsey.com", pathPrefix: "/app" },
             { scheme: "https", host: "www.doctordorsey.com", pathPrefix: "/app" },
           ],
@@ -84,7 +88,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       ],
     ],
     extra: {
-      apiBaseUrl: "https://doctordorsey.com",
+      apiBaseUrl: "https://thekollectivehospitality.com",
       ...(easProjectId ? { eas: { projectId: easProjectId } } : {}),
     },
   };
