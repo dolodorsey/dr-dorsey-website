@@ -1,5 +1,8 @@
 # The Kollective Mobile App
 
+> Experimental enterprise scaffold. This directory is not the Customer TestFlight target.
+> The production Customer native app and its CI/TestFlight workflows live in [`../../mobile`](../../mobile).
+
 One account. The whole enterprise. Immediate action.
 
 ## Included in this scaffold

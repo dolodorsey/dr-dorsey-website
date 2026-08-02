@@ -1,4 +1,4 @@
-import { motion, type MotionAsset } from '@/lib/motion';
+import type { MotionAsset } from '@/lib/motion';
 
 export type World = {
   title: string;

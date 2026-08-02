@@ -4,6 +4,8 @@ import { DragEvent, FormEvent, useCallback, useEffect, useMemo, useState } from 
 import { createClient } from "@supabase/supabase-js";
 import { BarChart3, CalendarClock, DollarSign, Filter, Image as ImageIcon, Loader2, Megaphone, Send, UploadCloud } from "lucide-react";
 
+// Campaign payloads vary by channel and are rendered dynamically.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Row = Record<string, any>;
 
 type MarketingForm = {

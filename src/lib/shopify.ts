@@ -22,7 +22,7 @@ export type ShopifyProduct = {
   variants: Array<{ id: number; title: string; price: string; compare_at_price?: string; available?: boolean }>;
 };
 
-async function fetchJson<T = any>(path: string): Promise<T | null> {
+async function fetchJson<T = unknown>(path: string): Promise<T | null> {
   try {
     const res = await fetch(`${FETCH_ORIGIN}${path}`, {
       headers: {

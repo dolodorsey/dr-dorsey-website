@@ -4,6 +4,8 @@ import { DragEvent, FormEvent, useCallback, useEffect, useMemo, useState } from 
 import { createClient } from "@supabase/supabase-js";
 import { CalendarClock, ClipboardCheck, Image as ImageIcon, Instagram, Loader2, Send, ShieldCheck, UploadCloud } from "lucide-react";
 
+// Social payloads vary by platform and are rendered dynamically.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Row = Record<string, any>;
 type Account = {
   id?: string;
