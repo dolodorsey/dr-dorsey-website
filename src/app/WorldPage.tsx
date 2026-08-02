@@ -12,7 +12,7 @@ export default function WorldPage({ world }: { world: World }) {
         <div><p>{world.eyebrow}</p><h1>{world.title}</h1><b>{world.intro}</b></div>
       </header>
       {world.videos ? (
-        <section className={styles.motion}>
+        <section className={`${styles.motion} k-surface k-emblem k-edge`}>
           <header><p>Animated worlds</p><h2>EVERY IDENTITY <em>MOVES.</em></h2></header>
           <div>{world.videos.map((video) => <a href={video.href} key={video.title}><video autoPlay muted loop playsInline><source src={video.src} type="video/mp4" /></video><h3>{video.title}</h3><b>Enter ↗</b></a>)}</div>
         </section>
@@ -22,7 +22,7 @@ export default function WorldPage({ world }: { world: World }) {
           (item) => item.image || item.animation || motionFor(item.title),
         );
         return (
-          <section className={`${styles.grid} ${hasCover ? styles.withImages : ''}`}>
+          <section className={`${styles.grid} k-surface ${hasCover ? styles.withImages : ''}`}>
             {world.items.map((item, index) => {
               const cover = item.animation || motionFor(item.title);
               return (

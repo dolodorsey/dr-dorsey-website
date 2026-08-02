@@ -3,7 +3,6 @@
   --gold2: #efd492;
   min-height: 100vh;
   color: #f4efe6;
-  background: #080807;
   font-family: var(--font-geist), Arial, sans-serif;
 }
 
@@ -21,7 +20,7 @@
   backdrop-filter: blur(13px);
 }
 
-.nav img {
+.navLogo {
   width: 142px;
   height: 38px;
   object-fit: contain;
@@ -49,9 +48,6 @@
   position: relative;
   padding: 150px 5vw 60px;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 72% 18%, #c8a35a24, transparent 34%),
-    #0b0907;
 }
 
 .kicker {
@@ -97,7 +93,7 @@
   border-top: 1px solid #ffffff1c;
 }
 
-.footer img {
+.footerLogo {
   width: 128px;
   height: 34px;
   object-fit: contain;

@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import styles from './page.module.css';
 import CompanyDirectory from '@/components/CompanyDirectory';
+import FilmBackdrop from '@/components/FilmBackdrop';
+import { motion } from '@/lib/motion';
 import { SB } from '@/lib/enterprise';
 
 const EMBLEM = `${SB}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
@@ -17,7 +19,7 @@ export default function KollectiveCompaniesPage() {
     <main className={styles.page}>
       <nav className={styles.nav}>
         <a href="/kollective" aria-label="The Kollective home">
-          <img src={EMBLEM} alt="The Kollective" />
+          <img className={styles.navLogo} src={EMBLEM} alt="The Kollective" />
         </a>
         <div>
           <a href="/kollective#departments">Departments</a>
@@ -28,7 +30,8 @@ export default function KollectiveCompaniesPage() {
         </div>
       </nav>
 
-      <header className={styles.hero}>
+      <header className={`${styles.hero} k-surface k-surface-deep`}>
+        <FilmBackdrop animation={motion.kollectiveNetwork} opacity={0.2} />
         <p className={styles.kicker}>Companies / the full roster</p>
         <h1>
           Every company.
@@ -41,12 +44,12 @@ export default function KollectiveCompaniesPage() {
         </p>
       </header>
 
-      <div className={styles.body}>
+      <div className={`${styles.body} k-surface k-emblem k-edge`}>
         <CompanyDirectory />
       </div>
 
-      <footer className={styles.footer}>
-        <img src={EMBLEM} alt="The Kollective" />
+      <footer className={`${styles.footer} k-surface k-surface-deep`}>
+        <img className={styles.footerLogo} src={EMBLEM} alt="The Kollective" />
         <p>Independent brands. Shared enterprise leverage. Direct action.</p>
         <a href="/access">Open all access ↗</a>
       </footer>

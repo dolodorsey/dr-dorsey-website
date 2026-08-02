@@ -5,6 +5,8 @@ import styles from './home.module.css';
 import { BOOK_URL } from '@/lib/enterprise';
 import MotionCover from '@/components/MotionCover';
 import DepartmentGrid from '@/components/DepartmentGrid';
+import FilmBackdrop from '@/components/FilmBackdrop';
+import { motion } from '@/lib/motion';
 
 /**
  * The first two entries render as the large featured pair.
@@ -82,7 +84,8 @@ export default function HomePage() {
         </a>
       </section>
 
-      <section className={styles.current} id="departments">
+      <section className={`${styles.current} k-surface k-surface-deep`} id="departments">
+        <FilmBackdrop animation={motion.kollectiveGlobal} opacity={0.16} />
         <header>
           <p className={styles.kicker}>The departments</p>
           <h2>NINE DEPARTMENTS. <em>ONE ENTERPRISE.</em></h2>
@@ -95,7 +98,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className={styles.current}>
+      <section className={`${styles.current} k-surface k-emblem k-edge`}>
         <header>
           <p className={styles.kicker}>Current / moving now</p>
           <h2>THE WORK IS <em>ALIVE.</em></h2>
@@ -111,7 +114,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className={styles.manifesto}>
+      <section className={`${styles.manifesto} k-surface k-surface-warm k-collage k-inverted`}>
         <div className={styles.manifestoImage}>
           <img src="/dorsey/manifesto.webp" alt="Dr. Dorsey manifesto" />
         </div>
@@ -136,7 +139,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className={styles.architect} id="architect">
+      <section className={`${styles.architect} k-surface k-emblem k-emblem-left`} id="architect">
         <div className={styles.architectCopy}>
           <p className={styles.kicker}>The architect / not the influencer</p>
           <h2>
@@ -168,7 +171,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className={styles.enterprise}>
+      <section className={`${styles.enterprise} k-surface k-surface-deep`}>
+        <FilmBackdrop animation={motion.kollectiveNetwork} opacity={0.14} />
         <div className={styles.enterpriseVisual}>
           <img src="/dorsey/enterprise.webp" alt="The Kollective enterprise overview" />
         </div>
@@ -192,7 +196,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className={styles.book} id="book">
+      <section className={`${styles.book} k-surface k-emblem`} id="book">
         <div className={styles.bookCopy}>
           <p className={styles.kicker}>The founder’s field manual</p>
           <h2>
@@ -216,7 +220,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className={styles.letter}>
+      <section className={`${styles.letter} k-surface k-surface-warm k-emblem k-inverted`}>
         <img src="/dorsey/letter.webp" alt="A letter from Dr. Dorsey" />
         <div>
           <p className={styles.kicker}>A note from Dorsey</p>
@@ -228,7 +232,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className={styles.access} id="access">
+      <section className={`${styles.access} k-surface k-surface-deep k-edge`} id="access">
         <p className={styles.kicker}>Direct access / choose the move</p>
         <h2>
           STRATEGY. SPEAKING.

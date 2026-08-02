@@ -4,6 +4,8 @@ import styles from './kollective.module.css';
 import upgradeStyles from './kollective-upgrade.module.css';
 import { accessLinks, SB } from '@/lib/enterprise';
 import DepartmentGrid from '@/components/DepartmentGrid';
+import FilmBackdrop from '@/components/FilmBackdrop';
+import { motion } from '@/lib/motion';
 
 const EMBLEM = `${SB}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
 const HERO_VIDEO = '/brand/kollective-hero.mp4';
@@ -31,7 +33,7 @@ export default function KollectivePage() {
         <a className={styles.scrollCue} href="#intro"><span /></a>
       </section>
 
-      <section className={upgradeStyles.actionBar} aria-label="Fast enterprise actions">
+      <section className={`${upgradeStyles.actionBar} k-surface k-edge`} aria-label="Fast enterprise actions">
         <a href="https://doctordorsey.com/forms/rsvp"><strong>RSVP</strong><span>Events and guest lists</span></a>
         <a href="https://doctordorsey.com/forms/table_reservation"><strong>Reserve</strong><span>Dining and nightlife</span></a>
         <a href={BOOK_URL}><strong>Buy</strong><span>Hakuna Matata</span></a>
@@ -40,14 +42,15 @@ export default function KollectivePage() {
         <a href="/access"><strong>All Access</strong><span>Every form and link</span></a>
       </section>
 
-      <section className={styles.intro} id="intro">
+      <section className={`${styles.intro} k-surface k-bleed k-emblem`} id="intro">
         <p className={styles.kicker}>One enterprise. Independent brands.</p>
         <h1>Built to move culture.<br />Structured to scale.</h1>
         <p>The Kollective is a multi-city enterprise spanning hospitality, food, experiences, products, services, technology, education, institutions, and community impact. Every company keeps its own identity. The enterprise creates shared leverage.</p>
         <div className={styles.introActions}><a href="/kollective/about">Understand The Kollective</a><a href="/kollective/portfolio">Explore the Portfolio</a></div>
       </section>
 
-      <section className={styles.focus} id="departments">
+      <section className={`${styles.focus} k-surface k-bleed k-surface-deep k-edge`} id="departments">
+        <FilmBackdrop animation={motion.kollectiveGlobal} opacity={0.15} />
         <header className={styles.sectionHead}>
           <div>
             <p className={styles.kicker}>The departments</p>
@@ -62,7 +65,7 @@ export default function KollectivePage() {
         </div>
       </section>
 
-      <section className={upgradeStyles.bookPromo} id="book">
+      <section className={`${upgradeStyles.bookPromo} k-surface k-surface-warm k-emblem`} id="book">
         <div className={upgradeStyles.bookVisual}>
           <div className={upgradeStyles.bookGlow} />
           <img src={BOOK_COVER} alt="Hakuna Matata by Dr. Dorsey" />
@@ -80,7 +83,8 @@ export default function KollectivePage() {
         </div>
       </section>
 
-      <section className={styles.access} id="access">
+      <section className={`${styles.access} k-surface k-surface-deep k-edge`} id="access">
+        <FilmBackdrop animation={motion.kollectiveNetwork} opacity={0.12} />
         <div><p className={styles.kicker}>Direct access</p><h2>Every discovery ends in a move.</h2><p>Buy, reserve, apply, partner, download, request service, or start a protected conversation.</p></div>
         <div className={styles.accessGrid}>{featuredAccess.map((item) => {
           const href = item.href.startsWith('/forms')

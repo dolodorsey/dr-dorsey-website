@@ -1,0 +1,186 @@
+/*
+ * The Kollective surface system.
+ *
+ * One background language shared by doctordorsey.com and
+ * thekollectivehospitality.com. Global (not module-scoped) so any section on
+ * either site can opt in with a class name.
+ *
+ * Layers, back to front:
+ *   1. base ink
+ *   2. gold aurora — two soft radial washes that give the panel depth
+ *   3. a Kollective graphic — emblem watermark or the enterprise collage
+ *   4. fine grain, so large flat areas never band on wide screens
+ */
+
+:root {
+  --k-ink: #08070600;
+  --k-ink-solid: #080706;
+  --k-ink-warm: #0c0a07;
+  --k-gold: #c8a35a;
+  --k-emblem: url('https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png');
+  --k-collage: url('/dorsey/kollective.png');
+  --k-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.055'/%3E%3C/svg%3E");
+}
+
+/* Base panel. Everything else builds on this. */
+.k-surface {
+  position: relative;
+  isolation: isolate;
+  color: #f4efe6;
+  background-color: var(--k-ink-solid);
+}
+
+.k-surface::before,
+.k-surface::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Gold aurora + grain. */
+.k-surface::before {
+  background-image:
+    radial-gradient(ellipse 60% 45% at 14% 8%, #c8a35a1f, transparent 62%),
+    radial-gradient(ellipse 55% 50% at 88% 92%, #c8a35a17, transparent 64%),
+    var(--k-grain);
+  background-size: auto, auto, 320px 320px;
+}
+
+/* Warmer variant for the bands that used to be cream. */
+.k-surface-warm {
+  background-color: var(--k-ink-warm);
+}
+
+.k-surface-warm::before {
+  background-image:
+    radial-gradient(ellipse 70% 60% at 22% 12%, #c8a35a2b, transparent 60%),
+    radial-gradient(ellipse 50% 55% at 92% 88%, #7d5a2417, transparent 62%),
+    var(--k-grain);
+  background-size: auto, auto, 320px 320px;
+}
+
+/* Deep variant for the darkest bands. */
+.k-surface-deep {
+  background-color: #050403;
+}
+
+.k-surface-deep::before {
+  background-image:
+    radial-gradient(ellipse 50% 40% at 50% 0%, #c8a35a14, transparent 70%),
+    var(--k-grain);
+  background-size: auto, 320px 320px;
+}
+
+/* The Kollective emblem, set large and low-contrast behind the content. */
+.k-emblem::after {
+  right: 0;
+  left: auto;
+  width: min(52vw, 720px);
+  background-image: var(--k-emblem);
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: contain;
+  opacity: 0.05;
+}
+
+.k-emblem-left::after {
+  right: auto;
+  left: 0;
+  background-position: left center;
+}
+
+/* The enterprise collage, used where a richer texture suits the band. */
+.k-collage::after {
+  background-image: var(--k-collage);
+  background-repeat: no-repeat;
+  background-position: center 22%;
+  background-size: cover;
+  opacity: 0.07;
+  filter: saturate(0.7) contrast(1.1);
+  mask-image: radial-gradient(ellipse 78% 72% at 50% 45%, #000 30%, transparent 76%);
+  -webkit-mask-image: radial-gradient(ellipse 78% 72% at 50% 45%, #000 30%, transparent 76%);
+}
+
+/*
+ * Full-bleed backdrop for sections that are max-width centred.
+ * Without this the panel stops at the content box and leaves bare gutters
+ * on wide displays.
+ */
+.k-bleed {
+  background-color: transparent;
+}
+
+.k-bleed::before,
+.k-bleed::after {
+  left: 50%;
+  right: auto;
+  width: 100vw;
+  max-width: 100vw;
+  transform: translateX(-50%);
+}
+
+.k-bleed::before {
+  background-color: var(--k-ink-solid);
+}
+
+.k-bleed.k-surface-warm::before {
+  background-color: var(--k-ink-warm);
+}
+
+.k-bleed.k-surface-deep::before {
+  background-color: #050403;
+}
+
+.k-bleed.k-emblem::after {
+  left: auto;
+  right: 0;
+  width: min(52vw, 720px);
+  transform: none;
+}
+
+.k-bleed.k-emblem.k-emblem-left::after {
+  right: auto;
+  left: 0;
+}
+
+/* A hairline of gold at the top edge, for stacked panels. */
+.k-edge {
+  border-top: 1px solid #c8a35a2e;
+}
+
+/*
+ * Sections converted from the old cream/paper treatment need their type
+ * inverted too, otherwise near-black text lands on near-black ground.
+ */
+.k-inverted,
+.k-inverted h1,
+.k-inverted h2,
+.k-inverted h3,
+.k-inverted b,
+.k-inverted strong {
+  color: #f4efe6;
+}
+
+.k-inverted p,
+.k-inverted span,
+.k-inverted small,
+.k-inverted li {
+  color: #ffffffa8;
+}
+
+.k-inverted em {
+  color: var(--k-gold);
+}
+
+.k-inverted a {
+  color: #f4efe6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .k-surface::before,
+  .k-surface::after {
+    animation: none;
+  }
+}

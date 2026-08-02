@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import styles from './page.module.css';
 import CompanyDirectory from '@/components/CompanyDirectory';
+import FilmBackdrop from '@/components/FilmBackdrop';
+import { motion } from '@/lib/motion';
 
 export const metadata: Metadata = {
   title: 'Companies — Dr. DoLo Dorsey',
@@ -14,7 +16,7 @@ export default function CompaniesPage() {
     <main className={styles.page}>
       <nav className={styles.nav}>
         <a href="/" aria-label="Dr. Dorsey home">
-          <img src="/dorsey/logo.png" alt="Dr. Dorsey" />
+          <img className={styles.navLogo} src="/dorsey/logo.png" alt="Dr. Dorsey" />
         </a>
         <div>
           <a href="/#departments">Departments</a>
@@ -25,7 +27,8 @@ export default function CompaniesPage() {
         </div>
       </nav>
 
-      <header className={styles.hero}>
+      <header className={`${styles.hero} k-surface k-surface-deep`}>
+        <FilmBackdrop animation={motion.kollectiveGlobal} opacity={0.2} />
         <p className={styles.kicker}>Companies / the full roster</p>
         <h1>
           EVERY COMPANY.
@@ -38,12 +41,12 @@ export default function CompaniesPage() {
         </p>
       </header>
 
-      <div className={styles.body}>
+      <div className={`${styles.body} k-surface k-emblem k-edge`}>
         <CompanyDirectory />
       </div>
 
-      <footer className={styles.footer}>
-        <img src="/dorsey/logo.png" alt="Dr. Dorsey" />
+      <footer className={`${styles.footer} k-surface k-surface-deep`}>
+        <img className={styles.footerLogo} src="/dorsey/logo.png" alt="Dr. Dorsey" />
         <p>Live for today. Plan for tomorrow. Party tonight.</p>
         <a href="/forms/inquiry">Start a conversation ↗</a>
       </footer>
