@@ -18,13 +18,7 @@ export default function manifest(): MetadataRoute.Manifest {
         src: "/app/icon",
         sizes: "512x512",
         type: "image/png",
-        purpose: "any",
-      },
-      {
-        src: "/kollective-app-icon.svg",
-        sizes: "any",
-        type: "image/svg+xml",
-        purpose: "maskable",
+        purpose: "any maskable",
       },
     ],
   };
