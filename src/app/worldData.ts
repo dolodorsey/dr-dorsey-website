@@ -1,9 +1,19 @@
+import { motion, type MotionAsset } from '@/lib/motion';
+
 export type World = {
   title: string;
   eyebrow: string;
   intro: string;
   image: string;
-  items: { title: string; eyebrow: string; detail: string; href: string; image?: string }[];
+  items: {
+    title: string;
+    eyebrow: string;
+    detail: string;
+    href: string;
+    image?: string;
+    /** Animated cover. Overrides the name-based lookup in MotionCover. */
+    animation?: MotionAsset;
+  }[];
   videos?: { title: string; src: string; href: string }[];
 };
 
@@ -14,15 +24,15 @@ export const worlds: Record<string, World> = {
     intro: 'The founder’s enterprise is not one generic portfolio. Every department has its own language, audience, economics, and atmosphere—connected through one operating architecture.',
     image: '/dorsey/enterprise.webp',
     items: [
-      { title: 'Entertainment', eyebrow: 'Culture', detail: 'Music, nightlife, events, programming, media, and original cultural IP.', href: 'https://111atl.com' },
-      { title: 'Apps / Tech', eyebrow: 'Platforms', detail: 'GOOD TIMES, On Call and S.O.S. are active; Luxe on Demand and The Law are in development; The Vote is in planning.', href: '/directory' },
-      { title: 'Products / Shop', eyebrow: 'Commerce', detail: 'Fashion, books, wellness, art, water, and beverages.', href: '/store' },
-      { title: 'Water Sourcing', eyebrow: 'Infrastructure', detail: 'Aquifer, source, supply, distribution, stewardship, and resilience.', href: '/network' },
-      { title: 'Beverages', eyebrow: 'Consumer', detail: 'Infinity Water, Tribal Water, The Tribe Wine, and Pronto Energy.', href: '/network' },
-      { title: 'Help 911', eyebrow: 'Response', detail: 'An active human-centered response network for the moments people need help.', href: 'https://www.help911.help' },
-      { title: 'Philanthropy', eyebrow: 'Impact', detail: 'Sole Exchange, Playmakers Sports Association, Members Elite, youth, access, and education.', href: 'https://soleexchangeworldwide.com' },
-      { title: 'Casper Group', eyebrow: 'Hospitality / 12 brands', detail: 'American Dragon, Peace Pizza, Taco Yaki, Pasta Bish, Angel Wings, and seven more concepts.', href: 'https://caspergroupworldwide.com' },
-      { title: 'Umbrella Group', eyebrow: 'Services', detail: 'Property, mobility, cleaning, accounting, travel, wellness, people operations, and support.', href: 'https://theumbrella.group' },
+      { title: 'Entertainment', eyebrow: 'Culture', detail: 'Music, nightlife, events, programming, media, and original cultural IP.', href: 'https://111atl.com', animation: motion.grownish },
+      { title: 'Apps / Tech', eyebrow: 'Platforms', detail: 'GOOD TIMES, On Call and S.O.S. are active; Luxe on Demand and The Law are in development; The Vote is in planning.', href: '/directory', animation: motion.sos },
+      { title: 'Products / Shop', eyebrow: 'Commerce', detail: 'Fashion, books, wellness, art, water, and beverages.', href: '/store', animation: motion.stush },
+      { title: 'Water Sourcing', eyebrow: 'Infrastructure', detail: 'Aquifer, source, supply, distribution, stewardship, and resilience.', href: '/network', animation: motion.aquifer },
+      { title: 'Beverages', eyebrow: 'Consumer', detail: 'Infinity Water, Tribal Water, The Tribe Wine, and Pronto Energy.', href: '/network', animation: motion.infinityWater },
+      { title: 'Help 911', eyebrow: 'Response', detail: 'An active human-centered response network for the moments people need help.', href: 'https://www.help911.help', animation: motion.help911 },
+      { title: 'Philanthropy', eyebrow: 'Impact', detail: 'Sole Exchange, Playmakers Sports Association, Members Elite, youth, access, and education.', href: 'https://soleexchangeworldwide.com', animation: motion.soleExchange },
+      { title: 'Casper Group', eyebrow: 'Hospitality / 12 brands', detail: 'American Dragon, Peace Pizza, Taco Yaki, Pasta Bish, Angel Wings, and seven more concepts.', href: 'https://caspergroupworldwide.com', animation: motion.casperGroup },
+      { title: 'Umbrella Group', eyebrow: 'Services', detail: 'Property, mobility, cleaning, accounting, travel, wellness, people operations, and support.', href: 'https://theumbrella.group', animation: motion.theLaw },
     ],
   },
   links: {

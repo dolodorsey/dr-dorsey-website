@@ -5,6 +5,8 @@ import styles from './kollective.module.css';
 import upgradeStyles from './kollective-upgrade.module.css';
 import { accessLinks, currentFocusBrands, divisions, SB } from '@/lib/enterprise';
 import { useEnterpriseRegistry } from '@/lib/use-enterprise-registry';
+import MotionCover from '@/components/MotionCover';
+import { motion } from '@/lib/motion';
 
 const EMBLEM = `${SB}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
 const HERO_VIDEO = '/brand/kollective-hero.mp4';
@@ -44,16 +46,17 @@ const VISUALS: Record<string, { src: string; fit?: 'contain' | 'cover' }> = {
   'GOOD TIMES': { src: `${SB}/good_times/atl-nightlife-elevated.png` },
 };
 
-const FEATURED_DIVISION_VISUALS = [
-  `${SB}/social-dashboard/2026-07-17/dolodorsey/rose-bar-rose-interior-video.mp4`,
-  `${SB}/good_times/atl-nightlife-elevated.png`,
-  `${SB}/stush/stush_lineup/063_the_stush_lineup.jpg`,
-  `${SB}/infinity_water/website/blue.jpg`,
-  `${SB}/infinity_water/generated/infinity_gold_splash_v2.png`,
-  `${SB}/umbrella_injury/00-brand-assets/logos/hurt-911-logo-black.png`,
-  `${SB}/dr_dorsey/website/garden-district.jpg`,
-  `${SB}/casper_group/logos/logo-full.png`,
-  `${SB}/good-times-app/umbrella_group/umbrella_group_landscape.png`,
+/** One animation per division, in the same order as `divisions`. */
+const DIVISION_MOTION = [
+  motion.grownish, // Entertainment
+  motion.sos, // Apps / Tech
+  motion.stush, // Products / Shop
+  motion.aquifer, // Water Sourcing
+  motion.infinityWater, // Beverages
+  motion.help911, // Help 911
+  motion.soleExchange, // Philanthropy
+  motion.casperGroup, // Casper Group
+  motion.theLaw, // Umbrella Group
 ];
 
 export default function KollectivePage() {
@@ -105,10 +108,20 @@ export default function KollectivePage() {
         <div className={styles.focusGrid}>
           {brands.map((brand, index) => {
             const visual = VISUALS[brand.name] || { src: `${SB}/dr_dorsey/website/rooftop-lounge.jpg` };
+            const featured = index < 2;
             return (
-              <a className={styles.focusCard} href={brand.href} key={brand.name}>
+              <a
+                className={`${styles.focusCard} ${featured ? styles.focusFeature : styles.focusTile}`}
+                href={brand.href}
+                key={brand.name}
+              >
                 <div className={`${styles.focusMedia} ${visual.fit === 'contain' ? styles.contain : ''}`}>
-                  <img src={visual.src} alt={`${brand.name} visual`} />
+                  <MotionCover
+                    name={brand.name}
+                    image={visual.src}
+                    alt={`${brand.name} visual`}
+                    containStill={visual.fit === 'contain'}
+                  />
                   {brand.logo && <img className={styles.focusLogo} src={brand.logo} alt={`${brand.name} logo`} />}
                   <span className={styles.cardNumber}>{String(index + 1).padStart(2, '0')}</span>
                 </div>
@@ -149,7 +162,7 @@ export default function KollectivePage() {
             <details className={styles.division} key={division.title} open={index === 0}>
               <summary>
                 <div className={styles.divisionVisual}>
-                  {FEATURED_DIVISION_VISUALS[index]?.endsWith('.mp4') ? <video autoPlay muted loop playsInline src={FEATURED_DIVISION_VISUALS[index]} /> : <img src={FEATURED_DIVISION_VISUALS[index]} alt="" />}
+                  <MotionCover animation={DIVISION_MOTION[index]} alt="" />
                 </div>
                 <span>{String(index + 1).padStart(2, '0')}</span><h3>{division.title}</h3><b>＋</b>
               </summary>

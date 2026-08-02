@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import styles from './home.module.css';
 import { BOOK_URL } from '@/lib/enterprise';
+import MotionCover from '@/components/MotionCover';
+import { legacyMotion } from '@/lib/motion';
 
 const worlds = [
   {
@@ -39,6 +41,10 @@ const rules = [
   ['05', 'Own the outcome.', 'Ideas do not compound until systems make execution repeatable.'],
 ];
 
+/**
+ * The first two entries render as the large featured pair.
+ * Everything after them renders four across.
+ */
 const currentMoves = [
   { name: 'GOOD TIMES', kind: 'The culture calendar', image: '/dorsey/current/good-times.jpg', href: 'https://www.thegoodtimesworldwide.com' },
   { name: 'Taste of Art', kind: 'August 22 · Atlanta', image: '/dorsey/current/taste-of-art.jpg', href: 'https://www.eventbrite.com/e/the-taste-of-art-aug-22-tickets-1988881972519' },
@@ -46,6 +52,10 @@ const currentMoves = [
   { name: 'STUSH', kind: 'Fashion', image: '/dorsey/current/stush-fashion.jpg', href: 'https://stushusa.com' },
   { name: 'Pronto Energy', kind: 'Active beverage brand', image: '/dorsey/current/pronto-energy.jpg', href: 'https://prontoenergydrink.com' },
   { name: 'Infinity Water', kind: 'Active water brand', image: '/dorsey/current/infinity-water.jpg', href: 'https://watertoinfinity.com' },
+  { name: 'Sole Exchange', kind: 'Impact · Philanthropy', href: 'https://soleexchangeworldwide.com' },
+  { name: 'Help 911', kind: 'Response network', href: 'https://www.help911.help' },
+  { name: 'The University', kind: 'Trades · Workforce · Ownership', href: 'https://the-university.vercel.app' },
+  { name: 'Hakuna Matata', kind: 'The founder’s field manual', href: BOOK_URL },
 ];
 
 const siteWorlds = [
@@ -126,8 +136,12 @@ export default function HomePage() {
         </header>
         <div className={styles.currentGrid}>
           {currentMoves.map((item, index) => (
-            <a href={item.href} className={styles[`current${index + 1}`]} key={item.name}>
-              <img src={item.image} alt={item.name} />
+            <a
+              href={item.href}
+              className={index < 2 ? styles.currentFeature : styles.currentTile}
+              key={item.name}
+            >
+              <MotionCover name={item.name} image={item.image} alt={item.name} veil />
               <div><small>{item.kind}</small><h3>{item.name}</h3><b>Enter ↗</b></div>
             </a>
           ))}

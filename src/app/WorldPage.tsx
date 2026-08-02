@@ -1,5 +1,7 @@
 import styles from './worlds.module.css';
 import type { World } from './worldData';
+import MotionCover from '@/components/MotionCover';
+import { motionFor } from '@/lib/motion';
 
 export default function WorldPage({ world }: { world: World }) {
   return (
@@ -15,14 +17,38 @@ export default function WorldPage({ world }: { world: World }) {
           <div>{world.videos.map((video) => <a href={video.href} key={video.title}><video autoPlay muted loop playsInline><source src={video.src} type="video/mp4" /></video><h3>{video.title}</h3><b>Enter ↗</b></a>)}</div>
         </section>
       ) : null}
-      <section className={`${styles.grid} ${world.items.some((item) => item.image) ? styles.withImages : ''}`}>
-        {world.items.map((item, index) => (
-          <a id={item.title === 'Casper Group' ? 'casper-group' : undefined} href={item.href} key={item.title}>
-            {item.image ? <img src={item.image} alt={item.title} /> : null}
-            <div><span>{String(index + 1).padStart(2, '0')} / {item.eyebrow}</span><h2>{item.title}</h2><p>{item.detail}</p><b>Enter world ↗</b></div>
-          </a>
-        ))}
-      </section>
+      {(() => {
+        const hasCover = world.items.some(
+          (item) => item.image || item.animation || motionFor(item.title),
+        );
+        return (
+          <section className={`${styles.grid} ${hasCover ? styles.withImages : ''}`}>
+            {world.items.map((item, index) => {
+              const cover = item.animation || motionFor(item.title);
+              return (
+                <a
+                  id={item.title === 'Casper Group' ? 'casper-group' : undefined}
+                  href={item.href}
+                  key={item.title}
+                  className={index < 2 ? styles.gridFeature : styles.gridTile}
+                >
+                  {hasCover ? (
+                    <span className={styles.gridMedia}>
+                      <MotionCover
+                        name={item.title}
+                        animation={cover}
+                        image={item.image}
+                        alt={item.title}
+                      />
+                    </span>
+                  ) : null}
+                  <div><span>{String(index + 1).padStart(2, '0')} / {item.eyebrow}</span><h2>{item.title}</h2><p>{item.detail}</p><b>Enter world ↗</b></div>
+                </a>
+              );
+            })}
+          </section>
+        );
+      })()}
       <footer className={styles.footer}><img src="/dorsey/logo.png" alt="Dr. Dorsey" /><p>Live for today. Plan for tomorrow. Party tonight.</p><a href="/forms/inquiry">Start a conversation ↗</a></footer>
     </main>
   );
