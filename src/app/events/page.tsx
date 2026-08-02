@@ -364,7 +364,7 @@ export default function EventsPage() {
                   {[{k:'name',l:'Name *',t:'text'},{k:'email',l:'Email',t:'email'},{k:'phone',l:'Phone',t:'tel'}].map(f => (
                     <div key={f.k}>
                       <label style={{ fontFamily:'DM Mono,monospace',fontSize:9,letterSpacing:'0.2em',textTransform:'uppercase',color:C.ld,display:'block',marginBottom:6 }}>{f.l}</label>
-                      <input type={f.t} value={(form as any)[f.k]} onChange={e => setForm(p => ({...p,[f.k]:e.target.value}))}
+                      <input type={f.t} value={form[f.k as keyof typeof form]} onChange={e => setForm(p => ({...p,[f.k]:e.target.value}))}
                         style={{ width:'100%',padding:'12px 16px',background:C.surf,border:`1px solid ${C.lg}`,color:C.light,fontFamily:'DM Sans,sans-serif',fontSize:14,outline:'none' }} />
                     </div>
                   ))}

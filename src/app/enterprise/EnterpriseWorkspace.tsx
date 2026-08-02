@@ -4,6 +4,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { AlertTriangle, ArrowUpRight, Bot, Building2, Check, Database, ExternalLink, FileCheck2, Loader2, Megaphone, Plus, RefreshCw, ShieldAlert, TicketCheck, X } from "lucide-react";
 
+// Enterprise resources are schema-driven and intentionally vary by route.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Row = Record<string, any>;
 type Field = { name: string; label: string; type?: string; options?: string[]; required?: boolean; placeholder?: string };
 

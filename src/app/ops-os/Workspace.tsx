@@ -4,6 +4,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { CalendarClock, Check, CircleDollarSign, Clock3, ExternalLink, Image as ImageIcon, Loader2, Pencil, Plus, RefreshCw, Send, Sparkles, X } from "lucide-react";
 
+// Ops resources are schema-driven and intentionally vary by section.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Row = Record<string, any>;
 type Field = { name: string; label: string; type?: string; options?: string[]; required?: boolean; placeholder?: string };
 

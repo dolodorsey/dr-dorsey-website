@@ -3,6 +3,8 @@
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { CalendarClock, DollarSign, Loader2, Megaphone, Send } from "lucide-react";
 
+// Campaign payloads vary by channel and are rendered dynamically.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Row = Record<string, any>;
 
 const brands = ["Dr. Dorsey", "Make Atlanta Great Again", "The Kollective", "GOOD TIMES", "The Fraternity", "Casper Group", "The Mind Studio", "Products Division", "Club at South Dekalb"];

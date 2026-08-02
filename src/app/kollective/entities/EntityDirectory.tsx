@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { SB } from '@/lib/enterprise';
 import styles from './page.module.css';
 import { isRetired } from '@/lib/roster';
 
@@ -15,7 +14,6 @@ type Entity = {
   logo?: string;
 };
 
-const mark = (path: string) => `${SB}/${path}`;
 const e = (slug: string, name: string, division: string, status: string, line: string, href?: string, logo?: string): Entity =>
   ({ slug, name, division, status, line, href, logo });
 

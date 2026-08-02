@@ -14,8 +14,9 @@ The app consumes the same controlled customer feed as the web hub while renderin
 ## Local verification
 
 ```bash
-npm install --legacy-peer-deps
+npm ci
 npm run type-check
+npm run doctor
 npx expo config --type public
 npx expo export --platform ios --output-dir dist-ios
 ```
