@@ -1,4 +1,5 @@
 import { motion, type MotionAsset } from '@/lib/motion';
+import { pruneNames } from '@/lib/roster';
 
 /**
  * The nine operating departments.
@@ -22,7 +23,7 @@ export type Department = {
   animation?: MotionAsset;
 };
 
-export const departments: Department[] = [
+const allDepartments: Department[] = [
   {
     title: 'Entertainment',
     eyebrow: 'Culture & IP',
@@ -111,3 +112,9 @@ export const departments: Department[] = [
     animation: motion.theLaw,
   },
 ];
+/** Retired brands never appear in a department's sample chips. */
+export const departments: Department[] = allDepartments.map((department) => ({
+  ...department,
+  sample: pruneNames(department.sample),
+}));
+

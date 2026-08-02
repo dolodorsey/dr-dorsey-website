@@ -5,7 +5,8 @@ import styles from './CompanyDirectory.module.css';
 import MotionCover from './MotionCover';
 import type { RegistryEntity } from '@/lib/kollective-public';
 import { currentFocusBrands } from '@/lib/enterprise';
-import { motionFor } from '@/lib/motion';
+import { motionFor, orientationFor, type Orientation } from '@/lib/motion';
+import { isRetired, priorityRank } from '@/lib/roster';
 
 type Company = {
   key: string;
@@ -49,6 +50,8 @@ function fromRegistry(entity: RegistryEntity): Company {
 export default function CompanyDirectory() {
   const [entities, setEntities] = useState<RegistryEntity[] | null>(null);
   const [failed, setFailed] = useState(false);
+  /** Hero stills that failed to load — those cards fall back to the holding plate. */
+  const [brokenArt, setBrokenArt] = useState<Record<string, true>>({});
 
   useEffect(() => {
     const controller = new AbortController();
@@ -69,29 +72,44 @@ export default function CompanyDirectory() {
   }, []);
 
   const companies: Company[] = useMemo(() => {
-    if (entities && entities.length) return entities.map(fromRegistry);
-    if (entities || failed) {
-      return currentFocusBrands.map((brand) => ({
-        key: brand.name,
-        name: brand.name,
-        category: brand.category,
-        status: brand.status,
-        href: brand.href,
-        logo: brand.logo,
-        division: 'Current Enterprise Command',
-      }));
-    }
-    return [];
+    const source: Company[] =
+      entities && entities.length
+        ? entities.map(fromRegistry)
+        : entities || failed
+          ? currentFocusBrands.map((brand) => ({
+              key: brand.name,
+              name: brand.name,
+              category: brand.category,
+              status: brand.status,
+              href: brand.href,
+              logo: brand.logo,
+              division: 'Current Enterprise Command',
+            }))
+          : [];
+
+    // Retired brands are dropped here rather than filtered per-section, so
+    // they cannot reappear through a count, a chip, or the featured pair.
+    return source.filter((company) => !isRetired(company.name));
   }, [entities, failed]);
 
   const featured = companies.slice(0, 2);
   const rest = companies.slice(2);
+
+  /** Animations are in production for these — they lead the page. */
+  const inProduction = useMemo(
+    () =>
+      rest
+        .filter((company) => priorityRank(company.name) >= 0)
+        .sort((a, b) => priorityRank(a.name) - priorityRank(b.name)),
+    [rest],
+  );
 
   /** Departments in registry order, so the highest-priority ones lead. */
   const sections = useMemo(() => {
     const order: string[] = [];
     const grouped = new Map<string, Company[]>();
     for (const company of rest) {
+      if (priorityRank(company.name) >= 0) continue;
       if (!grouped.has(company.division)) {
         grouped.set(company.division, []);
         order.push(company.division);
@@ -109,23 +127,30 @@ export default function CompanyDirectory() {
     return <p className={styles.empty}>Loading the enterprise registry…</p>;
   }
 
-  const card = (company: Company, variant: 'feature' | 'tile') => {
+  const card = (company: Company, variant: 'feature' | 'tile', shape: Orientation = 'landscape') => {
     // Covers are artwork only — an animation or a hero still. Logos are never
     // promoted to cover art; a company with neither gets a holding plate until
     // its graphic is delivered.
     const hasMotion = Boolean(motionFor(company.name));
-    const awaitingArt = !hasMotion && !company.hero;
+    const awaitingArt = !hasMotion && (!company.hero || brokenArt[company.key]);
 
     return (
     <a className={`${styles.card} ${styles[variant]}`} href={company.href} key={company.key}>
-      <span className={`${styles.media} ${awaitingArt ? styles.awaiting : ''}`}>
+      <span
+        className={`${styles.media} ${shape === 'portrait' ? styles.portrait : ''} ${awaitingArt ? styles.awaiting : ''}`}
+      >
         {awaitingArt ? (
           <span className={styles.plate} aria-hidden="true">
             <b>{company.name}</b>
             <i>{company.division}</i>
           </span>
         ) : (
-          <MotionCover name={company.name} image={company.hero} alt={company.name} />
+          <MotionCover
+            name={company.name}
+            image={company.hero}
+            alt={company.name}
+            onImageError={() => setBrokenArt((prev) => ({ ...prev, [company.key]: true }))}
+          />
         )}
       </span>
       {company.logo && !awaitingArt ? (
@@ -141,9 +166,43 @@ export default function CompanyDirectory() {
     );
   };
 
+  /**
+   * A row is never half landscape and half portrait. Each list renders as a
+   * landscape block followed by a portrait block, so every card in a row has
+   * the same frame and the grid stays uniform.
+   */
+  const rows = (items: Company[], variant: 'feature' | 'tile', group = true) => {
+    // The featured pair is a matched set — it always sits side by side in one
+    // landscape frame, whatever shape each animation happens to be.
+    if (!group) {
+      return <div className={styles.grid}>{items.map((c) => card(c, variant, 'landscape'))}</div>;
+    }
+
+    const landscape = items.filter((c) => orientationFor(c.name) === 'landscape');
+    const portrait = items.filter((c) => orientationFor(c.name) === 'portrait');
+
+    return (
+      <>
+        {landscape.length ? (
+          <div className={styles.grid}>{landscape.map((c) => card(c, variant, 'landscape'))}</div>
+        ) : null}
+        {portrait.length ? (
+          <div className={`${styles.grid} ${landscape.length ? styles.gridNext : ''}`}>
+            {portrait.map((c) => card(c, variant, 'portrait'))}
+          </div>
+        ) : null}
+      </>
+    );
+  };
+
   return (
     <div className={styles.wrap}>
       <nav className={styles.chips} aria-label="Jump to a department">
+        {inProduction.length ? (
+          <a href="#in-production" className={styles.chipLead}>
+            In production<b>{inProduction.length}</b>
+          </a>
+        ) : null}
         {sections.map((section) => (
           <a href={`#${section.slug}`} key={section.slug}>
             {section.division}
@@ -153,9 +212,17 @@ export default function CompanyDirectory() {
       </nav>
 
       {featured.length ? (
-        <div className={styles.grid} style={{ marginBottom: 66 }}>
-          {featured.map((company) => card(company, 'feature'))}
-        </div>
+        <div className={styles.section}>{rows(featured, 'feature', false)}</div>
+      ) : null}
+
+      {inProduction.length ? (
+        <section className={styles.section} id="in-production">
+          <header className={styles.sectionHead}>
+            <h3>In Production</h3>
+            <span>Artwork in progress</span>
+          </header>
+          {rows(inProduction, 'tile')}
+        </section>
       ) : null}
 
       {sections.map((section) => (
@@ -166,7 +233,7 @@ export default function CompanyDirectory() {
               {section.items.length} {section.items.length === 1 ? 'company' : 'companies'}
             </span>
           </header>
-          <div className={styles.grid}>{section.items.map((company) => card(company, 'tile'))}</div>
+          {rows(section.items, 'tile')}
         </section>
       ))}
     </div>

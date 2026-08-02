@@ -21,6 +21,8 @@ type Props = {
   veil?: boolean;
   /** Letterbox the static fallback too — for logo art on transparent backgrounds. */
   containStill?: boolean;
+  /** Called when the static cover fails to load, so the caller can fall back. */
+  onImageError?: () => void;
   className?: string;
 };
 
@@ -39,6 +41,7 @@ export default function MotionCover({
   fill = false,
   veil = false,
   containStill = false,
+  onImageError,
   className,
 }: Props) {
   const asset = animation ?? motionFor(name);
@@ -90,6 +93,7 @@ export default function MotionCover({
             src={image}
             alt={alt}
             loading="lazy"
+            onError={onImageError}
           />
         ) : null}
         {veil ? <span className={styles.veil} /> : null}

@@ -10,15 +10,27 @@
 
 export const MOTION_BASE = '/motion';
 
+export type Orientation = 'landscape' | 'portrait';
+
 export type MotionAsset = {
   /** Looping animation source. */
   src: string;
   /** First-frame still. Used as the poster and as the blurred backdrop. */
   poster: string;
+  /**
+   * Frame shape of the source. Cards are grouped by this so a row is either
+   * all landscape or all portrait — mixing the two letterboxes half the row
+   * and the grid stops reading as one system.
+   */
+  orientation: Orientation;
 };
 
-function asset(slug: string): MotionAsset {
-  return { src: `${MOTION_BASE}/${slug}.mp4`, poster: `${MOTION_BASE}/${slug}.jpg` };
+function asset(slug: string, orientation: Orientation = 'landscape'): MotionAsset {
+  return {
+    src: `${MOTION_BASE}/${slug}.mp4`,
+    poster: `${MOTION_BASE}/${slug}.jpg`,
+    orientation,
+  };
 }
 
 /** Every animation currently in the library, keyed by file slug. */
@@ -30,27 +42,27 @@ export const motion = {
   everydayWater: asset('everyday-wg-ani'),
   fraternity: asset('fraternity-ani'),
   goodTimes: asset('goodtimes'),
-  goodTimesPortrait: asset('good-times'),
-  grownish: asset('grown-ani'),
-  grownishWeekly: asset('grownish-weekly'),
-  hakunaMatata: asset('hakuna-ani'),
+  goodTimesPortrait: asset('good-times', 'portrait'),
+  grownish: asset('grown-ani', 'portrait'),
+  grownishWeekly: asset('grownish-weekly', 'portrait'),
+  hakunaMatata: asset('hakuna-ani', 'portrait'),
   help911: asset('help-911-ani'),
   infinityWater: asset('infinity-bottles-2'),
   kollectiveGlobal: asset('kollective-global'),
-  kollectiveNetwork: asset('kollective-network'),
+  kollectiveNetwork: asset('kollective-network', 'portrait'),
   maga: asset('maga-anii'),
   magaCollage: asset('maga-collage'),
   magaScene: asset('maga-scene'),
   nativa: asset('nativa-ani'),
   pronto: asset('pronto-cans'),
   pulse: asset('pulse-ani'),
-  rose: asset('rose-comin-ani'),
+  rose: asset('rose-comin-ani', 'portrait'),
   soleExchange: asset('sole-exchange-ani'),
   sos: asset('sos-ani'),
   sosAlt: asset('sos-ani2'),
   stush: asset('stush-ani'),
   tasteOfArt: asset('taste-of-art'),
-  tasteOfArtPortrait: asset('taste-of-art-porttait'),
+  tasteOfArtPortrait: asset('taste-of-art-porttait', 'portrait'),
   theLaw: asset('the-law-ani'),
   theVote: asset('the-vote-ani'),
   trailblazer: asset('trailblazer-ani'),
@@ -61,10 +73,8 @@ export const motion = {
 
 /** Legacy in-repo hero films that predate this library. */
 export const legacyMotion = {
-  founderHero: { src: '/dorsey/motion/founder-hero.mp4', poster: '/dorsey/hero-bg.jpg' },
-  casperHero: { src: '/dorsey/motion/casper-group.mp4', poster: '/dorsey/rooftop.jpg' },
-  nativa: { src: '/dorsey/motion/nativa.mp4', poster: '' },
-  aquiferLegacy: { src: '/dorsey/motion/aquifer.mp4', poster: '' },
+  founderHero: { src: '/dorsey/motion/founder-hero.mp4', poster: '/dorsey/hero-bg.jpg', orientation: 'landscape' },
+  casperHero: { src: '/dorsey/motion/casper-group.mp4', poster: '/dorsey/rooftop.jpg', orientation: 'landscape' },
 } satisfies Record<string, MotionAsset>;
 
 /**
@@ -145,6 +155,7 @@ export function motionManifest(origin = '') {
     slug: entry.src.split('/').pop()!.replace(/\.mp4$/, ''),
     video: `${base}${entry.src}`,
     poster: `${base}${entry.poster}`,
+    orientation: entry.orientation,
     matches: byAsset.get(entry.src) || [],
   }));
 }
@@ -161,4 +172,13 @@ function normalise(name: string): string {
 export function motionFor(name: string | undefined | null): MotionAsset | undefined {
   if (!name) return undefined;
   return NAME_MOTION[normalise(name)];
+}
+
+/**
+ * Frame shape a card should use. Companies with a hero still or no artwork at
+ * all default to landscape, which is what the holding plate and the 16:9
+ * stills are cut for.
+ */
+export function orientationFor(name: string | undefined | null): Orientation {
+  return motionFor(name)?.orientation ?? 'landscape';
 }

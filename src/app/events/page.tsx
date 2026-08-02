@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { isRetired } from '@/lib/roster';
 
 const SB = 'https://dzlmtvodpyhetvektfuo.supabase.co';
 const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR6bG10dm9kcHloZXR2ZWt0ZnVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1ODQ4NjQsImV4cCI6MjA4NTE2MDg2NH0.qmnWB4aWdb7U8Iod9Hv8PQAOJO3AG0vYEGnPS--kfAo';
@@ -14,7 +15,7 @@ const SPONSORS = [
   { name:'Pronto Energy', src:`${IMG}/pronto_energy/logos/pronto-logo.png`, url:'https://prontoenergydrink.com' },
   { name:'Infinity Water', src:`${IMG}/infinity_water/website/gold.jpg`, url:'https://watertoinfinity.com' },
   { name:'STUSH', src:null, text:'STUSH', url:'https://stushusa.com' },
-];
+].filter((item) => !isRetired(item.name));
 
 /* ═══ BRAND LOGOS FOR MARQUEE ═══ */
 const BRAND_LOGOS = [
@@ -28,7 +29,7 @@ const BRAND_LOGOS = [
   { name:'Forever Futbol', src:`${IMG}/forever_futbol/logos/FOREVER_FUTBOL_LOGO.png` },
   { name:'Good Times', src:`${IMG}/good_times/00-brand-assets/logos/good-times-logo-gold-black.png` },
   { name:'Pronto', src:`${IMG}/pronto_energy/logos/pronto-logo.png` },
-];
+].filter((item) => !isRetired(item.name));
 
 /* ═══ EVENT FLYERS for display ═══ */
 const FLYERS = [
@@ -36,7 +37,7 @@ const FLYERS = [
   { src:`${IMG}/taste_of_art/03_event_flyers/TASTE_MAIN2.JPEG`, brand:'Taste of Art' },
   { src:`${IMG}/remix_event/03-event-flyers/remix-dj-dates-cities.png`, brand:'REMIX' },
   { src:`${IMG}/gangsta_gospel/03_event_flyers/GANGSTA_DATE.png`, brand:'Gangsta Gospel' },
-];
+].filter((item) => !isRetired(item.brand));
 
 /* ═══ LIFESTYLE IMAGES ═══ */
 const LIFESTYLE = [

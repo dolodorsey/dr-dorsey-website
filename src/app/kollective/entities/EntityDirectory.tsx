@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { SB } from '@/lib/enterprise';
 import styles from './page.module.css';
+import { isRetired } from '@/lib/roster';
 
 type Entity = {
   slug: string;
@@ -87,7 +88,7 @@ const entities: Entity[] = [
   e('umbrella-travel','Umbrella Travel','Services','Service company','Curated movement.','https://theumbrella.group'),
   e('mind-studio','The Mind Studio','Services','Wellness platform','Mental wellness, modernized.','https://theumbrella.group'),
   e('reset-therapy','Reset Therapy','Services','Wellness platform','Make room to begin again.','https://theumbrella.group'),
-];
+].filter((item) => !isRetired(item.name));
 
 const divisions = ['All', ...Array.from(new Set(entities.map((item) => item.division)))];
 

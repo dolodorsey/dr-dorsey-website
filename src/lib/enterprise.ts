@@ -1,3 +1,5 @@
+import { pruneNames } from '@/lib/roster';
+
 export const SB = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics';
 
 export const BOOK_URL = 'https://bodgeaworldwide.myshopify.com/products/hakuna-matata-by-dr-dorsey';
@@ -184,7 +186,7 @@ export type Division = {
   cta: string;
 };
 
-export const divisions: Division[] = [
+const allDivisions: Division[] = [
   {
     title: 'Entertainment',
     eyebrow: 'Culture & IP',
@@ -258,6 +260,12 @@ export const divisions: Division[] = [
     cta: 'Enter the Service Network',
   },
 ];
+/** Retired brands never appear in a division's brand list. */
+export const divisions: Division[] = allDivisions.map((division) => ({
+  ...division,
+  brands: pruneNames(division.brands),
+}));
+
 
 export type AccessLink = {
   title: string;

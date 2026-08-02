@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import styles from './directory.module.css';
+import { isRetired } from '@/lib/roster';
 
 type Destination = {
   action_key: string;
@@ -49,7 +50,12 @@ export default function EnterpriseDirectoryPage() {
       .then((payload) => {
         if (active) {
           const records = Array.isArray(payload.entities) ? payload.entities : [];
-          setEntities(records.filter((entity: Entity) => !/nation|sovereign/i.test(`${entity.name} ${entity.slug}`)));
+          setEntities(
+            records.filter(
+              (entity: Entity) =>
+                !/nation|sovereign/i.test(`${entity.name} ${entity.slug}`) && !isRetired(entity.name),
+            ),
+          );
         }
       })
       .catch((error) => console.error('enterprise_directory_load_failed', error))

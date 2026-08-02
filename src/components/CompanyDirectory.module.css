@@ -51,6 +51,17 @@
   scroll-margin-top: 90px;
 }
 
+/* Spacing between the landscape block and the portrait block of a section. */
+.gridNext {
+  margin-top: var(--k-gap, 16px);
+}
+
+.chipLead {
+  color: #0a0907 !important;
+  background: var(--k-gold, #c8a35a);
+  border-color: var(--k-gold, #c8a35a) !important;
+}
+
 .sectionHead {
   display: flex;
   align-items: baseline;
@@ -110,6 +121,11 @@
   flex: none;
   width: 100%;
   aspect-ratio: 16 / 9;
+}
+
+/* 9:16 sources get a tall frame so they fill it instead of letterboxing. */
+.portrait {
+  aspect-ratio: 3 / 4;
 }
 
 /*
