@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
+    id: "/app",
     name: "Kollective",
     short_name: "Kollective",
     description: "Events, brands, experiences, and the best of the Kollective in one simplified app.",
@@ -14,24 +15,16 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ["lifestyle", "entertainment", "business"],
     icons: [
       {
+        src: "/app/icon",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
         src: "/kollective-app-icon.svg",
         sizes: "any",
         type: "image/svg+xml",
-        purpose: "any maskable",
-      },
-    ],
-    shortcuts: [
-      {
-        name: "Discover events",
-        short_name: "Events",
-        url: "/app?tab=events",
-        icons: [{ src: "/kollective-app-icon.svg", sizes: "any", type: "image/svg+xml" }],
-      },
-      {
-        name: "Explore brands",
-        short_name: "Brands",
-        url: "/app?tab=brands",
-        icons: [{ src: "/kollective-app-icon.svg", sizes: "any", type: "image/svg+xml" }],
+        purpose: "maskable",
       },
     ],
   };
