@@ -124,7 +124,7 @@ function isFreeEvent(event: EventItem) {
   if (event.is_free) return true;
   const price = event.ticket_price?.trim() || "";
   if (/^0(?:\.0+)?(?:\s*-|$)/.test(price)) return true;
-  return /\bfree\b/i.test(`${event.event_name} ${event.description || ""}`);
+  return /\bfree\b/i.test(event.event_name);
 }
 function eventPrice(event: EventItem) {
   if (isFreeEvent(event)) {
