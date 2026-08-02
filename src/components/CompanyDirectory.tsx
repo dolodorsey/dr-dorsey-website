@@ -110,27 +110,25 @@ export default function CompanyDirectory() {
   }
 
   const card = (company: Company, variant: 'feature' | 'tile') => {
-    // With no animation and no hero shot, the logo becomes the cover rather
-    // than an overlay — otherwise most of the roster renders as empty boxes.
+    // Covers are artwork only — an animation or a hero still. Logos are never
+    // promoted to cover art; a company with neither gets a holding plate until
+    // its graphic is delivered.
     const hasMotion = Boolean(motionFor(company.name));
-    const logoIsCover = !hasMotion && !company.hero && Boolean(company.logo);
+    const awaitingArt = !hasMotion && !company.hero;
 
     return (
     <a className={`${styles.card} ${styles[variant]}`} href={company.href} key={company.key}>
-      <span className={`${styles.media} ${logoIsCover ? styles.logoCover : ''}`}>
-        <MotionCover
-          name={company.name}
-          image={company.hero || (logoIsCover ? company.logo : undefined)}
-          alt={company.name}
-          containStill={logoIsCover}
-        />
-        {!hasMotion && !company.hero && !company.logo ? (
-          <span className={styles.monogram} aria-hidden="true">
-            {company.name.replace(/[^A-Za-z]/g, '').slice(0, 2).toUpperCase()}
+      <span className={`${styles.media} ${awaitingArt ? styles.awaiting : ''}`}>
+        {awaitingArt ? (
+          <span className={styles.plate} aria-hidden="true">
+            <b>{company.name}</b>
+            <i>{company.division}</i>
           </span>
-        ) : null}
+        ) : (
+          <MotionCover name={company.name} image={company.hero} alt={company.name} />
+        )}
       </span>
-      {company.logo && !logoIsCover ? (
+      {company.logo && !awaitingArt ? (
         <img className={styles.logo} src={company.logo} alt="" aria-hidden="true" />
       ) : null}
       <div className={styles.body}>

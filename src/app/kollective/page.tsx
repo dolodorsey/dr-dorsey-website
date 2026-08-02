@@ -4,13 +4,13 @@ import styles from './kollective.module.css';
 import upgradeStyles from './kollective-upgrade.module.css';
 import { accessLinks, SB } from '@/lib/enterprise';
 import DepartmentGrid from '@/components/DepartmentGrid';
+import MotionCover from '@/components/MotionCover';
 import FilmBackdrop from '@/components/FilmBackdrop';
 import { motion } from '@/lib/motion';
 
 const EMBLEM = `${SB}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
 const HERO_VIDEO = '/brand/kollective-hero.mp4';
 const HERO_POSTER = '/brand/kollective-hero-poster.png';
-const BOOK_COVER = 'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/cover-hero.png?v=1783903956';
 const BOOK_URL = 'https://bodgeaworldwide.myshopify.com/products/hakuna-matata-by-dr-dorsey';
 
 
@@ -68,7 +68,9 @@ export default function KollectivePage() {
       <section className={`${upgradeStyles.bookPromo} k-surface k-surface-warm k-emblem`} id="book">
         <div className={upgradeStyles.bookVisual}>
           <div className={upgradeStyles.bookGlow} />
-          <img src={BOOK_COVER} alt="Hakuna Matata by Dr. Dorsey" />
+          <div className={upgradeStyles.bookFilm}>
+            <MotionCover animation={motion.hakunaMatata} alt="Hakuna Matata by Dr. Dorsey" />
+          </div>
         </div>
         <div className={upgradeStyles.bookCopy}>
           <span>The Founder’s Field Manual</span>

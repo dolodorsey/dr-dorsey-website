@@ -83,6 +83,15 @@
   filter: blur(90px);
 }
 
+.bookFilm {
+  position: relative;
+  z-index: 2;
+  width: min(430px, 84%);
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  filter: drop-shadow(0 38px 45px rgba(0, 0, 0, 0.72));
+}
+
 .bookVisual img {
   position: relative;
   z-index: 2;
@@ -194,7 +203,16 @@
     padding: 65px 20px 10px;
   }
 
-  .bookVisual img {
+  .bookFilm {
+  position: relative;
+  z-index: 2;
+  width: min(430px, 84%);
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  filter: drop-shadow(0 38px 45px rgba(0, 0, 0, 0.72));
+}
+
+.bookVisual img {
     max-height: 430px;
   }
 

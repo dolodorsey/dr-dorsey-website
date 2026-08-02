@@ -216,7 +216,7 @@ export default function HomePage() {
           </div>
         </div>
         <div className={styles.bookVisual}>
-          <img src="/dorsey/book-office.png" alt="Hakuna Matata by Dr. Dorsey" />
+          <MotionCover animation={motion.hakunaMatata} alt="Hakuna Matata by Dr. Dorsey" />
         </div>
       </section>
 
