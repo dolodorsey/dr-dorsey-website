@@ -1,0 +1,86 @@
+.hero {
+  position: relative;
+  isolation: isolate;
+}
+
+.heroVideo {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: .78;
+  filter: saturate(.88) contrast(1.08);
+}
+
+.heroScrim {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(180deg, rgba(8, 6, 4, .08), rgba(8, 6, 4, .22) 42%, rgba(8, 6, 4, .96) 94%),
+    radial-gradient(circle at 78% 12%, rgba(200, 169, 110, .17), transparent 38%);
+  pointer-events: none;
+}
+
+.foreground {
+  position: relative;
+  z-index: 1;
+}
+
+.emblem,
+.profileEmblem {
+  animation: emblemFloat 5.2s ease-in-out infinite;
+  filter: drop-shadow(0 8px 22px rgba(200, 169, 110, .2));
+}
+
+.motionQuick {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.motionQuick video {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .76;
+  filter: saturate(.82) contrast(1.1);
+}
+
+.motionQuick > i {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(145deg, rgba(8, 6, 4, .18), rgba(8, 6, 4, .94));
+}
+
+.motionQuick > svg,
+.motionQuick > span,
+.motionQuick > small {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, .82));
+}
+
+@keyframes emblemFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-3px) rotate(1.5deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroVideo,
+  .motionQuick video {
+    display: none;
+  }
+
+  .emblem,
+  .profileEmblem {
+    animation: none;
+  }
+}
