@@ -1,0 +1,144 @@
+[data-kollective-app] {
+  --kol-gold: #d8b04c;
+  --kol-gold-soft: #f0d889;
+  --kol-ink: #070707;
+  --kol-panel: rgba(17, 17, 17, 0.88);
+  --kol-line: rgba(255, 255, 255, 0.09);
+  --kol-muted: #969696;
+  min-height: 100dvh;
+  background:
+    radial-gradient(circle at 12% -10%, rgba(216,176,76,.18), transparent 28rem),
+    radial-gradient(circle at 100% 32%, rgba(92,64,16,.14), transparent 24rem),
+    #050505;
+}
+
+[data-kollective-app] * {
+  box-sizing: border-box;
+}
+
+[data-kollective-app] header {
+  border-bottom-color: var(--kol-line) !important;
+  box-shadow: 0 18px 50px rgba(0,0,0,.22);
+}
+
+[data-kollective-app] header img {
+  filter: drop-shadow(0 8px 24px rgba(216,176,76,.18));
+}
+
+[data-kollective-app] main,
+[data-kollective-app] section {
+  scroll-margin-top: 96px;
+}
+
+[data-kollective-app] section {
+  position: relative;
+}
+
+[data-kollective-app] section::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -18px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
+  pointer-events: none;
+}
+
+[data-kollective-app] h1,
+[data-kollective-app] h2,
+[data-kollective-app] h3 {
+  text-wrap: balance;
+}
+
+[data-kollective-app] a,
+[data-kollective-app] button {
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .18s ease, border-color .18s ease, background-color .18s ease, box-shadow .18s ease, color .18s ease;
+}
+
+[data-kollective-app] a:active,
+[data-kollective-app] button:active {
+  transform: scale(.975);
+}
+
+[data-kollective-app] a:focus-visible,
+[data-kollective-app] button:focus-visible,
+[data-kollective-app] input:focus-visible {
+  outline: 2px solid var(--kol-gold-soft);
+  outline-offset: 3px;
+}
+
+[data-kollective-app] nav {
+  margin: 0 auto max(8px, env(safe-area-inset-bottom));
+  width: min(680px, calc(100% - 20px)) !important;
+  bottom: 8px !important;
+  border: 1px solid var(--kol-line) !important;
+  border-radius: 24px;
+  box-shadow: 0 18px 60px rgba(0,0,0,.55);
+  overflow: hidden;
+}
+
+[data-kollective-app] nav button {
+  min-height: 52px;
+  border-radius: 16px;
+}
+
+[data-kollective-app] nav button[aria-current="page"],
+[data-kollective-app] nav button:hover {
+  background: rgba(216,176,76,.09);
+}
+
+[data-kollective-app] img {
+  display: block;
+}
+
+[data-kollective-app] input {
+  min-height: 24px;
+}
+
+@media (hover: hover) {
+  [data-kollective-app] a:hover,
+  [data-kollective-app] button:hover {
+    transform: translateY(-2px);
+  }
+
+  [data-kollective-app] section a:hover {
+    border-color: rgba(216,176,76,.38) !important;
+    box-shadow: 0 18px 48px rgba(0,0,0,.34);
+  }
+}
+
+@media (min-width: 900px) {
+  [data-kollective-app] {
+    padding: 22px;
+  }
+
+  [data-kollective-app] > * {
+    border: 1px solid var(--kol-line);
+    border-radius: 34px;
+    overflow: clip;
+    box-shadow: 0 30px 100px rgba(0,0,0,.5);
+  }
+
+  [data-kollective-app] nav {
+    bottom: 18px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  [data-kollective-app] nav {
+    width: calc(100% - 14px) !important;
+    bottom: 5px !important;
+    border-radius: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-kollective-app] *,
+  [data-kollective-app] *::before,
+  [data-kollective-app] *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
