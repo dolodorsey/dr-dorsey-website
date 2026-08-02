@@ -23,7 +23,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 const API_BASE =
   (Constants.expoConfig?.extra?.apiBaseUrl as string | undefined) ||
-  "https://doctordorsey.com";
+  "https://thekollectivehospitality.com";
 const BRAND_GRAPHICS =
   "https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics";
 const EMBLEM = `${BRAND_GRAPHICS}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;

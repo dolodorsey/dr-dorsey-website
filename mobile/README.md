@@ -4,8 +4,8 @@ This directory contains the native Expo/React Native customer application. It is
 
 ## Live services
 
-- Customer feed: `https://doctordorsey.com/api/customer/home`
-- Universal-link companion route: `https://doctordorsey.com/app`
+- Customer feed: `https://thekollectivehospitality.com/api/customer/home`
+- Universal-link companion route: `https://thekollectivehospitality.com/app`
 - Bundle identifier: `com.kollective.customer`
 - Expo slug: `kollective-customer`
 
