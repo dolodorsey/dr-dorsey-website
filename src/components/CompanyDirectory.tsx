@@ -95,7 +95,7 @@ export default function CompanyDirectory() {
   const featured = companies.slice(0, 2);
   const rest = companies.slice(2);
 
-  /** Animations are in production for these — they lead the page. */
+  /** Newest work — pinned above the departments. */
   const inProduction = useMemo(
     () =>
       rest
@@ -122,6 +122,11 @@ export default function CompanyDirectory() {
       items: grouped.get(division)!,
     }));
   }, [rest]);
+
+  /** True while any pinned company is still waiting on its artwork. */
+  const productionPending = inProduction.some(
+    (company) => !motionFor(company.name) && !company.hero,
+  );
 
   if (!companies.length) {
     return <p className={styles.empty}>Loading the enterprise registry…</p>;
@@ -200,7 +205,8 @@ export default function CompanyDirectory() {
       <nav className={styles.chips} aria-label="Jump to a department">
         {inProduction.length ? (
           <a href="#in-production" className={styles.chipLead}>
-            In production<b>{inProduction.length}</b>
+            {productionPending ? 'In production' : 'Just added'}
+            <b>{inProduction.length}</b>
           </a>
         ) : null}
         {sections.map((section) => (
@@ -218,8 +224,8 @@ export default function CompanyDirectory() {
       {inProduction.length ? (
         <section className={styles.section} id="in-production">
           <header className={styles.sectionHead}>
-            <h3>In Production</h3>
-            <span>Artwork in progress</span>
+            <h3>{productionPending ? 'In Production' : 'Just Added'}</h3>
+            <span>{productionPending ? 'Artwork in progress' : 'Newest artwork'}</span>
           </header>
           {rows(inProduction, 'tile')}
         </section>
