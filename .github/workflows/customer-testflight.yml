@@ -1,0 +1,61 @@
+name: Customer TestFlight
+
+on:
+  workflow_dispatch:
+    inputs:
+      submit_to_testflight:
+        description: "Submit the completed iOS build to App Store Connect/TestFlight"
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: customer-testflight
+  cancel-in-progress: false
+
+jobs:
+  build-and-submit:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      EAS_PROJECT_ID: ${{ secrets.CUSTOMER_EAS_PROJECT_ID }}
+      EXPO_OWNER: ${{ secrets.EXPO_OWNER }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify required secure configuration
+        shell: bash
+        run: |
+          test -n "$EXPO_TOKEN" || { echo "Missing EXPO_TOKEN"; exit 1; }
+          test -n "$EAS_PROJECT_ID" || { echo "Missing CUSTOMER_EAS_PROJECT_ID"; exit 1; }
+          test -n "$EXPO_OWNER" || { echo "Missing EXPO_OWNER"; exit 1; }
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package.json
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps --no-audit --no-fund
+
+      - name: Install EAS CLI
+        run: npm install --global eas-cli@latest
+
+      - name: Verify Expo project
+        run: eas project:info --non-interactive
+
+      - name: Build signed iOS application
+        run: eas build --platform ios --profile production --non-interactive --wait
+
+      - name: Submit latest build to TestFlight
+        if: ${{ inputs.submit_to_testflight }}
+        run: eas submit --platform ios --profile production --latest --non-interactive
