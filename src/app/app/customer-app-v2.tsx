@@ -16,7 +16,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import styles from "./customer-app-v2.module.css";
 import motion from "./customer-app-v2-motion.module.css";
-import { motion as motionLibrary } from "@/lib/motion";
+import { motion as motionLibrary, motionFor } from "@/lib/motion";
 
 type Destination = {
   fallback_url?: string;
@@ -275,6 +275,8 @@ export default function CustomerAppV2() {
   const hero = payload?.home.featured[0];
   const nextEvent = marketEvents[0] ?? payload?.home.events[0];
   const heroPoster = hero?.image_url || nextEvent?.image_url || HERO_POSTER;
+  const heroTitle =
+    hero?.title || nextEvent?.event_name || `What is happening in ${market}`;
 
   const selectTab = (tab: Tab) => {
     setActiveTab(tab);
@@ -372,7 +374,7 @@ export default function CustomerAppV2() {
             {activeTab === "home" ? (
               <div className={styles.content}>
                 <section>
-                  <Heading eyebrow="CHOOSE YOUR MARKET" title="The Kollective, where you are" />
+                  <Heading eyebrow="YOUR CITY" title={`What is happening in ${market}`} />
                   <MarketControl />
                 </section>
 
@@ -403,17 +405,13 @@ export default function CustomerAppV2() {
                     <small>CURATED FOR {market.toUpperCase()}</small>
                   </div>
                   <div className={`${styles.heroCopy} ${motion.foreground}`}>
-                    <p>{hero?.content_type || nextEvent?.event_category || "DISCOVER"}</p>
-                    <h1>
-                      {hero?.title ||
-                        nextEvent?.event_name ||
-                        "Your city. Your people. Your next move."}
-                    </h1>
+                    <p>{hero?.content_type || nextEvent?.event_category || "FEATURED EXPERIENCE"}</p>
+                    <h1 title={heroTitle}>{heroTitle}</h1>
                     <span>{hero?.summary || nextEvent?.ai_summary || payload?.app.tagline}</span>
                     <div className={styles.heroActions}>
                       {nextEvent?.ticket_url ? (
                         <a href={nextEvent.ticket_url} target="_blank" rel="noreferrer">
-                          VIEW EVENT <ArrowUpRight size={16} />
+                          GET DETAILS <ArrowUpRight size={16} />
                         </a>
                       ) : null}
                       <button onClick={() => selectTab("brands")}>EXPLORE BRANDS</button>
@@ -422,7 +420,7 @@ export default function CustomerAppV2() {
                 </section>
 
                 <section>
-                  <Heading eyebrow="START HERE" title="Move through the Kollective" />
+                  <Heading eyebrow="EXPLORE" title="Make your next move" />
                   <div className={styles.quickGrid}>
                     <button
                       onClick={() => {
@@ -463,8 +461,8 @@ export default function CustomerAppV2() {
 
                 <section>
                   <Heading
-                    eyebrow="CUSTOMER EXPERIENCE CONTROL"
-                    title={`${market} experiences`}
+                    eyebrow="UPCOMING"
+                    title={`Events in ${market}`}
                     action="SEE ALL"
                     onAction={() => selectTab("events")}
                   />
@@ -477,8 +475,8 @@ export default function CustomerAppV2() {
 
                 <section>
                   <Heading
-                    eyebrow="THE UNIVERSE"
-                    title="Inside the Kollective"
+                    eyebrow="THE KOLLECTIVE"
+                    title="Brands in motion"
                     action="SEE ALL"
                     onAction={() => selectTab("brands")}
                   />
@@ -577,12 +575,13 @@ export default function CustomerAppV2() {
           </>
         )}
 
-        <nav className={styles.nav}>
+        <nav className={styles.nav} aria-label="Primary navigation">
           {tabs.map(({ key, label, icon: Icon }) => (
             <button
               key={key}
               className={activeTab === key ? styles.navActive : undefined}
               onClick={() => selectTab(key)}
+              aria-current={activeTab === key ? "page" : undefined}
             >
               <Icon />
               <span>{label}</span>
@@ -625,6 +624,7 @@ function Intro({ eyebrow, title, copy }: { eyebrow: string; title: string; copy:
   );
 }
 function EventCard({ event }: { event: EventItem }) {
+  const eventMotion = motionFor(`${event.venue_name || ""}`) || motionFor(event.event_name);
   return (
     <a
       className={styles.eventCard}
@@ -632,11 +632,16 @@ function EventCard({ event }: { event: EventItem }) {
       target={event.ticket_url ? "_blank" : undefined}
       rel="noreferrer"
     >
-      <div className={styles.eventImage} style={imageStyle(event.image_url)}>
+      <MotionMedia
+        className={styles.eventImage}
+        video={eventMotion?.src}
+        poster={event.image_url || eventMotion?.poster}
+        label={event.event_name}
+      >
         <span>
           {event.is_featured ? "FEATURED" : eventPrice(event)}
         </span>
-      </div>
+      </MotionMedia>
       <div>
         <p>
           {eventDate(event.event_date)} {event.event_time ? `· ${event.event_time}` : ""}
@@ -651,17 +656,25 @@ function EventCard({ event }: { event: EventItem }) {
   );
 }
 function BrandCard({ entity }: { entity: Entity }) {
+  const brandMotion = motionFor(entity.name);
   return (
     <a href={destination(entity)} className={styles.brandCard} target="_blank" rel="noreferrer">
-      <div style={imageStyle(entity.hero_url)}>
-        {entity.logo_url ? <img src={entity.logo_url} alt="" /> : <span>{entity.name.slice(0, 1)}</span>}
-      </div>
+      <MotionMedia
+        className={styles.brandMedia}
+        video={brandMotion?.src}
+        poster={entity.hero_url || brandMotion?.poster}
+        label={entity.name}
+      >
+        {!brandMotion && entity.logo_url ? <img src={entity.logo_url} alt="" /> : null}
+        {!brandMotion && !entity.logo_url ? <span>{entity.name.slice(0, 1)}</span> : null}
+      </MotionMedia>
       <p>{entity.category || entity.status_label || "KOLLECTIVE"}</p>
       <h3>{entity.name}</h3>
     </a>
   );
 }
 function EventRow({ event }: { event: EventItem }) {
+  const eventMotion = motionFor(`${event.venue_name || ""}`) || motionFor(event.event_name);
   return (
     <a
       href={event.ticket_url || undefined}
@@ -669,7 +682,12 @@ function EventRow({ event }: { event: EventItem }) {
       target={event.ticket_url ? "_blank" : undefined}
       rel="noreferrer"
     >
-      <div className={styles.rowImage} style={imageStyle(event.image_url)} />
+      <MotionMedia
+        className={styles.rowImage}
+        video={eventMotion?.src}
+        poster={event.image_url || eventMotion?.poster}
+        label={event.event_name}
+      />
       <div>
         <p>
           {event.is_featured ? "KOLLECTIVE FEATURED · " : ""}
@@ -687,11 +705,18 @@ function EventRow({ event }: { event: EventItem }) {
   );
 }
 function EntityRow({ entity }: { entity: Entity }) {
+  const brandMotion = motionFor(entity.name);
   return (
     <a href={destination(entity)} className={styles.row} target="_blank" rel="noreferrer">
-      <div className={styles.entityImage} style={imageStyle(entity.hero_url)}>
-        {entity.logo_url ? <img src={entity.logo_url} alt="" /> : <span>{entity.name.slice(0, 1)}</span>}
-      </div>
+      <MotionMedia
+        className={styles.entityImage}
+        video={brandMotion?.src}
+        poster={entity.hero_url || brandMotion?.poster}
+        label={entity.name}
+      >
+        {!brandMotion && entity.logo_url ? <img src={entity.logo_url} alt="" /> : null}
+        {!brandMotion && !entity.logo_url ? <span>{entity.name.slice(0, 1)}</span> : null}
+      </MotionMedia>
       <div>
         <p>{entity.category || entity.status_label || "KOLLECTIVE"}</p>
         <h2>{entity.name}</h2>
@@ -699,6 +724,32 @@ function EntityRow({ entity }: { entity: Entity }) {
       </div>
       <ArrowUpRight />
     </a>
+  );
+}
+
+function MotionMedia({
+  className,
+  video,
+  poster,
+  label,
+  children,
+}: {
+  className: string;
+  video?: string;
+  poster?: string | null;
+  label: string;
+  children?: React.ReactNode;
+}) {
+  return (
+    <div className={`${className} ${styles.media}`} style={imageStyle(poster)}>
+      {video ? (
+        <video autoPlay muted loop playsInline preload="metadata" poster={poster || undefined} aria-label={`${label} animation`}>
+          <source src={video} type="video/mp4" />
+        </video>
+      ) : null}
+      <i aria-hidden="true" />
+      {children ? <b className={styles.mediaContent}>{children}</b> : null}
+    </div>
   );
 }
 function ProfileLink({ href, label }: { href: string; label: string }) {
