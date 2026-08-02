@@ -1,23 +1,13 @@
-[class*="customer-app_emblem"] {
-  color: transparent !important;
-  font-size: 0 !important;
-  background-color: #0a0a0a !important;
-  background-image: url("https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png") !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  background-size: 76% !important;
-  border: 1px solid rgba(216, 176, 76, 0.32) !important;
-  box-shadow: 0 8px 30px rgba(216, 176, 76, 0.14) !important;
-}
-
+[class*="customer-app_emblem"],
 [class*="customer-app_profileMark"] {
   color: transparent !important;
   font-size: 0 !important;
-  background-color: #0a0a0a !important;
-  background-image: url("https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png") !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  background-size: 76% !important;
-  border: 1px solid rgba(216, 176, 76, 0.34) !important;
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45) !important;
+  background-image: none !important;
+}
+
+[class*="customer-app_emblem"] img,
+[class*="customer-app_profileMark"] img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
 }

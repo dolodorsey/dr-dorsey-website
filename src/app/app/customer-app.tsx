@@ -96,6 +96,14 @@ const tabs: Array<{ key: Tab; label: string; icon: typeof Home }> = [
   { key: "profile", label: "You", icon: UserRound },
 ];
 
+const supabaseBrandGraphics = "https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics";
+const appAssets = {
+  emblem: `${supabaseBrandGraphics}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`,
+  heroVideo: `${supabaseBrandGraphics}/dr_dorsey/website/hero-video.mp4`,
+  heroPoster: `${supabaseBrandGraphics}/dr_dorsey/website/hero-bg.jpg`,
+  goodTimesAnimation: `${supabaseBrandGraphics}/good_times/00-brand-assets/logos/good-times-logo-animation.mp4`,
+};
+
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   weekday: "short",
   month: "short",
@@ -191,6 +199,7 @@ export default function CustomerApp() {
 
   const hero = payload?.home.featured[0];
   const nextEvent = payload?.home.events[0];
+  const heroPoster = hero?.image_url || nextEvent?.image_url || appAssets.heroPoster;
 
   const install = async () => {
     if (!installPrompt) return;
@@ -213,7 +222,7 @@ export default function CustomerApp() {
         <header className={styles.header}>
           <div>
             <div className={styles.brandLine}>
-              <span className={styles.emblem}>K</span>
+              <span className={styles.emblem}><img src={appAssets.emblem} alt="" /></span>
               <span className={styles.brandName}>KOLLECTIVE</span>
             </div>
             <p className={styles.location}><MapPin size={12} /> {payload?.app.city || "Atlanta"}</p>
@@ -264,7 +273,11 @@ export default function CustomerApp() {
           <>
             {activeTab === "home" ? (
               <div className={styles.content}>
-                <section className={styles.hero} style={imageStyle(hero?.image_url || nextEvent?.image_url)}>
+                <section className={styles.hero} style={imageStyle(heroPoster)}>
+                  <video className={styles.heroVideo} autoPlay muted loop playsInline preload="metadata" poster={heroPoster} aria-hidden="true">
+                    <source src={appAssets.heroVideo} type="video/mp4" />
+                  </video>
+                  <i className={styles.heroScrim} aria-hidden="true" />
                   <div className={styles.heroBadge}><Sparkles size={13} /> RIGHT NOW</div>
                   <div className={styles.heroCopy}>
                     <p>{hero?.content_type || nextEvent?.event_category || "THE KOLLECTIVE"}</p>
@@ -290,7 +303,13 @@ export default function CustomerApp() {
                     <button onClick={() => selectTab("events")}><CalendarDays /><span>Tonight</span></button>
                     <button onClick={() => selectTab("events")}><Compass /><span>This Week</span></button>
                     <button onClick={() => selectTab("brands")}><Grid3X3 /><span>Brands</span></button>
-                    <a href="https://thegoodtimesworldwide.com" target="_blank" rel="noreferrer"><Sparkles /><span>Concierge</span></a>
+                    <a className={styles.motionQuick} href="https://thegoodtimesworldwide.com" target="_blank" rel="noreferrer">
+                      <video autoPlay muted loop playsInline preload="metadata" aria-hidden="true">
+                        <source src={appAssets.goodTimesAnimation} type="video/mp4" />
+                      </video>
+                      <i className={styles.motionQuickScrim} aria-hidden="true" />
+                      <Sparkles /><span>Concierge</span>
+                    </a>
                   </div>
                 </section>
 
@@ -396,7 +415,7 @@ export default function CustomerApp() {
             {activeTab === "profile" ? (
               <div className={styles.content}>
                 <section className={styles.profileHero}>
-                  <span className={styles.profileMark}>K</span>
+                  <span className={styles.profileMark}><img src={appAssets.emblem} alt="" /></span>
                   <p>YOUR KOLLECTIVE</p>
                   <h1>Save your favorites. Get invited. Move first.</h1>
                   <span>Customer accounts, personalized interests, tickets, memberships, and concierge requests are the next layer of this experience.</span>
