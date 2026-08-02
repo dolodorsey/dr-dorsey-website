@@ -34,16 +34,11 @@ async function fetchRows(table: string, params: Record<string, string>) {
   const url = new URL(`${KOLLECTIVE_SUPABASE_URL}/rest/v1/${table}`);
   Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value));
 
-  const response = await fetch(url, {
-    headers,
-    next: { revalidate: 300 },
-  });
-
+  const response = await fetch(url, { headers, next: { revalidate: 300 } });
   if (!response.ok) {
     const detail = await response.text();
     throw new Error(`${table} returned ${response.status}: ${detail}`);
   }
-
   return (await response.json()) as Row[];
 }
 
@@ -55,16 +50,7 @@ function isCurrentlyActive(row: Row, now: Date) {
 
 function decodeHtml(value: unknown) {
   if (typeof value !== "string") return value;
-
-  const named: Record<string, string> = {
-    amp: "&",
-    apos: "'",
-    gt: ">",
-    lt: "<",
-    nbsp: " ",
-    quot: '"',
-  };
-
+  const named: Record<string, string> = { amp: "&", apos: "'", gt: ">", lt: "<", nbsp: " ", quot: '"' };
   return value
     .replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
     .replace(/&#x([0-9a-f]+);/gi, (_, code: string) => String.fromCodePoint(Number.parseInt(code, 16)))
@@ -79,50 +65,69 @@ function normalizedCity(value: unknown) {
   return city;
 }
 
+function canonicalEventName(value: unknown) {
+  return String(value ?? "")
+    .toLowerCase()
+    .replace(/\b20\d{2}\b/g, "")
+    .replace(/&/g, " and ")
+    .replace(/\b(the|official|free|rsvp)\b/g, " ")
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function eventQuality(event: Row, preferredCity: string) {
+  let score = Number(event.ai_vibe_score ?? 0);
+  if (normalizedCity(event.city) === preferredCity) score += 100;
+  if (event.image_url) score += 15;
+  if (event.ticket_url && String(event.ticket_url).length > 8) score += 10;
+  if (event.ai_summary) score += 6;
+  if (event.venue_name && !/not specified|secret venue/i.test(String(event.venue_name))) score += 5;
+  if (normalizedCity(event.city) && !["atlanta", "atl"].includes(normalizedCity(event.city))) score -= 4;
+  return score;
+}
+
 function normalizeEvents(rows: Row[], preferredCity: string, limit: number) {
+  const normalized = rows.map((row) => {
+    const eventName = String(decodeHtml(row.event_name) ?? "Event");
+    const ticketPrice = String(decodeHtml(row.ticket_price) ?? "");
+    const city = decodeHtml(row.city);
+    return {
+      ...row,
+      city,
+      event_name: eventName,
+      venue_name: decodeHtml(row.venue_name),
+      description: decodeHtml(row.description),
+      ai_summary: decodeHtml(row.ai_summary),
+      ticket_price: ticketPrice || null,
+      is_free: Boolean(row.is_free) || /\bfree\b/i.test(ticketPrice),
+    };
+  });
+
+  normalized.sort((a, b) => {
+    const dateDifference = String(a.event_date ?? "").localeCompare(String(b.event_date ?? ""));
+    if (dateDifference !== 0) return dateDifference;
+    return eventQuality(b, preferredCity) - eventQuality(a, preferredCity);
+  });
+
   const seen = new Set<string>();
-
-  return rows
-    .map((row) => {
-      const eventName = String(decodeHtml(row.event_name) ?? "Event");
-      const ticketPrice = String(decodeHtml(row.ticket_price) ?? "");
-      const description = decodeHtml(row.description);
-      const aiSummary = decodeHtml(row.ai_summary);
-      const city = decodeHtml(row.city);
-      const venueName = decodeHtml(row.venue_name);
-      const isFree = Boolean(row.is_free) || /\bfree\b/i.test(ticketPrice);
-
-      return {
-        ...row,
-        city,
-        event_name: eventName,
-        venue_name: venueName,
-        description,
-        ai_summary: aiSummary,
-        ticket_price: ticketPrice || null,
-        is_free: isFree,
-        _preferredCity: normalizedCity(city) === preferredCity ? 1 : 0,
-      };
-    })
+  return normalized
     .filter((event) => {
-      const key = [event.event_name, event.event_date, event.venue_name]
-        .map((value) => String(value ?? "").trim().toLowerCase())
+      const key = [canonicalEventName(event.event_name), event.event_date, normalizedCity(event.city)]
+        .map((value) => String(value ?? "").trim())
         .join("|");
-      if (seen.has(key)) return false;
+      if (!canonicalEventName(event.event_name) || seen.has(key)) return false;
       seen.add(key);
       return true;
     })
     .sort((a, b) => {
-      const cityDifference = Number(b._preferredCity) - Number(a._preferredCity);
+      const cityDifference = Number(normalizedCity(b.city) === preferredCity) - Number(normalizedCity(a.city) === preferredCity);
       if (cityDifference !== 0) return cityDifference;
-
       const dateDifference = String(a.event_date ?? "").localeCompare(String(b.event_date ?? ""));
       if (dateDifference !== 0) return dateDifference;
-
-      return Number(b.ai_vibe_score ?? 0) - Number(a.ai_vibe_score ?? 0);
+      return eventQuality(b, preferredCity) - eventQuality(a, preferredCity);
     })
-    .slice(0, limit)
-    .map(({ _preferredCity: _ignored, ...event }) => event);
+    .slice(0, limit);
 }
 
 export async function GET() {
@@ -130,11 +135,7 @@ export async function GET() {
   let config: Row = DEFAULT_CONFIG;
 
   try {
-    const rows = await fetchRows("kollective_customer_app_config", {
-      app_scope: "eq.customer",
-      select: "*",
-      limit: "1",
-    });
+    const rows = await fetchRows("kollective_customer_app_config", { app_scope: "eq.customer", select: "*", limit: "1" });
     config = rows[0] ?? DEFAULT_CONFIG;
   } catch (error) {
     warnings.push("Customer app configuration is using safe defaults.");
@@ -162,67 +163,44 @@ export async function GET() {
       event_date: `gte.${today}`,
       select: "id,city,event_name,event_date,event_time,end_date,end_time,venue_name,venue_address,neighborhood,event_type,event_category,description,ticket_url,ticket_price,image_url,organizer,tags,vibe_tags,is_free,ai_summary,ai_vibe_score",
       order: "event_date.asc,ai_vibe_score.desc",
-      limit: String(Math.max(eventLimit * 4, 64)),
+      limit: String(Math.max(eventLimit * 6, 96)),
     }),
   ]);
 
   const entities = entitiesResult.status === "fulfilled"
-    ? entitiesResult.value
-        .filter((entity) => !["inactive", "archived", "closed"].includes(String(entity.status ?? "").toLowerCase()))
-        .slice(0, featuredLimit)
+    ? entitiesResult.value.filter((entity) => !["inactive", "archived", "closed"].includes(String(entity.status ?? "").toLowerCase())).slice(0, featuredLimit)
     : [];
-  if (entitiesResult.status === "rejected") {
-    warnings.push("Brand directory is temporarily unavailable.");
-    console.error("Customer entities unavailable", entitiesResult.reason);
-  }
+  if (entitiesResult.status === "rejected") warnings.push("Brand directory is temporarily unavailable.");
 
   const now = new Date();
   const content = contentResult.status === "fulfilled"
-    ? contentResult.value
-        .filter((item) => isCurrentlyActive(item, now))
-        .map((item) => ({
-          ...item,
-          title: decodeHtml(item.title),
-          summary: decodeHtml(item.summary),
-          body: decodeHtml(item.body),
-        }))
-        .slice(0, 18)
+    ? contentResult.value.filter((item) => isCurrentlyActive(item, now)).map((item) => ({
+        ...item,
+        title: decodeHtml(item.title),
+        summary: decodeHtml(item.summary),
+        body: decodeHtml(item.body),
+      })).slice(0, 18)
     : [];
-  if (contentResult.status === "rejected") {
-    warnings.push("Featured content is temporarily unavailable.");
-    console.error("Customer content unavailable", contentResult.reason);
-  }
+  if (contentResult.status === "rejected") warnings.push("Featured content is temporarily unavailable.");
 
-  const events = eventsResult.status === "fulfilled"
-    ? normalizeEvents(eventsResult.value, preferredCity, eventLimit)
-    : [];
-  if (eventsResult.status === "rejected") {
-    warnings.push("Event discovery is temporarily unavailable.");
-    console.error("Customer events unavailable", eventsResult.reason);
-  }
+  const events = eventsResult.status === "fulfilled" ? normalizeEvents(eventsResult.value, preferredCity, eventLimit) : [];
+  if (eventsResult.status === "rejected") warnings.push("Event discovery is temporarily unavailable.");
 
-  return NextResponse.json(
-    {
-      app: config,
-      home: {
-        featured: content,
-        events,
-        entities,
-      },
-      source: "doctordorsey.com + Kollective MCP Gateway",
-      generatedAt: new Date().toISOString(),
-      partial: warnings.length > 0,
-      warnings,
+  return NextResponse.json({
+    app: config,
+    home: { featured: content, events, entities },
+    source: "doctordorsey.com + Kollective MCP Gateway",
+    generatedAt: new Date().toISOString(),
+    partial: warnings.length > 0,
+    warnings,
+  }, {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Cache-Control": "public, s-maxage=300, stale-while-revalidate=1800",
     },
-    {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=1800",
-      },
-    },
-  );
+  });
 }
 
 export async function OPTIONS() {
