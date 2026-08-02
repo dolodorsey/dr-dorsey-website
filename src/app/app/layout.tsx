@@ -6,7 +6,7 @@ const title = "Kollective — Events, Brands & Experiences";
 const description = "A simplified mobile front door to the Kollective: discover events, brands, experiences, and Good Times energy.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://doctordorsey.com"),
+  metadataBase: new URL("https://thekollectivehospitality.com"),
   title,
   description,
   applicationName: "Kollective",
@@ -25,6 +25,9 @@ export const metadata: Metadata = {
   },
   formatDetection: {
     telephone: false,
+  },
+  other: {
+    "mobile-web-app-capable": "yes",
   },
   openGraph: {
     title,

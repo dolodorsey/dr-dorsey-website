@@ -61,7 +61,7 @@ export default function OpenGraphImage() {
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", color: "#999", fontSize: 20 }}>
             <span>Powered by the Kollective</span>
-            <span>doctordorsey.com/app</span>
+            <span>thekollectivehospitality.com/app</span>
           </div>
         </div>
       </div>

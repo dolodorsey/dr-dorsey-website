@@ -4,8 +4,8 @@ This directory contains the native Expo/React Native customer application. It is
 
 ## Live services
 
-- Customer feed: `https://doctordorsey.com/api/customer/home`
-- Universal-link companion route: `https://doctordorsey.com/app`
+- Customer feed: `https://thekollectivehospitality.com/api/customer/home`
+- Universal-link companion route: `https://thekollectivehospitality.com/app`
 - Bundle identifier: `com.kollective.customer`
 - Expo slug: `kollective-customer`
 
@@ -14,8 +14,9 @@ The app consumes the same controlled customer feed as the web hub while renderin
 ## Local verification
 
 ```bash
-npm install --legacy-peer-deps
+npm ci
 npm run type-check
+npm run doctor
 npx expo config --type public
 npx expo export --platform ios --output-dir dist-ios
 ```

@@ -120,6 +120,32 @@ function eventDate(value: string) {
   const date = new Date(`${value}T12:00:00`);
   return Number.isNaN(date.getTime()) ? value : dateFormatter.format(date);
 }
+function isFreeEvent(event: EventItem) {
+  if (event.is_free) return true;
+  const price = event.ticket_price?.trim() || "";
+  if (/^0(?:\.0+)?(?:\s*-|$)/.test(price)) return true;
+  return /\bfree\b/i.test(event.event_name);
+}
+function eventPrice(event: EventItem) {
+  if (isFreeEvent(event)) {
+    const range = event.ticket_price?.trim().match(/^0(?:\.0+)?\s*-\s*(\d+(?:\.\d+)?)$/);
+    if (range) {
+      const maximum = Number(range[1]);
+      return `FREE–$${maximum.toFixed(maximum % 1 === 0 ? 0 : 2)}`;
+    }
+    return "FREE";
+  }
+  const value = event.ticket_price?.trim();
+  if (!value) return "RSVP";
+  const match = value.match(/^(\d+(?:\.\d+)?)(?:\s*-\s*(\d+(?:\.\d+)?))?$/);
+  if (!match) return value;
+  const minimum = Number(match[1]);
+  const maximum = match[2] ? Number(match[2]) : null;
+  const money = (amount: number) => `$${amount.toFixed(amount % 1 === 0 ? 0 : 2)}`;
+  if (minimum === 0 && maximum) return `FREE–${money(maximum)}`;
+  if (maximum && maximum !== minimum) return `${money(minimum)}–${money(maximum)}`;
+  return minimum === 0 ? "FREE" : money(minimum);
+}
 function destination(entity: Entity) {
   const list = Array.isArray(entity.destinations) ? entity.destinations : [];
   const selected = list.find((item) => item.is_primary) ?? list[0];
@@ -150,7 +176,7 @@ function isTonight(value: string) {
 function matchesFilter(event: EventItem, filter: EventFilter) {
   const category = `${event.event_category || ""} ${event.description || ""}`.toLowerCase();
   if (filter === "tonight") return isTonight(event.event_date);
-  if (filter === "free") return Boolean(event.is_free);
+  if (filter === "free") return isFreeEvent(event);
   if (filter === "culture") return /art|culture|museum|community|festival|food/.test(category);
   if (filter === "nightlife") return /nightlife|club|party|lounge|music|dj|bar/.test(category);
   return true;
@@ -534,11 +560,11 @@ export default function CustomerAppV2() {
                   </button>
                 ) : null}
                 <ProfileLink
-                  href="https://doctordorsey.com/kollective"
+                  href="https://thekollectivehospitality.com"
                   label="Explore the full Kollective website"
                 />
                 <ProfileLink
-                  href="https://doctordorsey.com/contact"
+                  href="mailto:thekollectivehospitality@gmail.com"
                   label="Contact the Kollective"
                 />
                 <ProfileLink
@@ -608,7 +634,7 @@ function EventCard({ event }: { event: EventItem }) {
     >
       <div className={styles.eventImage} style={imageStyle(event.image_url)}>
         <span>
-          {event.is_featured ? "FEATURED" : event.is_free ? "FREE" : event.ticket_price || "RSVP"}
+          {event.is_featured ? "FEATURED" : eventPrice(event)}
         </span>
       </div>
       <div>

@@ -4,7 +4,7 @@
  *   1. Dr. Dorsey site        doctordorsey.com                 brand: dorsey
  *   2. The Kollective site    thekollectivehospitality.com     brand: kollective
  *   3. Kollective BOH app     kollective-enterprise-app        brand: kollective
- *   4. Kollective customer    doctordorsey.com/app             brand: kollective
+ *   4. Kollective customer    thekollectivehospitality.com/app brand: kollective
  *
  * Dr. Dorsey and The Kollective are separate entities and must not converge.
  * What they share is the *system* — the surface technique, the grid rules, the
