@@ -2,6 +2,8 @@
 
 import {
   ArrowUpRight,
+  ArrowLeft,
+  Building2,
   CakeSlice,
   CalendarDays,
   Compass,
@@ -14,7 +16,6 @@ import {
   Sparkles,
   TicketCheck,
   UtensilsCrossed,
-  UserRound,
   X,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
@@ -85,7 +86,7 @@ type CustomerPayload = {
   partial?: boolean;
   warnings?: string[];
 };
-type Tab = "home" | "events" | "brands" | "profile";
+type Tab = "home" | "events" | "access" | "brands" | "directory";
 type EventFilter = "all" | "tonight" | "free" | "culture" | "nightlife";
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -138,8 +139,9 @@ const GUEST_ACTIONS = [
 const tabs: Array<{ key: Tab; label: string; icon: typeof Home }> = [
   { key: "home", label: "Home", icon: Home },
   { key: "events", label: "Events", icon: CalendarDays },
+  { key: "access", label: "Access", icon: TicketCheck },
   { key: "brands", label: "Brands", icon: Grid3X3 },
-  { key: "profile", label: "You", icon: UserRound },
+  { key: "directory", label: "Directory", icon: Building2 },
 ];
 const filters: Array<{ key: EventFilter; label: string }> = [
   { key: "all", label: "All" },
@@ -300,16 +302,7 @@ export default function CustomerAppV2() {
             .some((value) => String(value).toLowerCase().includes(clean)),
       );
   }, [marketEvents, query, filter]);
-  const entities = useMemo(() => {
-    const clean = query.trim().toLowerCase();
-    return (payload?.home.entities ?? []).filter(
-      (entity) =>
-        !clean ||
-        [entity.name, entity.category, entity.short_description]
-          .filter(Boolean)
-          .some((value) => String(value).toLowerCase().includes(clean)),
-    );
-  }, [payload, query]);
+  const allBrands = useMemo(() => Array.from(new Map([...FEATURED_CULTURE_BRANDS, ...(payload?.home.entities ?? []), ...OWNED_VENUES, ...MORE_KOLLECTIVE_BRANDS].map((entity) => [entity.name.toLowerCase(), entity])).values()), [payload]);
 
   const hero = payload?.home.featured[0];
   const nextEvent = marketEvents[0] ?? payload?.home.events[0];
@@ -336,7 +329,7 @@ export default function CustomerAppV2() {
     setInstallPrompt(null);
   };
   const MarketControl = () => (
-    <div className={styles.filters} role="group" aria-label="Choose a market">
+    <div className={`${styles.filters} ${styles.marketTabs}`} role="group" aria-label="Choose a city">
       {markets.map((item) => (
         <button
           key={item}
@@ -344,10 +337,7 @@ export default function CustomerAppV2() {
           onClick={() => setMarket(item)}
           aria-pressed={market === item}
         >
-          {item}
-          {payload?.experience?.marketCounts?.[item]
-            ? ` · ${payload.experience.marketCounts[item]}`
-            : ""}
+          {item === "All Markets" ? "All" : item}
         </button>
       ))}
     </div>
@@ -357,6 +347,7 @@ export default function CustomerAppV2() {
     <main className={styles.shell}>
       <div className={styles.frame}>
         <header className={styles.header}>
+          {activeTab !== "home" ? <button className={styles.appBack} onClick={() => selectTab("home")} aria-label="Back to app home"><ArrowLeft /><span>Back</span></button> : null}
           <button
             className={styles.identity}
             onClick={() => selectTab("home")}
@@ -465,7 +456,7 @@ export default function CustomerAppV2() {
                 </section>
 
                 <section className={styles.accessStage}>
-                  <Heading eyebrow="DIRECT ACCESS" title="Book it. Don’t just browse." />
+                  <Heading eyebrow="BOOK · RSVP · CONNECT" title="Direct access. Done here." />
                   <div className={styles.guestActionGrid}>
                     {GUEST_ACTIONS.map((action) => {
                       const Icon = action.icon;
@@ -622,6 +613,16 @@ export default function CustomerAppV2() {
               </div>
             ) : null}
 
+            {activeTab === "access" ? (
+              <div className={styles.content}>
+                <Intro eyebrow="EVERY ACTION · INSIDE THE APP" title="RSVP. Reserve. Celebrate. Connect." copy="No outside form pages. Choose what you need and send the complete request directly to the Kollective team." />
+                <section className={`${styles.accessStage} ${styles.accessPage}`}>
+                  <div className={styles.guestActionGrid}>{GUEST_ACTIONS.map((action) => { const Icon=action.icon; return <a key={action.title} href={action.href}><span className={styles.guestActionIcon}><Icon /></span><p>{action.label}</p><h3>{action.title}</h3><small>{action.detail}</small><ArrowUpRight /></a>; })}</div>
+                </section>
+                <section><Heading eyebrow="NIGHTLIFE" title="Venue access" /><div className={styles.brandGrid}>{OWNED_VENUES.filter((entity)=>/opium|revel/i.test(entity.name)).map((entity)=><BrandCard key={entity.id} entity={entity}/>)}</div></section>
+              </div>
+            ) : null}
+
             {activeTab === "brands" ? (
               <div className={styles.content}>
                 <Intro
@@ -629,26 +630,19 @@ export default function CustomerAppV2() {
                   title="Every brand. One front door."
                   copy="Discover, book, shop, join, or learn more without digging through the operating website."
                 />
-                <section className={styles.list}>
-                  {entities.map((entity) => (
-                    <EntityRow key={entity.id} entity={entity} />
-                  ))}
-                  {!entities.length ? <div className={styles.empty}>No brands match that search.</div> : null}
+                <section className={`${styles.brandGrid} ${styles.brandsDirectory}`}>
+                  {allBrands.filter((entity)=>!query || entity.name.toLowerCase().includes(query.toLowerCase())).map((entity) => <BrandCard key={entity.id} entity={entity} />)}
                 </section>
               </div>
             ) : null}
 
-            {activeTab === "profile" ? (
+            {activeTab === "directory" ? (
               <div className={styles.content}>
                 <section className={styles.profile}>
                   <img className={motion.profileEmblem} src={EMBLEM} alt="" />
-                  <p>YOUR KOLLECTIVE</p>
-                  <h1>Your market. Your access. Your next move.</h1>
-                  <span>
-                    Current market: {market}. Controlled experiences:{" "}
-                    {payload?.experience?.curatedCount ?? 0}. Featured now:{" "}
-                    {payload?.experience?.featuredCount ?? 0}.
-                  </span>
+                  <p>COMPANY DIRECTORY</p>
+                  <h1>The people and teams behind the Kollective.</h1>
+                  <span>The Kollective Hospitality Group · Atlanta, Georgia · Hospitality, culture, consumer brands, events and enterprise operations.</span>
                 </section>
                 {!installed ? (
                   <button className={styles.installCard} onClick={install}>
@@ -660,10 +654,12 @@ export default function CustomerAppV2() {
                     <ArrowUpRight />
                   </button>
                 ) : null}
-                <ProfileLink
-                  href="https://thekollectivehospitality.com"
-                  label="Explore the full Kollective website"
-                />
+                <section className={styles.directoryGrid}>
+                  <DirectoryCard title="Dr. Dorsey" role="Founder & Chairman" detail="Enterprise vision, partnerships and brand leadership." href="/app/forms/inquiry?topic=dr-dorsey" />
+                  <DirectoryCard title="Hospitality Team" role="Venue & Guest Experience" detail="RSVP, tables, birthdays and event support." href="/app/forms/inquiry?topic=hospitality" />
+                  <DirectoryCard title="Brand Partnerships" role="Growth & Collaborations" detail="Sponsorships, activations, licensing and strategic partnerships." href="/app/forms/inquiry?topic=partnerships" />
+                  <DirectoryCard title="Company Operations" role="Enterprise Support" detail="Company information, vendors and operating requests." href="/app/forms/inquiry?topic=operations" />
+                </section>
                 <ProfileLink
                   href="mailto:thekollectivehospitality@gmail.com"
                   label="Contact the Kollective"
@@ -747,14 +743,12 @@ function EventCard({ event }: { event: EventItem }) {
   return (
     <a
       className={styles.eventCard}
-      href={event.ticket_url || undefined}
-      target={event.ticket_url ? "_blank" : undefined}
-      rel="noreferrer"
+      href={`/app/forms/rsvp?event=${encodeURIComponent(event.event_name)}&venue=${encodeURIComponent(event.venue_name || "")}`}
     >
       <MotionMedia
         className={styles.eventImage}
         video={eventMotion?.src}
-        poster={event.image_url || eventMotion?.poster}
+        poster={eventMotion?.poster || brandedEventImage(event)}
         label={event.event_name}
       >
         <span>
@@ -801,15 +795,13 @@ function EventRow({ event }: { event: EventItem }) {
   const eventMotion = motionFor(`${event.venue_name || ""}`) || motionFor(event.event_name);
   return (
     <a
-      href={event.ticket_url || undefined}
+      href={`/app/forms/rsvp?event=${encodeURIComponent(event.event_name)}&venue=${encodeURIComponent(event.venue_name || "")}`}
       className={styles.row}
-      target={event.ticket_url ? "_blank" : undefined}
-      rel="noreferrer"
     >
       <MotionMedia
         className={styles.rowImage}
         video={eventMotion?.src}
-        poster={event.image_url || eventMotion?.poster}
+        poster={eventMotion?.poster || brandedEventImage(event)}
         label={event.event_name}
       />
       <div>
@@ -828,29 +820,6 @@ function EventRow({ event }: { event: EventItem }) {
     </a>
   );
 }
-function EntityRow({ entity }: { entity: Entity }) {
-  const brandMotion = motionFor(entity.name);
-  return (
-    <a href={destination(entity)} className={styles.row} target="_blank" rel="noreferrer">
-      <MotionMedia
-        className={`${styles.entityImage} ${entity.slug === "rose-on-piedmont" ? styles.roseLogoPosition : ""}`}
-        video={brandMotion?.src}
-        poster={entity.hero_url || brandMotion?.poster}
-        label={entity.name}
-      >
-        {!brandMotion && entity.logo_url ? <img src={entity.logo_url} alt="" /> : null}
-        {!brandMotion && !entity.logo_url ? <span>{entity.name.slice(0, 1)}</span> : null}
-      </MotionMedia>
-      <div>
-        <p>{entity.category || entity.status_label || "KOLLECTIVE"}</p>
-        <h2>{entity.name}</h2>
-        <small>{entity.short_description || "Explore this Kollective company."}</small>
-      </div>
-      <ArrowUpRight />
-    </a>
-  );
-}
-
 function MotionMedia({
   className,
   video,
@@ -883,4 +852,11 @@ function ProfileLink({ href, label }: { href: string; label: string }) {
       <ArrowUpRight />
     </a>
   );
+}
+function brandedEventImage(event: EventItem) {
+  const seed = [...event.event_name].reduce((total, char) => total + char.charCodeAt(0), 0);
+  return `${BRAND_GRAPHICS}/app/backgrounds/app-background-${String((seed % 11) + 1).padStart(2, "0")}.jpg`;
+}
+function DirectoryCard({ title, role, detail, href }: { title: string; role: string; detail: string; href: string }) {
+  return <a href={href} className={styles.directoryCard}><p>{role}</p><h2>{title}</h2><span>{detail}</span><ArrowUpRight /></a>;
 }
