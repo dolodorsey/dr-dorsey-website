@@ -96,6 +96,11 @@ const HERO_VIDEO = motionLibrary.kollectiveGlobal.src;
 const HERO_POSTER = `${BRAND_GRAPHICS}/dr_dorsey/website/hero-bg.jpg`;
 /** The GOOD TIMES cut from the shared library, so the app and the sites move together. */
 const GOOD_TIMES_ANIMATION = motionLibrary.goodTimes.src;
+const QUICK_CARD_MOTION = {
+  tonight: motionLibrary.kollectiveNetwork,
+  week: motionLibrary.casperGroup,
+  brands: motionLibrary.blackPages,
+} as const;
 
 const tabs: Array<{ key: Tab; label: string; icon: typeof Home }> = [
   { key: "home", label: "Home", icon: Home },
@@ -293,12 +298,13 @@ export default function CustomerAppV2() {
     setInstallPrompt(null);
   };
   const MarketControl = () => (
-    <div className={styles.filters}>
+    <div className={styles.filters} role="group" aria-label="Choose a market">
       {markets.map((item) => (
         <button
           key={item}
           className={market === item ? styles.activeFilter : undefined}
           onClick={() => setMarket(item)}
+          aria-pressed={market === item}
         >
           {item}
           {payload?.experience?.marketCounts?.[item]
@@ -347,6 +353,7 @@ export default function CustomerAppV2() {
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder={`Search ${market}`}
+              aria-label={`Search ${market}`}
             />
           </div>
         ) : null}
@@ -423,21 +430,34 @@ export default function CustomerAppV2() {
                   <Heading eyebrow="EXPLORE" title="Make your next move" />
                   <div className={styles.quickGrid}>
                     <button
+                      className={styles.motionQuickCard}
                       onClick={() => {
                         selectTab("events");
                         setFilter("tonight");
                       }}
                     >
+                      <video autoPlay muted loop playsInline preload="metadata" poster={QUICK_CARD_MOTION.tonight.poster} aria-hidden="true">
+                        <source src={QUICK_CARD_MOTION.tonight.src} type="video/mp4" />
+                      </video>
+                      <i aria-hidden="true" />
                       <CalendarDays />
                       <span>Tonight</span>
                       <small>What is happening now</small>
                     </button>
-                    <button onClick={() => selectTab("events")}>
+                    <button className={styles.motionQuickCard} onClick={() => selectTab("events")}>
+                      <video autoPlay muted loop playsInline preload="metadata" poster={QUICK_CARD_MOTION.week.poster} aria-hidden="true">
+                        <source src={QUICK_CARD_MOTION.week.src} type="video/mp4" />
+                      </video>
+                      <i aria-hidden="true" />
                       <Compass />
                       <span>This Week</span>
                       <small>Plan the next move</small>
                     </button>
-                    <button onClick={() => selectTab("brands")}>
+                    <button className={styles.motionQuickCard} onClick={() => selectTab("brands")}>
+                      <video autoPlay muted loop playsInline preload="metadata" poster={QUICK_CARD_MOTION.brands.poster} aria-hidden="true">
+                        <source src={QUICK_CARD_MOTION.brands.src} type="video/mp4" />
+                      </video>
+                      <i aria-hidden="true" />
                       <Grid3X3 />
                       <span>Brands</span>
                       <small>Explore the enterprise</small>
@@ -497,12 +517,13 @@ export default function CustomerAppV2() {
                   copy="The same curated event state managed by the Kollective operating system."
                 />
                 <MarketControl />
-                <div className={styles.filters}>
+                <div className={styles.filters} role="group" aria-label="Filter events">
                   {filters.map((item) => (
                     <button
                       key={item.key}
                       className={filter === item.key ? styles.activeFilter : undefined}
                       onClick={() => setFilter(item.key)}
+                      aria-pressed={filter === item.key}
                     >
                       {item.label}
                     </button>
@@ -513,7 +534,19 @@ export default function CustomerAppV2() {
                     <EventRow key={event.id} event={event} />
                   ))}
                   {!events.length ? (
-                    <div className={styles.empty}>No controlled experiences match this view yet.</div>
+                    <div className={styles.empty}>
+                      <strong>Nothing matches this view yet.</strong>
+                      <span>Open every market or reset the filters to keep exploring.</span>
+                      <button
+                        onClick={() => {
+                          setMarket("All Markets");
+                          setFilter("all");
+                          setQuery("");
+                        }}
+                      >
+                        Explore all markets
+                      </button>
+                    </div>
                   ) : null}
                 </section>
               </div>

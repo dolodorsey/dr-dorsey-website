@@ -80,3 +80,21 @@
   .quickGrid>*,.brandCard,.eventCard,.row,.media>video{transition:none}
   .media>video{display:none}
 }
+
+/* Motion-first quick actions and mobile accessibility refinements. */
+.identity{min-height:44px}
+.actions button{width:44px;height:44px}
+.heading button{min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+.motionQuickCard{position:relative;isolation:isolate;overflow:hidden;background:#090806!important}
+.motionQuickCard>video{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;filter:saturate(.78) contrast(1.12) brightness(.78);transition:transform 4s cubic-bezier(.2,.7,.2,1)}
+.motionQuickCard>i{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(4,3,2,.12),rgba(4,3,2,.38) 46%,rgba(4,3,2,.94));pointer-events:none}
+.motionQuickCard:hover>video{transform:scale(1.06)}
+.motionQuickCard>svg,.motionQuickCard>span,.motionQuickCard>small{position:relative;z-index:1;text-shadow:0 2px 18px rgba(0,0,0,.85)}
+.empty strong,.empty span{display:block}
+.empty strong{color:var(--light);font-size:18px}
+.empty span{margin-top:8px;font-size:12px;line-height:1.5}
+.empty button{min-height:44px;margin-top:18px;padding:12px 16px;border:1px solid var(--gold);border-radius:99px;background:var(--gold);color:var(--base);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+
+@media(prefers-reduced-motion:reduce){
+  .motionQuickCard>video{display:none}
+}
