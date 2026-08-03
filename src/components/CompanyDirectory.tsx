@@ -6,7 +6,7 @@ import MotionCover from './MotionCover';
 import type { RegistryEntity } from '@/lib/kollective-public';
 import { currentFocusBrands } from '@/lib/enterprise';
 import { motionFor, orientationFor, type Orientation } from '@/lib/motion';
-import { isPublicEvent, isRetired, priorityRank } from '@/lib/roster';
+import { isEventEntity, isPublicEvent, isRetired, priorityRank } from '@/lib/roster';
 import { departmentFor, departmentRank, departmentSlug } from '@/lib/company-departments';
 
 type Company = {
@@ -74,8 +74,7 @@ export default function CompanyDirectory() {
 
     return source.filter((company) => {
       if (isRetired(company.name)) return false;
-      const department = departmentFor(company);
-      if (department === 'Events / Activations') return isPublicEvent(company.name);
+      if (isEventEntity(company.name, company.division)) return isPublicEvent(company.name);
       return true;
     });
   }, [entities, failed]);
