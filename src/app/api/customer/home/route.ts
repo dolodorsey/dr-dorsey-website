@@ -13,8 +13,10 @@ const CUSTOMER_BRAND_ORDER = [
   "help-911",
   "black-pages",
   "dr-dorsey",
+  "hakuna-matata",
   "everyday-water-group",
   "the-tribe-memphis",
+  "freedom-fest",
 ] as const;
 const CUSTOMER_BRAND_RANK = new Map<string, number>(
   CUSTOMER_BRAND_ORDER.map((slug, index) => [slug, index]),

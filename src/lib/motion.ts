@@ -111,7 +111,6 @@ const NAME_MOTION: Record<string, MotionAsset> = {
   'the kollective ent': motion.kollectiveGlobal,
   'the kollective': motion.kollectiveGlobal,
   'the kollective hospitality group': motion.kollectiveGlobal,
-  'dr dorsey': motion.hakunaMatata,
   'hakuna matata': motion.hakunaMatata,
   'the tribe memphis': motion.tribe,
   'the tribe': motion.tribe,

@@ -128,6 +128,7 @@ const MORE_KOLLECTIVE_BRANDS: Entity[] = [
   { id: "more-stush", slug: "stush", name: "STUSH", category: "FASHION", short_description: "Never blend in.", website_url: "https://stushusa.com" },
   { id: "more-bodega", slug: "bodega", name: "Bodega", category: "COMMERCE", short_description: "The pop-up store with city flavor.", website_url: "https://bodegabodegabodega.com" },
   { id: "more-pulse", slug: "pulse", name: "PULSE", category: "LIFESTYLE", short_description: "The energy behind the moment.", website_url: "/forms/inquiry?brand=pulse" },
+  { id: "more-freedom-fest", slug: "freedom-fest", name: "Freedom Fest : Juneteent Atl", category: "CULTURE & EVENTS", short_description: "Juneteenth culture, community and celebration in Atlanta.", website_url: "https://freedom-fest-store.vercel.app" },
 ];
 
 const GUEST_ACTIONS = [

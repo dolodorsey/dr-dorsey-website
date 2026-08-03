@@ -50,6 +50,7 @@ const RETIRED_NAMES = [
   'Tulum HTX',
   'Whip Addict',
   'Freedom Run',
+  '5K Freedom Run',
   'Freedom 5K',
   'Freedom 5K Run',
 ];
@@ -103,7 +104,7 @@ export function priorityRank(name: string | undefined | null): number {
 /** Keep related public-facing brands beside their parent without changing the rest of the roster. */
 export function placeRelatedTogether<T>(items: T[], nameOf: (item: T) => string): T[] {
   const output = withoutRetired([...items], nameOf);
-  for (const [anchor, related] of [['Rose on Piedmont', 'GROWN-ISH'], ['Dr. Dorsey', 'Hakuna Matata']] as const) {
+  for (const [anchor, related] of [['Rose on Piedmont', 'GROWN-ISH']] as const) {
     const anchorIndex = output.findIndex((item) => normalise(nameOf(item)) === normalise(anchor));
     const relatedIndex = output.findIndex((item) => normalise(nameOf(item)) === normalise(related));
     if (anchorIndex >= 0 && relatedIndex >= 0 && relatedIndex !== anchorIndex + 1) {
