@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import "./customer-emblem.css";
 import "./customer-ui-continuity.css";
 import "./customer-app-enhancements.css";
-import "./mobile-card-grid.css";
 
 const title = "The Kollective App — Members, Events & Direct Access";
 const description = "Create your Kollective account to access Grown-Ish, reservations, member perks, brands, and direct customer connections.";
