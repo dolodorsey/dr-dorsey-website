@@ -2,14 +2,18 @@
 
 import {
   ArrowUpRight,
+  CakeSlice,
   CalendarDays,
   Compass,
   Download,
   Grid3X3,
   Home,
   MapPin,
+  MessageCircleMore,
   Search,
   Sparkles,
+  TicketCheck,
+  UtensilsCrossed,
   UserRound,
   X,
 } from "lucide-react";
@@ -101,6 +105,13 @@ const QUICK_CARD_MOTION = {
   week: motionLibrary.casperGroup,
   brands: motionLibrary.blackPages,
 } as const;
+
+const GUEST_ACTIONS = [
+  { label: "RSVP NOW", title: "Get on the list", detail: "Choose complimentary RSVP or paid priority access.", href: "https://111atl.com/event.html?event=grown-ish-rose-on-piedmont", icon: TicketCheck },
+  { label: "TABLES", title: "Reserve a table", detail: "Request your table and receive the secure deposit step.", href: "https://111atl.com/forms/table_reservation?source=kollective-app", icon: UtensilsCrossed },
+  { label: "CELEBRATE", title: "Book a birthday", detail: "Start a birthday table request with your date and group size.", href: "https://111atl.com/forms/table_reservation?source=kollective-app&occasion=birthday", icon: CakeSlice },
+  { label: "CONCIERGE", title: "Ask for more info", detail: "Send the team your question and contact details.", href: "https://111atl.com/forms/inquiry?source=kollective-app", icon: MessageCircleMore },
+] as const;
 
 const tabs: Array<{ key: Tab; label: string; icon: typeof Home }> = [
   { key: "home", label: "Home", icon: Home },
@@ -423,6 +434,24 @@ export default function CustomerAppV2() {
                       ) : null}
                       <button onClick={() => selectTab("brands")}>EXPLORE BRANDS</button>
                     </div>
+                  </div>
+                </section>
+
+                <section>
+                  <Heading eyebrow="DIRECT ACCESS" title="Book it. Don’t just browse." />
+                  <div className={styles.guestActionGrid}>
+                    {GUEST_ACTIONS.map((action) => {
+                      const Icon = action.icon;
+                      return (
+                        <a key={action.title} href={action.href} target="_blank" rel="noreferrer">
+                          <span className={styles.guestActionIcon}><Icon aria-hidden="true" /></span>
+                          <p>{action.label}</p>
+                          <h3>{action.title}</h3>
+                          <small>{action.detail}</small>
+                          <ArrowUpRight aria-hidden="true" />
+                        </a>
+                      );
+                    })}
                   </div>
                 </section>
 
