@@ -2,12 +2,27 @@
  * Roster control.
  *
  * One list, applied everywhere a company or event can surface, so a brand
- * pulled from the enterprise never reappears through a hardcoded array or a
- * registry row somebody forgot to update.
+ * pulled from the public enterprise never reappears through a hardcoded array
+ * or a registry row somebody forgot to update.
  */
 
 /** Pulled from both sites. Matching is case- and punctuation-insensitive. */
 const RETIRED_NAMES = [
+  // Explicit enterprise removals
+  'The Inner Circle',
+  'Inner Circle',
+  'Iconic',
+  'Washington Parq',
+  "Marvin's Room",
+  'The London',
+  'The Attorney Network',
+  'Attorney Network',
+  'Kid Fit ATL',
+  'Kids Fit ATL',
+  'Infinity Youth',
+  'The Sovereign Nation',
+  'Sovereign Nation',
+
   // Events & Cultural IP
   'NOIR',
   'Paparazzi',
@@ -56,15 +71,15 @@ const RETIRED_NAMES = [
 ];
 
 /**
- * Currently in production — animations are being made for these now, so they
- * lead the Companies page ahead of the department sections.
+ * Core public staples. Goodfellas and Hungry AF intentionally lead together
+ * so they always share a row before the remaining hospitality brands.
  */
 export const PRIORITY_NAMES = [
+  'Goodfellas Pizza & Wings',
+  'Hungry AF',
   'Opium ATL',
   'Sea Salt ATL',
   'Tulum ATL',
-  'Hungry AF',
-  'Goodfellas Pizza & Wings',
 ];
 
 function normalise(name: string): string {
@@ -78,10 +93,17 @@ function normalise(name: string): string {
 const RETIRED = new Set(RETIRED_NAMES.map(normalise));
 const PRIORITY = new Map(PRIORITY_NAMES.map((name, index) => [normalise(name), index]));
 
-/** True when this brand has been pulled from the enterprise. */
+/** True when this brand has been pulled from the public enterprise. */
 export function isRetired(name: string | undefined | null): boolean {
   if (!name) return false;
   return RETIRED.has(normalise(name));
+}
+
+/** Only these event properties remain public in Events / Activations. */
+export function isPublicEvent(name: string | undefined | null): boolean {
+  if (!name) return false;
+  const value = normalise(name);
+  return value.includes('taste of art') || value.includes('freedom fest');
 }
 
 /** Drop retired brands from any list, whatever shape its records are. */
@@ -94,7 +116,7 @@ export function pruneNames(names: string[]): string[] {
   return names.filter((name) => !isRetired(name.split('—')[0].trim()));
 }
 
-/** Rank within the production list, or -1. Used to pin these to the top. */
+/** Rank within the Staples list, or -1. */
 export function priorityRank(name: string | undefined | null): number {
   if (!name) return -1;
   const rank = PRIORITY.get(normalise(name));
