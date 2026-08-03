@@ -5,7 +5,7 @@ const SUPABASE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PU
 
 const ALLOWED_FORMS = new Set([
   'vendor','artist_painter','artist_music','influencer','sponsor','consultation',
-  'onboarding','what_you_do','rsvp','intern','volunteer','hiring_inquiry',
+  'onboarding','what_you_do','rsvp','ticket','intern','volunteer','hiring_inquiry',
   'inquiry','group_pricing','table_reservation','nda','book_club','bulk_orders',
   'speaking','media',
 ]);

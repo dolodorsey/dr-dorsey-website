@@ -3,16 +3,22 @@
 import {
   ArrowUpRight,
   ArrowLeft,
+  BadgeCheck,
+  BriefcaseBusiness,
   Building2,
   CakeSlice,
   CalendarDays,
+  ClipboardList,
   Compass,
   Download,
   Grid3X3,
+  HandHeart,
+  Handshake,
   Home,
   MapPin,
   MessageCircleMore,
   Search,
+  ShoppingBag,
   Sparkles,
   TicketCheck,
   UtensilsCrossed,
@@ -138,6 +144,40 @@ const GUEST_ACTIONS = [
   { label: "CONCIERGE", title: "Ask for more info", detail: "Send the team your complete request in app.", href: "/app/forms/inquiry", icon: MessageCircleMore },
 ] as const;
 
+const EVENT_ACCESS_ACTIONS = [
+  { type: "birthday", label: "BIRTHDAY", title: "Birthday access", detail: "Celebrate with the right event, table, and guest setup.", icon: CakeSlice },
+  { type: "ticket", label: "TICKETS", title: "Ticket request", detail: "Request paid entry or ticket information for a specific event.", icon: TicketCheck },
+  { type: "rsvp", label: "FREE RSVP", title: "Join the free list", detail: "Select an event and send your free RSVP details.", icon: BadgeCheck },
+  { type: "table", label: "TABLES", title: "Table reservation", detail: "Choose a venue or event, party size, and table package.", icon: UtensilsCrossed },
+  { type: "vendor", label: "VENDORS", title: "Vendor application", detail: "Apply to sell, activate, or provide services at an event.", icon: BriefcaseBusiness },
+] as const;
+
+const ACCESS_FORM_LINKS = [
+  { label: "APPLY", title: "Hiring", detail: "Roles, talent, internships, and opportunities across the Kollective.", href: "/app/forms/hiring", icon: ClipboardList, cover: "app-background-03.jpg" },
+  { label: "COMMUNITY", title: "Volunteer", detail: "Support events, community work, guest experience, and special projects.", href: "/app/forms/volunteer", icon: HandHeart, cover: "app-background-04.jpg" },
+  { label: "PARTNER", title: "Partnerships", detail: "Sponsorships, collaborations, brand activations, and strategic partnerships.", href: "/app/forms/partnership", icon: Handshake, cover: "app-background-05.jpg" },
+  { label: "VENDOR", title: "Vendor application", detail: "Food, retail, services, production, and event vendor opportunities.", href: "/app/forms/vendor", icon: BriefcaseBusiness, cover: "app-background-06.jpg" },
+  { label: "SHOP", title: "Shop", detail: "Products, fashion, books, and current Kollective drops.", href: "/shop", icon: ShoppingBag, cover: "app-background-07.jpg" },
+  { label: "SECURE ACCESS", title: "Enterprise access", detail: "Review private access, agreements, and enterprise entry points.", href: "/access", icon: BadgeCheck, cover: "app-background-08.jpg" },
+  { label: "OTHER", title: "General request", detail: "Tell the team what you need when it does not fit another form.", href: "/app/forms/inquiry", icon: MessageCircleMore, cover: "app-background-10.jpg" },
+] as const;
+
+const ACCESS_VENUES: Entity[] = [
+  { id: "access-rose", slug: "rose-on-piedmont", name: "Rose on Piedmont", category: "DINNER · WEEKLY EVENTS", short_description: "Choose a Rose event, RSVP, celebrate, or request a table.", website_url: "/app/forms/rsvp?venue=Rose%20on%20Piedmont" },
+  ...OWNED_VENUES.filter((entity) => /opium|revel/i.test(entity.name)),
+];
+
+function eventAccessHref(type: string, event?: EventItem) {
+  const params = new URLSearchParams();
+  if (event) {
+    params.set("event", event.event_name);
+    if (event.venue_name) params.set("venue", event.venue_name);
+    params.set("date", event.event_date);
+  }
+  const query = params.toString();
+  return `/app/forms/${type}${query ? `?${query}` : ""}`;
+}
+
 const tabs: Array<{ key: Tab; label: string; icon: typeof Home }> = [
   { key: "home", label: "Home", icon: Home },
   { key: "events", label: "Events", icon: CalendarDays },
@@ -236,6 +276,7 @@ export default function CustomerAppV2() {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [installed, setInstalled] = useState(false);
   const [installHelp, setInstallHelp] = useState(false);
+  const [selectedAccessEventId, setSelectedAccessEventId] = useState("");
 
   useEffect(() => {
     let cancelled = false;
@@ -308,6 +349,8 @@ export default function CustomerAppV2() {
       );
   }, [marketEvents, query, filter]);
   const allBrands = useMemo(() => placeRelatedTogether(Array.from(new Map([...FEATURED_CULTURE_BRANDS, ...(payload?.home.entities ?? []), ...OWNED_VENUES, ...MORE_KOLLECTIVE_BRANDS].map((entity) => [entity.name.toLowerCase(), entity])).values()), (entity) => entity.name), [payload]);
+  const accessEvents = marketEvents.slice(0, 10);
+  const selectedAccessEvent = accessEvents.find((event) => event.id === selectedAccessEventId);
 
   const hero = payload?.home.featured[0];
   const nextEvent = marketEvents[0] ?? payload?.home.events[0];
@@ -621,11 +664,54 @@ export default function CustomerAppV2() {
 
             {activeTab === "access" ? (
               <div className={styles.content}>
-                <Intro eyebrow="EVERY ACTION · INSIDE THE APP" title="RSVP. Reserve. Celebrate. Connect." copy="No outside form pages. Choose what you need and send the complete request directly to the Kollective team." />
+                <Intro eyebrow="LINKS · FORMS · DIRECT ACCESS" title="Choose the event. Choose what you need." copy="Start with an RSVP, birthday, ticket, table, or vendor request—or select an event first and use the same options with its details already attached." />
+
                 <section className={`${styles.accessStage} ${styles.accessPage}`}>
-                  <div className={styles.guestActionGrid}>{GUEST_ACTIONS.map((action) => { const Icon=action.icon; return <a key={action.title} href={action.href}><span className={styles.guestActionIcon}><Icon /></span><p>{action.label}</p><h3>{action.title}</h3><small>{action.detail}</small><ArrowUpRight /></a>; })}</div>
+                  <Heading eyebrow="BEFORE YOU CHOOSE AN EVENT" title="Start with the request" />
+                  <div className={styles.accessOptionGrid}>
+                    {EVENT_ACCESS_ACTIONS.map((action) => {
+                      const Icon = action.icon;
+                      return <a key={action.type} href={eventAccessHref(action.type)}><Icon /><span><small>{action.label}</small><strong>{action.title}</strong></span><ArrowUpRight /></a>;
+                    })}
+                  </div>
                 </section>
-                <section><Heading eyebrow="NIGHTLIFE" title="Venue access" /><div className={styles.brandGrid}>{OWNED_VENUES.filter((entity)=>/opium|revel/i.test(entity.name)).map((entity)=><BrandCard key={entity.id} entity={entity}/>)}</div></section>
+
+                <section className={styles.eventAccessSection}>
+                  <Heading eyebrow="SEPARATE EVENT RSVPS" title={`Choose an event in ${market}`} />
+                  <MarketControl />
+                  <div className={styles.eventChoiceList} role="list" aria-label="Choose an event for access options">
+                    {accessEvents.map((event) => (
+                      <button key={event.id} className={selectedAccessEventId === event.id ? styles.selectedEventChoice : undefined} onClick={() => setSelectedAccessEventId(event.id)} aria-pressed={selectedAccessEventId === event.id}>
+                        <span>{eventDate(event.event_date)}</span>
+                        <strong>{event.event_name}</strong>
+                        <small>{event.venue_name || event.neighborhood || event.market || event.city}</small>
+                        <ArrowUpRight />
+                      </button>
+                    ))}
+                  </div>
+                  {!accessEvents.length ? <div className={styles.empty}><strong>No listed events in this market yet.</strong><span>You can still use any request option above and enter the event manually.</span></div> : null}
+                </section>
+
+                {selectedAccessEvent ? (
+                  <section className={styles.selectedEventPanel} aria-live="polite">
+                    <p>AFTER SELECTING AN EVENT</p>
+                    <h2>{selectedAccessEvent.event_name}</h2>
+                    <span>{eventDate(selectedAccessEvent.event_date)} · {selectedAccessEvent.venue_name || selectedAccessEvent.market || selectedAccessEvent.city}</span>
+                    <div className={styles.selectedEventActions}>
+                      {EVENT_ACCESS_ACTIONS.map((action) => <a key={action.type} href={eventAccessHref(action.type, selectedAccessEvent)}>{action.label}<ArrowUpRight /></a>)}
+                    </div>
+                  </section>
+                ) : null}
+
+                <section>
+                  <Heading eyebrow="ROSE · OPIUM · REVEL" title="Venue access" />
+                  <div className={styles.brandGrid}>{ACCESS_VENUES.map((entity) => <BrandCard key={entity.id} entity={entity} />)}</div>
+                </section>
+
+                <section>
+                  <Heading eyebrow="MORE LINKS + FORMS" title="Apply, partner, shop, and connect" />
+                  <div className={styles.accessCoverGrid}>{ACCESS_FORM_LINKS.map((item) => <AccessCoverCard key={item.title} {...item} />)}</div>
+                </section>
               </div>
             ) : null}
 
@@ -856,6 +942,37 @@ function ProfileLink({ href, label }: { href: string; label: string }) {
   return (
     <a href={href} className={styles.profileLink}>
       {label}
+      <ArrowUpRight />
+    </a>
+  );
+}
+function AccessCoverCard({
+  label,
+  title,
+  detail,
+  href,
+  icon: Icon,
+  cover,
+}: {
+  label: string;
+  title: string;
+  detail: string;
+  href: string;
+  icon: typeof Home;
+  cover: string;
+}) {
+  return (
+    <a
+      href={href}
+      className={styles.accessCoverCard}
+      style={{
+        backgroundImage: `linear-gradient(180deg, rgba(4, 3, 2, .08), rgba(4, 3, 2, .42) 42%, rgba(4, 3, 2, .96)), url("${BRAND_GRAPHICS}/app/backgrounds/${cover}")`,
+      }}
+    >
+      <Icon />
+      <p>{label}</p>
+      <h3>{title}</h3>
+      <small>{detail}</small>
       <ArrowUpRight />
     </a>
   );
