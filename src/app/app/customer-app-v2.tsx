@@ -108,7 +108,7 @@ const QUICK_CARD_MOTION = {
 
 const GUEST_ACTIONS = [
   { label: "RSVP NOW", title: "Get on the list", detail: "Choose complimentary RSVP or paid priority access.", href: "https://111atl.com/event.html?event=grown-ish-rose-on-piedmont", icon: TicketCheck },
-  { label: "TABLES", title: "Reserve a table", detail: "Request your table and receive the secure deposit step.", href: "https://111atl.com/forms/table_reservation?source=kollective-app", icon: UtensilsCrossed },
+  { label: "TABLES", title: "Pay table deposit", detail: "Pay exactly 25% of your confirmed table total.", href: "/app/table-deposit", icon: UtensilsCrossed },
   { label: "CELEBRATE", title: "Book a birthday", detail: "Start a birthday table request with your date and group size.", href: "https://111atl.com/forms/table_reservation?source=kollective-app&occasion=birthday", icon: CakeSlice },
   { label: "CONCIERGE", title: "Ask for more info", detail: "Send the team your question and contact details.", href: "https://111atl.com/forms/inquiry?source=kollective-app", icon: MessageCircleMore },
 ] as const;
@@ -209,6 +209,7 @@ export default function CustomerAppV2() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [installed, setInstalled] = useState(false);
+  const [installHelp, setInstallHelp] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -302,7 +303,10 @@ export default function CustomerAppV2() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   const install = async () => {
-    if (!installPrompt) return;
+    if (!installPrompt) {
+      setInstallHelp(true);
+      return;
+    }
     await installPrompt.prompt();
     const choice = await installPrompt.userChoice;
     if (choice.outcome === "accepted") setInstalled(true);
@@ -348,7 +352,7 @@ export default function CustomerAppV2() {
             <button onClick={() => setSearchOpen((open) => !open)} aria-label="Search">
               {searchOpen ? <X /> : <Search />}
             </button>
-            {!installed && installPrompt ? (
+            {!installed ? (
               <button className={styles.goldButton} onClick={install} aria-label="Install">
                 <Download />
               </button>
@@ -609,7 +613,7 @@ export default function CustomerAppV2() {
                     {payload?.experience?.featuredCount ?? 0}.
                   </span>
                 </section>
-                {!installed && installPrompt ? (
+                {!installed ? (
                   <button className={styles.installCard} onClick={install}>
                     <Download />
                     <span>
@@ -650,6 +654,22 @@ export default function CustomerAppV2() {
             </button>
           ))}
         </nav>
+        {installHelp ? (
+          <div className={styles.installOverlay} role="dialog" aria-modal="true" aria-labelledby="install-title">
+            <div className={styles.installSheet}>
+              <button className={styles.installClose} onClick={() => setInstallHelp(false)} aria-label="Close install instructions"><X /></button>
+              <Download />
+              <p>DOWNLOAD THE APP</p>
+              <h2 id="install-title">Install Kollective</h2>
+              <ol>
+                <li><strong>iPhone or iPad:</strong> tap Share, then “Add to Home Screen.”</li>
+                <li><strong>Android:</strong> open the browser menu, then tap “Install app.”</li>
+                <li><strong>Desktop:</strong> use the install icon in the address bar.</li>
+              </ol>
+              <button className={styles.installDone} onClick={() => setInstallHelp(false)}>GOT IT</button>
+            </div>
+          </div>
+        ) : null}
       </div>
     </main>
   );
