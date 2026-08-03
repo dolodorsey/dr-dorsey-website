@@ -1,10 +1,3 @@
-/**
- * Which of the fourteen departments a company belongs to.
- *
- * The registry carries an older eight-way `division` field. The public sites
- * resolve every company into the fourteen current departments below.
- */
-
 import { departments, type Department } from '@/lib/departments';
 
 export type DepartmentTitle = Department['title'];
@@ -19,84 +12,49 @@ function normalize(name: string): string {
 }
 
 const byName: Record<string, DepartmentTitle> = {};
-
 function assign(department: DepartmentTitle, names: string[]) {
   for (const name of names) byName[normalize(name)] = department;
 }
 
 assign('Dorsey / Kollective', [
-  'Dr. Dorsey',
-  'The Kollective ENT.',
-  'Courses',
-  'Consultations',
-  'The Fraternity',
-  "The Gentleman's Club",
-  'HugLife',
-  'Black Pages',
+  'Dr. Dorsey', 'The Kollective ENT.', 'Courses', 'Consultations', 'HugLife', 'Black Pages',
 ]);
 
 assign('Nightlife', [
-  'Happy Hour ATL',
-  'GROWN-ISH',
-  'Opium ATL',
-  'Sea Salt ATL',
-  'Tulum ATL',
-  'Hungry AF',
-  'Goodfellas Pizza & Wings',
-  'Revel',
+  'Opium ATL', 'Sea Salt ATL', 'Tulum ATL', 'Hungry AF', 'Goodfellas Pizza & Wings', 'Revel',
 ]);
 
 assign('Rose on Piedmont', ['Rose on Piedmont']);
+assign('Events / Activations', ['GROWN-ISH', 'Taste of Art', 'Freedom Fest', 'Freedom Fest : Juneteent Atl']);
 
 assign('App(s)', [
-  'GOOD TIMES',
-  'On Call',
-  'S.O.S.',
-  'Luxe on Demand',
-  'The Law',
-  'The Vote',
-  'Mission 365',
+  'GOOD TIMES', 'On Call', 'S.O.S.', 'Luxe on Demand', 'The Law', 'The Vote', 'Mission 365',
 ]);
 
-assign('Products / Clothing', [
-  'Bodega',
-  'STUSH',
-  'PULSE',
-  'Make Atlanta Great Again',
-  'Hakuna Matata',
-]);
-
+assign('Products / Clothing', ['Bodega', 'STUSH', 'PULSE', 'Make Atlanta Great Again', 'Hakuna Matata']);
 assign('Water Sourcing', ['Everyday Water Group', 'Aquifer Waterworks', 'Nativa Waterworks']);
-
 assign('Beverages', ['Infinity Water', 'Tribal Water', 'Pronto Energy', 'The Tribe Wine']);
-
 assign('Help 911', ['Help 911', 'Reset Therapy', 'Umbrella Injury Network']);
+assign('Sole Exchange / PSA', ['Sole Exchange', "Let's Talk About It", "Playmaker's Sports Association"]);
 
-assign('Sole Exchange / PSA', [
-  'Sole Exchange',
-  "Let's Talk About It",
-  "Playmaker's Sports Association",
-  "Member's Elite",
-  'Little Farmers of the Future',
+assign('Casper Group', [
+  'The Casper Group', 'Angel Wings', 'Pasta Bish', 'Taco Yaki', 'Patty Daddy', 'Espresso Co.',
+  'Tha Morning After', "Toss'd", 'Toss’d', 'Sweet Tooth', 'Mojo Juice', 'Mr. Oyster',
+  'Peace Pizza', 'American Dragon',
 ]);
 
 assign('Umbrella Group', [
-  'The Umbrella Group',
-  'The Mind Studio',
-  'Brand Studio',
-  'The Brand Studio',
-  'Umbrella Auto Exchange',
-  'Umbrella Realty Group',
-  'Umbrella Clean Services',
-  "The People's Dept.",
-  'Umbrella Accounting',
-  'The Automation Office',
-  'Umbrella Travel',
+  'The Umbrella Group', 'The Mind Studio', 'Brand Studio', 'The Brand Studio',
+  'Umbrella Auto Exchange', 'Umbrella Realty Group', 'Umbrella Clean Services',
+  "The People's Dept.", 'Umbrella Accounting', 'The Automation Office', 'Umbrella Travel',
 ]);
 
-assign('Nation / Tribe', ['The Tribe - Memphis']);
+assign('The Inner Circle', [
+  'The Fraternity', "The Gentleman's Club", 'The Gentleman’s Club', 'The Tribe', 'The Tribe - Memphis',
+  'Trailblazers', 'Little Farmers of the Future', "Member's Elite", 'Member’s Elite',
+]);
 
-assign('The University', ['The University', 'Trailblazers']);
+assign('The University', ['The University']);
 
 const byDivision: Record<string, DepartmentTitle> = {
   'founder & enterprise': 'Dorsey / Kollective',
@@ -106,21 +64,14 @@ const byDivision: Record<string, DepartmentTitle> = {
   'products & commerce': 'Products / Clothing',
   'the casper group': 'Casper Group',
   'services & umbrella group': 'Umbrella Group',
-  'institutions & impact': 'The University',
+  'institutions & impact': 'The Inner Circle',
 };
 
-export const departmentOrder: DepartmentTitle[] = departments.map((d) => d.title);
-
+export const departmentOrder: DepartmentTitle[] = departments.map((department) => department.title);
 const rank = new Map(departmentOrder.map((title, index) => [title, index]));
 
 export function departmentFor(company: { name: string; division?: string | null }): DepartmentTitle {
-  const named = byName[normalize(company.name)];
-  if (named) return named;
-
-  const mapped = byDivision[normalize(company.division ?? '')];
-  if (mapped) return mapped;
-
-  return 'Umbrella Group';
+  return byName[normalize(company.name)] || byDivision[normalize(company.division ?? '')] || 'Umbrella Group';
 }
 
 export function departmentRank(title: DepartmentTitle): number {
