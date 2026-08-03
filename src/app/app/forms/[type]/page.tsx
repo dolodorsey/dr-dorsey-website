@@ -15,16 +15,18 @@ const FORM_CONFIG = {
   hiring: { title: "Join the Kollective team.", formType: "hiring_inquiry", kind: "hiring" },
   volunteer: { title: "Volunteer with the Kollective.", formType: "volunteer", kind: "volunteer" },
   partnership: { title: "Build a partnership.", formType: "sponsor", kind: "partnership" },
+  "member-offers": { title: "Get discounts, coupons + a monthly free member item.", formType: "member_offers", kind: "membership" },
+  ambassador: { title: "Become a Kollective ambassador.", formType: "ambassador_application", kind: "ambassador" },
   inquiry: { title: "Tell us what you need.", formType: "inquiry", kind: "inquiry" },
 } as const;
 
 type FormKey = keyof typeof FORM_CONFIG;
-type QueryState = { event: string; venue: string; date: string; package: string };
+type QueryState = { event: string; venue: string; date: string; package: string; company: string };
 
 export default function AppForm({ params }: { params: { type: string } }) {
   const type = params.type as FormKey;
   const config = FORM_CONFIG[type];
-  const [query, setQuery] = useState<QueryState>({ event: "", venue: "", date: "", package: "" });
+  const [query, setQuery] = useState<QueryState>({ event: "", venue: "", date: "", package: "", company: "" });
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -35,6 +37,7 @@ export default function AppForm({ params }: { params: { type: string } }) {
       venue: search.get("venue") || "",
       date: search.get("date") || "",
       package: search.get("package") || "",
+      company: search.get("company") || search.get("brand") || "",
     });
   }, []);
 
@@ -92,9 +95,10 @@ export default function AppForm({ params }: { params: { type: string } }) {
         <h1>{config.title}</h1>
         <span>Complete every field you can so the team can confirm faster.</span>
 
-        <form key={`${query.event}-${query.venue}-${query.date}`} onSubmit={submit}>
+        <form key={`${query.event}-${query.venue}-${query.date}-${query.company}`} onSubmit={submit}>
           <input type="hidden" name="request_type" value={type} />
           <input type="hidden" name="selected_venue" value={query.venue} />
+          <input type="hidden" name="selected_company" value={query.company} />
 
           <label>Full name<input name="name" autoComplete="name" required /></label>
           <label>Email<input name="email" type="email" autoComplete="email" required /></label>
@@ -104,7 +108,7 @@ export default function AppForm({ params }: { params: { type: string } }) {
 
           {eventRequest ? (
             <>
-              <label className={styles.full}>Event<input name="event" defaultValue={query.event || query.venue} required /></label>
+              <label className={styles.full}>Event or company<input name="event" defaultValue={query.event || query.venue || query.company} required /></label>
               <label>Venue<input name="venue" defaultValue={query.venue} /></label>
               <label>Requested date<input name="date" type="date" defaultValue={query.date} required /></label>
               <label>Arrival time<input name="arrival_time" type="time" /></label>
@@ -167,9 +171,30 @@ export default function AppForm({ params }: { params: { type: string } }) {
             </>
           ) : null}
 
+          {config.kind === "membership" ? (
+            <>
+              <label>Home city<input name="city" required placeholder="Atlanta" /></label>
+              <label>Birthday month<select name="birthday_month" required><option value="">Choose one</option>{["January","February","March","April","May","June","July","August","September","October","November","December"].map((month) => <option key={month}>{month}</option>)}</select></label>
+              <label className={styles.full}>What perks do you want?<select name="perk_interest" required><option value="">Choose one</option><option>Restaurant + nightlife discounts</option><option>Event tickets + upgrades</option><option>Products + monthly free items</option><option>All Kollective member perks</option></select></label>
+              <label className={styles.full}>Favorite Kollective company or experience<input name="favorite_company" defaultValue={query.company} /></label>
+            </>
+          ) : null}
+
+          {config.kind === "ambassador" ? (
+            <>
+              <label>Home city<input name="city" required /></label>
+              <label>Instagram or TikTok<input name="social_handle" required placeholder="@yourhandle" /></label>
+              <label>Audience size<input name="audience_size" type="number" min="0" /></label>
+              <label>Primary platform<select name="primary_platform" required><option value="">Choose one</option><option>Instagram</option><option>TikTok</option><option>YouTube</option><option>Community / campus</option><option>Events / nightlife</option><option>Other</option></select></label>
+              <label className={styles.full}>Companies or experiences you want to represent<input name="company_interest" defaultValue={query.company} required /></label>
+              <label className={styles.full}>Why would you be a strong Kollective ambassador?<textarea name="ambassador_pitch" rows={4} required /></label>
+            </>
+          ) : null}
+
+          {query.company && !eventRequest && config.kind !== "membership" && config.kind !== "ambassador" ? <label className={styles.full}>Company / brand<input name="company" defaultValue={query.company} required /></label> : null}
           {config.kind === "inquiry" ? <label className={styles.full}>What do you need?<input name="topic" required /></label> : null}
 
-          <label className={styles.full}>Details and special requests<textarea name="notes" rows={5} required /></label>
+          <label className={styles.full}>{config.kind === "membership" || config.kind === "ambassador" ? "Anything else?" : "Details and special requests"}<textarea name="notes" rows={5} required={config.kind !== "membership" && config.kind !== "ambassador"} /></label>
           {status ? <div className={styles.error}>{status}</div> : null}
           <button disabled={loading}>{loading ? "SUBMITTING…" : config.kind === "table" ? "CONTINUE TO SECURE DEPOSIT" : "SUBMIT REQUEST"}</button>
         </form>

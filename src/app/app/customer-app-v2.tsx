@@ -13,12 +13,14 @@ import {
   Download,
   Grid3X3,
   Globe2,
+  Gift,
   HandHeart,
   Handshake,
   Home,
   Instagram,
   Mail,
   MapPin,
+  Megaphone,
   MessageCircleMore,
   Phone,
   Search,
@@ -123,6 +125,7 @@ interface BeforeInstallPromptEvent extends Event {
 const BRAND_GRAPHICS =
   "https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics";
 const EMBLEM = `${BRAND_GRAPHICS}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
+const COMPANY_GRAPHIC_FALLBACK = `${BRAND_GRAPHICS}/app/backgrounds/app-background-11.jpg`;
 /** Same enterprise film the websites run behind their departments band. */
 const HERO_VIDEO = motionLibrary.kollectiveGlobal.src;
 const HERO_POSTER = motionLibrary.kollectiveGlobal.poster;
@@ -166,6 +169,8 @@ const GUEST_ACTIONS = [
   { label: "RESERVE TABLE", title: "Reserve a table", detail: "Send a free table RSVP request for your group.", href: "/app/forms/reserve-table", icon: UtensilsCrossed },
   { label: "VIP SECTION", title: "Reserve a VIP section", detail: "Purchase a section or arrange a birthday celebration.", href: "/app/forms/vip-section", icon: CakeSlice },
   { label: "CONCIERGE", title: "Ask for more info", detail: "Send the team your complete request in app.", href: "/app/forms/inquiry", icon: MessageCircleMore },
+  { label: "MEMBER PERKS", title: "Discounts, coupons + free item", detail: "Sign up for discounts, coupons, and the monthly free member item.", href: "/app/forms/member-offers", icon: Gift },
+  { label: "AMBASSADOR", title: "Represent the Kollective", detail: "Apply to promote events, companies, products, and experiences.", href: "/app/forms/ambassador", icon: Megaphone },
 ] as const;
 
 const EVENT_ACCESS_ACTIONS = [
@@ -176,6 +181,8 @@ const EVENT_ACCESS_ACTIONS = [
 ] as const;
 
 const ACCESS_FORM_LINKS = [
+  { label: "MEMBER PERKS", title: "Discounts + monthly free member item", detail: "Join for Kollective discounts, coupons, announcements, and the monthly free member item.", href: "/app/forms/member-offers", icon: Gift, cover: "app-background-01.jpg" },
+  { label: "AMBASSADOR", title: "Ambassador signup", detail: "Represent Kollective companies, products, events, and community experiences.", href: "/app/forms/ambassador", icon: Megaphone, cover: "app-background-02.jpg" },
   { label: "APPLY", title: "Hiring", detail: "Roles, talent, internships, and opportunities across the Kollective.", href: "/app/forms/hiring", icon: ClipboardList, cover: "app-background-03.jpg" },
   { label: "COMMUNITY", title: "Volunteer", detail: "Support events, community work, guest experience, and special projects.", href: "/app/forms/volunteer", icon: HandHeart, cover: "app-background-04.jpg" },
   { label: "PARTNER", title: "Partnerships", detail: "Sponsorships, collaborations, brand activations, and strategic partnerships.", href: "/app/forms/partnership", icon: Handshake, cover: "app-background-05.jpg" },
@@ -243,13 +250,29 @@ function eventPrice(event: EventItem) {
 function destination(entity: Entity) {
   const list = Array.isArray(entity.destinations) ? entity.destinations : [];
   const selected = list.find((item) => item.is_primary) ?? list[0];
-  return (
+  const href = (
     selected?.universal_link ||
     selected?.web_url ||
     selected?.fallback_url ||
     entity.website_url ||
     `/kollective/${entity.slug}`
   );
+  if (/111atl\.com\/forms\//i.test(href) || (/project x/i.test(entity.name) && /111atl\.com/i.test(href))) {
+    return companyFormHref(entity);
+  }
+  return href;
+}
+function companyFormHref(entity: Entity) {
+  const company = encodeURIComponent(entity.name);
+  const companySlug = encodeURIComponent(entity.slug);
+  const eventCompany = /nightlife|event|venue|hospitality|rose|opium|revel|grown-ish/i.test(`${entity.category || ""} ${entity.name}`);
+  return eventCompany
+    ? `/app/forms/rsvp?company=${company}&event=${company}`
+    : `/app/forms/inquiry?company=${company}&brand=${companySlug}`;
+}
+function safeCompanyWebsite(entity: Entity, contact?: DirectoryContact) {
+  const candidates = [contact?.website, entity.website_url, ...(entity.destinations || []).flatMap((item) => [item.web_url, item.universal_link, item.fallback_url])];
+  return candidates.find((href): href is string => Boolean(href && (/^https?:\/\//i.test(href) || href.startsWith("/")) && !/\/forms\//i.test(href) && !(/project x/i.test(entity.name) && /111atl\.com/i.test(href)))) || null;
 }
 function imageStyle(url?: string | null) {
   return url
@@ -288,6 +311,7 @@ export default function CustomerAppV2() {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [installed, setInstalled] = useState(false);
   const [installHelp, setInstallHelp] = useState(false);
+  const [selectedCompany, setSelectedCompany] = useState<Entity | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -383,6 +407,7 @@ export default function CustomerAppV2() {
   const directoryQuery = query.trim().toLowerCase();
   const visibleDirectoryEntities = directoryEntities.filter((entry) => !directoryQuery || `${entry.name} ${entry.category || ""}`.toLowerCase().includes(directoryQuery));
   const visibleTeamContacts = (payload?.directory?.team ?? []).filter((entry) => !directoryQuery || `${entry.name} ${entry.role || ""} ${entry.brand || ""}`.toLowerCase().includes(directoryQuery));
+  const companyContacts = useMemo(() => new Map((payload?.directory?.entities ?? []).map((entry) => [entry.name.toLowerCase(), entry])), [payload]);
 
   const hero = payload?.home.featured[0];
   const nextEvent = marketEvents[0] ?? payload?.home.events[0];
@@ -630,7 +655,7 @@ export default function CustomerAppV2() {
                   />
                   <div className={styles.brandGrid}>
                     {placeRelatedTogether([...FEATURED_CULTURE_BRANDS, ...(payload?.home.entities ?? []).filter((entity) => !/umbrella|help 911|the tribe|black pages|everyday water/i.test(entity.name) && !isFreedomFestEntity(entity))], (entity) => entity.name).slice(0, 12).map((entity) => (
-                      <BrandCard key={entity.id} entity={entity} />
+                      <HomeCompanyCard key={entity.id} entity={entity} onOpen={setSelectedCompany} />
                     ))}
                   </div>
                 </section>
@@ -638,14 +663,14 @@ export default function CustomerAppV2() {
                 <section>
                   <Heading eyebrow="THE ORIGINALS" title="OG Venues. Direct Access." />
                   <div className={styles.brandGrid}>
-                    {OWNED_VENUES.map((entity) => <BrandCard key={entity.id} entity={entity} />)}
+                    {OWNED_VENUES.map((entity) => <HomeCompanyCard key={entity.id} entity={entity} onOpen={setSelectedCompany} />)}
                   </div>
                 </section>
 
                 <section>
                   <Heading eyebrow="MORE OF THE KOLLECTIVE" title="Community, service and enterprise." />
                   <div className={styles.brandGrid}>
-                    {[...(payload?.home.entities ?? []).filter((entity) => /umbrella|help 911|the tribe|black pages|everyday water/i.test(entity.name)), ...MORE_KOLLECTIVE_BRANDS].map((entity) => <BrandCard key={entity.id} entity={entity} />)}
+                    {[...(payload?.home.entities ?? []).filter((entity) => /umbrella|help 911|the tribe|black pages|everyday water/i.test(entity.name)), ...MORE_KOLLECTIVE_BRANDS].map((entity) => <HomeCompanyCard key={entity.id} entity={entity} onOpen={setSelectedCompany} />)}
                   </div>
                 </section>
               </div>
@@ -789,6 +814,13 @@ export default function CustomerAppV2() {
             </button>
           ))}
         </nav>
+        {selectedCompany ? (
+          <CompanyProfileSheet
+            entity={selectedCompany}
+            contact={companyContacts.get(selectedCompany.name.toLowerCase())}
+            onClose={() => setSelectedCompany(null)}
+          />
+        ) : null}
         {installHelp ? (
           <div className={styles.installOverlay} role="dialog" aria-modal="true" aria-labelledby="install-title">
             <div className={styles.installSheet}>
@@ -869,6 +901,72 @@ function EventCard({ event }: { event: EventItem }) {
         </small>
       </div>
     </a>
+  );
+}
+function HomeCompanyCard({ entity, onOpen }: { entity: Entity; onOpen: (entity: Entity) => void }) {
+  const brandMotion = motionFor(entity.name);
+  return (
+    <button type="button" className={styles.companyDiscoveryCard} onClick={() => onOpen(entity)} aria-label={`View ${entity.name} company profile`}>
+      <MotionMedia
+        className={styles.companyDiscoveryMedia}
+        video={brandMotion?.src}
+        poster={entity.hero_url || brandMotion?.poster || COMPANY_GRAPHIC_FALLBACK}
+        label={entity.name}
+      >
+        {!brandMotion && entity.logo_url ? <img src={entity.logo_url} alt="" /> : null}
+        {!brandMotion && !entity.logo_url ? <span className={styles.companyInitial}>{entity.name.slice(0, 1)}</span> : null}
+      </MotionMedia>
+      <span className={styles.companyDiscoveryCopy}>
+        <small>{entity.category || entity.status_label || "THE KOLLECTIVE"}</small>
+        <strong>{entity.name}</strong>
+        <em>{entity.short_description || "Open the company profile for direct links and contact options."}</em>
+        <b>VIEW COMPANY <ArrowUpRight aria-hidden="true" /></b>
+      </span>
+    </button>
+  );
+}
+function CompanyProfileSheet({ entity, contact, onClose }: { entity: Entity; contact?: DirectoryContact; onClose: () => void }) {
+  const brandMotion = motionFor(entity.name);
+  const website = safeCompanyWebsite(entity, contact);
+  const instagramValue = contact?.instagram?.trim() || "";
+  const instagram = instagramValue
+    ? /^https?:\/\//i.test(instagramValue)
+      ? instagramValue
+      : `https://instagram.com/${instagramValue.replace(/^@/, "")}`
+    : null;
+  const formHref = companyFormHref(entity);
+  const contactHref = contact?.email
+    ? `mailto:${contact.email}?subject=${encodeURIComponent(`${entity.name} inquiry from the Kollective app`)}`
+    : `/app/forms/inquiry?company=${encodeURIComponent(entity.name)}&brand=${encodeURIComponent(entity.slug)}&intent=contact`;
+  const actions = [
+    { label: "WEBSITE", href: website, icon: Globe2, external: true },
+    { label: "INSTAGRAM", href: instagram, icon: Instagram, external: true },
+    { label: "RSVP / FORM", href: formHref, icon: ClipboardList, external: false },
+    { label: "CONTACT", href: contactHref, icon: Mail, external: false },
+  ];
+  return (
+    <div className={styles.companyOverlay} role="dialog" aria-modal="true" aria-labelledby="company-profile-title" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
+      <article className={styles.companySheet}>
+        <button type="button" className={styles.companyClose} onClick={onClose} aria-label="Close company profile"><X /></button>
+        <MotionMedia className={styles.companySheetMedia} video={brandMotion?.src} poster={entity.hero_url || brandMotion?.poster || COMPANY_GRAPHIC_FALLBACK} label={entity.name}>
+          {!brandMotion && entity.logo_url ? <img src={entity.logo_url} alt="" /> : null}
+        </MotionMedia>
+        <div className={styles.companySheetCopy}>
+          <p>{entity.category || entity.status_label || "THE KOLLECTIVE COMPANY"}</p>
+          <h2 id="company-profile-title">{entity.name}</h2>
+          <span>{entity.short_description || "Part of the Kollective network of companies, experiences, products, and community platforms."}</span>
+          <div className={styles.companyActions}>
+            {actions.map(({ label, href, icon: Icon, external }) => href ? (
+              <a key={label} href={href} target={external ? "_blank" : undefined} rel={external ? "noreferrer" : undefined}>
+                <Icon /><strong>{label}</strong><ArrowUpRight />
+              </a>
+            ) : (
+              <span key={label} className={styles.companyActionUnavailable}><Icon /><strong>{label}</strong><small>COMING SOON</small></span>
+            ))}
+          </div>
+        </div>
+      </article>
+    </div>
   );
 }
 function BrandCard({ entity }: { entity: Entity }) {

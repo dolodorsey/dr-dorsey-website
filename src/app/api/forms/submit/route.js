@@ -8,6 +8,7 @@ const ALLOWED_FORMS = new Set([
   'onboarding','what_you_do','rsvp','ticket','intern','volunteer','hiring_inquiry',
   'inquiry','group_pricing','table_reservation','nda','book_club','bulk_orders',
   'speaking','media',
+  'member_offers','ambassador_application',
 ]);
 
 function cleanText(value, max = 500) {
