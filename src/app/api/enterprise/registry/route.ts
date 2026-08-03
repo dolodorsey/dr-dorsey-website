@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { KOLLECTIVE_SUPABASE_PUBLISHABLE_KEY, KOLLECTIVE_SUPABASE_URL } from '@/lib/kollective-public';
-import { departmentFor } from '@/lib/company-departments';
-import { isPublicEvent, isRetired } from '@/lib/roster';
+import { departmentFor, departmentSlug } from '@/lib/company-departments';
+import { isEventEntity, isPublicEvent, isRetired } from '@/lib/roster';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -31,16 +31,18 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const entities = (data || []).filter((entity) => {
-    if (isRetired(entity.name)) return false;
+  const entities = (data || []).flatMap((entity) => {
+    const legacyDivision = entity.division_name || entity.division_slug || null;
 
-    const department = departmentFor({
-      name: entity.name,
-      division: entity.division_name || entity.division_slug || null,
-    });
+    if (isRetired(entity.name)) return [];
+    if (isEventEntity(entity.name, legacyDivision) && !isPublicEvent(entity.name)) return [];
 
-    if (department === 'Events / Activations') return isPublicEvent(entity.name);
-    return true;
+    const department = departmentFor({ name: entity.name, division: legacyDivision });
+    return [{
+      ...entity,
+      division_name: department,
+      division_slug: departmentSlug(department),
+    }];
   });
 
   return NextResponse.json(
