@@ -22,6 +22,7 @@ import { useEffect, useMemo, useState } from "react";
 import styles from "./customer-app-v2.module.css";
 import motion from "./customer-app-v2-motion.module.css";
 import { motion as motionLibrary, motionFor } from "@/lib/motion";
+import { placeRelatedTogether } from "@/lib/roster";
 
 type Destination = {
   fallback_url?: string;
@@ -305,7 +306,7 @@ export default function CustomerAppV2() {
             .some((value) => String(value).toLowerCase().includes(clean)),
       );
   }, [marketEvents, query, filter]);
-  const allBrands = useMemo(() => Array.from(new Map([...FEATURED_CULTURE_BRANDS, ...(payload?.home.entities ?? []), ...OWNED_VENUES, ...MORE_KOLLECTIVE_BRANDS].map((entity) => [entity.name.toLowerCase(), entity])).values()), [payload]);
+  const allBrands = useMemo(() => placeRelatedTogether(Array.from(new Map([...FEATURED_CULTURE_BRANDS, ...(payload?.home.entities ?? []), ...OWNED_VENUES, ...MORE_KOLLECTIVE_BRANDS].map((entity) => [entity.name.toLowerCase(), entity])).values()), (entity) => entity.name), [payload]);
 
   const hero = payload?.home.featured[0];
   const nextEvent = marketEvents[0] ?? payload?.home.events[0];
@@ -552,7 +553,7 @@ export default function CustomerAppV2() {
                     onAction={() => selectTab("brands")}
                   />
                   <div className={styles.brandGrid}>
-                    {[...FEATURED_CULTURE_BRANDS, ...(payload?.home.entities ?? []).filter((entity) => !/umbrella|help 911|the tribe|black pages|everyday water/i.test(entity.name))].slice(0, 12).map((entity) => (
+                    {placeRelatedTogether([...FEATURED_CULTURE_BRANDS, ...(payload?.home.entities ?? []).filter((entity) => !/umbrella|help 911|the tribe|black pages|everyday water/i.test(entity.name))], (entity) => entity.name).slice(0, 12).map((entity) => (
                       <BrandCard key={entity.id} entity={entity} />
                     ))}
                   </div>
@@ -753,7 +754,7 @@ function EventCard({ event }: { event: EventItem }) {
       <MotionMedia
         className={styles.eventImage}
         video={eventMotion?.src}
-        poster={eventMotion?.poster || brandedEventImage(event)}
+        poster={event.image_url || eventMotion?.poster || relevantEventImage(event)}
         label={event.event_name}
       >
         <span>
@@ -806,7 +807,7 @@ function EventRow({ event }: { event: EventItem }) {
       <MotionMedia
         className={styles.rowImage}
         video={eventMotion?.src}
-        poster={eventMotion?.poster || brandedEventImage(event)}
+        poster={event.image_url || eventMotion?.poster || relevantEventImage(event)}
         label={event.event_name}
       />
       <div>
@@ -858,9 +859,14 @@ function ProfileLink({ href, label }: { href: string; label: string }) {
     </a>
   );
 }
-function brandedEventImage(event: EventItem) {
-  const seed = [...event.event_name].reduce((total, char) => total + char.charCodeAt(0), 0);
-  return `${BRAND_GRAPHICS}/app/backgrounds/app-background-${String((seed % 11) + 1).padStart(2, "0")}.jpg`;
+function relevantEventImage(event: EventItem) {
+  const text = `${event.event_name} ${event.event_category || ""}`.toLowerCase();
+  if (/comedy|standup|open mic/.test(text)) return "https://images.unsplash.com/photo-1527224857830-43a7acc85260?auto=format&fit=crop&w=1200&q=82";
+  if (/basketball|dream|aces|sport/.test(text)) return "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=82";
+  if (/art|mixed media|theatre|reading/.test(text)) return "https://images.unsplash.com/photo-1547891654-e66ed7ebb968?auto=format&fit=crop&w=1200&q=82";
+  if (/taco|dine|food|cocktail|taste/.test(text)) return "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1200&q=82";
+  if (/network|career|business/.test(text)) return "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=82";
+  return "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=82";
 }
 function DirectoryCard({ title, role, detail, href }: { title: string; role: string; detail: string; href: string }) {
   return <a href={href} className={styles.directoryCard}><p>{role}</p><h2>{title}</h2><span>{detail}</span><ArrowUpRight /></a>;

@@ -1,4 +1,4 @@
-import { pruneNames } from '@/lib/roster';
+import { placeRelatedTogether, pruneNames } from '@/lib/roster';
 
 export const SB = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics';
 
@@ -17,7 +17,7 @@ export type BrandCard = {
   destinationType?: DestinationType;
 };
 
-export const currentFocusBrands: BrandCard[] = [
+const focusBrandRoster: BrandCard[] = [
   {
     name: 'Dr. Dorsey',
     category: 'Founder · Author · Strategist',
@@ -176,6 +176,7 @@ export const currentFocusBrands: BrandCard[] = [
     destinationType: 'website',
   },
 ];
+export const currentFocusBrands = placeRelatedTogether(focusBrandRoster, (brand) => brand.name);
 
 export type Division = {
   title: string;

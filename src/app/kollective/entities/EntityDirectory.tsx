@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import styles from './page.module.css';
-import { isRetired } from '@/lib/roster';
+import { placeRelatedTogether } from '@/lib/roster';
 
 type Entity = {
   slug: string;
@@ -17,7 +17,7 @@ type Entity = {
 const e = (slug: string, name: string, division: string, status: string, line: string, href?: string, logo?: string): Entity =>
   ({ slug, name, division, status, line, href, logo });
 
-const entities: Entity[] = [
+const entities: Entity[] = placeRelatedTogether([
   e('kollective','The Kollective','Enterprise','Command layer','One enterprise. Many worlds.','/','dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png'),
   e('dr-dorsey','Dr. Dorsey','Enterprise','Founder platform','Builder. Architect. Operator.','https://doctordorsey.com','dr_dorsey/01_logos/DorseyNewW.png'),
   e('iconic','Iconic','Entertainment','Portfolio IP','Culture, music, and influence.','https://111atl.com','dr_dorsey/00-brand-assets/logos/iconic-logo-gold.png'),
@@ -86,7 +86,7 @@ const entities: Entity[] = [
   e('umbrella-travel','Umbrella Travel','Services','Service company','Curated movement.','https://theumbrella.group'),
   e('mind-studio','The Mind Studio','Services','Wellness platform','Mental wellness, modernized.','https://theumbrella.group'),
   e('reset-therapy','Reset Therapy','Services','Wellness platform','Make room to begin again.','https://theumbrella.group'),
-].filter((item) => !isRetired(item.name));
+], (item) => item.name);
 
 const divisions = ['All', ...Array.from(new Set(entities.map((item) => item.division)))];
 
