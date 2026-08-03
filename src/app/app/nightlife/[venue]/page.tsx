@@ -2,46 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { motion } from "@/lib/motion";
+import { NIGHTLIFE, type NightlifeVenue } from "@/lib/nightlife-packages";
 import styles from "../../experience.module.css";
-
-const VENUES = {
-  opium: { name: "Opium ATL", motion: motion.opium, line: "RSVP and reserve your table directly with the Kollective." },
-  revel: { name: "Revel", motion: motion.revel, line: "RSVP and reserve your table directly with the Kollective." },
-} as const;
-
+const VENUES = { opium: { ...NIGHTLIFE.opium, motion: motion.opium }, revel: { ...NIGHTLIFE.revel, motion: motion.revel } } as const;
 export function generateStaticParams() { return Object.keys(VENUES).map((venue) => ({ venue })); }
-export function generateMetadata({ params }: { params: { venue: string } }): Metadata {
-  const venue = VENUES[params.venue as keyof typeof VENUES];
-  return { title: venue ? `${venue.name} — Direct Access` : "Nightlife — The Kollective" };
-}
-
-export default function NightlifeVenuePage({ params }: { params: { venue: string } }) {
-  const venue = VENUES[params.venue as keyof typeof VENUES];
-  if (!venue) notFound();
-  const label = encodeURIComponent(venue.name);
-  return (
-    <main className={styles.page}>
-      <section className={styles.hero}>
-        <Link className={styles.back} href="/app">← BACK TO THE APP</Link>
-        <video autoPlay muted loop playsInline poster={venue.motion.poster}>
-          <source src={venue.motion.src} type="video/mp4" />
-        </video>
-        <div className={styles.copy}>
-          <p className={styles.eyebrow}>KOLLECTIVE NIGHTLIFE · DIRECT ACCESS</p>
-          <h1>{venue.name}</h1>
-          <p>{venue.line}</p>
-        </div>
-      </section>
-      <div className={styles.actions}>
-        <Link href={`/forms/inquiry?brand=${label}&request=rsvp`}>RSVP DIRECTLY</Link>
-        <Link href={`/app/table-deposit?venue=${label}`}>PAY TABLE DEPOSIT</Link>
-        <Link href={`/forms/table_reservation?venue=${label}`}>REQUEST A TABLE</Link>
-      </div>
-      <section className={styles.notice}>
-        <p className={styles.eyebrow}>TABLE SALES</p>
-        <h2>Pricing is being finalized.</h2>
-        <p>Once the table prices are supplied, this page will show the exact packages and required 25% deposit.</p>
-      </section>
-    </main>
-  );
-}
+export function generateMetadata({ params }: { params: { venue: string } }): Metadata { const venue=VENUES[params.venue as NightlifeVenue]; return { title: venue ? `${venue.name} — Direct Access` : "Nightlife — The Kollective" }; }
+export default function NightlifeVenuePage({ params }: { params: { venue: string } }) { const key=params.venue as NightlifeVenue; const venue=VENUES[key]; if(!venue) notFound(); return <main className={styles.page}><section className={styles.hero}><Link className={styles.back} href="/app">← BACK TO THE APP</Link><video autoPlay muted loop playsInline poster={venue.motion.poster}><source src={venue.motion.src} type="video/mp4" /></video><div className={styles.copy}><p className={styles.eyebrow}>KOLLECTIVE NIGHTLIFE · DIRECT ACCESS</p><h1>{venue.name}</h1><p>RSVP and secure your table directly inside the Kollective app.</p></div></section><div className={styles.actions}><Link href={`/app/forms/rsvp?venue=${key}`}>RSVP DIRECTLY</Link><Link href={`/app/forms/table?venue=${key}`}>REQUEST A TABLE</Link><Link href={`/app/forms/birthday?venue=${key}`}>BOOK A BIRTHDAY</Link></div><section className={styles.notice}><p className={styles.eyebrow}>OFFICIAL TABLE CHART · TAX + GRATUITY INCLUDED</p><h2>Choose your package.</h2><p>{venue.depositLabel}. Final confirmation is subject to availability and venue terms.</p><img className={styles.chart} src={venue.chart} alt={`${venue.name} table chart and package prices`} /><div className={styles.packageGrid}>{venue.packages.map(pkg=><article key={pkg.id}><p className={styles.eyebrow}>{pkg.bottles} BOTTLE{pkg.bottles>1?"S":""} · UP TO {pkg.guests} GUESTS</p><h3>${pkg.total.toLocaleString()}</h3><Link href={`/app/forms/table?venue=${key}&package=${pkg.id}`}>SELECT + PAY DEPOSIT</Link></article>)}</div></section></main>; }

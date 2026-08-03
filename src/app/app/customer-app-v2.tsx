@@ -97,7 +97,7 @@ const BRAND_GRAPHICS =
 const EMBLEM = `${BRAND_GRAPHICS}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
 /** Same enterprise film the websites run behind their departments band. */
 const HERO_VIDEO = motionLibrary.kollectiveGlobal.src;
-const HERO_POSTER = `${BRAND_GRAPHICS}/dr_dorsey/website/hero-bg.jpg`;
+const HERO_POSTER = motionLibrary.kollectiveGlobal.poster;
 /** The GOOD TIMES cut from the shared library, so the app and the sites move together. */
 const GOOD_TIMES_ANIMATION = motionLibrary.goodTimes.src;
 const QUICK_CARD_MOTION = {
@@ -115,9 +115,11 @@ const OWNED_VENUES: Entity[] = [
   { id: "owned-revel", slug: "revel", name: "Revel", category: "KOLLECTIVE NIGHTLIFE", short_description: "RSVP and reserve tables directly with the Kollective.", website_url: "/app/nightlife/revel" },
 ];
 
-const MORE_KOLLECTIVE_BRANDS: Entity[] = [
+const FEATURED_CULTURE_BRANDS: Entity[] = [
   { id: "more-maga", slug: "make-atlanta-great-again", name: "Make Atlanta Great Again", category: "ATLANTA CULTURE", short_description: "Atlanta culture, worn forward.", website_url: "https://thaoldatlanta.com" },
   { id: "more-taste-of-art", slug: "taste-of-art", name: "Taste of Art", category: "CULTURE & EVENTS", short_description: "Fall and winter dates coming soon.", website_url: "/app/taste-of-art" },
+];
+const MORE_KOLLECTIVE_BRANDS: Entity[] = [
   { id: "more-infinity", slug: "infinity-water", name: "Infinity Water", category: "BEVERAGES", short_description: "Premium hydration and hospitality.", website_url: "https://watertoinfinity.com" },
   { id: "more-pronto", slug: "pronto-energy", name: "Pronto Energy", category: "BEVERAGES", short_description: "Energy for every world.", website_url: "https://prontoenergydrink.com" },
   { id: "more-tribal", slug: "tribal-water", name: "Tribal Water", category: "BEVERAGES", short_description: "Hydration with belonging.", website_url: "https://tribal-water.vercel.app" },
@@ -127,10 +129,10 @@ const MORE_KOLLECTIVE_BRANDS: Entity[] = [
 ];
 
 const GUEST_ACTIONS = [
-  { label: "RSVP NOW", title: "Get on the list", detail: "Choose complimentary RSVP or paid priority access.", href: "https://111atl.com/event.html?event=grown-ish-rose-on-piedmont", icon: TicketCheck },
-  { label: "TABLES", title: "Pay table deposit", detail: "Pay exactly 25% of your confirmed table total.", href: "/app/table-deposit", icon: UtensilsCrossed },
-  { label: "CELEBRATE", title: "Book a birthday", detail: "Start a birthday table request with your date and group size.", href: "https://111atl.com/forms/table_reservation?source=kollective-app&occasion=birthday", icon: CakeSlice },
-  { label: "CONCIERGE", title: "Ask for more info", detail: "Send the team your question and contact details.", href: "https://111atl.com/forms/inquiry?source=kollective-app", icon: MessageCircleMore },
+  { label: "RSVP NOW", title: "Get on the list", detail: "Submit your RSVP without leaving the app.", href: "/app/forms/rsvp", icon: TicketCheck },
+  { label: "TABLES", title: "Reserve a table", detail: "Choose a venue, package, and secure your booking.", href: "/app/forms/table", icon: UtensilsCrossed },
+  { label: "CELEBRATE", title: "Book a birthday", detail: "Tell us the date, group size, Instagram, and celebration details.", href: "/app/forms/birthday", icon: CakeSlice },
+  { label: "CONCIERGE", title: "Ask for more info", detail: "Send the team your complete request in app.", href: "/app/forms/inquiry", icon: MessageCircleMore },
 ] as const;
 
 const tabs: Array<{ key: Tab; label: string; icon: typeof Home }> = [
@@ -311,7 +313,8 @@ export default function CustomerAppV2() {
 
   const hero = payload?.home.featured[0];
   const nextEvent = marketEvents[0] ?? payload?.home.events[0];
-  const heroPoster = hero?.image_url || nextEvent?.image_url || HERO_POSTER;
+  // Never put an event flyer beneath the Kollective film: it flashes through while video loads.
+  const heroPoster = HERO_POSTER;
   const heroTitle =
     hero?.title || nextEvent?.event_name || `What is happening in ${market}`;
 
@@ -467,7 +470,7 @@ export default function CustomerAppV2() {
                     {GUEST_ACTIONS.map((action) => {
                       const Icon = action.icon;
                       return (
-                        <a key={action.title} href={action.href} target="_blank" rel="noreferrer">
+                        <a key={action.title} href={action.href}>
                           <span className={styles.guestActionIcon}><Icon aria-hidden="true" /></span>
                           <p>{action.label}</p>
                           <h3>{action.title}</h3>
@@ -554,7 +557,7 @@ export default function CustomerAppV2() {
                     onAction={() => selectTab("brands")}
                   />
                   <div className={styles.brandGrid}>
-                    {(payload?.home.entities ?? []).slice(0, 10).map((entity) => (
+                    {[...FEATURED_CULTURE_BRANDS, ...(payload?.home.entities ?? []).filter((entity) => !/umbrella|help 911|the tribe|black pages|everyday water/i.test(entity.name))].slice(0, 12).map((entity) => (
                       <BrandCard key={entity.id} entity={entity} />
                     ))}
                   </div>
@@ -568,9 +571,9 @@ export default function CustomerAppV2() {
                 </section>
 
                 <section>
-                  <Heading eyebrow="MORE OF THE KOLLECTIVE" title="Products, culture and movement." />
+                  <Heading eyebrow="MORE OF THE KOLLECTIVE" title="Community, service and enterprise." />
                   <div className={styles.brandGrid}>
-                    {MORE_KOLLECTIVE_BRANDS.map((entity) => <BrandCard key={entity.id} entity={entity} />)}
+                    {[...(payload?.home.entities ?? []).filter((entity) => /umbrella|help 911|the tribe|black pages|everyday water/i.test(entity.name)), ...MORE_KOLLECTIVE_BRANDS].map((entity) => <BrandCard key={entity.id} entity={entity} />)}
                   </div>
                 </section>
               </div>

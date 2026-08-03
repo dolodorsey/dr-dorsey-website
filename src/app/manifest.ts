@@ -18,9 +18,16 @@ export default function manifest(): MetadataRoute.Manifest {
         src: "/app/icon",
         sizes: "512x512",
         type: "image/png",
+        purpose: "any",
+      },
+      {
+        src: "/app/icon",
+        sizes: "512x512",
+        type: "image/png",
         purpose: "maskable",
       },
     ],
+    prefer_related_applications: false,
     shortcuts: [
       { name: "RSVP", short_name: "RSVP", url: "/app#events" },
       { name: "Pay table deposit", short_name: "Deposit", url: "/app/table-deposit" },
