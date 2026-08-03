@@ -22,8 +22,8 @@ export default function KollectivePage() {
     <main className={styles.page}>
       <nav className={styles.nav}>
         <a className={styles.navBrand} href="#top"><img src={EMBLEM} alt="The Kollective" /></a>
-        <div className={styles.navLinks}><a href="/entities">Entities</a><a href="/companies">Companies</a><a href="/events">Current</a><a href="/network">Network</a><a href="/links">Links</a></div>
-        <a className={styles.navCta} href="/access">Open Access</a>
+        <div className={styles.navLinks}><a href="/entities">Entities</a><a href="/companies">Companies</a><a href="/events">Current</a><a href="/network">Network</a><a href="/app">App</a></div>
+        <a className={styles.navCta} href="/app?install=1">Download App</a>
       </nav>
 
       <section className={styles.hero} id="top" aria-label="The Kollective visual introduction">
@@ -34,12 +34,12 @@ export default function KollectivePage() {
       </section>
 
       <section className={`${upgradeStyles.actionBar} k-surface k-edge`} aria-label="Fast enterprise actions">
-        <a href="https://doctordorsey.com/forms/rsvp"><strong>RSVP</strong><span>Events and guest lists</span></a>
-        <a href="https://doctordorsey.com/forms/table_reservation"><strong>Reserve</strong><span>Dining and nightlife</span></a>
+        <a href="/app/forms/rsvp"><strong>RSVP</strong><span>Events and guest lists</span></a>
+        <a href="/app/forms/table"><strong>Reserve</strong><span>Dining and nightlife</span></a>
         <a href={BOOK_URL}><strong>Buy</strong><span>Hakuna Matata</span></a>
-        <a href="https://doctordorsey.com/forms/sponsor"><strong>Partner</strong><span>Sponsors and enterprise deals</span></a>
-        <a href="https://doctordorsey.com/forms/hiring_inquiry"><strong>Join</strong><span>Careers and opportunities</span></a>
-        <a href="/access"><strong>All Access</strong><span>Every form and link</span></a>
+        <a href="/app/forms/inquiry?topic=partnerships"><strong>Partner</strong><span>Sponsors and enterprise deals</span></a>
+        <a href="/app/forms/inquiry?topic=careers"><strong>Join</strong><span>Careers and opportunities</span></a>
+        <a href="/app"><strong>All Access</strong><span>Every form and link</span></a>
       </section>
 
       <section className={`${styles.intro} k-surface k-bleed k-emblem`} id="intro">
@@ -94,7 +94,7 @@ export default function KollectivePage() {
             : item.href === '/shop' ? '/store' : item.href;
           return <a href={href} key={item.title}><b>{item.title}</b><span>{item.description}</span><i>↗</i></a>;
         })}</div>
-        <div className={styles.accessButtons}><a href="/access">Open All Access</a><a href="https://111atl.com">111ATL</a><a href="https://doctordorsey.com/forms/inquiry?interest=enterprise_app">Unified App Early Access</a></div>
+        <div className={styles.accessButtons}><a href="/app">Open the App</a><a href="/app/forms/inquiry">Ask for More Info</a><a href="/app?install=1">Download Kollective</a></div>
       </section>
 
       <footer className={styles.footer}><img src={EMBLEM} alt="The Kollective" /><p>Independent brands. Shared enterprise leverage. Direct action.</p><div><a href={BOOK_URL}>Buy the Book</a><a href="https://doctordorsey.com">Dr. Dorsey</a><a href="https://111atl.com">111ATL</a><a href="/access">Access</a></div></footer>

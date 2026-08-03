@@ -49,9 +49,10 @@ export default function HomePage() {
           <a href="/companies">Companies</a>
           <a href="/directory">Directory</a>
           <a href="/events">Current</a>
+          <a href="/app">App</a>
           <a href="/links">Links</a>
         </div>
-        <a className={styles.navCta} href="/forms/consultation">Book strategy ↗</a>
+        <a className={styles.navCta} href="/app?install=1">Download App ↗</a>
         <button
           className={styles.menuButton}
           onClick={() => setMenu((open) => !open)}
@@ -71,6 +72,7 @@ export default function HomePage() {
         <a href="/events" onClick={() => setMenu(false)}>Current & Events <span>03</span></a>
         <a href="/network">Network <span>04</span></a>
         <a href="/links">All Links <span>05</span></a>
+        <a href="/app?install=1" onClick={() => setMenu(false)}>Download App <span>06</span></a>
       </div>
 
       <section className={styles.hero} id="top">
@@ -95,6 +97,7 @@ export default function HomePage() {
         <div className={styles.departmentsCta}>
           <a href="/companies">See every company ↗</a>
           <a href="/directory">Open the directory ↗</a>
+          <a href="/app?install=1">Download the app ↗</a>
         </div>
       </section>
 
@@ -256,6 +259,7 @@ export default function HomePage() {
           <a href="/kollective">The Kollective</a>
           <a href="https://111atl.com">111ATL</a>
           <a href="https://instagram.com/dolodorsey">Instagram</a>
+          <a href="/app?install=1">App</a>
         </div>
       </footer>
     </main>

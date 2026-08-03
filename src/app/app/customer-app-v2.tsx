@@ -259,9 +259,12 @@ export default function CustomerAppV2() {
       navigator.serviceWorker.register("/sw.js").catch(() => undefined);
     }
     setInstalled(window.matchMedia("(display-mode: standalone)").matches);
+    const requestedInstall = new URLSearchParams(window.location.search).get("install") === "1";
+    if (requestedInstall && !window.matchMedia("(display-mode: standalone)").matches) setInstallHelp(true);
     const onPrompt = (event: Event) => {
       event.preventDefault();
       setInstallPrompt(event as BeforeInstallPromptEvent);
+      if (requestedInstall) setInstallHelp(true);
     };
     window.addEventListener("beforeinstallprompt", onPrompt);
     return () => {
@@ -326,6 +329,7 @@ export default function CustomerAppV2() {
     await installPrompt.prompt();
     const choice = await installPrompt.userChoice;
     if (choice.outcome === "accepted") setInstalled(true);
+    setInstallHelp(false);
     setInstallPrompt(null);
   };
   const MarketControl = () => (
@@ -695,11 +699,12 @@ export default function CustomerAppV2() {
               <p>DOWNLOAD THE APP</p>
               <h2 id="install-title">Install Kollective</h2>
               <ol>
+                {installPrompt ? <li><strong>Ready now:</strong> tap the gold install button below to download Kollective.</li> : null}
                 <li><strong>iPhone or iPad:</strong> tap Share, then “Add to Home Screen.”</li>
                 <li><strong>Android:</strong> open the browser menu, then tap “Install app.”</li>
                 <li><strong>Desktop:</strong> use the install icon in the address bar.</li>
               </ol>
-              <button className={styles.installDone} onClick={() => setInstallHelp(false)}>GOT IT</button>
+              <button className={styles.installDone} onClick={installPrompt ? install : () => setInstallHelp(false)}>{installPrompt ? "INSTALL KOLLECTIVE" : "GOT IT"}</button>
             </div>
           </div>
         ) : null}
