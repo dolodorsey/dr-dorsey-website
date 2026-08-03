@@ -13,6 +13,15 @@ const HERO_VIDEO = '/brand/kollective-hero.mp4';
 const HERO_POSTER = '/brand/kollective-hero-poster.png';
 const BOOK_URL = 'https://bodgeaworldwide.myshopify.com/products/hakuna-matata-by-dr-dorsey';
 
+function publicAccessHref(item: { title: string; href: string }) {
+  if (item.title === 'Rose Weekly Schedule') return '/events';
+  if (item.title === 'Table Reservation') return '/app/forms/reserve-table';
+  if (/111atl\.com/i.test(item.href)) return '/app/forms/inquiry';
+  if (item.href.startsWith('/forms')) return `/app${item.href}`;
+  if (item.href === '/shop') return '/store';
+  return item.href;
+}
+
 export default function KollectivePage() {
   const featuredAccess = accessLinks.filter((item) => item.featured).slice(0, 6);
 
@@ -67,10 +76,9 @@ export default function KollectivePage() {
       <section className={`${styles.access} k-surface k-surface-deep k-edge`} id="access">
         <FilmBackdrop animation={motion.kollectiveNetwork} opacity={0.12} />
         <div><p className={styles.kicker}>Direct access</p><h2>Every discovery ends in a move.</h2><p>Buy, reserve, apply, partner, download, request service, or start a protected conversation.</p></div>
-        <div className={styles.accessGrid}>{featuredAccess.map((item) => {
-          const href = item.href.startsWith('/forms') ? `/app${item.href}` : item.href === '/shop' ? '/store' : item.href;
-          return <a href={href} key={item.title}><b>{item.title}</b><span>{item.description}</span><i>↗</i></a>;
-        })}</div>
+        <div className={styles.accessGrid}>{featuredAccess.map((item) => (
+          <a href={publicAccessHref(item)} key={item.title}><b>{item.title}</b><span>{item.description}</span><i>↗</i></a>
+        ))}</div>
         <div className={styles.accessButtons}><a href="/app">Open the App</a><a href="/app/forms/inquiry">Ask for More Info</a><a href="/app?install=1">Download Kollective</a></div>
       </section>
 
