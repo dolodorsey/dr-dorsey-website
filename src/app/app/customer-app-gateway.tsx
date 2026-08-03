@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Download, LogIn, Share2, UserPlus } from "lucide-react";
+import { ArrowRight, Copy, Download, LogIn, UserPlus } from "lucide-react";
 import { createClient, type Session } from "@supabase/supabase-js";
 import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
 import { KOLLECTIVE_SUPABASE_PUBLISHABLE_KEY, KOLLECTIVE_SUPABASE_URL } from "@/lib/kollective-public";
@@ -15,6 +15,7 @@ type StandaloneNavigator = Navigator & { standalone?: boolean };
 
 const EMBLEM = "https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png";
 const DOOR = "https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/app/backgrounds/app-background-09.jpg";
+const APP_URL = "https://thekollectivehospitality.com/app?install=1";
 
 const supabase = createClient(KOLLECTIVE_SUPABASE_URL, KOLLECTIVE_SUPABASE_PUBLISHABLE_KEY, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
@@ -73,7 +74,7 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
     check();
     window.addEventListener("beforeinstallprompt", onPrompt);
     window.addEventListener("appinstalled", onInstalled);
-    if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js?v=7", { updateViaCache: "none" }).then((registration) => registration.update()).catch(() => undefined);
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js?v=8", { updateViaCache: "none" }).then((registration) => registration.update()).catch(() => undefined);
     return () => {
       window.removeEventListener("beforeinstallprompt", onPrompt);
       window.removeEventListener("appinstalled", onInstalled);
@@ -83,6 +84,7 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
   async function installApp() {
     setError(null);
     setNotice(null);
+
     if (installPrompt) {
       setBusy(true);
       try {
@@ -97,12 +99,12 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
       return;
     }
 
-    if (appleMobile && navigator.share) {
+    if (appleMobile) {
       try {
-        await navigator.share({ title: "The Kollective", text: "Add The Kollective to your Home Screen.", url: window.location.href });
-        setNotice("In the share sheet, choose Add to Home Screen, then open the new Kollective icon.");
+        await navigator.clipboard.writeText(APP_URL);
+        setNotice("APP LINK COPIED. Tap ••• at the bottom right, choose Open in Safari, then use Safari’s Share button and Add to Home Screen.");
       } catch {
-        setNotice("Tap Safari’s Share button, then Add to Home Screen.");
+        setNotice("Tap ••• at the bottom right, choose Open in Safari, then use Safari’s Share button and Add to Home Screen.");
       }
       return;
     }
@@ -168,16 +170,16 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
             <h1 id="install-title">The Kollective belongs on your phone.</h1>
             <span>One icon for RSVPs, reservations, member perks, companies, events and direct access.</span>
             <div className={styles.instructions}>
-              <b>{appleMobile ? "IPHONE / IPAD" : installPrompt ? "READY TO INSTALL" : "MOBILE INSTALL"}</b>
-              <span>{appleMobile ? "Tap below, then choose Add to Home Screen in the share sheet." : installPrompt ? "Tap below and approve the secure browser prompt." : "Tap below for the correct install steps for your browser."}</span>
+              <b>{appleMobile ? "IPHONE / IPAD · OPEN IN SAFARI FIRST" : installPrompt ? "READY TO INSTALL" : "MOBILE INSTALL"}</b>
+              <span>{appleMobile ? "Links opened from Messages do not include Add to Home Screen. Tap ••• at the bottom right, choose Open in Safari, then tap Safari’s Share button and Add to Home Screen." : installPrompt ? "Tap below and approve the secure browser prompt." : "Tap below for the correct install steps for your browser."}</span>
             </div>
             {error ? <p className={styles.error}>{error}</p> : null}
             {notice ? <p className={styles.notice}>{notice}</p> : null}
             <button className={styles.primary} type="button" onClick={installApp} disabled={busy}>
-              {appleMobile ? <Share2 /> : <Download />}{busy ? "OPENING…" : installPrompt ? "INSTALL KOLLECTIVE" : appleMobile ? "OPEN SHARE SHEET" : "DOWNLOAD APP"}<ArrowRight />
+              {appleMobile ? <Copy /> : <Download />}{busy ? "OPENING…" : installPrompt ? "INSTALL KOLLECTIVE" : appleMobile ? "COPY LINK · OPEN IN SAFARI" : "DOWNLOAD APP"}<ArrowRight />
             </button>
-            <button className={styles.secondary} type="button" onClick={() => { const next = isStandalone(); setInstalled(next); if (!next) setNotice("After installing, open Kollective from the new home-screen icon."); }}>I INSTALLED IT — CHECK AGAIN</button>
-            <p className={styles.footer}>Install once. Open from your home screen. Create your account next.</p>
+            <button className={styles.secondary} type="button" onClick={() => { const next = isStandalone(); setInstalled(next); if (!next) setNotice(appleMobile ? "Still in a browser. Open the new Kollective home-screen icon after adding it." : "After installing, open Kollective from the new home-screen icon."); }}>I INSTALLED IT — CHECK AGAIN</button>
+            <p className={styles.footer}>{appleMobile ? "MESSAGES BROWSER → OPEN IN SAFARI → SHARE → ADD TO HOME SCREEN" : "Install once. Open from your home screen. Create your account next."}</p>
           </div>
         </section>
       </main>
