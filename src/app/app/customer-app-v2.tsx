@@ -134,8 +134,12 @@ const MORE_KOLLECTIVE_BRANDS: Entity[] = [
   { id: "more-stush", slug: "stush", name: "STUSH", category: "FASHION", short_description: "Never blend in.", website_url: "https://stushusa.com" },
   { id: "more-bodega", slug: "bodega", name: "Bodega", category: "COMMERCE", short_description: "The pop-up store with city flavor.", website_url: "https://bodegabodegabodega.com" },
   { id: "more-pulse", slug: "pulse", name: "PULSE", category: "LIFESTYLE", short_description: "The energy behind the moment.", website_url: "/forms/inquiry?brand=pulse" },
-  { id: "more-freedom-fest", slug: "freedom-fest", name: "Freedom Fest : Juneteent Atl", category: "CULTURE & EVENTS", short_description: "Juneteenth culture, community and celebration in Atlanta.", website_url: "https://freedom-fest-store.vercel.app" },
+  { id: "more-freedom-fest", slug: "freedom-fest", name: "Freedom Fest", category: "CULTURE & EVENTS", short_description: "Culture, community and celebration in Atlanta.", website_url: "https://freedom-fest-store.vercel.app" },
 ];
+
+function isFreedomFestEntity(entity: Entity) {
+  return /freedom fest|juneteent|juneteenth/i.test(entity.name);
+}
 
 const GUEST_ACTIONS = [
   { label: "RSVP NOW", title: "Get on the list", detail: "Submit your RSVP without leaving the app.", href: "/app/forms/rsvp", icon: TicketCheck },
@@ -348,7 +352,7 @@ export default function CustomerAppV2() {
             .some((value) => String(value).toLowerCase().includes(clean)),
       );
   }, [marketEvents, query, filter]);
-  const allBrands = useMemo(() => placeRelatedTogether(Array.from(new Map([...FEATURED_CULTURE_BRANDS, ...(payload?.home.entities ?? []), ...OWNED_VENUES, ...MORE_KOLLECTIVE_BRANDS].map((entity) => [entity.name.toLowerCase(), entity])).values()), (entity) => entity.name), [payload]);
+  const allBrands = useMemo(() => placeRelatedTogether(Array.from(new Map([...FEATURED_CULTURE_BRANDS, ...(payload?.home.entities ?? []).filter((entity) => !isFreedomFestEntity(entity)), ...OWNED_VENUES, ...MORE_KOLLECTIVE_BRANDS].map((entity) => [entity.name.toLowerCase(), entity])).values()), (entity) => entity.name), [payload]);
   const accessEvents = marketEvents.slice(0, 10);
   const selectedAccessEvent = accessEvents.find((event) => event.id === selectedAccessEventId);
 
@@ -597,7 +601,7 @@ export default function CustomerAppV2() {
                     onAction={() => selectTab("brands")}
                   />
                   <div className={styles.brandGrid}>
-                    {placeRelatedTogether([...FEATURED_CULTURE_BRANDS, ...(payload?.home.entities ?? []).filter((entity) => !/umbrella|help 911|the tribe|black pages|everyday water/i.test(entity.name))], (entity) => entity.name).slice(0, 12).map((entity) => (
+                    {placeRelatedTogether([...FEATURED_CULTURE_BRANDS, ...(payload?.home.entities ?? []).filter((entity) => !/umbrella|help 911|the tribe|black pages|everyday water/i.test(entity.name) && !isFreedomFestEntity(entity))], (entity) => entity.name).slice(0, 12).map((entity) => (
                       <BrandCard key={entity.id} entity={entity} />
                     ))}
                   </div>

@@ -37,6 +37,14 @@ function asset(slug: string, orientation: Orientation = 'landscape'): MotionAsse
   };
 }
 
+function localAsset(slug: string, orientation: Orientation = 'landscape'): MotionAsset {
+  return {
+    src: `/videos/${slug}.mp4`,
+    poster: `/videos/${slug}.jpg`,
+    orientation,
+  };
+}
+
 /** Every animation currently in the library, keyed by file slug. */
 export const motion = {
   aquifer: asset('aquifer-ani'),
@@ -44,6 +52,7 @@ export const motion = {
   bodega: asset('bodega-ani'),
   casperGroup: asset('casper-group-logos'),
   everydayWater: asset('everyday-wg-ani'),
+  drDorsey: localAsset('dr-dolo-ani'),
   fraternity: asset('fraternity-ani'),
   goodfellas: asset('goodfellas-ani'),
   goodfellasAlt: asset('goodfellas-ani2'),
@@ -108,6 +117,9 @@ export const legacyMotion = {
  * enterprise registry, where names are edited outside this repo.
  */
 const NAME_MOTION: Record<string, MotionAsset> = {
+  'dr dorsey': motion.drDorsey,
+  'doctor dorsey': motion.drDorsey,
+  'dolo dorsey': motion.drDorsey,
   'the kollective ent': motion.kollectiveGlobal,
   'the kollective': motion.kollectiveGlobal,
   'the kollective hospitality group': motion.kollectiveGlobal,
