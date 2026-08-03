@@ -23,7 +23,7 @@ const RETIRED_NAMES = [
   'The Sovereign Nation',
   'Sovereign Nation',
 
-  // Events & Cultural IP
+  // Events & Cultural IP already retired
   'NOIR',
   'Paparazzi',
   'Gangsta Gospel',
@@ -70,6 +70,13 @@ const RETIRED_NAMES = [
   'Freedom 5K Run',
 ];
 
+/** Event brands that have historically lived outside the Events division. */
+const EVENT_ENTITY_NAMES = [
+  'GROWN-ISH',
+  'Project X',
+  'HugLife',
+];
+
 /**
  * Core public staples. Goodfellas and Hungry AF intentionally lead together
  * so they always share a row before the remaining hospitality brands.
@@ -91,6 +98,7 @@ function normalise(name: string): string {
 }
 
 const RETIRED = new Set(RETIRED_NAMES.map(normalise));
+const EVENT_ENTITIES = new Set(EVENT_ENTITY_NAMES.map(normalise));
 const PRIORITY = new Map(PRIORITY_NAMES.map((name, index) => [normalise(name), index]));
 
 /** True when this brand has been pulled from the public enterprise. */
@@ -99,11 +107,25 @@ export function isRetired(name: string | undefined | null): boolean {
   return RETIRED.has(normalise(name));
 }
 
-/** Only these event properties remain public in Events / Activations. */
+/** Only these event properties remain public. */
 export function isPublicEvent(name: string | undefined | null): boolean {
   if (!name) return false;
   const value = normalise(name);
   return value.includes('taste of art') || value.includes('freedom fest');
+}
+
+/**
+ * True when a registry row represents an event property, even if an old
+ * division filed it under Nightlife or Founder & Enterprise.
+ */
+export function isEventEntity(
+  name: string | undefined | null,
+  division?: string | undefined | null,
+): boolean {
+  if (!name) return false;
+  if (EVENT_ENTITIES.has(normalise(name))) return true;
+  const divisionKey = normalise(division || '');
+  return divisionKey.includes('events cultural ip') || divisionKey.includes('events activations');
 }
 
 /** Drop retired brands from any list, whatever shape its records are. */
