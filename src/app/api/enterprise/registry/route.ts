@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { KOLLECTIVE_SUPABASE_PUBLISHABLE_KEY, KOLLECTIVE_SUPABASE_URL } from '@/lib/kollective-public';
+import { departmentFor } from '@/lib/company-departments';
+import { isPublicEvent, isRetired } from '@/lib/roster';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -23,8 +25,26 @@ export async function GET(request: NextRequest) {
   const { data, error } = await query;
   if (error) {
     console.error('enterprise_registry_query_failed', error);
-    return NextResponse.json({ entities: [], error: 'Registry temporarily unavailable.' }, { status: 503, headers: { 'Cache-Control': 'no-store' } });
+    return NextResponse.json(
+      { entities: [], error: 'Registry temporarily unavailable.' },
+      { status: 503, headers: { 'Cache-Control': 'no-store' } },
+    );
   }
 
-  return NextResponse.json({ entities: data || [], generated_at: new Date().toISOString() }, { headers: { 'Cache-Control': 'no-store, max-age=0' } });
+  const entities = (data || []).filter((entity) => {
+    if (isRetired(entity.name)) return false;
+
+    const department = departmentFor({
+      name: entity.name,
+      division: entity.division_name || entity.division_slug || null,
+    });
+
+    if (department === 'Events / Activations') return isPublicEvent(entity.name);
+    return true;
+  });
+
+  return NextResponse.json(
+    { entities, generated_at: new Date().toISOString() },
+    { headers: { 'Cache-Control': 'no-store, max-age=0' } },
+  );
 }
