@@ -9,7 +9,7 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/app",
     scope: "/",
     display: "standalone",
-    orientation: "portrait",
+    display_override: ["window-controls-overlay", "standalone"],
     background_color: "#050505",
     theme_color: "#050505",
     categories: ["lifestyle", "entertainment", "business"],
@@ -20,6 +20,10 @@ export default function manifest(): MetadataRoute.Manifest {
         type: "image/png",
         purpose: "maskable",
       },
+    ],
+    shortcuts: [
+      { name: "RSVP", short_name: "RSVP", url: "/app#events" },
+      { name: "Pay table deposit", short_name: "Deposit", url: "/app/table-deposit" },
     ],
   };
 }
