@@ -52,6 +52,37 @@ const EVENT_DIRECTORY_SLUGS = new Set([
   "juneteenth-atlanta",
   "my-birthday",
 ]);
+const RAW_EVENT_DIRECTORY_NAMES = new Set([
+  "grown ish",
+  "project x",
+  "taste of art",
+  "freedom fest juneteent atl",
+  "freedom fest juneteenth atl",
+  "freedom parade",
+  "juneteenth atlanta",
+  "make atlanta great again",
+  "wasted weekends",
+  "world cup activations",
+  "shut up and dance",
+  "iconic",
+  "espresso",
+  "whip addict",
+  "my birthday",
+]);
+const STATIC_EVENT_DIRECTORY_NAMES = [
+  "GROWN-ISH",
+  "Project X",
+  "Taste of Art",
+  "Freedom Fest : Juneteenth ATL",
+  "Freedom Parade",
+  "Juneteenth Atlanta",
+  "Make Atlanta Great Again",
+  "Wasted Weekends",
+  "World Cup Activations",
+  "Shut Up & Dance",
+  "ICONIC",
+  "ESPRESSO",
+];
 
 type Row = Record<string, unknown>;
 type DirectoryPayload = { entities: Row[]; team: Row[] };
@@ -149,6 +180,10 @@ function quality(event: Row, preferred: string) {
   return score;
 }
 
+function isGrownIsh(value: unknown) {
+  return /\bgrown\s*[-–—]?\s*ish\b/i.test(String(value ?? ""));
+}
+
 function normalizeEvents(rows: Row[], overrides: Row[], preferred: string, limit: number) {
   const byId = new Map(overrides.map((row) => [String(row.event_id), row]));
   const seen = new Set<string>();
@@ -180,22 +215,20 @@ function normalizeEvents(rows: Row[], overrides: Row[], preferred: string, limit
         quality(b, preferred) - quality(a, preferred),
     )
     .filter((event) => {
-      const key = [canonical(event.event_name), event.event_date, cityKey(event.market)].join("|");
-      if (!canonical(event.event_name) || seen.has(key)) return false;
-      seen.add(key);
+      const eventKey = [canonical(event.event_name), event.event_date, cityKey(event.market)].join("|");
+      if (!canonical(event.event_name) || seen.has(eventKey)) return false;
+      seen.add(eventKey);
       return true;
     })
     .slice(0, limit);
 
-  const grownIshIndex = normalized.findIndex((event) =>
-    /\bgrown\s*[-–—]?\s*ish\b/i.test(String(event.event_name)),
-  );
+  const grownIshIndex = normalized.findIndex((event) => isGrownIsh(event.event_name));
 
   return normalized
     .map((event, index) => ({
       ...event,
       is_featured: index === grownIshIndex,
-      is_kollective_event: /\bgrown\s*[-–—]?\s*ish\b/i.test(String(event.event_name)),
+      is_kollective_event: isGrownIsh(event.event_name),
     }))
     .sort(
       (a, b) =>
@@ -223,16 +256,77 @@ function bestLogo(row?: Row | null) {
 }
 
 function findEntity(label: unknown, rows: Row[]) {
-  const key = canonical(label);
-  if (!key) return null;
+  const lookup = canonical(label);
+  if (!lookup) return null;
   return (
-    rows.find((row) => canonical(row.name) === key) ||
+    rows.find((row) => canonical(row.name) === lookup || canonical(row.slug) === lookup) ||
     rows.find((row) => {
       const entityName = canonical(row.name);
-      return entityName.length > 3 && (key.includes(entityName) || entityName.includes(key));
+      return entityName.length > 3 && (lookup.includes(entityName) || entityName.includes(lookup));
     }) ||
     null
   );
+}
+
+function findDirectoryEntity(entry: Row, rows: Row[]) {
+  return findEntity(entry.name || entry.brand_key || entry.slug, rows);
+}
+
+function isRawDirectoryEvent(entry: Row, matched?: Row | null) {
+  if (matched && isEventDirectoryEntity(matched)) return true;
+  const name = canonical(entry.name || entry.brand_key || entry.slug);
+  const category = String(entry.category ?? "").trim().toLowerCase();
+  return (
+    RAW_EVENT_DIRECTORY_NAMES.has(name) ||
+    category === "events" ||
+    category === "event" ||
+    category.includes("events / brand") ||
+    category.includes("event activation") ||
+    /\bactivations?\b/.test(`${name} ${category}`)
+  );
+}
+
+function nextFridayIso() {
+  const date = new Date();
+  const daysUntilFriday = (5 - date.getUTCDay() + 7) % 7;
+  date.setUTCDate(date.getUTCDate() + daysUntilFriday);
+  return date.toISOString().slice(0, 10);
+}
+
+function buildGrownIshFeature(rows: Row[]) {
+  const entity = rows.find((row) => String(row.slug) === "grown-ish");
+  if (!entity) return null;
+  return {
+    id: "kollective-grown-ish-feature",
+    city: "Atlanta",
+    market: "Atlanta",
+    event_name: "GROWN-ISH",
+    event_date: nextFridayIso(),
+    event_time: "10:00 PM",
+    end_date: nextFridayIso(),
+    end_time: "3:00 AM",
+    venue_name: "Rose on Piedmont",
+    venue_address: "3115 Piedmont Rd NE, Atlanta, GA 30305",
+    neighborhood: "Buckhead",
+    event_type: "nightlife",
+    event_category: "Kollective Featured",
+    description:
+      String(decode(entity.short_description) || "Friday nightlife experience at Rose on Piedmont."),
+    ticket_url: "/app/forms/rsvp?brand=grown-ish",
+    ticket_price: null,
+    image_url: entity.hero_url || entity.logo_url || EMBLEM,
+    organizer: "The Kollective",
+    tags: ["grown-ish", "friday", "rose-on-piedmont"],
+    vibe_tags: ["grown-and-sexy", "nightlife"],
+    is_free: false,
+    ai_summary: "The Kollective's featured Friday experience at Rose on Piedmont.",
+    ai_vibe_score: 100,
+    is_hidden: false,
+    is_curated: true,
+    sort_priority: 999,
+    is_featured: true,
+    is_kollective_event: true,
+  };
 }
 
 export async function GET() {
@@ -318,10 +412,16 @@ export async function GET() {
     warnings.push("Operator curation is temporarily unavailable.");
   }
 
-  const events =
+  const normalizedEvents =
     eventsResult.status === "fulfilled"
       ? normalizeEvents(eventsResult.value, overrides, preferred, eventLimit * 3)
       : [];
+  const fallbackGrownIsh = buildGrownIshFeature(allEntityRows);
+  const events = normalizedEvents.some((event) => isGrownIsh(event.event_name))
+    ? normalizedEvents
+    : fallbackGrownIsh
+      ? [fallbackGrownIsh, ...normalizedEvents].slice(0, eventLimit * 3)
+      : normalizedEvents;
   const featuredEvents = events.filter((event) => event.is_featured).slice(0, 1);
 
   const rawDirectory: DirectoryPayload =
@@ -331,8 +431,16 @@ export async function GET() {
   }
 
   const excludedEventRows = allEntityRows.filter(isEventDirectoryEntity);
+  const rawExcludedEventNames = rawDirectory.entities
+    .filter((entry) => isRawDirectoryEvent(entry, findDirectoryEntity(entry, allEntityRows)))
+    .map((entry) => String(decode(entry.name) || ""))
+    .filter(Boolean);
   const excludedEventNames = Array.from(
-    new Set(excludedEventRows.map((row) => String(decode(row.name) || "")).filter(Boolean)),
+    new Set([
+      ...excludedEventRows.map((row) => String(decode(row.name) || "")).filter(Boolean),
+      ...rawExcludedEventNames,
+      ...STATIC_EVENT_DIRECTORY_NAMES,
+    ]),
   );
   const allowedEntityRows = allEntityRows.filter((row) => !isEventDirectoryEntity(row));
   const entityLogos = Object.fromEntries(
@@ -341,7 +449,7 @@ export async function GET() {
 
   const directoryEntities = (rawDirectory.entities.length ? rawDirectory.entities : allowedEntityRows)
     .map((entry) => {
-      const matched = findEntity(entry.name, allEntityRows);
+      const matched = findDirectoryEntity(entry, allEntityRows);
       return {
         ...entry,
         name: String(decode(entry.name) || matched?.name || "Kollective Company"),
@@ -351,10 +459,7 @@ export async function GET() {
         slug: matched?.slug || null,
       };
     })
-    .filter((entry) => {
-      const matched = findEntity(entry.name, allEntityRows);
-      return !(matched ? isEventDirectoryEntity(matched) : excludedEventNames.includes(String(entry.name)));
-    })
+    .filter((entry) => !isRawDirectoryEvent(entry, findDirectoryEntity(entry, allEntityRows)))
     .sort((a, b) => String(a.name).localeCompare(String(b.name)));
 
   const team = rawDirectory.team
