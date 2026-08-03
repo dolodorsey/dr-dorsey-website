@@ -72,7 +72,7 @@ export const motion = {
   opium: asset('opium-ani'),
   revel: asset('revel-animation'),
   pronto: asset('pronto-cans'),
-  projectX: asset('project-x', 'portrait'),
+  projectX: asset('project-x-animation'),
   pulse: asset('pulse-ani'),
   rose: asset('rose-comin-ani', 'portrait'),
   seaSalt: asset('sea-salt-ani'),
@@ -90,6 +90,7 @@ export const motion = {
   tribe: asset('tribe-ani'),
   tulum: asset('tulum-ani'),
   university: asset('university-ani'),
+  umbrellaGroup: asset('umbrella-group-ani'),
 } satisfies Record<string, MotionAsset>;
 
 /** Legacy in-repo hero films that predate this library. */
@@ -126,6 +127,8 @@ const NAME_MOTION: Record<string, MotionAsset> = {
   'pronto energy': motion.pronto,
   'pronto': motion.pronto,
   'project x': motion.projectX,
+  'the umbrella group': motion.umbrellaGroup,
+  'umbrella group': motion.umbrellaGroup,
   'rose on piedmont': motion.rose,
   'opium atl': motion.opium,
   'opium': motion.opium,

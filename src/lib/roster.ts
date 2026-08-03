@@ -48,6 +48,8 @@ const RETIRED_NAMES = [
   'Pinkie Promise',
   'Opium HTX',
   'Tulum HTX',
+  'Whip Addict',
+  'Freedom Run',
 ];
 
 /**
