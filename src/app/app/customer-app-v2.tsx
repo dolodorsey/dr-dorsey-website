@@ -403,9 +403,9 @@ export default function CustomerAppV2() {
         ) : (
           <>
             {activeTab === "home" ? (
-              <div className={styles.content}>
-                <section>
-                  <Heading eyebrow="YOUR CITY" title={`What is happening in ${market}`} />
+              <div className={`${styles.content} ${styles.homeContent}`}>
+                <section className={styles.openingStatement}>
+                  <Heading eyebrow={`THE KOLLECTIVE · ${market.toUpperCase()}`} title="Live for today. Plan for tomorrow. Party tonight!" />
                   <MarketControl />
                 </section>
 
@@ -450,7 +450,7 @@ export default function CustomerAppV2() {
                   </div>
                 </section>
 
-                <section>
+                <section className={styles.accessStage}>
                   <Heading eyebrow="DIRECT ACCESS" title="Book it. Don’t just browse." />
                   <div className={styles.guestActionGrid}>
                     {GUEST_ACTIONS.map((action) => {
@@ -468,7 +468,7 @@ export default function CustomerAppV2() {
                   </div>
                 </section>
 
-                <section>
+                <section className={styles.exploreStage}>
                   <Heading eyebrow="EXPLORE" title="Make your next move" />
                   <div className={styles.quickGrid}>
                     <button
@@ -765,9 +765,12 @@ function BrandCard({ entity }: { entity: Entity }) {
       >
         {!brandMotion && entity.logo_url ? <img src={entity.logo_url} alt="" /> : null}
         {!brandMotion && !entity.logo_url ? <span>{entity.name.slice(0, 1)}</span> : null}
+        <span className={styles.brandTitlePlate}>
+          <small>{entity.category || entity.status_label || "THE KOLLECTIVE"}</small>
+          <strong>{entity.name}</strong>
+          <em>EXPLORE <ArrowUpRight aria-hidden="true" /></em>
+        </span>
       </MotionMedia>
-      <p>{entity.category || entity.status_label || "KOLLECTIVE"}</p>
-      <h3>{entity.name}</h3>
     </a>
   );
 }
