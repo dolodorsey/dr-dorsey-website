@@ -35,7 +35,7 @@ const allDepartments: Department[] = [
     detail:
       'The founder platform and the enterprise command layer — the belief, the architecture, and the leverage every other department runs on.',
     sample: ['Dr. Dorsey', 'The Kollective ENT.', 'Hakuna Matata', 'The Fraternity', 'Iconic'],
-    href: '/companies#founder-and-enterprise',
+    href: '/companies#dorsey-kollective',
     cta: 'Enter the enterprise',
     animations: [motion.kollectiveGlobal, motion.kollectiveNetwork, motion.hakunaMatata, motion.fraternity, motion.blackPages],
   },
@@ -45,7 +45,7 @@ const allDepartments: Department[] = [
     detail:
       'Bars, lounges and late rooms built as destinations — each with its own crowd, its own hours, and its own reason to be in that city.',
     sample: ['Opium ATL', 'Sea Salt ATL', 'Tulum ATL', 'Hungry AF', 'Goodfellas Pizza & Wings'],
-    href: '/companies#hospitality-and-nightlife',
+    href: '/companies#nightlife',
     cta: 'Enter the rooms',
     animations: [motion.opium, motion.seaSalt, motion.seaSaltAlt, motion.tulum, motion.hungryAf, motion.goodfellas, motion.goodfellasAlt, motion.goodfellasAltTwo],
   },
@@ -65,7 +65,7 @@ const allDepartments: Department[] = [
     detail:
       'Original event properties and seasonal activations engineered to repeat — owned formats rather than one-off nights.',
     sample: ['Taste of Art', 'Freedom Fest', 'Juneteenth Atlanta', 'Living Legends'],
-    href: '/companies#events-and-cultural-ip',
+    href: '/companies#events-activations',
     cta: 'Enter current culture',
     animations: [motion.tasteOfArt, motion.tasteOfArtPortrait, motion.grownish, motion.goodTimes],
   },

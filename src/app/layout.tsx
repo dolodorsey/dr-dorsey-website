@@ -34,7 +34,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    // Dorsey is stated, not assumed. The Kollective routes re-scope to
+    // data-brand="kollective" on their own wrapper; naming this one keeps the
+    // two from ever converging by way of an edit to the :root default.
+    <html lang="en" data-brand="dorsey">
       <head>
         {/* Brand palettes, emitted from src/lib/brand-tokens.ts so no
             stylesheet carries a hex and the four properties cannot drift. */}
