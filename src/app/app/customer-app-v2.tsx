@@ -501,7 +501,7 @@ export default function CustomerAppV2() {
                     onAction={() => selectTab("brands")}
                   />
                   <div className={styles.brandGrid}>
-                    {(payload?.home.entities ?? []).slice(0, 8).map((entity) => (
+                    {(payload?.home.entities ?? []).slice(0, 10).map((entity) => (
                       <BrandCard key={entity.id} entity={entity} />
                     ))}
                   </div>
