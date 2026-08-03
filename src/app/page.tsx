@@ -15,7 +15,7 @@ import { motion } from '@/lib/motion';
 const currentMoves = [
   { name: 'GOOD TIMES', kind: 'The culture calendar', image: '/dorsey/current/good-times.jpg', href: 'https://www.thegoodtimesworldwide.com' },
   { name: 'Taste of Art', kind: 'August 22 · Atlanta', image: '/dorsey/current/taste-of-art.jpg', href: 'https://www.eventbrite.com/e/the-taste-of-art-aug-22-tickets-1988881972519' },
-  { name: 'GROWN-ISH', kind: 'August 7 · Atlanta', image: '/dorsey/current/grownish.jpg', href: 'https://www.eventbrite.com/e/the-grown-ish-aug-07-tickets-1988881854165' },
+  { name: 'Freedom Fest', kind: 'Juneteenth · Culture · Community', href: 'https://freedom-fest-store.vercel.app' },
   { name: 'STUSH', kind: 'Fashion', image: '/dorsey/current/stush-fashion.jpg', href: 'https://stushusa.com' },
   { name: 'Pronto Energy', kind: 'Active beverage brand', image: '/dorsey/current/pronto-energy.jpg', href: 'https://prontoenergydrink.com' },
   { name: 'Infinity Water', kind: 'Active water brand', image: '/dorsey/current/infinity-water.jpg', href: 'https://watertoinfinity.com' },
