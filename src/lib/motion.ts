@@ -59,6 +59,8 @@ export const motion = {
   hungryAf: asset('hungry-ani'),
   infinityWater: asset('infinity-bottles-2'),
   kollectiveGlobal: asset('kollective-global'),
+  kollectiveAni: asset('kollective-ani'),
+  kollectiveAnimation: asset('kollective-animationn'),
   kollectiveNetwork: asset('kollective-network', 'portrait'),
   maga: asset('maga-anii'),
   medicine: asset('medicine-ani', 'portrait'),

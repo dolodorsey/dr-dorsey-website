@@ -102,9 +102,18 @@ const HERO_POSTER = `${BRAND_GRAPHICS}/dr_dorsey/website/hero-bg.jpg`;
 const GOOD_TIMES_ANIMATION = motionLibrary.goodTimes.src;
 const QUICK_CARD_MOTION = {
   tonight: motionLibrary.kollectiveNetwork,
-  week: motionLibrary.casperGroup,
-  brands: motionLibrary.blackPages,
+  week: motionLibrary.kollectiveAni,
+  brands: motionLibrary.kollectiveAnimation,
 } as const;
+
+const OWNED_VENUES: Entity[] = [
+  { id: "owned-sea-salt", slug: "sea-salt-atl", name: "Sea Salt ATL", category: "KOLLECTIVE PORTFOLIO", short_description: "Operated independently. Reservations open on OpenTable.", website_url: "https://www.opentable.com/r/sea-salt-atlanta" },
+  { id: "owned-tulum", slug: "tulum-atl", name: "Tulum ATL", category: "KOLLECTIVE PORTFOLIO", short_description: "Explore Tulum directly.", website_url: "https://www.tulumatl.com" },
+  { id: "owned-hungry-af", slug: "hungry-af", name: "Hungry AF", category: "KOLLECTIVE PORTFOLIO", short_description: "Order and explore directly with Hungry AF.", website_url: "https://thehungryaf.com" },
+  { id: "owned-goodfellas", slug: "goodfellas", name: "Goodfellas Pizza & Wings", category: "KOLLECTIVE PORTFOLIO", short_description: "Order directly from Goodfellas.", website_url: "https://www.goodfellaspizzaandwings.com" },
+  { id: "owned-opium", slug: "opium-atl", name: "Opium ATL", category: "KOLLECTIVE NIGHTLIFE", short_description: "Explore Opium and purchase section access.", website_url: "https://opiumatl.com" },
+  { id: "owned-revel", slug: "revel", name: "Revel", category: "KOLLECTIVE NIGHTLIFE", short_description: "Purchase Revel section access through Opium ATL.", website_url: "https://opiumatl.com/product-tag/revel/" },
+];
 
 const GUEST_ACTIONS = [
   { label: "RSVP NOW", title: "Get on the list", detail: "Choose complimentary RSVP or paid priority access.", href: "https://111atl.com/event.html?event=grown-ish-rose-on-piedmont", icon: TicketCheck },
@@ -539,6 +548,13 @@ export default function CustomerAppV2() {
                     ))}
                   </div>
                 </section>
+
+                <section>
+                  <Heading eyebrow="ALSO OURS" title="Independent venues. Direct access." />
+                  <div className={styles.brandGrid}>
+                    {OWNED_VENUES.map((entity) => <BrandCard key={entity.id} entity={entity} />)}
+                  </div>
+                </section>
               </div>
             ) : null}
 
@@ -742,7 +758,7 @@ function BrandCard({ entity }: { entity: Entity }) {
   return (
     <a href={destination(entity)} className={styles.brandCard} target="_blank" rel="noreferrer">
       <MotionMedia
-        className={styles.brandMedia}
+        className={`${styles.brandMedia} ${entity.slug === "rose-on-piedmont" ? styles.roseLogoPosition : ""}`}
         video={brandMotion?.src}
         poster={entity.hero_url || brandMotion?.poster}
         label={entity.name}
@@ -791,7 +807,7 @@ function EntityRow({ entity }: { entity: Entity }) {
   return (
     <a href={destination(entity)} className={styles.row} target="_blank" rel="noreferrer">
       <MotionMedia
-        className={styles.entityImage}
+        className={`${styles.entityImage} ${entity.slug === "rose-on-piedmont" ? styles.roseLogoPosition : ""}`}
         video={brandMotion?.src}
         poster={entity.hero_url || brandMotion?.poster}
         label={entity.name}
