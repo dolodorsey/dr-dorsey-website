@@ -111,8 +111,19 @@ const OWNED_VENUES: Entity[] = [
   { id: "owned-tulum", slug: "tulum-atl", name: "Tulum ATL", category: "KOLLECTIVE PORTFOLIO", short_description: "Explore Tulum directly.", website_url: "https://www.tulumatl.com" },
   { id: "owned-hungry-af", slug: "hungry-af", name: "Hungry AF", category: "KOLLECTIVE PORTFOLIO", short_description: "Order and explore directly with Hungry AF.", website_url: "https://thehungryaf.com" },
   { id: "owned-goodfellas", slug: "goodfellas", name: "Goodfellas Pizza & Wings", category: "KOLLECTIVE PORTFOLIO", short_description: "Order directly from Goodfellas.", website_url: "https://www.goodfellaspizzaandwings.com" },
-  { id: "owned-opium", slug: "opium-atl", name: "Opium ATL", category: "KOLLECTIVE NIGHTLIFE", short_description: "Explore Opium and purchase section access.", website_url: "https://opiumatl.com" },
-  { id: "owned-revel", slug: "revel", name: "Revel", category: "KOLLECTIVE NIGHTLIFE", short_description: "Purchase Revel section access through Opium ATL.", website_url: "https://opiumatl.com/product-tag/revel/" },
+  { id: "owned-opium", slug: "opium-atl", name: "Opium ATL", category: "KOLLECTIVE NIGHTLIFE", short_description: "RSVP and reserve tables directly with the Kollective.", website_url: "/app/nightlife/opium" },
+  { id: "owned-revel", slug: "revel", name: "Revel", category: "KOLLECTIVE NIGHTLIFE", short_description: "RSVP and reserve tables directly with the Kollective.", website_url: "/app/nightlife/revel" },
+];
+
+const MORE_KOLLECTIVE_BRANDS: Entity[] = [
+  { id: "more-maga", slug: "make-atlanta-great-again", name: "Make Atlanta Great Again", category: "ATLANTA CULTURE", short_description: "Atlanta culture, worn forward.", website_url: "https://thaoldatlanta.com" },
+  { id: "more-taste-of-art", slug: "taste-of-art", name: "Taste of Art", category: "CULTURE & EVENTS", short_description: "Fall and winter dates coming soon.", website_url: "/app/taste-of-art" },
+  { id: "more-infinity", slug: "infinity-water", name: "Infinity Water", category: "BEVERAGES", short_description: "Premium hydration and hospitality.", website_url: "https://watertoinfinity.com" },
+  { id: "more-pronto", slug: "pronto-energy", name: "Pronto Energy", category: "BEVERAGES", short_description: "Energy for every world.", website_url: "https://prontoenergydrink.com" },
+  { id: "more-tribal", slug: "tribal-water", name: "Tribal Water", category: "BEVERAGES", short_description: "Hydration with belonging.", website_url: "https://tribal-water.vercel.app" },
+  { id: "more-stush", slug: "stush", name: "STUSH", category: "FASHION", short_description: "Never blend in.", website_url: "https://stushusa.com" },
+  { id: "more-bodega", slug: "bodega", name: "Bodega", category: "COMMERCE", short_description: "The pop-up store with city flavor.", website_url: "https://bodegabodegabodega.com" },
+  { id: "more-pulse", slug: "pulse", name: "PULSE", category: "LIFESTYLE", short_description: "The energy behind the moment.", website_url: "/forms/inquiry?brand=pulse" },
 ];
 
 const GUEST_ACTIONS = [
@@ -550,9 +561,16 @@ export default function CustomerAppV2() {
                 </section>
 
                 <section>
-                  <Heading eyebrow="ALSO OURS" title="Independent venues. Direct access." />
+                  <Heading eyebrow="THE ORIGINALS" title="OG Venues. Direct Access." />
                   <div className={styles.brandGrid}>
                     {OWNED_VENUES.map((entity) => <BrandCard key={entity.id} entity={entity} />)}
+                  </div>
+                </section>
+
+                <section>
+                  <Heading eyebrow="MORE OF THE KOLLECTIVE" title="Products, culture and movement." />
+                  <div className={styles.brandGrid}>
+                    {MORE_KOLLECTIVE_BRANDS.map((entity) => <BrandCard key={entity.id} entity={entity} />)}
                   </div>
                 </section>
               </div>
@@ -755,8 +773,10 @@ function EventCard({ event }: { event: EventItem }) {
 }
 function BrandCard({ entity }: { entity: Entity }) {
   const brandMotion = motionFor(entity.name);
+  const href = destination(entity);
+  const external = /^https?:\/\//.test(href);
   return (
-    <a href={destination(entity)} className={styles.brandCard} target="_blank" rel="noreferrer">
+    <a href={href} className={styles.brandCard} target={external ? "_blank" : undefined} rel={external ? "noreferrer" : undefined}>
       <MotionMedia
         className={`${styles.brandMedia} ${entity.slug === "rose-on-piedmont" ? styles.roseLogoPosition : ""}`}
         video={brandMotion?.src}
