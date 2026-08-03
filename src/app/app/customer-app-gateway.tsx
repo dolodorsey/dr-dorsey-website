@@ -42,13 +42,30 @@ function isStandalone() {
 
 function isAppleMobile() {
   if (typeof navigator === "undefined") return false;
-  return /iphone|ipad|ipod/i.test(navigator.userAgent) ||
-    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  return (
+    /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+  );
 }
 
 function isMacSafari() {
   if (typeof navigator === "undefined") return false;
-  return /Macintosh/i.test(navigator.userAgent) && /Safari/i.test(navigator.userAgent) && !/Chrome|CriOS|Edg/i.test(navigator.userAgent);
+  return (
+    /Macintosh/i.test(navigator.userAgent) &&
+    /Safari/i.test(navigator.userAgent) &&
+    !/Chrome|CriOS|Edg/i.test(navigator.userAgent)
+  );
+}
+
+function friendlyAuthError(cause: unknown) {
+  const message = cause instanceof Error ? cause.message : "We could not complete that request.";
+  if (/database error saving new user|unexpected_failure/i.test(message)) {
+    return "Signup was temporarily unavailable. It has been repaired—please try again.";
+  }
+  if (/user already registered/i.test(message)) {
+    return "That email already has an account. Choose SIGN IN instead.";
+  }
+  return message;
 }
 
 export default function CustomerAppGateway({ children }: { children: ReactNode }) {
@@ -114,12 +131,12 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
 
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker
-        .register("/sw.js?v=5", { updateViaCache: "none" })
+        .register("/sw.js?v=6", { updateViaCache: "none" })
         .then((registration) => registration.update())
         .catch(() => undefined);
     }
 
-    const timer = window.setTimeout(() => setInstallChecked(true), 1400);
+    const timer = window.setTimeout(() => setInstallChecked(true), 900);
     return () => {
       window.clearTimeout(timer);
       media.removeEventListener?.("change", updateInstalled);
@@ -153,11 +170,12 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
           },
         });
         if (signupError) throw signupError;
+
         if (data.session) {
           setSession(data.session);
-          setNotice("Account created. Install the app to continue.");
+          setNotice("Account created. Opening The Kollective.");
         } else {
-          setNotice("Your account is created. Confirm the email we sent, then return here and sign in.");
+          setNotice("Account created. Check your email to confirm it, then return here and sign in.");
           setMode("signin");
         }
       } else {
@@ -167,10 +185,10 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
         });
         if (signinError) throw signinError;
         setSession(data.session);
-        setNotice("Signed in. Install the app to continue.");
+        setNotice("Signed in. Opening The Kollective.");
       }
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "We could not complete that request.");
+      setError(friendlyAuthError(cause));
     } finally {
       setBusy(false);
     }
@@ -183,9 +201,10 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
     }
     setBusy(true);
     setError(null);
-    const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
-      redirectTo: `${window.location.origin}/app`,
-    });
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+      email.trim().toLowerCase(),
+      { redirectTo: `${window.location.origin}/app` },
+    );
     setBusy(false);
     if (resetError) {
       setError(resetError.message);
@@ -196,15 +215,17 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
 
   async function installApp() {
     setError(null);
+    setNotice(null);
+
     if (!installPrompt) {
       setInstalled(isStandalone());
       if (!isStandalone()) {
         setNotice(
           appleMobile
-            ? "Use Share → Add to Home Screen, then open Kollective from the new icon."
+            ? "Tap Share in Safari, choose Add to Home Screen, tap Add, then open the new Kollective icon."
             : macSafari
-              ? "Use File → Add to Dock, then open Kollective from the Dock or Applications."
-              : "Open your browser menu and choose Install app or Add to Home Screen, then launch the new Kollective icon.",
+              ? "Choose File → Add to Dock, then open Kollective from the Dock or Applications."
+              : "Open the browser menu, choose Install app or Add to Home Screen, then launch the Kollective icon.",
         );
       }
       return;
@@ -216,9 +237,9 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
       const choice = await installPrompt.userChoice;
       if (choice.outcome === "accepted") {
         setInstalled(true);
-        setNotice("Kollective installed.");
+        setNotice("Kollective installed. Create your account to continue.");
       } else {
-        setError("Installation is required before the app opens.");
+        setError("Installation is required before signup opens.");
       }
       setInstallPrompt(null);
     } catch {
@@ -247,6 +268,112 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
     );
   }
 
+  if (!installed) {
+    return (
+      <main
+        className={styles.gate}
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 1000,
+          padding: 12,
+          placeItems: "center",
+          overflowY: "auto",
+          background: "rgba(0, 0, 0, .82)",
+          backdropFilter: "blur(16px)",
+        }}
+      >
+        <section
+          className={styles.card}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="kollective-install-title"
+          style={{
+            width: "min(100%, 470px)",
+            minHeight: "auto",
+            maxHeight: "calc(100svh - 24px)",
+            overflowY: "auto",
+            border: "1px solid rgba(216, 176, 76, .42)",
+            borderRadius: 28,
+            padding: 24,
+          }}
+        >
+          <div className={styles.brand}>
+            <img src={EMBLEM} alt="The Kollective emblem" />
+            <span><strong>KOLLECTIVE</strong><small>CUSTOMER APP</small></span>
+          </div>
+          <div className={styles.progress} aria-label="Access progress">
+            <span className={styles.active}>1 · DOWNLOAD</span>
+            <span>2 · ACCOUNT</span>
+          </div>
+          <div className={styles.installBody}>
+            <div className={styles.installIcon}><Download aria-hidden="true" /></div>
+            <p>DOWNLOAD REQUIRED</p>
+            <h1 id="kollective-install-title">Add Kollective to your home screen.</h1>
+            <span>This popup appears as soon as you arrive. Install the customer app first, then create your account to enter.</span>
+            {appleMobile ? (
+              <ol className={styles.steps}>
+                <li>Tap the Share button in Safari.</li>
+                <li>Choose <strong>Add to Home Screen</strong>.</li>
+                <li>Tap Add, then open the new Kollective icon.</li>
+              </ol>
+            ) : macSafari ? (
+              <ol className={styles.steps}>
+                <li>Open Safari’s File menu.</li>
+                <li>Choose <strong>Add to Dock</strong>.</li>
+                <li>Launch Kollective from the Dock or Applications.</li>
+              </ol>
+            ) : installPrompt ? (
+              <ol className={styles.steps}>
+                <li>Tap the download button below.</li>
+                <li>Approve the browser installation prompt.</li>
+                <li>Create your Kollective account on the next screen.</li>
+              </ol>
+            ) : (
+              <ol className={styles.steps}>
+                <li>Open your browser menu.</li>
+                <li>Choose <strong>Install app</strong> or <strong>Add to Home Screen</strong>.</li>
+                <li>Launch the new Kollective icon and create your account.</li>
+              </ol>
+            )}
+            {error ? <p className={styles.error} role="alert">{error}</p> : null}
+            {notice ? <p className={styles.notice} role="status">{notice}</p> : null}
+            <button className={styles.primary} type="button" onClick={installApp} disabled={busy}>
+              {installPrompt ? <Download /> : <ShieldCheck />}
+              {busy
+                ? "DOWNLOADING…"
+                : installPrompt
+                  ? "DOWNLOAD KOLLECTIVE APP"
+                  : appleMobile
+                    ? "SHOW ADD TO HOME SCREEN"
+                    : "CHECK INSTALLATION"}
+              {!busy ? <ArrowRight /> : null}
+            </button>
+            {!installPrompt ? (
+              <button
+                className={styles.secondary}
+                type="button"
+                onClick={() => {
+                  const ready = isStandalone();
+                  setInstalled(ready);
+                  if (!ready) setNotice("After adding it, open Kollective from the new icon—not this browser tab.");
+                }}
+              >
+                I ADDED IT — CHECK AGAIN
+              </button>
+            ) : null}
+            {session ? (
+              <p className={styles.account}>Signed in as {session.user.email}. <button type="button" onClick={signOut}>Use another account</button></p>
+            ) : (
+              <p className={styles.account}>The signup screen opens after installation.</p>
+            )}
+          </div>
+          <p className={styles.footer}>INSTALL FIRST. ACCOUNT SIGNUP OPENS NEXT. THERE IS NO WEB-ONLY BYPASS.</p>
+        </section>
+      </main>
+    );
+  }
+
   if (!session) {
     return (
       <main className={styles.gate}>
@@ -256,8 +383,8 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
             <span><strong>KOLLECTIVE</strong><small>CUSTOMER APP</small></span>
           </div>
           <div className={styles.progress} aria-label="Access progress">
-            <span className={styles.active}>1 · ACCOUNT</span>
-            <span>2 · INSTALL</span>
+            <span className={styles.done}>✓ INSTALLED</span>
+            <span className={styles.active}>2 · ACCOUNT</span>
           </div>
           <div className={styles.copy}>
             <p>MEMBER ACCESS REQUIRED</p>
@@ -265,8 +392,24 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
             <span>Create your customer account to access Grown-Ish, reservations, member perks, brands, and direct Kollective contacts.</span>
           </div>
           <div className={styles.mode} role="tablist" aria-label="Account action">
-            <button type="button" className={mode === "signup" ? styles.selected : undefined} onClick={() => { setMode("signup"); setError(null); setNotice(null); }} role="tab" aria-selected={mode === "signup"}>CREATE ACCOUNT</button>
-            <button type="button" className={mode === "signin" ? styles.selected : undefined} onClick={() => { setMode("signin"); setError(null); setNotice(null); }} role="tab" aria-selected={mode === "signin"}>SIGN IN</button>
+            <button
+              type="button"
+              className={mode === "signup" ? styles.selected : undefined}
+              onClick={() => { setMode("signup"); setError(null); setNotice(null); }}
+              role="tab"
+              aria-selected={mode === "signup"}
+            >
+              CREATE ACCOUNT
+            </button>
+            <button
+              type="button"
+              className={mode === "signin" ? styles.selected : undefined}
+              onClick={() => { setMode("signin"); setError(null); setNotice(null); }}
+              role="tab"
+              aria-selected={mode === "signin"}
+            >
+              SIGN IN
+            </button>
           </div>
           <form className={styles.form} onSubmit={submitAuth}>
             {mode === "signup" ? (
@@ -290,67 +433,13 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
               {busy ? "WORKING…" : mode === "signup" ? "CREATE ACCOUNT" : "SIGN IN"}
               {!busy ? <ArrowRight /> : null}
             </button>
-            {mode === "signin" ? <button type="button" className={styles.textButton} onClick={resetPassword} disabled={busy}>Forgot password?</button> : null}
+            {mode === "signin" ? (
+              <button type="button" className={styles.textButton} onClick={resetPassword} disabled={busy}>
+                Forgot password?
+              </button>
+            ) : null}
           </form>
           <p className={styles.footer}>ACCOUNT ACCESS IS REQUIRED. YOUR SESSION STAYS PRIVATE TO THE KOLLECTIVE APP.</p>
-        </section>
-      </main>
-    );
-  }
-
-  if (!installed) {
-    return (
-      <main className={styles.gate}>
-        <section className={styles.card} aria-labelledby="kollective-install-title">
-          <div className={styles.brand}>
-            <img src={EMBLEM} alt="The Kollective emblem" />
-            <span><strong>KOLLECTIVE</strong><small>CUSTOMER APP</small></span>
-          </div>
-          <div className={styles.progress} aria-label="Access progress">
-            <span className={styles.done}>✓ ACCOUNT</span>
-            <span className={styles.active}>2 · INSTALL</span>
-          </div>
-          <div className={styles.installBody}>
-            <div className={styles.installIcon}><Download aria-hidden="true" /></div>
-            <p>INSTALLATION REQUIRED</p>
-            <h1 id="kollective-install-title">Add Kollective to your home screen.</h1>
-            <span>The app opens only after installation. This gives you the full-screen experience, faster return access, and the Kollective icon on your device.</span>
-            {appleMobile ? (
-              <ol className={styles.steps}>
-                <li>Tap the Share button in Safari.</li>
-                <li>Choose <strong>Add to Home Screen</strong>.</li>
-                <li>Tap Add, then open the new Kollective icon.</li>
-              </ol>
-            ) : macSafari ? (
-              <ol className={styles.steps}>
-                <li>Open Safari’s File menu.</li>
-                <li>Choose <strong>Add to Dock</strong>.</li>
-                <li>Launch Kollective from the Dock or Applications.</li>
-              </ol>
-            ) : installPrompt ? (
-              <ol className={styles.steps}>
-                <li>Tap the install button below.</li>
-                <li>Approve the browser installation prompt.</li>
-                <li>Kollective opens as an installed app.</li>
-              </ol>
-            ) : (
-              <ol className={styles.steps}>
-                <li>Open your browser menu.</li>
-                <li>Choose <strong>Install app</strong> or <strong>Add to Home Screen</strong>.</li>
-                <li>Launch the new Kollective icon.</li>
-              </ol>
-            )}
-            {error ? <p className={styles.error} role="alert">{error}</p> : null}
-            {notice ? <p className={styles.notice} role="status">{notice}</p> : null}
-            <button className={styles.primary} type="button" onClick={installApp} disabled={busy}>
-              {installPrompt ? <Download /> : <ShieldCheck />}
-              {busy ? "INSTALLING…" : installPrompt ? "INSTALL KOLLECTIVE" : "CHECK INSTALLATION"}
-              {!busy ? <ArrowRight /> : null}
-            </button>
-            {!installPrompt ? <button className={styles.secondary} type="button" onClick={() => { setInstalled(isStandalone()); if (!isStandalone()) setNotice("After adding it, open Kollective from the new icon—not this browser tab."); }}>I ADDED IT — CHECK AGAIN</button> : null}
-            <p className={styles.account}>Signed in as {session.user.email}. <button type="button" onClick={signOut}>Use another account</button></p>
-          </div>
-          <p className={styles.footer}>BROWSERS REQUIRE A TAP TO APPROVE INSTALLATION. THERE IS NO DISMISS OR WEB-ONLY BYPASS.</p>
         </section>
       </main>
     );
