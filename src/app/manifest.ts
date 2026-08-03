@@ -3,9 +3,9 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/app",
-    name: "Kollective",
+    name: "The Kollective",
     short_name: "Kollective",
-    description: "Events, brands, experiences, and the best of the Kollective in one simplified app.",
+    description: "Member access to Grown-Ish, reservations, perks, brands, staff, and direct Kollective connections.",
     start_url: "/app",
     scope: "/",
     display: "standalone",
@@ -29,8 +29,9 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     prefer_related_applications: false,
     shortcuts: [
-      { name: "RSVP", short_name: "RSVP", url: "/app#events" },
-      { name: "Pay table deposit", short_name: "Deposit", url: "/app/table-deposit" },
+      { name: "Grown-Ish RSVP", short_name: "Grown-Ish", url: "/app#events" },
+      { name: "Reserve a table", short_name: "Reserve", url: "/app/forms/reserve-table" },
+      { name: "Member perks", short_name: "Perks", url: "/app/forms/member-offers" },
     ],
   };
 }
