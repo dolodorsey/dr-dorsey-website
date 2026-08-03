@@ -1,0 +1,28 @@
+@media (max-width:640px){
+  [data-kollective-app] [class*="quickGrid"],
+  [data-kollective-app] [class*="guestActionGrid"],
+  [data-kollective-app] [class*="brandGrid"],
+  [data-kollective-app] [class*="accessOptionGrid"],
+  [data-kollective-app] [class*="accessCoverGrid"],
+  [data-kollective-app] [class*="contactDirectoryGrid"]{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+  [data-kollective-app] [class*="brandGrid"]>*,
+  [data-kollective-app] [class*="quickGrid"]>*,
+  [data-kollective-app] [class*="guestActionGrid"]>*,
+  [data-kollective-app] [class*="accessOptionGrid"]>*,
+  [data-kollective-app] [class*="accessCoverGrid"]>*,
+  [data-kollective-app] [class*="contactDirectoryGrid"]>*{width:100%!important;max-width:none!important;min-width:0!important}
+  [data-kollective-app] [class*="brandGrid"] [class*="brandMedia"],
+  [data-kollective-app] [class*="companyDiscoveryMedia"]{height:180px!important;min-height:180px!important}
+  [data-kollective-app] [class*="brandTitlePlate"] strong,
+  [data-kollective-app] [class*="companyDiscoveryCopy"] strong{font-size:19px!important;max-width:11ch!important}
+  [data-kollective-app] [class*="companyDiscoveryCopy"] em{display:none!important}
+  [data-kollective-app] [class*="eventRail"]{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;overflow:visible!important}
+  [data-kollective-app] [class*="eventRail"]>*{min-width:0!important;width:100%!important}
+  [data-kollective-app] [class*="eventCard"] [class*="eventImage"]{height:150px!important}
+  [data-kollective-app] [class*="list"]{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+  [data-kollective-app] [class*="list"] [class*="row"]{display:block!important;min-width:0!important;padding:0!important;overflow:hidden!important;border-radius:20px!important}
+  [data-kollective-app] [class*="list"] [class*="rowImage"]{width:100%!important;height:150px!important;border-radius:0!important}
+  [data-kollective-app] [class*="list"] [class*="row"]>div{padding:13px!important}
+  [data-kollective-app] [class*="list"] [class*="row"]>svg{display:none!important}
+  [data-kollective-app] video{display:block!important;visibility:visible!important;opacity:1}
+}
