@@ -74,7 +74,7 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
     check();
     window.addEventListener("beforeinstallprompt", onPrompt);
     window.addEventListener("appinstalled", onInstalled);
-    if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js?v=8", { updateViaCache: "none" }).then((registration) => registration.update()).catch(() => undefined);
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js?v=9", { updateViaCache: "none" }).then((registration) => registration.update()).catch(() => undefined);
     return () => {
       window.removeEventListener("beforeinstallprompt", onPrompt);
       window.removeEventListener("appinstalled", onInstalled);
@@ -90,8 +90,8 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
       try {
         await installPrompt.prompt();
         const choice = await installPrompt.userChoice;
-        if (choice.outcome === "accepted") setNotice("Installed. Open Kollective from the new icon to continue.");
-        else setError("Installation was dismissed. Tap Download App when you are ready.");
+        if (choice.outcome === "accepted") setNotice("Installed. Open the new Kollective icon.");
+        else setError("Installation was cancelled.");
       } finally {
         setInstallPrompt(null);
         setBusy(false);
@@ -102,14 +102,14 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
     if (appleMobile) {
       try {
         await navigator.clipboard.writeText(APP_URL);
-        setNotice("APP LINK COPIED. Tap ••• at the bottom right, choose Open in Safari, then use Safari’s Share button and Add to Home Screen.");
+        setNotice("Link copied. Open it in Safari, tap Share, then Add to Home Screen.");
       } catch {
-        setNotice("Tap ••• at the bottom right, choose Open in Safari, then use Safari’s Share button and Add to Home Screen.");
+        setNotice("Open this page in Safari, tap Share, then Add to Home Screen.");
       }
       return;
     }
 
-    setNotice("Open your browser menu and choose Install app or Add to Home Screen.");
+    setNotice("Open the browser menu and tap Install app.");
   }
 
   async function submitAuth(event: FormEvent<HTMLFormElement>) {
@@ -131,7 +131,7 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
         });
         if (signupError) throw signupError;
         if (data.session) setSession(data.session);
-        else { setNotice("Account created. Confirm your email, then return and sign in."); setMode("signin"); }
+        else { setNotice("Account created. Confirm your email, then sign in."); setMode("signin"); }
       } else {
         const { data, error: signinError } = await supabase.auth.signInWithPassword({ email: email.trim().toLowerCase(), password });
         if (signinError) throw signinError;
@@ -165,21 +165,31 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
             <span className={styles.visualLabel}>YOUR ACCESS STARTS HERE</span>
           </div>
           <div className={styles.installBody}>
-            <div className={styles.progress}><span className={styles.active}>1 · DOWNLOAD</span><span>2 · ACCOUNT</span></div>
-            <p>DOWNLOAD THE APP</p>
-            <h1 id="install-title">The Kollective belongs on your phone.</h1>
-            <span>One icon for RSVPs, reservations, member perks, companies, events and direct access.</span>
+            <p>GET THE APP</p>
+            <h1 id="install-title">Add The Kollective to your phone.</h1>
+            <span>Install once. Then open it from your Home Screen.</span>
+
             <div className={styles.instructions}>
-              <b>{appleMobile ? "IPHONE / IPAD · OPEN IN SAFARI FIRST" : installPrompt ? "READY TO INSTALL" : "MOBILE INSTALL"}</b>
-              <span>{appleMobile ? "Links opened from Messages do not include Add to Home Screen. Tap ••• at the bottom right, choose Open in Safari, then tap Safari’s Share button and Add to Home Screen." : installPrompt ? "Tap below and approve the secure browser prompt." : "Tap below for the correct install steps for your browser."}</span>
+              <b>{appleMobile ? "3 QUICK STEPS" : installPrompt ? "READY TO INSTALL" : "ONE QUICK STEP"}</b>
+              <span>{appleMobile ? "1. Open in Safari  ·  2. Tap Share  ·  3. Add to Home Screen" : installPrompt ? "Tap the button below and approve the install." : "Open your browser menu and tap Install app."}</span>
             </div>
+
             {error ? <p className={styles.error}>{error}</p> : null}
             {notice ? <p className={styles.notice}>{notice}</p> : null}
+
             <button className={styles.primary} type="button" onClick={installApp} disabled={busy}>
-              {appleMobile ? <Copy /> : <Download />}{busy ? "OPENING…" : installPrompt ? "INSTALL KOLLECTIVE" : appleMobile ? "COPY LINK · OPEN IN SAFARI" : "DOWNLOAD APP"}<ArrowRight />
+              {appleMobile ? <Copy /> : <Download />}
+              {busy ? "OPENING…" : installPrompt ? "INSTALL KOLLECTIVE" : appleMobile ? "COPY APP LINK" : "DOWNLOAD APP"}
+              <ArrowRight />
             </button>
-            <button className={styles.secondary} type="button" onClick={() => { const next = isStandalone(); setInstalled(next); if (!next) setNotice(appleMobile ? "Still in a browser. Open the new Kollective home-screen icon after adding it." : "After installing, open Kollective from the new home-screen icon."); }}>I INSTALLED IT — CHECK AGAIN</button>
-            <p className={styles.footer}>{appleMobile ? "MESSAGES BROWSER → OPEN IN SAFARI → SHARE → ADD TO HOME SCREEN" : "Install once. Open from your home screen. Create your account next."}</p>
+
+            <button className={styles.secondary} type="button" onClick={() => {
+              const next = isStandalone();
+              setInstalled(next);
+              if (!next) setNotice(appleMobile ? "Open the new Kollective icon after adding it." : "Open the new Kollective icon after installing it.");
+            }}>
+              I ADDED IT
+            </button>
           </div>
         </section>
       </main>
@@ -192,7 +202,7 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
         <section className={styles.card} aria-labelledby="access-title">
           <div className={styles.brand}><img src={EMBLEM} alt="The Kollective emblem" /><span><strong>KOLLECTIVE</strong><small>CUSTOMER APP</small></span></div>
           <div className={styles.progress}><span className={styles.done}>✓ INSTALLED</span><span className={styles.active}>2 · ACCOUNT</span></div>
-          <div className={styles.copy}><p>MEMBER ACCESS REQUIRED</p><h1 id="access-title">Join before you enter.</h1><span>Create your account to access the complete customer experience.</span></div>
+          <div className={styles.copy}><p>MEMBER ACCESS</p><h1 id="access-title">Create your account.</h1><span>Sign up once to enter The Kollective.</span></div>
           <div className={styles.mode} role="tablist">
             <button type="button" className={mode === "signup" ? styles.selected : undefined} onClick={() => setMode("signup")}>CREATE ACCOUNT</button>
             <button type="button" className={mode === "signin" ? styles.selected : undefined} onClick={() => setMode("signin")}>SIGN IN</button>
@@ -201,7 +211,8 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
             {mode === "signup" ? <label className={styles.field}><span>FULL NAME</span><input value={fullName} onChange={(event) => setFullName(event.target.value)} autoComplete="name" required /></label> : null}
             <label className={styles.field}><span>EMAIL</span><input value={email} onChange={(event) => setEmail(event.target.value)} type="email" autoComplete="email" required /></label>
             <label className={styles.field}><span>PASSWORD</span><input value={password} onChange={(event) => setPassword(event.target.value)} type="password" minLength={8} autoComplete={mode === "signup" ? "new-password" : "current-password"} required /></label>
-            {error ? <p className={styles.error}>{error}</p> : null}{notice ? <p className={styles.notice}>{notice}</p> : null}
+            {error ? <p className={styles.error}>{error}</p> : null}
+            {notice ? <p className={styles.notice}>{notice}</p> : null}
             <button className={styles.primary} disabled={busy} type="submit">{mode === "signup" ? <UserPlus /> : <LogIn />}{busy ? "WORKING…" : mode === "signup" ? "CREATE ACCOUNT" : "SIGN IN"}<ArrowRight /></button>
             {mode === "signin" ? <button className={styles.textButton} type="button" onClick={resetPassword}>Forgot password?</button> : null}
           </form>
