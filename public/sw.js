@@ -1,4 +1,4 @@
-const CACHE_NAME = "kollective-customer-v3";
+const CACHE_NAME = "kollective-customer-v4";
 const APP_SHELL = ["/app", "/app/table-deposit", "/manifest.webmanifest", "/kollective-app-icon.svg"];
 
 self.addEventListener("install", (event) => {

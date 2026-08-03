@@ -126,6 +126,7 @@ const BRAND_GRAPHICS =
   "https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics";
 const EMBLEM = `${BRAND_GRAPHICS}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
 const COMPANY_GRAPHIC_FALLBACK = `${BRAND_GRAPHICS}/app/backgrounds/app-background-11.jpg`;
+const WEBSITE_GRAPHICS = `${BRAND_GRAPHICS}/good-times-app`;
 /** Same enterprise film the websites run behind their departments band. */
 const HERO_VIDEO = motionLibrary.kollectiveGlobal.src;
 const HERO_POSTER = motionLibrary.kollectiveGlobal.poster;
@@ -274,6 +275,22 @@ function safeCompanyWebsite(entity: Entity, contact?: DirectoryContact) {
   const candidates = [contact?.website, entity.website_url, ...(entity.destinations || []).flatMap((item) => [item.web_url, item.universal_link, item.fallback_url])];
   return candidates.find((href): href is string => Boolean(href && (/^https?:\/\//i.test(href) || href.startsWith("/")) && !/\/forms\//i.test(href) && !(/project x/i.test(entity.name) && /111atl\.com/i.test(href)))) || null;
 }
+function companyPopupStill(entity: Entity, fallback?: string) {
+  const name = entity.name.toLowerCase();
+  const stills: Array<[RegExp, string]> = [
+    [/project x/, `${BRAND_GRAPHICS}/motion/project-x.jpg`],
+    [/goodfellas/, `${WEBSITE_GRAPHICS}/goodfellas/goodfellas_atlanta_landscape.png`],
+    [/revel/, `${WEBSITE_GRAPHICS}/revel/revel-party-1.webp`],
+    [/tulum/, `${WEBSITE_GRAPHICS}/tulum_party/tulum_party_landscape.png`],
+    [/infinity water/, `${WEBSITE_GRAPHICS}/infinity_water/infinity_water_landscape.png`],
+    [/pronto/, `${WEBSITE_GRAPHICS}/pronto_energy/pronto_energy_landscape.png`],
+    [/taste of art/, `${WEBSITE_GRAPHICS}/taste_of_art/taste_of_art_landscape.png`],
+    [/umbrella/, `${WEBSITE_GRAPHICS}/umbrella_group/umbrella_group_landscape.png`],
+    [/make atlanta great again/, `${BRAND_GRAPHICS}/maga/generated/maga_hero.png`],
+    [/hakuna matata/, `${BRAND_GRAPHICS}/bodega/hakuna-matata/cover-hero.png`],
+  ];
+  return entity.hero_url || stills.find(([pattern]) => pattern.test(name))?.[1] || fallback || COMPANY_GRAPHIC_FALLBACK;
+}
 function imageStyle(url?: string | null) {
   return url
     ? {
@@ -315,6 +332,12 @@ export default function CustomerAppV2() {
 
   useEffect(() => {
     let cancelled = false;
+    let refreshing = false;
+    const onControllerChange = () => {
+      if (refreshing || !navigator.serviceWorker.controller) return;
+      refreshing = true;
+      window.location.reload();
+    };
     fetch("/api/customer/home", { cache: "no-store" })
       .then((response) => {
         if (!response.ok) throw new Error("The Kollective feed is unavailable.");
@@ -334,7 +357,8 @@ export default function CustomerAppV2() {
       });
 
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/sw.js").catch(() => undefined);
+      navigator.serviceWorker.addEventListener("controllerchange", onControllerChange);
+      navigator.serviceWorker.register("/sw.js?v=4", { updateViaCache: "none" }).then((registration) => registration.update()).catch(() => undefined);
     }
     setInstalled(window.matchMedia("(display-mode: standalone)").matches);
     const requestedInstall = new URLSearchParams(window.location.search).get("install") === "1";
@@ -348,6 +372,7 @@ export default function CustomerAppV2() {
     return () => {
       cancelled = true;
       window.removeEventListener("beforeinstallprompt", onPrompt);
+      navigator.serviceWorker?.removeEventListener("controllerchange", onControllerChange);
     };
   }, []);
 
@@ -915,13 +940,13 @@ function HomeCompanyCard({ entity, onOpen }: { entity: Entity; onOpen: (entity: 
       >
         {!brandMotion && entity.logo_url ? <img src={entity.logo_url} alt="" /> : null}
         {!brandMotion && !entity.logo_url ? <span className={styles.companyInitial}>{entity.name.slice(0, 1)}</span> : null}
+        <span className={styles.companyDiscoveryCopy}>
+          <small>{entity.category || entity.status_label || "THE KOLLECTIVE"}</small>
+          <strong>{entity.name}</strong>
+          <em>{entity.short_description || "Open the company profile for direct links and contact options."}</em>
+          <b>VIEW COMPANY <ArrowUpRight aria-hidden="true" /></b>
+        </span>
       </MotionMedia>
-      <span className={styles.companyDiscoveryCopy}>
-        <small>{entity.category || entity.status_label || "THE KOLLECTIVE"}</small>
-        <strong>{entity.name}</strong>
-        <em>{entity.short_description || "Open the company profile for direct links and contact options."}</em>
-        <b>VIEW COMPANY <ArrowUpRight aria-hidden="true" /></b>
-      </span>
     </button>
   );
 }
@@ -948,7 +973,7 @@ function CompanyProfileSheet({ entity, contact, onClose }: { entity: Entity; con
     <div className={styles.companyOverlay} role="dialog" aria-modal="true" aria-labelledby="company-profile-title" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
       <article className={styles.companySheet}>
         <button type="button" className={styles.companyClose} onClick={onClose} aria-label="Close company profile"><X /></button>
-        <MotionMedia className={styles.companySheetMedia} video={brandMotion?.src} poster={entity.hero_url || brandMotion?.poster || COMPANY_GRAPHIC_FALLBACK} label={entity.name}>
+        <MotionMedia className={styles.companySheetMedia} poster={companyPopupStill(entity, brandMotion?.poster)} label={entity.name} plainPoster>
           {!brandMotion && entity.logo_url ? <img src={entity.logo_url} alt="" /> : null}
         </MotionMedia>
         <div className={styles.companySheetCopy}>
@@ -1027,15 +1052,17 @@ function MotionMedia({
   poster,
   label,
   children,
+  plainPoster = false,
 }: {
   className: string;
   video?: string;
   poster?: string | null;
   label: string;
   children?: React.ReactNode;
+  plainPoster?: boolean;
 }) {
   return (
-    <div className={`${className} ${styles.media}`} style={imageStyle(poster)}>
+    <div className={`${className} ${styles.media}`} style={plainPoster && poster ? { backgroundImage: `url("${poster}")` } : imageStyle(poster)}>
       {video ? (
         <video autoPlay muted loop playsInline preload="metadata" poster={poster || undefined} aria-label={`${label} animation`}>
           <source src={video} type="video/mp4" />
