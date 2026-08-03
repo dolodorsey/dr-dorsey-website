@@ -5,10 +5,12 @@ import { FormEvent, useEffect, useState } from "react";
 import styles from "../../table-deposit/table-deposit.module.css";
 
 const FORM_CONFIG = {
-  rsvp: { title: "Join the free RSVP list.", formType: "rsvp", kind: "event" },
+  rsvp: { title: "Join the VIP list.", formType: "rsvp", kind: "event" },
   ticket: { title: "Request event tickets.", formType: "ticket", kind: "event" },
-  table: { title: "Reserve your table.", formType: "table_reservation", kind: "table" },
-  birthday: { title: "Book your birthday.", formType: "table_reservation", kind: "event" },
+  "reserve-table": { title: "Reserve your table.", formType: "table_reservation", kind: "event" },
+  "vip-section": { title: "Reserve a VIP section.", formType: "table_reservation", kind: "table" },
+  table: { title: "Reserve a VIP section.", formType: "table_reservation", kind: "table" },
+  birthday: { title: "Reserve a birthday VIP section.", formType: "table_reservation", kind: "table" },
   vendor: { title: "Apply as a vendor.", formType: "vendor", kind: "vendor" },
   hiring: { title: "Join the Kollective team.", formType: "hiring_inquiry", kind: "hiring" },
   volunteer: { title: "Volunteer with the Kollective.", formType: "volunteer", kind: "volunteer" },
@@ -119,6 +121,8 @@ export default function AppForm({ params }: { params: { type: string } }) {
 
           {config.kind === "table" ? (
             <>
+              <label>VIP occasion<select name="occasion" required><option value="">Choose one</option><option>VIP section purchase</option><option>Birthday celebration</option><option>Group celebration</option><option>Other</option></select></label>
+              <label>Celebration name<input name="celebration_name" placeholder="Name on the section" /></label>
               <label className={styles.full}>Table package<select name="package" value={query.package} onChange={(event) => setQuery({ ...query, package: event.target.value })}><option value="">Choose a package or use confirmed total</option>{[575, 800, 1250, 1500, 1600, 1800, 2500].map((value) => <option key={`opium-${value}`} value={`opium-${value}`}>Opium · ${value.toLocaleString()}</option>)}{[1000, 1250, 1500, 1800, 2100].map((value) => <option key={`revel-${value}`} value={`revel-${value}`}>Revel · ${value.toLocaleString()}</option>)}</select></label>
               <label>Confirmed table total<input name="total" type="number" min="100" max="10000" step="1" placeholder="For Rose or custom tables" /></label>
               <label>Host or promoter<input name="reference" /></label>

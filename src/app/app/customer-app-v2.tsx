@@ -12,11 +12,15 @@ import {
   Compass,
   Download,
   Grid3X3,
+  Globe2,
   HandHeart,
   Handshake,
   Home,
+  Instagram,
+  Mail,
   MapPin,
   MessageCircleMore,
+  Phone,
   Search,
   ShoppingBag,
   Sparkles,
@@ -74,6 +78,21 @@ type ContentItem = {
   image_url?: string | null;
   content_type?: string | null;
 };
+type DirectoryContact = {
+  name: string;
+  category?: string | null;
+  website?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  instagram?: string | null;
+};
+type TeamContact = DirectoryContact & {
+  id: string;
+  full_name?: string | null;
+  role?: string | null;
+  brand?: string | null;
+  detail?: string | null;
+};
 type CustomerPayload = {
   app: {
     app_name?: string;
@@ -90,6 +109,7 @@ type CustomerPayload = {
     featuredCount?: number;
   };
   home: { featured: ContentItem[]; events: EventItem[]; entities: Entity[] };
+  directory?: { entities: DirectoryContact[]; team: TeamContact[] };
   partial?: boolean;
   warnings?: string[];
 };
@@ -142,18 +162,17 @@ function isFreedomFestEntity(entity: Entity) {
 }
 
 const GUEST_ACTIONS = [
-  { label: "RSVP NOW", title: "Get on the list", detail: "Submit your RSVP without leaving the app.", href: "/app/forms/rsvp", icon: TicketCheck },
-  { label: "TABLES", title: "Reserve a table", detail: "Choose a venue, package, and secure your booking.", href: "/app/forms/table", icon: UtensilsCrossed },
-  { label: "CELEBRATE", title: "Book a birthday", detail: "Tell us the date, group size, Instagram, and celebration details.", href: "/app/forms/birthday", icon: CakeSlice },
+  { label: "VIP LIST", title: "Join the VIP list", detail: "Send your list request without leaving the app.", href: "/app/forms/rsvp", icon: TicketCheck },
+  { label: "RESERVE TABLE", title: "Reserve a table", detail: "Send a free table RSVP request for your group.", href: "/app/forms/reserve-table", icon: UtensilsCrossed },
+  { label: "VIP SECTION", title: "Reserve a VIP section", detail: "Purchase a section or arrange a birthday celebration.", href: "/app/forms/vip-section", icon: CakeSlice },
   { label: "CONCIERGE", title: "Ask for more info", detail: "Send the team your complete request in app.", href: "/app/forms/inquiry", icon: MessageCircleMore },
 ] as const;
 
 const EVENT_ACCESS_ACTIONS = [
-  { type: "birthday", label: "BIRTHDAY", title: "Birthday access", detail: "Celebrate with the right event, table, and guest setup.", icon: CakeSlice },
-  { type: "ticket", label: "TICKETS", title: "Ticket request", detail: "Request paid entry or ticket information for a specific event.", icon: TicketCheck },
-  { type: "rsvp", label: "FREE RSVP", title: "Join the free list", detail: "Select an event and send your free RSVP details.", icon: BadgeCheck },
-  { type: "table", label: "TABLES", title: "Table reservation", detail: "Choose a venue or event, party size, and table package.", icon: UtensilsCrossed },
-  { type: "vendor", label: "VENDORS", title: "Vendor application", detail: "Apply to sell, activate, or provide services at an event.", icon: BriefcaseBusiness },
+  { type: "rsvp", label: "VIP LIST", title: "Join the VIP list", detail: "Submit your name and guest details for VIP list consideration.", href: "/app/forms/rsvp", icon: BadgeCheck },
+  { type: "reserve-table", label: "RESERVE TABLE", title: "Reserve a table", detail: "Use the free RSVP table request for your group.", href: "/app/forms/reserve-table", icon: UtensilsCrossed },
+  { type: "vip-section", label: "RESERVE VIP SECTION", title: "Reserve a VIP section", detail: "Purchase a premium section or reserve one for a birthday.", href: "/app/forms/vip-section", icon: CakeSlice },
+  { type: "vendor", label: "VENDORS", title: "Vendor application", detail: "Apply to sell, activate, or provide services at an event.", href: "/app/forms/vendor", icon: BriefcaseBusiness },
 ] as const;
 
 const ACCESS_FORM_LINKS = [
@@ -170,17 +189,6 @@ const ACCESS_VENUES: Entity[] = [
   { id: "access-rose", slug: "rose-on-piedmont", name: "Rose on Piedmont", category: "DINNER · WEEKLY EVENTS", short_description: "Choose a Rose event, RSVP, celebrate, or request a table.", website_url: "/app/forms/rsvp?venue=Rose%20on%20Piedmont" },
   ...OWNED_VENUES.filter((entity) => /opium|revel/i.test(entity.name)),
 ];
-
-function eventAccessHref(type: string, event?: EventItem) {
-  const params = new URLSearchParams();
-  if (event) {
-    params.set("event", event.event_name);
-    if (event.venue_name) params.set("venue", event.venue_name);
-    params.set("date", event.event_date);
-  }
-  const query = params.toString();
-  return `/app/forms/${type}${query ? `?${query}` : ""}`;
-}
 
 const tabs: Array<{ key: Tab; label: string; icon: typeof Home }> = [
   { key: "home", label: "Home", icon: Home },
@@ -280,7 +288,6 @@ export default function CustomerAppV2() {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [installed, setInstalled] = useState(false);
   const [installHelp, setInstallHelp] = useState(false);
-  const [selectedAccessEventId, setSelectedAccessEventId] = useState("");
 
   useEffect(() => {
     let cancelled = false;
@@ -353,8 +360,29 @@ export default function CustomerAppV2() {
       );
   }, [marketEvents, query, filter]);
   const allBrands = useMemo(() => placeRelatedTogether(Array.from(new Map([...FEATURED_CULTURE_BRANDS, ...(payload?.home.entities ?? []).filter((entity) => !isFreedomFestEntity(entity)), ...OWNED_VENUES, ...MORE_KOLLECTIVE_BRANDS].map((entity) => [entity.name.toLowerCase(), entity])).values()), (entity) => entity.name), [payload]);
-  const accessEvents = marketEvents.slice(0, 10);
-  const selectedAccessEvent = accessEvents.find((event) => event.id === selectedAccessEventId);
+  const directoryEntities = useMemo(() => {
+    const contacts = new Map((payload?.directory?.entities ?? []).map((contact) => [contact.name.toLowerCase(), contact]));
+    const entries = new Map<string, DirectoryContact>();
+    for (const entity of allBrands) {
+      const contact = contacts.get(entity.name.toLowerCase());
+      entries.set(entity.name.toLowerCase(), {
+        name: entity.name,
+        category: contact?.category || entity.category,
+        website: contact?.website || entity.website_url,
+        email: contact?.email,
+        phone: contact?.phone,
+        instagram: contact?.instagram,
+      });
+    }
+    for (const contact of payload?.directory?.entities ?? []) {
+      const key = contact.name.toLowerCase();
+      if (!entries.has(key)) entries.set(key, contact);
+    }
+    return Array.from(entries.values()).sort((a, b) => a.name.localeCompare(b.name));
+  }, [allBrands, payload]);
+  const directoryQuery = query.trim().toLowerCase();
+  const visibleDirectoryEntities = directoryEntities.filter((entry) => !directoryQuery || `${entry.name} ${entry.category || ""}`.toLowerCase().includes(directoryQuery));
+  const visibleTeamContacts = (payload?.directory?.team ?? []).filter((entry) => !directoryQuery || `${entry.name} ${entry.role || ""} ${entry.brand || ""}`.toLowerCase().includes(directoryQuery));
 
   const hero = payload?.home.featured[0];
   const nextEvent = marketEvents[0] ?? payload?.home.events[0];
@@ -668,44 +696,17 @@ export default function CustomerAppV2() {
 
             {activeTab === "access" ? (
               <div className={styles.content}>
-                <Intro eyebrow="LINKS · FORMS · DIRECT ACCESS" title="Choose the event. Choose what you need." copy="Start with an RSVP, birthday, ticket, table, or vendor request—or select an event first and use the same options with its details already attached." />
+                <Intro eyebrow="LINKS · FORMS · DIRECT ACCESS" title="Everything you need, one tap away." copy="Join the VIP list, request a table, purchase a VIP section, plan a birthday, or connect with the right Kollective team." />
 
                 <section className={`${styles.accessStage} ${styles.accessPage}`}>
-                  <Heading eyebrow="BEFORE YOU CHOOSE AN EVENT" title="Start with the request" />
+                  <Heading eyebrow="DIRECT BOOKING OPTIONS" title="Choose your access" />
                   <div className={styles.accessOptionGrid}>
                     {EVENT_ACCESS_ACTIONS.map((action) => {
                       const Icon = action.icon;
-                      return <a key={action.type} href={eventAccessHref(action.type)}><Icon /><span><small>{action.label}</small><strong>{action.title}</strong></span><ArrowUpRight /></a>;
+                      return <a key={action.type} href={action.href} data-access-action={action.type}><Icon /><span><small>{action.label}</small><strong>{action.title}</strong></span><ArrowUpRight /></a>;
                     })}
                   </div>
                 </section>
-
-                <section className={styles.eventAccessSection}>
-                  <Heading eyebrow="SEPARATE EVENT RSVPS" title={`Choose an event in ${market}`} />
-                  <MarketControl />
-                  <div className={styles.eventChoiceList} role="list" aria-label="Choose an event for access options">
-                    {accessEvents.map((event) => (
-                      <button key={event.id} className={selectedAccessEventId === event.id ? styles.selectedEventChoice : undefined} onClick={() => setSelectedAccessEventId(event.id)} aria-pressed={selectedAccessEventId === event.id}>
-                        <span>{eventDate(event.event_date)}</span>
-                        <strong>{event.event_name}</strong>
-                        <small>{event.venue_name || event.neighborhood || event.market || event.city}</small>
-                        <ArrowUpRight />
-                      </button>
-                    ))}
-                  </div>
-                  {!accessEvents.length ? <div className={styles.empty}><strong>No listed events in this market yet.</strong><span>You can still use any request option above and enter the event manually.</span></div> : null}
-                </section>
-
-                {selectedAccessEvent ? (
-                  <section className={styles.selectedEventPanel} aria-live="polite">
-                    <p>AFTER SELECTING AN EVENT</p>
-                    <h2>{selectedAccessEvent.event_name}</h2>
-                    <span>{eventDate(selectedAccessEvent.event_date)} · {selectedAccessEvent.venue_name || selectedAccessEvent.market || selectedAccessEvent.city}</span>
-                    <div className={styles.selectedEventActions}>
-                      {EVENT_ACCESS_ACTIONS.map((action) => <a key={action.type} href={eventAccessHref(action.type, selectedAccessEvent)}>{action.label}<ArrowUpRight /></a>)}
-                    </div>
-                  </section>
-                ) : null}
 
                 <section>
                   <Heading eyebrow="ROSE · OPIUM · REVEL" title="Venue access" />
@@ -750,11 +751,16 @@ export default function CustomerAppV2() {
                     <ArrowUpRight />
                   </button>
                 ) : null}
-                <section className={styles.directoryGrid}>
-                  <DirectoryCard title="Dr. Dorsey" role="Founder & Chairman" detail="Enterprise vision, partnerships and brand leadership." href="/app/forms/inquiry?topic=dr-dorsey" />
-                  <DirectoryCard title="Hospitality Team" role="Venue & Guest Experience" detail="RSVP, tables, birthdays and event support." href="/app/forms/inquiry?topic=hospitality" />
-                  <DirectoryCard title="Brand Partnerships" role="Growth & Collaborations" detail="Sponsorships, activations, licensing and strategic partnerships." href="/app/forms/inquiry?topic=partnerships" />
-                  <DirectoryCard title="Company Operations" role="Enterprise Support" detail="Company information, vendors and operating requests." href="/app/forms/inquiry?topic=operations" />
+                <section className={styles.directorySections}>
+                  <Heading eyebrow="ENTITY DIRECTORY" title="Companies and official identities" />
+                  <div className={styles.contactDirectoryGrid}>
+                    {visibleDirectoryEntities.map((entry) => <ContactDirectoryCard key={entry.name} entry={entry} kind="entity" />)}
+                  </div>
+                  <Heading eyebrow="COMPANY TEAM MEMBERS" title="People behind the Kollective" />
+                  <div className={styles.contactDirectoryGrid}>
+                    {visibleTeamContacts.map((entry) => <ContactDirectoryCard key={entry.id} entry={entry} kind="team" />)}
+                  </div>
+                  {!visibleDirectoryEntities.length && !visibleTeamContacts.length ? <div className={styles.empty}><strong>No directory matches.</strong><span>Try another company, person, role, or department.</span></div> : null}
                 </section>
                 <ProfileLink
                   href="mailto:thekollectivehospitality@gmail.com"
@@ -990,6 +996,36 @@ function relevantEventImage(event: EventItem) {
   if (/network|career|business/.test(text)) return "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=82";
   return "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=82";
 }
-function DirectoryCard({ title, role, detail, href }: { title: string; role: string; detail: string; href: string }) {
-  return <a href={href} className={styles.directoryCard}><p>{role}</p><h2>{title}</h2><span>{detail}</span><ArrowUpRight /></a>;
+function ContactDirectoryCard({ entry, kind }: { entry: DirectoryContact | TeamContact; kind: "entity" | "team" }) {
+  const team = kind === "team" ? entry as TeamContact : null;
+  const instagram = entry.instagram?.replace(/^@/, "") || null;
+  const contacts = [
+    { label: "Website", value: entry.website, href: entry.website || "", icon: Globe2 },
+    { label: "Email", value: entry.email, href: entry.email ? `mailto:${entry.email}` : "", icon: Mail },
+    { label: "Phone", value: entry.phone, href: entry.phone ? `tel:${entry.phone}` : "", icon: Phone },
+    { label: "Instagram", value: instagram ? `@${instagram}` : null, href: instagram ? `https://instagram.com/${instagram}` : "", icon: Instagram },
+  ];
+  return (
+    <article className={styles.contactDirectoryCard}>
+      <p>{team?.role || entry.category || "THE KOLLECTIVE"}</p>
+      <h2>{entry.name}</h2>
+      <span>{team?.brand || team?.detail || entry.category || (kind === "team" ? "Company team member" : "Official entity")}</span>
+      <div className={styles.contactMethods}>
+        {contacts.map(({ label, value, href, icon: Icon }) => value ? (
+          <a key={label} href={href} target={href.startsWith("http") ? "_blank" : undefined} rel={href.startsWith("http") ? "noreferrer" : undefined}>
+            <Icon />
+            <small>{label}</small>
+            <strong>{label === "Website" ? "Open website" : value}</strong>
+            <ArrowUpRight />
+          </a>
+        ) : (
+          <span key={label} className={styles.contactUnavailable}>
+            <Icon />
+            <small>{label}</small>
+            <strong>Not listed</strong>
+          </span>
+        ))}
+      </div>
+    </article>
+  );
 }

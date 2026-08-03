@@ -30,6 +30,11 @@ async function fetchRows(table: string, params: Record<string, string>) {
   if (!response.ok) throw new Error(`${table} returned ${response.status}: ${await response.text()}`);
   return (await response.json()) as Row[];
 }
+async function fetchDirectory() {
+  const response = await fetch(`${KOLLECTIVE_SUPABASE_URL}/functions/v1/kollective-public-directory`, { next: { revalidate: 300 } });
+  if (!response.ok) throw new Error(`public directory returned ${response.status}`);
+  return await response.json() as { entities: Row[]; team: Row[] };
+}
 function decode(value: unknown) { if (typeof value !== "string") return value; const named: Record<string,string> = { amp:"&", apos:"'", gt:">", lt:"<", nbsp:" ", quot:'"' }; return value.replace(/&#(\d+);/g,(_,c:string)=>String.fromCodePoint(Number(c))).replace(/&#x([0-9a-f]+);/gi,(_,c:string)=>String.fromCodePoint(Number.parseInt(c,16))).replace(/&(amp|apos|gt|lt|nbsp|quot);/g,(_,e:string)=>named[e]??_).replace(/\s+/g," ").trim(); }
 function cityKey(value: unknown) { const city=String(value??"").trim().toLowerCase(); if (["atl","atlanta, ga","atlanta ga"].includes(city)) return "atlanta"; if (["la","los angeles, ca"].includes(city)) return "los angeles"; if (["nyc","new york","new york city"].includes(city)) return "nyc"; return city; }
 function displayMarket(value: unknown) { const key=cityKey(value); const labels:Record<string,string>={atlanta:"Atlanta",dc:"DC",dallas:"Dallas","los angeles":"Los Angeles",nyc:"NYC",charlotte:"Charlotte",scottsdale:"Scottsdale"}; return labels[key] || String(value??"Other"); }
@@ -51,17 +56,19 @@ export async function GET() {
   const warnings:string[]=[]; let config:Row=DEFAULT_CONFIG;
   try { const rows=await fetchRows("kollective_customer_app_config",{app_scope:"eq.customer",select:"*",limit:"1"}); config=rows[0]??DEFAULT_CONFIG; } catch { warnings.push("Customer configuration is using safe defaults."); }
   const featuredLimit=Number(config.featured_limit)||12; const eventLimit=Number(config.event_limit)||16; const preferred=cityKey(config.city||"Atlanta"); const today=new Date().toISOString().slice(0,10);
-  const [entitiesResult,contentResult,eventsResult,overridesResult]=await Promise.allSettled([
+  const [entitiesResult,contentResult,eventsResult,overridesResult,directoryResult]=await Promise.allSettled([
     fetchRows("kollective_public_entity_directory",{select:"id,slug,name,category,short_description,status,status_label,current_focus,logo_url,hero_url,website_url,city_scope,access_level,featured_priority,division_slug,division_name,destinations",order:"current_focus.desc,featured_priority.desc,name.asc",limit:String(Math.max(featuredLimit*4,80))}),
     fetchRows("kollective_public_content",{is_published:"eq.true",select:"id,entity_id,destination_id,slug,content_type,title,summary,body,image_url,city_scope,audience,priority,starts_at,ends_at",order:"priority.desc,starts_at.desc",limit:"30"}),
     fetchRows("v_gt_public_events",{event_date:`gte.${today}`,select:"id,city,event_name,event_date,event_time,end_date,end_time,venue_name,venue_address,neighborhood,event_type,event_category,description,ticket_url,ticket_price,image_url,organizer,tags,vibe_tags,is_free,ai_summary,ai_vibe_score",order:"event_date.asc,ai_vibe_score.desc",limit:String(Math.max(eventLimit*8,128))}),
     fetchRows("kollective_customer_event_overrides",{select:"*",limit:"500"}),
+    fetchDirectory(),
   ]);
   const entities=entitiesResult.status==="fulfilled"?entitiesResult.value.filter(e=>!["inactive","archived","closed"].includes(String(e.status??"").toLowerCase())).sort((a,b)=>brandRank(a)-brandRank(b)||Number(b.featured_priority??0)-Number(a.featured_priority??0)||String(a.name??"").localeCompare(String(b.name??""))).slice(0,Math.max(featuredLimit,CUSTOMER_BRAND_ORDER.length)):[];
   const now=new Date(); const content=contentResult.status==="fulfilled"?contentResult.value.filter(i=>active(i,now)).map(i=>({...i,title:decode(i.title),summary:decode(i.summary),body:decode(i.body)})).slice(0,18):[];
   const overrides=overridesResult.status==="fulfilled"?overridesResult.value:[]; if (overridesResult.status==="rejected") warnings.push("Operator curation is temporarily unavailable.");
   const events=eventsResult.status==="fulfilled"?normalizeEvents(eventsResult.value,overrides,preferred,eventLimit*3):[];
+  const directory=directoryResult.status==="fulfilled"?directoryResult.value:{entities:[],team:[]}; if (directoryResult.status==="rejected") warnings.push("The contact directory is temporarily unavailable.");
   const marketCounts=events.reduce<Record<string,number>>((acc,event)=>{ const market=String(event.market||"Other"); acc[market]=(acc[market]||0)+1; return acc; },{});
-  return NextResponse.json({ app:config, experience:{ controlEnabled:true, marketCounts, curatedCount:events.filter(e=>e.is_curated).length, featuredCount:events.filter(e=>e.is_featured).length }, home:{featured:content,events,entities}, source:"Kollective Customer Experience Control", generatedAt:new Date().toISOString(), partial:warnings.length>0, warnings },{headers:{"Access-Control-Allow-Origin":"*","Cache-Control":"public, s-maxage=120, stale-while-revalidate=600"}});
+  return NextResponse.json({ app:config, experience:{ controlEnabled:true, marketCounts, curatedCount:events.filter(e=>e.is_curated).length, featuredCount:events.filter(e=>e.is_featured).length }, home:{featured:content,events,entities}, directory, source:"Kollective Customer Experience Control", generatedAt:new Date().toISOString(), partial:warnings.length>0, warnings },{headers:{"Access-Control-Allow-Origin":"*","Cache-Control":"public, s-maxage=120, stale-while-revalidate=600"}});
 }
 export async function OPTIONS(){return new NextResponse(null,{status:204,headers:{"Access-Control-Allow-Origin":"*","Access-Control-Allow-Methods":"GET, OPTIONS","Access-Control-Allow-Headers":"Content-Type"}});}
