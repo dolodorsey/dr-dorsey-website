@@ -2,8 +2,30 @@
 
 import { useEffect } from "react";
 
+const BRAND_GRAPHICS =
+  "https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics";
 const EMBLEM =
-  "https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png";
+  `${BRAND_GRAPHICS}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
+
+const ENTITY_POPUP_STILLS = [
+  { names: ["black pages"], src: `${BRAND_GRAPHICS}/motion/black-pages-ani2.jpg` },
+  { names: ["bodega"], src: `${BRAND_GRAPHICS}/motion/bodega-ani.jpg` },
+  { names: ["grown ish", "grownish"], src: `${BRAND_GRAPHICS}/motion/grown-ani.jpg` },
+  { names: ["hakuna matata"], src: `${BRAND_GRAPHICS}/motion/hakuna-ani.jpg` },
+  { names: ["help 911", "hurt 911"], src: `${BRAND_GRAPHICS}/motion/help-911-ani.jpg` },
+  { names: ["the law"], src: `${BRAND_GRAPHICS}/motion/the-law-ani.jpg` },
+  { names: ["taste of art"], src: `${BRAND_GRAPHICS}/motion/taste-of-art.jpg` },
+  { names: ["goodfellas"], src: `${BRAND_GRAPHICS}/motion/goodfellas-ani2.jpg` },
+  { names: ["hungry af"], src: `${BRAND_GRAPHICS}/motion/hungry-ani.jpg` },
+  { names: ["tulum"], src: `${BRAND_GRAPHICS}/motion/tulum-ani.jpg` },
+  { names: ["make atlanta great again", "maga"], src: `${BRAND_GRAPHICS}/motion/maga-anii.jpg` },
+  { names: ["pronto"], src: `${BRAND_GRAPHICS}/motion/pronto-cans.jpg` },
+  { names: ["pulse"], src: `${BRAND_GRAPHICS}/motion/pulse-ani.jpg` },
+  { names: ["sole exchange"], src: `${BRAND_GRAPHICS}/motion/sole-exchange-ani.jpg` },
+  { names: ["sos", "superheroes on standby"], src: `${BRAND_GRAPHICS}/motion/sos-ani.jpg` },
+  { names: ["stush"], src: `${BRAND_GRAPHICS}/motion/stush-ani.jpg` },
+  { names: ["umbrella"], src: `${BRAND_GRAPHICS}/motion/umbrella-group-ani.jpg` },
+] as const;
 
 type TeamEntry = {
   name?: string | null;
@@ -28,6 +50,13 @@ function key(value: unknown) {
     .replace(/[^a-z0-9]+/g, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function entityPopupStill(value: unknown) {
+  const normalized = key(value);
+  return ENTITY_POPUP_STILLS.find((entry) =>
+    entry.names.some((name) => normalized.includes(name)),
+  )?.src;
 }
 
 function findGrid(root: Element, eyebrow: string) {
@@ -121,6 +150,21 @@ function enhance(payload: EnhancementPayload) {
       badge.textContent = "KOLLECTIVE FEATURED · GROWN-ISH";
       featured.prepend(badge);
     }
+  }
+
+  const popupTitle = root.querySelector<HTMLElement>("#company-profile-title");
+  const popupName = popupTitle?.textContent?.trim();
+  const still = entityPopupStill(popupName);
+  const popupArticle = popupTitle?.closest("article");
+  const popupMedia = popupArticle?.querySelector<HTMLElement>("[class*='companySheetMedia']");
+
+  if (still && popupMedia) {
+    popupMedia.setAttribute("data-kollective-entity-still", "true");
+    popupMedia.dataset.kollectiveEntityStillUrl = still;
+    popupMedia.style.backgroundImage = `url("${still}")`;
+    popupMedia.style.backgroundPosition = "center";
+    popupMedia.style.backgroundRepeat = "no-repeat";
+    popupMedia.style.backgroundSize = "contain";
   }
 }
 
