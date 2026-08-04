@@ -5,7 +5,7 @@ import styles from './CompanyDirectory.module.css';
 import MotionCover from './MotionCover';
 import type { RegistryEntity } from '@/lib/kollective-public';
 import { currentFocusBrands } from '@/lib/enterprise';
-import { motionFor, orientationFor, type Orientation } from '@/lib/motion';
+import { motion, motionFor, orientationFor, type MotionAsset, type Orientation } from '@/lib/motion';
 import { isEventEntity, isPublicEvent, isRetired, priorityRank } from '@/lib/roster';
 import { departmentFor, departmentRank, departmentSlug } from '@/lib/company-departments';
 
@@ -19,6 +19,31 @@ type Company = {
   hero?: string;
   division: string;
 };
+
+const CARD_MOTION_ALIASES: Record<string, MotionAsset> = {
+  'brand studio': motion.kollectiveLogos,
+  'the brand studio': motion.kollectiveLogos,
+  'people department': motion.umbrellaPeople,
+  "the people's department": motion.umbrellaPeople,
+  'the peoples department': motion.umbrellaPeople,
+  'automation office': motion.umbrellaAutomation,
+  'the automation office': motion.umbrellaAutomation,
+  'umbrella travel': motion.umbrellaGroup,
+  "member's elite": motion.innerCircle,
+  'members elite': motion.innerCircle,
+};
+
+function normalizeName(name: string) {
+  return name.toLowerCase().replace(/[’'`.]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+}
+
+function cardMotion(name: string): MotionAsset | undefined {
+  return CARD_MOTION_ALIASES[normalizeName(name)] || motionFor(name);
+}
+
+function cardOrientation(name: string): Orientation {
+  return cardMotion(name)?.orientation || orientationFor(name);
+}
 
 function fromRegistry(entity: RegistryEntity): Company {
   return {
@@ -82,7 +107,6 @@ export default function CompanyDirectory() {
   const featured = companies.slice(0, 2);
   const rest = companies.slice(2);
 
-  /** Core public staples — pinned above the departments. */
   const staples = useMemo(
     () =>
       rest
@@ -109,7 +133,8 @@ export default function CompanyDirectory() {
   }
 
   const card = (company: Company, variant: 'feature' | 'tile', shape: Orientation = 'landscape') => {
-    const hasMotion = Boolean(motionFor(company.name));
+    const animation = cardMotion(company.name);
+    const hasMotion = Boolean(animation);
     const awaitingArt = !hasMotion && (!company.hero || brokenArt[company.key]);
 
     return (
@@ -125,6 +150,7 @@ export default function CompanyDirectory() {
           ) : (
             <MotionCover
               name={company.name}
+              animation={animation}
               image={company.hero}
               alt={company.name}
               onImageError={() => setBrokenArt((prev) => ({ ...prev, [company.key]: true }))}
@@ -149,8 +175,8 @@ export default function CompanyDirectory() {
       return <div className={styles.grid}>{items.map((company) => card(company, variant, 'landscape'))}</div>;
     }
 
-    const landscape = items.filter((company) => orientationFor(company.name) === 'landscape');
-    const portrait = items.filter((company) => orientationFor(company.name) === 'portrait');
+    const landscape = items.filter((company) => cardOrientation(company.name) === 'landscape');
+    const portrait = items.filter((company) => cardOrientation(company.name) === 'portrait');
 
     return (
       <>
