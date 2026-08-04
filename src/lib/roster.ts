@@ -15,7 +15,13 @@ const RETIRED_NAMES = [
 const EVENT_ENTITY_NAMES = ['GROWN-ISH', 'Taste of Art', 'Freedom Fest', 'Freedom Fest : Juneteent Atl'];
 
 export const PRIORITY_NAMES = [
-  'Goodfellas Pizza & Wings', 'Hungry AF', 'Opium ATL', 'Sea Salt ATL', 'Tulum ATL',
+  'Goodfellas Pizza & Wings',
+  'Hungry AF',
+  'Opium ATL',
+  'Sea Salt ATL',
+  'Tulum ATL',
+  'Rose on Piedmont',
+  'Help 911',
 ];
 
 function normalise(name: string): string {
