@@ -21,17 +21,23 @@ assign('Nightlife / Events / Activations', [
   'GROWN-ISH', 'Taste of Art', 'Freedom Fest', 'Freedom Fest : Juneteent Atl', 'Project X',
 ]);
 
-assign('Staples', ['Rose on Piedmont', 'Help 911']);
+assign('Staples', [
+  'Goodfellas Pizza & Wings', 'Hungry AF', 'Opium ATL', 'Sea Salt ATL', 'Tulum ATL',
+  'Rose on Piedmont', 'Help 911',
+]);
 
 assign('Dorsey / Kollective', [
   'Dr. Dorsey', 'The Kollective ENT.', 'Courses', 'Consultations', 'HugLife', 'Hakuna Matata',
 ]);
 
-assign('Inner Circle', [
+assign('Our Apps', [
   'GOOD TIMES', 'On Call', 'S.O.S.', 'Luxe on Demand', 'The Law', 'The Vote', 'Mission 365',
-  'Black Pages', 'The Black Pages', 'The Fraternity', "The Gentleman's Club", 'The Gentleman’s Club',
-  'The Tribe', 'The Tribe - Memphis', 'Trailblazers', 'Little Farmers of the Future',
-  "Member's Elite", 'Member’s Elite',
+  'Black Pages', 'The Black Pages',
+]);
+
+assign('The Inner Circle', [
+  'The Fraternity', "The Gentleman's Club", 'The Gentleman’s Club', 'The Tribe', 'The Tribe - Memphis',
+  'Trailblazers', 'Little Farmers of the Future', "Member's Elite", 'Member’s Elite',
 ]);
 
 assign('Products / Clothing', ['Bodega', 'STUSH', 'PULSE', 'Make Atlanta Great Again']);
@@ -59,11 +65,11 @@ const byDivision: Record<string, DepartmentTitle> = {
   'founder & enterprise': 'Dorsey / Kollective',
   'hospitality & nightlife': 'Nightlife / Events / Activations',
   'events & cultural ip': 'Nightlife / Events / Activations',
-  'technology & apps': 'Inner Circle',
+  'technology & apps': 'Our Apps',
   'products & commerce': 'Products / Clothing',
   'the casper group': 'Casper Group',
   'services & umbrella group': 'Umbrella Group',
-  'institutions & impact': 'Inner Circle',
+  'institutions & impact': 'The Inner Circle',
 };
 
 export const departmentOrder: DepartmentTitle[] = departments.map((department) => department.title);
