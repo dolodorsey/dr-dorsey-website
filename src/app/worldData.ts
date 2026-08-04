@@ -1,4 +1,4 @@
-import type { MotionAsset } from '@/lib/motion';
+import { motion, type MotionAsset } from '@/lib/motion';
 
 export type World = {
   title: string;
@@ -14,7 +14,8 @@ export type World = {
     /** Animated cover. Overrides the name-based lookup in MotionCover. */
     animation?: MotionAsset;
   }[];
-  videos?: { title: string; src: string; href: string }[];
+  /** Animated world strip. Assets come from the hosted motion library. */
+  videos?: { title: string; animation: MotionAsset; href: string }[];
 };
 
 export const worlds: Record<string, World> = {
@@ -71,13 +72,13 @@ export const worlds: Record<string, World> = {
       { title: 'The Tribe', eyebrow: 'Network', detail: 'The connecting identity across the ecosystem.', href: 'https://the-tribe-wine.vercel.app' },
     ],
     videos: [
-      { title: 'Aquifer', src: '/dorsey/motion/aquifer.mp4', href: 'https://aquifer-waterworks.vercel.app' },
-      { title: 'Everyday', src: '/dorsey/motion/everyday.mp4', href: 'https://everyday-water-group.vercel.app' },
-      { title: 'Nativa', src: '/dorsey/motion/nativa.mp4', href: 'https://nativa-waterworks.vercel.app' },
-      { title: 'Trailblazer', src: '/dorsey/motion/trailblazer.mp4', href: '/forms/inquiry' },
-      { title: 'Tribal Water', src: '/dorsey/motion/tribal-water.mp4', href: 'https://tribal-water.vercel.app' },
-      { title: 'The University', src: '/dorsey/motion/university.mp4', href: 'https://the-university.vercel.app' },
-      { title: 'The Tribe', src: '/dorsey/motion/tribe.mp4', href: 'https://the-tribe-wine.vercel.app' },
+      { title: 'Aquifer', animation: motion.aquifer, href: 'https://aquifer-waterworks.vercel.app' },
+      { title: 'Everyday', animation: motion.everydayWater, href: 'https://everyday-water-group.vercel.app' },
+      { title: 'Nativa', animation: motion.nativa, href: 'https://nativa-waterworks.vercel.app' },
+      { title: 'Trailblazer', animation: motion.trailblazer, href: '/forms/inquiry' },
+      { title: 'Tribal Water', animation: motion.tribalWater, href: 'https://tribal-water.vercel.app' },
+      { title: 'The University', animation: motion.university, href: 'https://the-university.vercel.app' },
+      { title: 'The Tribe', animation: motion.tribe, href: 'https://the-tribe-wine.vercel.app' },
     ],
   },
   team: {

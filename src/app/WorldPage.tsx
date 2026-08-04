@@ -14,7 +14,7 @@ export default function WorldPage({ world }: { world: World }) {
       {world.videos ? (
         <section className={`${styles.motion} k-surface k-emblem k-edge`}>
           <header><p>Animated worlds</p><h2>EVERY IDENTITY <em>MOVES.</em></h2></header>
-          <div>{world.videos.map((video) => <a href={video.href} key={video.title}><video autoPlay muted loop playsInline><source src={video.src} type="video/mp4" /></video><h3>{video.title}</h3><b>Enter ↗</b></a>)}</div>
+          <div>{world.videos.map((video) => <a href={video.href} key={video.title}><video autoPlay muted loop playsInline poster={video.animation.poster}><source src={video.animation.src} type="video/mp4" /></video><h3>{video.title}</h3><b>Enter ↗</b></a>)}</div>
         </section>
       ) : null}
       {(() => {

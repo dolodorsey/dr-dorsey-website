@@ -126,12 +126,6 @@ export const motion = {
   umbrellaGroup: asset('umbrella-group-ani'),
 } satisfies Record<string, MotionAsset>;
 
-/** Legacy in-repo hero films that predate this library. */
-export const legacyMotion = {
-  founderHero: { src: '/dorsey/motion/founder-hero.mp4', poster: '/dorsey/hero-bg.jpg', orientation: 'landscape' },
-  casperHero: { src: '/dorsey/motion/casper-group.mp4', poster: '/dorsey/rooftop.jpg', orientation: 'landscape' },
-} satisfies Record<string, MotionAsset>;
-
 /**
  * Company / entity name -> animation.
  *
