@@ -6,7 +6,10 @@ import { BOOK_URL } from '@/lib/enterprise';
 import MotionCover from '@/components/MotionCover';
 import DepartmentGrid from '@/components/DepartmentGrid';
 import FilmBackdrop from '@/components/FilmBackdrop';
-import { motion } from '@/lib/motion';
+import { motion, motionForEntity } from '@/lib/motion';
+
+/** Founder landing film. Explicit hero assignment, not a name lookup. */
+const founderHero = motionForEntity('dr-dorsey', 'hero');
 
 /**
  * The first two entries render as the large featured pair.
@@ -76,8 +79,15 @@ export default function HomePage() {
       </div>
 
       <section className={styles.hero} id="top">
-        <video className={styles.heroFilm} autoPlay muted loop playsInline>
-          <source src="/dorsey/motion/founder-hero.mp4" type="video/mp4" />
+        <video
+          className={styles.heroFilm}
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={founderHero?.poster}
+        >
+          <source src={founderHero?.src ?? '/dorsey/motion/founder-hero.mp4'} type="video/mp4" />
         </video>
         <div className={styles.heroFilmShade} />
         <a className={styles.heroBook} href={BOOK_URL}>
