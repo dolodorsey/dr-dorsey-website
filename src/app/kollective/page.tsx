@@ -52,7 +52,7 @@ export default function KollectivePage() {
       <section className={`${styles.focus} k-surface k-bleed k-surface-deep k-edge`} id="departments">
         <FilmBackdrop animation={motion.kollectiveGlobal} opacity={0.15} />
         <header className={styles.sectionHead}>
-          <div><p className={styles.kicker}>The companies</p><h2>Twelve divisions.<br />One enterprise.</h2></div>
+          <div><p className={styles.kicker}>The companies</p><h2>Live for today.<br />Plan for tomorrow.<br />Party tonight!</h2></div>
           <p>Every division runs its own companies, audience, economics, and atmosphere. Every card routes to a direct company site or the correct internal access page.</p>
         </header>
         <DepartmentGrid />
