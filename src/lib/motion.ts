@@ -50,7 +50,7 @@ export const motion = {
   aquifer: asset('aquifer-ani'),
   blackPages: asset('black-pages-ani2'),
   bodega: asset('bodega-ani'),
-  casperGroup: asset('casper-group-logos'),
+  casperGroup: asset('casper-group-ani'),
   everydayWater: asset('everyday-wg-ani'),
   drDorsey: localAsset('dr-dolo-ani'),
   freedomFest: localAsset('freedom-fest-ani'),
@@ -62,9 +62,23 @@ export const motion = {
   goodfellasPortraitAlt: asset('goodfellas-ani-port2', 'portrait'),
   goodTimes: asset('goodtimes'),
   goodTimesPortrait: asset('good-times', 'portrait'),
-  grownish: asset('grown-ani', 'portrait'),
+  grownish: asset('grownish-ani'),
   grownishWeekly: asset('grownish-weekly', 'portrait'),
-  hakunaMatata: asset('hakuna-ani', 'portrait'),
+  hakunaMatata: asset('hakuna-1'),
+  hakunaTwo: asset('hakuna-2'),
+  hakunaThree: asset('hakuna-3'),
+  hakunaFour: asset('hakuna-4'),
+  hakunaFive: asset('hakuna-5'),
+  hakunaSix: asset('hakuna-6'),
+  hakunaSeven: asset('hakuna-7'),
+  drDolo: asset('dr-dolo-ani'),
+  drAni: asset('dr-ani'),
+  innerCircle: asset('inner-ani'),
+  letsTalk: asset('lets-talk-about-it-1'),
+  letsTalkTwo: asset('lets-talk-about-it-2'),
+  letsTalkThree: asset('lets-talk-about-it-3'),
+  kollectiveLobby: asset('kollective-lobby-ani'),
+  kollectiveLibrary: asset('kollective-library-ani'),
   help911: asset('help-911-ani'),
   hungryAf: asset('hungry-ani'),
   infinityWater: asset('infinity-bottles-2'),
@@ -84,7 +98,7 @@ export const motion = {
   pronto: asset('pronto-cans'),
   projectX: asset('project-x-animation'),
   pulse: asset('pulse-ani'),
-  rose: asset('rose-comin-ani', 'portrait'),
+  rose: asset('rose-on-piedmont'),
   seaSalt: asset('sea-salt-ani'),
   seaSaltAlt: asset('seasalt-ani'),
   soleExchange: asset('sole-exchange-ani'),
@@ -118,9 +132,10 @@ export const legacyMotion = {
  * enterprise registry, where names are edited outside this repo.
  */
 const NAME_MOTION: Record<string, MotionAsset> = {
-  'dr dorsey': motion.drDorsey,
-  'doctor dorsey': motion.drDorsey,
-  'dolo dorsey': motion.drDorsey,
+  'dr dorsey': motion.drAni,
+  'doctor dorsey': motion.drAni,
+  'dolo dorsey': motion.drAni,
+  'dr dolo': motion.drAni,
   'freedom fest': motion.freedomFest,
   'freedom fest juneteent atl': motion.freedomFest,
   'freedom fest juneteenth atl': motion.freedomFest,
@@ -128,6 +143,13 @@ const NAME_MOTION: Record<string, MotionAsset> = {
   'the kollective': motion.kollectiveGlobal,
   'the kollective hospitality group': motion.kollectiveGlobal,
   'hakuna matata': motion.hakunaMatata,
+  'inner circle': motion.innerCircle,
+  'the inner circle': motion.innerCircle,
+  'lets talk about it': motion.letsTalk,
+  'courses': motion.kollectiveLibrary,
+  'consultations': motion.kollectiveLobby,
+  'the kollective library': motion.kollectiveLibrary,
+  'the kollective lobby': motion.kollectiveLobby,
   'the tribe memphis': motion.tribe,
   'the tribe': motion.tribe,
   'the fraternity': motion.fraternity,
@@ -185,6 +207,53 @@ const NAME_MOTION: Record<string, MotionAsset> = {
   'casper group': motion.casperGroup,
   'kollective network': motion.kollectiveNetwork,
 };
+
+/**
+ * Verified entity -> assigned asset.
+ *
+ * Explicit hero/card assignment, keyed by entity slug. This is the source of
+ * truth: NAME_MOTION above only resolves a display name to one of these keys.
+ * Nothing is inferred from the name itself, so an entity can never inherit
+ * another brand's animation because the two strings happened to look alike.
+ */
+export type EntityMotion = { hero: MotionAsset; card: MotionAsset };
+
+export const ENTITY_MOTION = {
+  'dr-dorsey': { hero: motion.drDolo, card: motion.drAni },
+  'rose-on-piedmont': { hero: motion.rose, card: motion.rose },
+  'grown-ish': { hero: motion.grownish, card: motion.grownish },
+  'casper-group': { hero: motion.casperGroup, card: motion.casperGroup },
+  'inner-circle': { hero: motion.innerCircle, card: motion.innerCircle },
+  'hakuna-matata': { hero: motion.hakunaMatata, card: motion.hakunaMatata },
+  'lets-talk-about-it': { hero: motion.letsTalk, card: motion.letsTalk },
+  'kollective-courses': { hero: motion.kollectiveLobby, card: motion.kollectiveLibrary },
+} satisfies Record<string, EntityMotion>;
+
+export type EntityKey = keyof typeof ENTITY_MOTION;
+
+/** Alternate takes, for surfaces that want variety rather than one fixed loop. */
+export const ENTITY_MOTION_ALTS = {
+  'hakuna-matata': [
+    motion.hakunaMatata, motion.hakunaTwo, motion.hakunaThree, motion.hakunaFour,
+    motion.hakunaFive, motion.hakunaSix, motion.hakunaSeven,
+  ],
+  'lets-talk-about-it': [motion.letsTalk, motion.letsTalkTwo, motion.letsTalkThree],
+} satisfies Partial<Record<EntityKey, MotionAsset[]>>;
+
+/**
+ * Resolve an entity's assigned animation.
+ *
+ * Returns undefined for entities with no assignment yet — the caller falls back
+ * to a still or the holding plate. It never guesses.
+ */
+export function motionForEntity(
+  key: string | undefined | null,
+  variant: 'hero' | 'card' = 'card',
+): MotionAsset | undefined {
+  if (!key) return undefined;
+  const entry = ENTITY_MOTION[key as EntityKey];
+  return entry ? entry[variant] : undefined;
+}
 
 /**
  * The whole library as a flat, consumable list.
