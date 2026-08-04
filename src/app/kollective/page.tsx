@@ -29,7 +29,7 @@ export default function KollectivePage() {
     <main className={styles.page}>
       <nav className={styles.nav}>
         <a className={styles.navBrand} href="#top"><img src={EMBLEM} alt="The Kollective" /></a>
-        <div className={styles.navLinks}><a href="/entities">Entities</a><a href="/companies">Companies</a><a href="/events">Events</a><a href="/network">Network</a><a href="/app">App</a></div>
+        <div className={styles.navLinks}><a href="/companies">Companies</a><a href="/events">Nightlife / Events</a><a href="/network">Network</a><a href="/app">Apps</a></div>
         <a className={styles.navCta} href="/app?install=1">Download App</a>
       </nav>
 
@@ -52,13 +52,13 @@ export default function KollectivePage() {
       <section className={`${styles.focus} k-surface k-bleed k-surface-deep k-edge`} id="departments">
         <FilmBackdrop animation={motion.kollectiveGlobal} opacity={0.15} />
         <header className={styles.sectionHead}>
-          <div><p className={styles.kicker}>The departments</p><h2>Fourteen departments.<br />One enterprise.</h2></div>
-          <p>Every department runs its own companies, audience, economics, and atmosphere. Every card now routes to a direct company site or the correct internal access page.</p>
+          <div><p className={styles.kicker}>The companies</p><h2>Twelve divisions.<br />One enterprise.</h2></div>
+          <p>Every division runs its own companies, audience, economics, and atmosphere. Every card routes to a direct company site or the correct internal access page.</p>
         </header>
         <DepartmentGrid />
         <div className={upgradeStyles.bookActions} style={{ marginTop: 40, justifyContent: 'center' }}>
           <a className={upgradeStyles.goldButton} href="/companies">See every company</a>
-          <a className={upgradeStyles.lineButton} href="/events">Open Events & Nightlife</a>
+          <a className={upgradeStyles.lineButton} href="/events">Open Nightlife / Events / Activations</a>
         </div>
       </section>
 
