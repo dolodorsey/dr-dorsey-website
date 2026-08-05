@@ -8,6 +8,11 @@
   background: #050504;
 }
 
+.compactHero {
+  height: min(78svh, 760px);
+  min-height: 520px;
+}
+
 .actionBar {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -17,8 +22,8 @@
 }
 
 .actionBar a {
-  min-height: 118px;
-  padding: 22px;
+  min-height: 92px;
+  padding: 18px 20px;
   background: #0a0907;
   color: #f2ecdf;
   text-decoration: none;
@@ -35,18 +40,30 @@
 }
 
 .actionBar strong {
-  font: 800 30px/1 Manrope, Inter, sans-serif;
+  font: 800 24px/1 Manrope, Inter, sans-serif;
   color: #f0d37e;
 }
 
 .actionBar span {
-  margin-top: 8px;
+  margin-top: 7px;
   font-size: 8px;
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.55);
-  line-height: 1.5;
+  line-height: 1.45;
+}
+
+.compactSection {
+  padding: clamp(64px, 7vw, 100px) clamp(22px, 6vw, 110px);
+}
+
+.compactSectionHead {
+  margin-bottom: 36px;
+}
+
+.compactSectionHead h2 {
+  font-size: clamp(40px, 5vw, 72px);
 }
 
 .bookPromo {
@@ -54,7 +71,7 @@
   overflow: hidden;
   display: grid;
   grid-template-columns: 0.82fr 1.18fr;
-  min-height: 760px;
+  min-height: 610px;
   background: radial-gradient(circle at 22% 45%, rgba(213, 173, 77, 0.24), transparent 33%), linear-gradient(135deg, #070604, #151007 65%, #070604);
   border-block: 1px solid rgba(213, 173, 77, 0.18);
 }
@@ -64,7 +81,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px clamp(25px, 6vw, 100px);
+  padding: 55px clamp(25px, 5vw, 80px);
 }
 
 .bookVisual::after {
@@ -76,34 +93,34 @@
 
 .bookGlow {
   position: absolute;
-  width: 60%;
+  width: 56%;
   aspect-ratio: 1;
   border-radius: 50%;
   background: rgba(213, 173, 77, 0.24);
-  filter: blur(90px);
+  filter: blur(82px);
 }
 
 .bookFilm {
   position: relative;
   z-index: 2;
-  width: min(430px, 84%);
+  width: min(350px, 78%);
   aspect-ratio: 3 / 4;
   overflow: hidden;
-  filter: drop-shadow(0 38px 45px rgba(0, 0, 0, 0.72));
+  filter: drop-shadow(0 30px 38px rgba(0, 0, 0, 0.72));
 }
 
 .bookVisual img {
   position: relative;
   z-index: 2;
-  max-width: min(390px, 82%);
-  max-height: 570px;
+  max-width: min(340px, 78%);
+  max-height: 475px;
   object-fit: contain;
-  filter: drop-shadow(0 38px 45px rgba(0, 0, 0, 0.72));
+  filter: drop-shadow(0 30px 38px rgba(0, 0, 0, 0.72));
   transform: rotate(-3deg);
 }
 
 .bookCopy {
-  padding: clamp(80px, 9vw, 150px) clamp(34px, 7vw, 120px);
+  padding: clamp(58px, 7vw, 100px) clamp(34px, 6vw, 94px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -111,7 +128,7 @@
 
 .bookCopy > span,
 .bookPrice {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -119,36 +136,36 @@
 }
 
 .bookCopy h2 {
-  font: 800 clamp(55px, 7vw, 105px)/0.88 Manrope, Inter, sans-serif;
+  font: 800 clamp(46px, 5.6vw, 78px)/0.9 Manrope, Inter, sans-serif;
   letter-spacing: -0.055em;
-  margin: 18px 0 28px;
+  margin: 15px 0 22px;
 }
 
 .bookCopy p {
-  max-width: 720px;
+  max-width: 690px;
   color: rgba(255, 255, 255, 0.62);
-  font-size: 16px;
-  line-height: 1.75;
+  font-size: 15px;
+  line-height: 1.65;
 }
 
 .bookPrice {
-  margin-top: 26px;
+  margin-top: 20px;
 }
 
 .bookActions {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 32px;
+  gap: 10px;
+  margin-top: 25px;
 }
 
 .goldButton,
 .lineButton {
-  padding: 16px 20px;
+  padding: 14px 18px;
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
 }
 
@@ -162,6 +179,32 @@
   color: #fff;
 }
 
+.compactAccess {
+  padding: clamp(64px, 7vw, 96px) clamp(22px, 6vw, 110px);
+  gap: 5vw;
+}
+
+.compactAccess h2 {
+  font-size: clamp(40px, 4.8vw, 68px);
+}
+
+.compactAccessGrid a {
+  min-height: 132px;
+  padding: 21px;
+}
+
+.compactAccessGrid b {
+  font-size: 22px;
+}
+
+.compactAccessGrid span {
+  font-size: 13px;
+}
+
+.compactAccessButtons {
+  margin-top: 26px;
+}
+
 @media (max-width: 1100px) {
   .actionBar {
     grid-template-columns: repeat(3, 1fr);
@@ -172,16 +215,21 @@
   }
 
   .bookVisual {
-    min-height: 580px;
-    padding-bottom: 20px;
+    min-height: 470px;
+    padding-bottom: 10px;
   }
 
   .bookCopy {
-    padding-top: 40px;
+    padding-top: 36px;
   }
 }
 
 @media (max-width: 760px) {
+  .compactHero {
+    height: 68svh;
+    min-height: 500px;
+  }
+
   .heroVideo {
     object-position: 58% center;
   }
@@ -191,7 +239,13 @@
   }
 
   .actionBar a {
-    min-height: 105px;
+    min-height: 86px;
+  }
+
+  .compactSection,
+  .compactAccess {
+    padding-top: 54px;
+    padding-bottom: 62px;
   }
 
   .bookPromo {
@@ -199,33 +253,32 @@
   }
 
   .bookVisual {
-    min-height: 480px;
-    padding: 65px 20px 10px;
+    min-height: 390px;
+    padding: 52px 20px 4px;
   }
 
   .bookFilm {
-  position: relative;
-  z-index: 2;
-  width: min(430px, 84%);
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  filter: drop-shadow(0 38px 45px rgba(0, 0, 0, 0.72));
-}
+    width: min(330px, 80%);
+  }
 
-.bookVisual img {
-    max-height: 430px;
+  .bookVisual img {
+    max-height: 380px;
   }
 
   .bookCopy {
-    padding: 55px 25px 80px;
+    padding: 45px 25px 60px;
   }
 
   .bookCopy h2 {
-    font-size: 56px;
+    font-size: 48px;
   }
 
   .bookActions {
     flex-direction: column;
+  }
+
+  .compactAccessGrid a {
+    min-height: 118px;
   }
 }
 
@@ -235,14 +288,14 @@
   }
 
   .actionBar a {
-    min-height: 88px;
+    min-height: 78px;
   }
 
   .bookVisual {
-    min-height: 420px;
+    min-height: 350px;
   }
 
   .bookCopy h2 {
-    font-size: 48px;
+    font-size: 43px;
   }
 }
