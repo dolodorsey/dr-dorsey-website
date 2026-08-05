@@ -1,5 +1,4 @@
 .page {
-  /* Inherits the Kollective scope set by the /kollective layout. */
   --gold: var(--k-gold, #d8b04c);
   --gold2: var(--k-gold-soft, #f3d67d);
   min-height: 100vh;
@@ -12,18 +11,18 @@
   z-index: 100;
   inset: 0 0 auto;
   height: 64px;
-  padding: 0 34px;
+  padding: 0 clamp(18px, 4vw, 58px);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #070706e8;
+  background: #070706ec;
   border-bottom: 1px solid #ffffff1c;
-  backdrop-filter: blur(13px);
+  backdrop-filter: blur(15px);
 }
 
 .navLogo {
-  width: 46px;
-  height: 46px;
+  width: 42px;
+  height: 42px;
   object-fit: contain;
   object-position: left center;
 }
@@ -35,25 +34,25 @@
 
 .nav div {
   display: flex;
-  gap: 26px;
+  gap: clamp(16px, 2vw, 26px);
 }
 
 .nav div a {
   font-size: 9px;
   font-weight: 700;
-  letter-spacing: 0.17em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .hero {
   position: relative;
-  padding: 150px 5vw 66px;
+  padding: 112px 5vw 50px;
   overflow: hidden;
   text-align: center;
 }
 
 .kicker {
-  margin: 0 0 16px;
+  margin: 0 0 12px;
   color: var(--gold2);
   font-size: 8px;
   font-weight: 800;
@@ -62,9 +61,9 @@
 }
 
 .hero h1 {
-  max-width: 1180px;
+  max-width: 980px;
   margin-inline: auto;
-  font: 800 clamp(46px, 6.4vw, 100px) / 0.92 Manrope, Arial, sans-serif;
+  font: 800 clamp(42px, 5.5vw, 78px) / 0.93 Manrope, Arial, sans-serif;
   letter-spacing: -0.05em;
 }
 
@@ -74,15 +73,15 @@
 }
 
 .hero p {
-  max-width: 640px;
-  margin: 26px auto 0;
+  max-width: 620px;
+  margin: 20px auto 0;
   color: #ffffff9c;
   font-size: 12px;
-  line-height: 1.75;
+  line-height: 1.65;
 }
 
 .body {
-  padding: 54px 5vw 100px;
+  padding: 38px 5vw 76px;
 }
 
 .inner {
@@ -92,7 +91,7 @@
 }
 
 .footer {
-  padding: 44px 5vw;
+  padding: 34px 5vw;
   max-width: var(--k-max, 1720px);
   margin-inline: auto;
   display: flex;
@@ -104,8 +103,8 @@
 }
 
 .footerLogo {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
 }
 
@@ -138,15 +137,15 @@
   }
 
   .hero {
-    padding: 120px 20px 44px;
+    padding: 98px 20px 38px;
   }
 
   .body {
-    padding: 40px 20px 80px;
+    padding: 32px 20px 64px;
   }
 
   .footer {
-    padding: 34px 20px;
+    padding: 30px 20px;
     flex-direction: column;
     text-align: center;
   }
