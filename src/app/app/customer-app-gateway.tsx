@@ -16,6 +16,7 @@ type StandaloneNavigator = Navigator & { standalone?: boolean };
 const EMBLEM = "https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png";
 const DOOR = "https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/app/backgrounds/app-background-09.jpg";
 const APP_URL = "https://thekollectivehospitality.com/app?install=1";
+const AUTH_CONFIRM_URL = "https://thekollectivehospitality.com/auth/confirm";
 
 const supabase = createClient(KOLLECTIVE_SUPABASE_URL, KOLLECTIVE_SUPABASE_PUBLISHABLE_KEY, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
@@ -35,6 +36,8 @@ function friendlyAuthError(cause: unknown) {
   const message = cause instanceof Error ? cause.message : "We could not complete that request.";
   if (/database error saving new user|unexpected_failure/i.test(message)) return "Signup is temporarily unavailable. Please try again.";
   if (/user already registered/i.test(message)) return "That email already has an account. Choose SIGN IN instead.";
+  if (/email not confirmed/i.test(message)) return "Confirm your email first. Tap RESEND CONFIRMATION below if you need a new link.";
+  if (/otp_expired|token.*not found|invalid.*token|expired/i.test(message)) return "That email link expired or was already used. Request a new confirmation email below.";
   return message;
 }
 
@@ -125,13 +128,16 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
           email: email.trim().toLowerCase(),
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/app`,
+            emailRedirectTo: AUTH_CONFIRM_URL,
             data: { full_name: fullName.trim(), display_name: fullName.trim().split(/\s+/)[0], signup_source: "kollective_customer_app", requested_access: "customer_app" },
           },
         });
         if (signupError) throw signupError;
         if (data.session) setSession(data.session);
-        else { setNotice("Account created. Confirm your email, then sign in."); setMode("signin"); }
+        else {
+          setNotice("Account created. Open the newest confirmation email once, confirm it, then return here to sign in.");
+          setMode("signin");
+        }
       } else {
         const { data, error: signinError } = await supabase.auth.signInWithPassword({ email: email.trim().toLowerCase(), password });
         if (signinError) throw signinError;
@@ -142,6 +148,24 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
     } finally {
       setBusy(false);
     }
+  }
+
+  async function resendConfirmation() {
+    if (!email.trim()) {
+      setError("Enter your email first.");
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    setNotice(null);
+    const { error: resendError } = await supabase.auth.resend({
+      type: "signup",
+      email: email.trim().toLowerCase(),
+      options: { emailRedirectTo: AUTH_CONFIRM_URL },
+    });
+    setBusy(false);
+    if (resendError) setError(friendlyAuthError(resendError));
+    else setNotice("A new confirmation email was sent. Use only the newest link, one time.");
   }
 
   async function resetPassword() {
@@ -214,7 +238,8 @@ export default function CustomerAppGateway({ children }: { children: ReactNode }
             {error ? <p className={styles.error}>{error}</p> : null}
             {notice ? <p className={styles.notice}>{notice}</p> : null}
             <button className={styles.primary} disabled={busy} type="submit">{mode === "signup" ? <UserPlus /> : <LogIn />}{busy ? "WORKING…" : mode === "signup" ? "CREATE ACCOUNT" : "SIGN IN"}<ArrowRight /></button>
-            {mode === "signin" ? <button className={styles.textButton} type="button" onClick={resetPassword}>Forgot password?</button> : null}
+            {mode === "signin" ? <button className={styles.textButton} type="button" onClick={resendConfirmation} disabled={busy}>Resend confirmation email</button> : null}
+            {mode === "signin" ? <button className={styles.textButton} type="button" onClick={resetPassword} disabled={busy}>Forgot password?</button> : null}
           </form>
         </section>
       </main>
