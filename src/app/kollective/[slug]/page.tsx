@@ -2,13 +2,22 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { kollectiveNav, kollectivePages } from '@/lib/kollective-pages';
+import { kollectivePages } from '@/lib/kollective-pages';
 import styles from './page.module.css';
 
+const navigation = [
+  ['Companies', '/companies'],
+  ['Current', '/events'],
+  ['Network', '/network'],
+  ['Links', '/links'],
+  ['Apps', '/app'],
+] as const;
+
+const dedicatedRoutes = new Set(['companies', 'events', 'network', 'links']);
+
 export function generateStaticParams() {
-  // `/kollective/companies` has its own route now — the live company roster.
   return Object.keys(kollectivePages)
-    .filter((slug) => slug !== 'companies')
+    .filter((slug) => !dedicatedRoutes.has(slug))
     .map((slug) => ({ slug }));
 }
 
@@ -40,14 +49,19 @@ export default async function KollectiveInformationPage({
   const { slug } = await params;
   const page = kollectivePages[slug];
   if (!page) notFound();
-  const related = Object.entries(kollectivePages).filter(([key]) => key !== slug).slice(0, 3);
+
+  const preferredRelated = ['companies', 'events', 'network', 'links', 'access'];
+  const related = preferredRelated
+    .filter((key) => key !== slug && kollectivePages[key])
+    .slice(0, 3)
+    .map((key) => [key, kollectivePages[key]] as const);
 
   return (
     <div className={styles.site}>
       <header className={styles.header}>
-        <Link href="/kollective" className={styles.brand}>THE KOLLECTIVE</Link>
+        <Link href="/" className={styles.brand}>THE KOLLECTIVE</Link>
         <nav aria-label="The Kollective sections">
-          {kollectiveNav.map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}
+          {navigation.map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}
         </nav>
         <Link href="/access" className={styles.action}>Open Access</Link>
       </header>
@@ -90,7 +104,7 @@ export default async function KollectiveInformationPage({
 
         <section className={styles.related}>
           {related.map(([key, item]) => (
-            <Link href={`/kollective/${key}`} key={key}>
+            <Link href={`/${key}`} key={key}>
               <span>{item.eyebrow}</span>
               <strong>{item.title}</strong>
               <b>↗</b>
@@ -101,7 +115,7 @@ export default async function KollectiveInformationPage({
         <section className={styles.cta}>
           <p>CHOOSE THE CORRECT ENTRY POINT</p>
           <h2>Turn discovery into a move.</h2>
-          <div><Link href="/access">Open all access</Link><Link href="/forms/inquiry">Enterprise inquiry</Link></div>
+          <div><Link href="/access">Open all access</Link><Link href="/app/forms/inquiry">Enterprise inquiry</Link></div>
         </section>
       </main>
 
