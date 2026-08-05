@@ -1,0 +1,153 @@
+.page {
+  min-height: 100svh;
+  padding: 96px 22px 44px;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(216, 176, 76, 0.2), transparent 30%),
+    linear-gradient(145deg, #050505, #0d0b07 58%, #050505);
+  color: #f5f1e8;
+  font-family: Inter, Arial, sans-serif;
+}
+
+.card {
+  width: min(540px, 100%);
+  padding: clamp(30px, 6vw, 58px);
+  text-align: center;
+  background: rgba(8, 8, 7, 0.94);
+  border: 1px solid rgba(216, 176, 76, 0.34);
+  box-shadow: 0 40px 110px rgba(0, 0, 0, 0.72);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+
+.brand > span {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #d8b04c;
+  color: #f3d67d;
+  font: 800 20px/1 Manrope, Inter, sans-serif;
+}
+
+.brand strong,
+.brand small {
+  display: block;
+}
+
+.brand strong {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+}
+
+.brand small {
+  margin-top: 5px;
+  color: #89867f;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.icon {
+  width: 74px;
+  height: 74px;
+  margin: 46px auto 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(216, 176, 76, 0.13);
+  border: 1px solid rgba(216, 176, 76, 0.48);
+  color: #f3d67d;
+}
+
+.icon svg {
+  width: 34px;
+  height: 34px;
+}
+
+.errorIcon {
+  background: rgba(190, 79, 63, 0.12);
+  border-color: rgba(225, 111, 91, 0.45);
+  color: #ee9b8e;
+}
+
+.spinner {
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.eyebrow {
+  margin: 0;
+  color: #f3d67d;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+}
+
+.card h1 {
+  margin: 14px 0 18px;
+  font: 800 clamp(38px, 8vw, 62px)/0.94 Manrope, Inter, sans-serif;
+  letter-spacing: -0.055em;
+}
+
+.message {
+  max-width: 420px;
+  margin: 0 auto;
+  color: #a9a59d;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.primary {
+  min-height: 50px;
+  margin-top: 30px;
+  padding: 0 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #d8b04c;
+  color: #080808;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+}
+
+.actions > p {
+  max-width: 410px;
+  margin: 24px auto 0;
+  color: #7f7c76;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.actions strong {
+  color: #d8b04c;
+}
+
+@media (max-width: 560px) {
+  .page {
+    padding: 28px 16px;
+  }
+
+  .card {
+    padding: 30px 22px 38px;
+  }
+
+  .icon {
+    margin-top: 38px;
+  }
+
+  .primary {
+    width: 100%;
+  }
+}
