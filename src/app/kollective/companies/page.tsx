@@ -18,15 +18,15 @@ export default function KollectiveCompaniesPage() {
   return (
     <main className={styles.page}>
       <nav className={styles.nav}>
-        <a href="/kollective" aria-label="The Kollective home">
+        <a href="/" aria-label="The Kollective home">
           <img className={styles.navLogo} src={EMBLEM} alt="The Kollective" />
         </a>
         <div>
-          <a href="/kollective#departments">Departments</a>
-          <a href="/entities">Entities</a>
+          <a href="/companies">Companies</a>
           <a href="/events">Current</a>
           <a href="/network">Network</a>
-          <a href="/access">Access</a>
+          <a href="/links">Links</a>
+          <a href="/app">Apps</a>
         </div>
       </nav>
 
