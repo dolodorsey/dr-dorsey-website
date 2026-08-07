@@ -1,42 +1,73 @@
 import ConnectionChecklist from '../ig-sessions/ConnectionChecklist';
 
-const META_CONNECT_URL = 'https://dzlmtvodpyhetvektfuo.supabase.co/functions/v1/meta-social-connect-start';
+const INSTAGRAM_CONNECT_URL = 'https://dzlmtvodpyhetvektfuo.supabase.co/functions/v1/instagram-login-start';
+const RETURN_URL = 'https://www.doctordorsey.com/os/ig-connect';
+
+const ACCOUNTS = [
+  { brand: 'Dr. Dorsey', brandSlug: 'dr_dorsey', handle: 'dolodorsey' },
+  { brand: 'The Kollective', brandSlug: 'kollective', handle: 'kollectivehospitality' },
+  { brand: 'Casper Group', brandSlug: 'casper-group', handle: 'thecaspergroupworldwide', note: 'Instagram DM API access must also be enabled in account settings.' },
+  { brand: 'Good Times', brandSlug: 'good_times', handle: 'goodtimesworldwide' },
+  { brand: 'Help 911', brandSlug: 'help_911', handle: 'help911.help' },
+  { brand: 'Make Atlanta Great Again', brandSlug: 'maga', handle: 'makeatlanta.greatagain' },
+  { brand: 'On Call', brandSlug: 'on-call', handle: 'oncall.allday', note: 'Instagram DM API access must also be enabled in account settings.' },
+];
+
+function connectUrl(brandSlug: string, handle: string) {
+  const params = new URLSearchParams({
+    brand_slug: brandSlug,
+    ig_handle: handle,
+    return_url: RETURN_URL,
+  });
+  return `${INSTAGRAM_CONNECT_URL}?${params.toString()}`;
+}
 
 export const metadata = {
-  title: 'Meta Connect — Ops OS',
-  description: 'Meta connection readiness for @dolodorsey.',
+  title: 'Instagram Fleet Repair — Ops OS',
+  description: 'Canonical Instagram Business Login and connection repair console for the enterprise social fleet.',
 };
 
 export default function IgConnectPage() {
   return (
     <main className="min-h-screen bg-[#060607] px-5 py-8 text-white sm:px-8 lg:px-12">
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto max-w-5xl">
         <a href="/os/ig-sessions" className="text-xs uppercase tracking-[0.25em] text-yellow-200/75 hover:text-yellow-100">← Back to IG Sessions</a>
+
         <section className="mt-5 rounded-3xl border border-white/10 bg-white/[0.035] p-6">
-          <div className="text-xs uppercase tracking-[0.25em] text-yellow-200/80">Official Connect</div>
-          <h1 className="mt-3 text-5xl font-semibold tracking-tight">Meta Connect Readiness</h1>
-          <p className="mt-4 text-sm leading-6 text-white/60">
-            This page checks whether the Meta app settings are installed and gives the real connection entry point for @dolodorsey.
+          <div className="text-xs uppercase tracking-[0.25em] text-yellow-200/80">Canonical Instagram Login</div>
+          <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">Instagram Fleet Repair</h1>
+          <p className="mt-4 max-w-3xl text-sm leading-6 text-white/60">
+            Reconnect each company separately. The new connection flow requests publishing, comments, messaging, and insights access, then live-tests Insights and webhook subscriptions before marking the account healthy.
           </p>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <a href={META_CONNECT_URL} className="rounded-full bg-yellow-300 px-5 py-3 text-sm font-semibold text-black transition hover:bg-yellow-200">
-              Connect Through Meta
-            </a>
-            <a href="/os/ig-sessions" className="rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10">
-              View IG Board
-            </a>
-          </div>
+          <p className="mt-3 max-w-3xl text-xs leading-5 text-yellow-100/65">
+            Sign into the Instagram account shown on each card before approving access. Do not approve a different account for that brand.
+          </p>
         </section>
 
-        <ConnectionChecklist />
+        <section className="mt-6 grid gap-4 md:grid-cols-2">
+          {ACCOUNTS.map((account) => (
+            <article key={account.brandSlug} className="rounded-3xl border border-white/10 bg-white/[0.035] p-5">
+              <div className="text-xs uppercase tracking-[0.2em] text-white/40">{account.brand}</div>
+              <h2 className="mt-2 text-2xl font-semibold">@{account.handle}</h2>
+              <p className="mt-2 text-sm text-white/55">Reconnect this account only to the {account.brand} record.</p>
+              {account.note ? <p className="mt-3 rounded-2xl border border-amber-300/20 bg-amber-300/5 p-3 text-xs leading-5 text-amber-100/75">{account.note}</p> : null}
+              <a
+                href={connectUrl(account.brandSlug, account.handle)}
+                className="mt-5 inline-flex rounded-full bg-yellow-300 px-5 py-3 text-sm font-semibold text-black transition hover:bg-yellow-200"
+              >
+                Reconnect @{account.handle}
+              </a>
+            </article>
+          ))}
+        </section>
 
         <section className="mt-6 rounded-3xl border border-white/10 bg-white/[0.035] p-5">
-          <div className="text-xs uppercase tracking-[0.25em] text-yellow-200/80">Fully Equipped Means</div>
-          <div className="mt-4 grid gap-3 md:grid-cols-2">
-            <div className="rounded-2xl bg-black/25 p-4"><div className="font-semibold">Start URL</div><p className="mt-1 text-sm text-white/55">The Connect button can start the official flow.</p></div>
-            <div className="rounded-2xl bg-black/25 p-4"><div className="font-semibold">Return URL</div><p className="mt-1 text-sm text-white/55">A return route is live for platform responses.</p></div>
-            <div className="rounded-2xl bg-black/25 p-4"><div className="font-semibold">Status API</div><p className="mt-1 text-sm text-white/55">The checklist shows what is present and what is missing.</p></div>
-            <div className="rounded-2xl bg-black/25 p-4"><div className="font-semibold">Ops Tracking</div><p className="mt-1 text-sm text-white/55">Connection attempts and profile state are stored in Supabase.</p></div>
+          <div className="text-xs uppercase tracking-[0.25em] text-yellow-200/80">Connection Health</div>
+          <p className="mt-3 text-sm leading-6 text-white/55">
+            Existing legacy credentials remain available for proven publishing/comment operations until each replacement connection passes its live capability checks. The backend does not mark unsupported capabilities healthy.
+          </p>
+          <div className="mt-5">
+            <ConnectionChecklist />
           </div>
         </section>
       </div>
