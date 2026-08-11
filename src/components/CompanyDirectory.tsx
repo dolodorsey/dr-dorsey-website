@@ -11,6 +11,7 @@ import { departmentFor, departmentRank, departmentSlug } from '@/lib/company-dep
 
 type Company = {
   key: string;
+  slug?: string;
   name: string;
   category: string;
   status: string;
@@ -20,12 +21,36 @@ type Company = {
   division: string;
 };
 
+type CardVideoSpec = {
+  path: string;
+  orientation?: Orientation;
+  poster?: string;
+};
+
+const CREATIVE_MOTION_BASE =
+  'https://woqlhjodiedyqfvzweoe.supabase.co/storage/v1/object/public/animations';
+
+const CARD_VIDEO_BY_SLUG: Record<string, CardVideoSpec> = {
+  'frequency-productions': { path: 'frequency-port-ani.mp4', orientation: 'portrait' },
+  'synergy-sounds': { path: 'synergy-ani2.mp4', poster: `${CREATIVE_MOTION_BASE}/synergy-sounds-logo.png` },
+  'the-casper-group': { path: 'casper-group/casper/casper-group-ani.mp4' },
+  'angel-wings': { path: 'casper-group/angel-wings-ani.mp4', poster: `${CREATIVE_MOTION_BASE}/gif/angel-wings.gif` },
+  'pasta-bish': { path: 'casper-group/pasta-bish-ani.mp4', poster: `${CREATIVE_MOTION_BASE}/gif/pasta-bish.gif` },
+  'taco-yaki': { path: 'casper-group/taco-yaki-ani.mp4', poster: `${CREATIVE_MOTION_BASE}/gif/taco-yaki.gif` },
+  'patty-daddy': { path: 'casper-group/patty-daddy-ani.mp4', poster: `${CREATIVE_MOTION_BASE}/gif/patty-daddy.gif` },
+  'espresso-co': { path: 'casper-group/espresso-ani.mp4', poster: `${CREATIVE_MOTION_BASE}/gif/espresso-co.gif` },
+  'morning-after': { path: 'casper-group/mornig-ani.mp4', poster: `${CREATIVE_MOTION_BASE}/gif/morning-after.gif` },
+  'tossd': { path: 'casper-group/tossd-ani.mp4' },
+  'sweet-tooth': { path: 'casper-group/sweet-tooth-ani.mp4', poster: `${CREATIVE_MOTION_BASE}/gif/sweet-tooth.gif` },
+  'mojo-juice': { path: 'casper-group/mojo-ani.mp4', poster: `${CREATIVE_MOTION_BASE}/gif/mojo-juice.gif` },
+  'mr-oyster': { path: 'casper-group/mr-oyster-ani.mp4', poster: `${CREATIVE_MOTION_BASE}/gif/mr-oyster.gif` },
+  'peace-pizza': { path: 'casper-group/peace-pizza-ani.mp4' },
+  'american-dragon': { path: 'casper-group/american-dragon.mp4' },
+};
+
 const CARD_MOTION_ALIASES: Record<string, MotionAsset> = {
   'brand studio': motion.kollectiveLogos,
   'the brand studio': motion.kollectiveLogos,
-  'people department': motion.umbrellaPeople,
-  "the people's department": motion.umbrellaPeople,
-  'the peoples department': motion.umbrellaPeople,
   'automation office': motion.umbrellaAutomation,
   'the automation office': motion.umbrellaAutomation,
   'umbrella travel': motion.umbrellaGroup,
@@ -37,12 +62,20 @@ function normalizeName(name: string) {
   return name.toLowerCase().replace(/[’'`.]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
 }
 
-function cardMotion(name: string): MotionAsset | undefined {
-  return CARD_MOTION_ALIASES[normalizeName(name)] || motionFor(name);
+function cardMotion(company: Company): MotionAsset | undefined {
+  const exact = company.slug ? CARD_VIDEO_BY_SLUG[company.slug] : undefined;
+  if (exact) {
+    return {
+      src: `${CREATIVE_MOTION_BASE}/${exact.path}`,
+      poster: exact.poster || company.hero || company.logo || motion.casperGroup.poster,
+      orientation: exact.orientation || 'landscape',
+    };
+  }
+  return CARD_MOTION_ALIASES[normalizeName(company.name)] || motionFor(company.name);
 }
 
-function cardOrientation(name: string): Orientation {
-  return cardMotion(name)?.orientation || orientationFor(name);
+function cardOrientation(company: Company): Orientation {
+  return cardMotion(company)?.orientation || orientationFor(company.name);
 }
 
 function companyWebsite(entity: RegistryEntity) {
@@ -70,6 +103,7 @@ function companyWebsite(entity: RegistryEntity) {
 function fromRegistry(entity: RegistryEntity): Company {
   return {
     key: entity.id || entity.slug,
+    slug: entity.slug,
     name: entity.name,
     category: entity.category || entity.short_description || '',
     status: entity.status_label || entity.status || '',
@@ -155,7 +189,7 @@ export default function CompanyDirectory() {
   }
 
   const card = (company: Company, variant: 'feature' | 'tile', shape: Orientation = 'landscape') => {
-    const animation = cardMotion(company.name);
+    const animation = cardMotion(company);
     const hasMotion = Boolean(animation);
     const awaitingArt = !hasMotion && (!company.hero || brokenArt[company.key]);
 
@@ -197,8 +231,8 @@ export default function CompanyDirectory() {
       return <div className={styles.grid}>{items.map((company) => card(company, variant, 'landscape'))}</div>;
     }
 
-    const landscape = items.filter((company) => cardOrientation(company.name) === 'landscape');
-    const portrait = items.filter((company) => cardOrientation(company.name) === 'portrait');
+    const landscape = items.filter((company) => cardOrientation(company) === 'landscape');
+    const portrait = items.filter((company) => cardOrientation(company) === 'portrait');
 
     return (
       <>
