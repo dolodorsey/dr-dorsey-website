@@ -3,6 +3,7 @@
 import styles from './DepartmentGrid.module.css';
 import MotionCover from './MotionCover';
 import { departments } from '@/lib/departments';
+import { motion } from '@/lib/motion';
 import { useVisitRotation } from '@/lib/use-visit-rotation';
 
 export default function DepartmentGrid({ featuredCount = 2 }: { featuredCount?: number }) {
@@ -13,7 +14,7 @@ export default function DepartmentGrid({ featuredCount = 2 }: { featuredCount?: 
       {departments.map((department, index) => {
         const featured = index < featuredCount;
         const pool = department.animations;
-        const animation = pool[(visit + index) % pool.length];
+        const animation = pool.length ? pool[(visit + index) % pool.length] : motion.kollectiveLogos;
 
         return (
           <a
