@@ -18,7 +18,10 @@ function assign(department: DepartmentTitle, names: string[]) {
 
 assign('Nightlife / Events / Activations', [
   'Opium ATL', 'Sea Salt ATL', 'Tulum ATL', 'Hungry AF', 'Goodfellas Pizza & Wings', 'Revel',
-  'GROWN-ISH', 'Taste of Art', 'Freedom Fest', 'Freedom Fest : Juneteent Atl', 'Project X',
+  'GROWN-ISH', 'GROWNISH', 'Taste of Art', 'Freedom Fest', 'Freedom Fest : Juneteent Atl', 'Project X',
+  'Winter Wonderland', 'Parking Lot Pimpin', 'Secret Society', 'Underground King', 'Golf Tournament',
+  'BALL', 'Greek Ball', "Monster's Ball", 'Monster’s Ball', 'Monsters Ball', 'Snow Ball',
+  'Champagne Ball', 'Black Ball', 'One Big Ass Party',
 ]);
 
 assign('Staples', [
@@ -30,6 +33,10 @@ assign('Dorsey / Kollective', [
   'Dr. Dorsey', 'The Kollective ENT.', 'Courses', 'Consultations', 'HugLife', 'Hakuna Matata',
 ]);
 
+assign('Production', [
+  'Frequency Productions', 'Synergy Sounds', 'Just Print', 'Mister Manufacturing',
+]);
+
 assign('Our Apps', [
   'GOOD TIMES', 'On Call', 'S.O.S.', 'Luxe on Demand', 'The Law', 'The Vote', 'Mission 365',
   'Black Pages', 'The Black Pages',
@@ -37,7 +44,8 @@ assign('Our Apps', [
 
 assign('The Inner Circle', [
   'The Fraternity', "The Gentleman's Club", 'The Gentleman’s Club', 'The Tribe', 'The Tribe - Memphis',
-  'Trailblazers', 'Little Farmers of the Future', "Member's Elite", 'Member’s Elite',
+  'The University', 'Living Legacy Farms', 'Trailblazers', 'Little Farmers of the Future',
+  "Member's Elite", 'Member’s Elite',
 ]);
 
 assign('Products / Clothing', ['Bodega', 'STUSH', 'PULSE', 'Make Atlanta Great Again']);
@@ -54,17 +62,15 @@ assign('Casper Group', [
 assign('Umbrella Group', [
   'The Umbrella Group', 'The Mind Studio', 'Brand Studio', 'The Brand Studio',
   'Umbrella Auto Exchange', 'Umbrella Realty Group', 'Umbrella Clean Services',
-  "The People's Dept.", "The People's Department", 'Umbrella Accounting',
-  'The Automation Office', 'Automation Office', 'Umbrella Travel', 'Reset Therapy',
-  'Umbrella Injury Network',
+  'Umbrella Accounting', 'The Automation Office', 'Automation Office', 'Umbrella Travel',
+  'Reset Therapy', 'Umbrella Injury Network',
 ]);
-
-assign('The University', ['The University']);
 
 const byDivision: Record<string, DepartmentTitle> = {
   'founder & enterprise': 'Dorsey / Kollective',
   'hospitality & nightlife': 'Nightlife / Events / Activations',
   'events & cultural ip': 'Nightlife / Events / Activations',
+  'production': 'Production',
   'technology & apps': 'Our Apps',
   'products & commerce': 'Products / Clothing',
   'the casper group': 'Casper Group',
