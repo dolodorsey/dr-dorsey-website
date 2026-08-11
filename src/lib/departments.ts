@@ -14,12 +14,16 @@ export type Department = {
 const allDepartments: Department[] = [
   {
     title: 'Nightlife / Events / Activations',
-    eyebrow: 'Hospitality & Cultural IP',
-    detail: 'Venues, recurring nightlife concepts, public activations and major destination events.',
-    sample: ['Opium ATL', 'Revel', 'GROWN-ISH', 'Project X', 'Freedom Fest', 'Taste of Art'],
+    eyebrow: 'Nightlife · Events · Cultural IP',
+    detail: 'Recurring nightlife concepts, signature event series, cultural activations, car shows, tournaments and major one-off celebrations.',
+    sample: [
+      'GROWN-ISH', 'Winter Wonderland', 'Taste of Art', 'Parking Lot Pimpin', 'Secret Society',
+      'Underground King', 'Golf Tournament', 'BALL', 'Greek Ball', 'Monster’s Ball', 'Snow Ball',
+      'Champagne Ball', 'Black Ball', 'One Big Ass Party',
+    ],
     href: '/events',
     cta: 'Open nightlife and events',
-    animations: [motion.opium, motion.revel, motion.tasteOfArt, motion.freedomFest],
+    animations: [motion.grownish, motion.tasteOfArt, motion.freedomFest, motion.projectX],
   },
   {
     title: 'Staples',
@@ -40,6 +44,15 @@ const allDepartments: Department[] = [
     animations: [motion.drDorsey, motion.hakunaMatata],
   },
   {
+    title: 'Production',
+    eyebrow: 'Production · Sound · Print · Manufacturing',
+    detail: 'Enterprise production capabilities spanning live event technology, sound, commercial print and product manufacturing.',
+    sample: ['Frequency Productions', 'Synergy Sounds', 'Just Print', 'Mister Manufacturing'],
+    href: '/companies#production',
+    cta: 'Explore production',
+    animations: [],
+  },
+  {
     title: 'Our Apps',
     eyebrow: 'Platforms & Intelligence',
     detail: 'Consumer platforms and service-routing products that turn attention into utility.',
@@ -50,12 +63,15 @@ const allDepartments: Department[] = [
   },
   {
     title: 'The Inner Circle',
-    eyebrow: 'Membership & Development',
-    detail: 'The private relationship, community, youth and leadership layer of the enterprise.',
-    sample: ['The Fraternity', "The Gentleman's Club", 'The Tribe', 'Trailblazers', 'Little Farmers of the Future', "Member's Elite"],
+    eyebrow: 'Membership · Development · Legacy',
+    detail: 'The private relationship, community, education, agriculture, youth and leadership layer of the enterprise.',
+    sample: [
+      'The Fraternity', "The Gentleman's Club", 'The Tribe', 'The University', 'Living Legacy Farms',
+      'Trailblazers', 'Little Farmers of the Future', "Member's Elite",
+    ],
     href: '/companies#the-inner-circle',
     cta: 'Enter the inner circle',
-    animations: [motion.innerCircle, motion.fraternity, motion.gentlemansClub, motion.tribe],
+    animations: [motion.innerCircle, motion.fraternity, motion.gentlemansClub, motion.tribe, motion.university, motion.littleFarmers],
   },
   {
     title: 'Products / Clothing',
@@ -106,19 +122,13 @@ const allDepartments: Department[] = [
     title: 'Umbrella Group',
     eyebrow: 'Service Portfolio',
     detail: 'A separate coordinated network for property, mobility, finance, wellness, travel and business services.',
-    sample: ['Umbrella Auto Exchange', 'Umbrella Realty Group', 'The Mind Studio', 'Brand Studio', "The People's Department", 'Automation Office', 'Umbrella Travel', 'Reset Therapy'],
+    sample: [
+      'Umbrella Auto Exchange', 'Umbrella Realty Group', 'The Mind Studio', 'Brand Studio',
+      'Automation Office', 'Umbrella Travel', 'Reset Therapy',
+    ],
     href: 'https://umbrellagroupworldwide.com',
     cta: 'Enter Umbrella Group',
-    animations: [motion.umbrellaGroup, motion.umbrellaMind, motion.umbrellaPeople, motion.umbrellaAutomation, motion.resetTherapy],
-  },
-  {
-    title: 'The University',
-    eyebrow: 'Trades & Workforce',
-    detail: 'Trades, workforce and ownership education from skill-building through enterprise ownership.',
-    sample: ['The University', 'Programs', 'Workforce', 'Ownership'],
-    href: 'https://the-university.vercel.app',
-    cta: 'Explore programs',
-    animations: [motion.university],
+    animations: [motion.umbrellaGroup, motion.umbrellaMind, motion.umbrellaAutomation, motion.resetTherapy],
   },
 ];
 
