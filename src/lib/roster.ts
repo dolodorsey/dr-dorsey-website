@@ -52,7 +52,7 @@ export function isEventEntity(name: string | undefined | null, division?: string
   if (!name) return false;
   if (EVENT_ENTITIES.has(normalise(name))) return true;
   const key = normalise(division || '');
-  return key.includes('events cultural ip') || key.includes('events activations') || key.includes('nightlife events activations');
+  return key === 'events cultural ip' || key === 'events activations';
 }
 
 export function withoutRetired<T>(items: T[], nameOf: (item: T) => string | undefined | null): T[] {
