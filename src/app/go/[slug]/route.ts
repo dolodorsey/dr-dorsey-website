@@ -6,6 +6,7 @@ export const dynamic = 'force-dynamic';
 
 const DIRECT_DESTINATIONS: Record<string, string> = {
   'rose-on-piedmont': '/app/forms/rsvp?venue=Rose%20on%20Piedmont',
+  'tulum-atl': 'https://www.tulumatl.com',
   'grown-ish': '/app/forms/rsvp?event=GROWN-ISH&venue=Rose%20on%20Piedmont',
   'taste-of-art': 'https://thatasteofart.com',
   'freedom-fest': 'https://freedom-fest-store.vercel.app',
