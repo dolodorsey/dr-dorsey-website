@@ -45,13 +45,35 @@ function cardOrientation(name: string): Orientation {
   return cardMotion(name)?.orientation || orientationFor(name);
 }
 
+function companyWebsite(entity: RegistryEntity) {
+  const directWeb = entity.destinations?.find(
+    (destination) =>
+      destination.action_key === 'open' &&
+      destination.destination_type === 'web' &&
+      Boolean(destination.web_url),
+  )?.web_url;
+
+  if (directWeb) return directWeb;
+  if (entity.website_url && !/111atl\.com/i.test(entity.website_url)) return entity.website_url;
+
+  const primaryWeb = entity.destinations?.find(
+    (destination) =>
+      destination.is_primary &&
+      destination.destination_type === 'web' &&
+      Boolean(destination.web_url),
+  )?.web_url;
+
+  if (primaryWeb) return primaryWeb;
+  return `/go/${entity.slug}?source=companies_page`;
+}
+
 function fromRegistry(entity: RegistryEntity): Company {
   return {
     key: entity.id || entity.slug,
     name: entity.name,
     category: entity.category || entity.short_description || '',
     status: entity.status_label || entity.status || '',
-    href: `/go/${entity.slug}?source=companies_page`,
+    href: companyWebsite(entity),
     logo: entity.logo_url || undefined,
     hero: entity.hero_url || undefined,
     division: entity.division_name || 'The Enterprise',
