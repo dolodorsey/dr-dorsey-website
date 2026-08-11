@@ -14,6 +14,7 @@ type Company = {
   slug?: string;
   name: string;
   category: string;
+  description?: string;
   status: string;
   href: string;
   logo?: string;
@@ -56,11 +57,7 @@ const CARD_VIDEO_BY_SLUG: Record<string, CardVideoSpec> = {
   'members-elite': { path: 'members-elite-ani.mp4' },
 };
 
-/**
- * Exact assignments that already live in the shared motion library.
- * Keeping this slug map here makes the company directory deterministic even
- * when a display name is edited in the registry.
- */
+/** Exact assignments already available in the shared motion library. */
 const CARD_MOTION_BY_SLUG: Record<string, MotionAsset> = {
   'dr-dorsey': motion.drAni,
   'the-kollective-ent': motion.kollectiveGlobal,
@@ -116,11 +113,6 @@ const CARD_MOTION_BY_SLUG: Record<string, MotionAsset> = {
   'project-x': motion.projectX,
 };
 
-/**
- * These brands have verified, current brand graphics but no verified standalone
- * video in the animation bucket. Their own still gets subtle kinetic movement
- * rather than borrowing another company's animation.
- */
 const KINETIC_STILL_SLUGS = new Set([
   'just-print',
   'mister-manufacturing',
@@ -178,7 +170,8 @@ function fromRegistry(entity: RegistryEntity): Company {
     key: entity.id || entity.slug,
     slug: entity.slug,
     name: entity.name,
-    category: entity.category || entity.short_description || '',
+    category: entity.category || '',
+    description: entity.short_description || undefined,
     status: entity.status_label || entity.status || '',
     href: companyWebsite(entity),
     logo: entity.logo_url || undefined,
@@ -219,6 +212,7 @@ export default function CompanyDirectory() {
               key: brand.name,
               name: brand.name,
               category: brand.category,
+              description: undefined,
               status: brand.status,
               href: brand.href,
               logo: brand.logo,
@@ -295,7 +289,8 @@ export default function CompanyDirectory() {
         <div className={styles.body}>
           {company.status ? <small className={styles.status}>{company.status}</small> : null}
           <h3 className={styles.name}>{company.name}</h3>
-          {company.category ? <p className={styles.category}>{company.category}</p> : null}
+          {company.category ? <small className={styles.status}>{company.category}</small> : null}
+          {company.description ? <p className={styles.category}>{company.description}</p> : null}
           <b className={styles.open}>Open ↗</b>
         </div>
       </a>
