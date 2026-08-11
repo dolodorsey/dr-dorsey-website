@@ -121,11 +121,31 @@
   flex: none;
   width: 100%;
   aspect-ratio: 16 / 9;
+  overflow: hidden;
 }
 
 /* 9:16 sources get a tall frame so they fill it instead of letterboxing. */
 .portrait {
   aspect-ratio: 3 / 4;
+}
+
+/*
+ * Verified brand stills without a dedicated video receive subtle movement.
+ * This keeps the card alive without ever borrowing another entity's media.
+ */
+.kineticStill > div {
+  animation: brandKinetic 12s ease-in-out infinite alternate;
+  transform-origin: center;
+  will-change: transform;
+}
+
+@keyframes brandKinetic {
+  from {
+    transform: scale(1.02) translate3d(-0.6%, 0, 0);
+  }
+  to {
+    transform: scale(1.09) translate3d(1.1%, -0.7%, 0);
+  }
 }
 
 /*
@@ -234,6 +254,12 @@
   padding: 60px 0;
   color: #ffffff7a;
   font-size: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kineticStill > div {
+    animation: none;
+  }
 }
 
 @media (max-width: 1240px) {
