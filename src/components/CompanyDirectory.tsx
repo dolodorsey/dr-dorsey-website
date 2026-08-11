@@ -29,7 +29,14 @@ type CardVideoSpec = {
 
 const CREATIVE_MOTION_BASE =
   'https://woqlhjodiedyqfvzweoe.supabase.co/storage/v1/object/public/animations';
+const TRANSPARENT_POSTER =
+  'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
 
+/**
+ * Exact Creative Engine video assignments.
+ * These are keyed by registry slug, never display name, so similarly named
+ * brands can never inherit one another's motion.
+ */
 const CARD_VIDEO_BY_SLUG: Record<string, CardVideoSpec> = {
   'frequency-productions': { path: 'frequency-port-ani.mp4', orientation: 'portrait' },
   'synergy-sounds': { path: 'synergy-ani2.mp4', poster: `${CREATIVE_MOTION_BASE}/synergy-sounds-logo.png` },
@@ -46,36 +53,102 @@ const CARD_VIDEO_BY_SLUG: Record<string, CardVideoSpec> = {
   'mr-oyster': { path: 'casper-group/mr-oyster-ani.mp4', poster: `${CREATIVE_MOTION_BASE}/gif/mr-oyster.gif` },
   'peace-pizza': { path: 'casper-group/peace-pizza-ani.mp4' },
   'american-dragon': { path: 'casper-group/american-dragon.mp4' },
+  'members-elite': { path: 'members-elite-ani.mp4' },
 };
 
-const CARD_MOTION_ALIASES: Record<string, MotionAsset> = {
-  'brand studio': motion.kollectiveLogos,
-  'the brand studio': motion.kollectiveLogos,
-  'automation office': motion.umbrellaAutomation,
-  'the automation office': motion.umbrellaAutomation,
-  'umbrella travel': motion.umbrellaGroup,
-  "member's elite": motion.innerCircle,
-  'members elite': motion.innerCircle,
+/**
+ * Exact assignments that already live in the shared motion library.
+ * Keeping this slug map here makes the company directory deterministic even
+ * when a display name is edited in the registry.
+ */
+const CARD_MOTION_BY_SLUG: Record<string, MotionAsset> = {
+  'dr-dorsey': motion.drAni,
+  'the-kollective-ent': motion.kollectiveGlobal,
+  'the-tribe-memphis': motion.tribe,
+  'the-university': motion.university,
+  'everyday-water-group': motion.everydayWater,
+  'aquifer-waterworks': motion.aquifer,
+  'nativa-waterworks': motion.nativa,
+  'infinity-water': motion.infinityWater,
+  'tribal-water': motion.tribalWater,
+  'pronto-energy': motion.pronto,
+  'rose-on-piedmont': motion.rose,
+  'grown-ish': motion.grownish,
+  'sole-exchange': motion.soleExchange,
+  bodega: motion.bodega,
+  stush: motion.stush,
+  pulse: motion.pulse,
+  'make-atlanta-great-again': motion.maga,
+  'good-times': motion.goodTimes,
+  courses: motion.kollectiveLibrary,
+  consultations: motion.dorseyConsult,
+  'the-fraternity': motion.fraternity,
+  'the-gentlemans-club': motion.gentlemansClub,
+  'opium-atl': motion.opium,
+  'sea-salt-atl': motion.seaSaltAlt,
+  'tulum-atl': motion.tulum,
+  'hungry-af': motion.hungryAf,
+  'goodfellas-pizza-wings': motion.goodfellasAlt,
+  'taste-of-art': motion.tasteOfArt,
+  'on-call': motion.onCall,
+  sos: motion.sos,
+  'luxe-on-demand': motion.luxeOnDemand,
+  'the-law': motion.theLaw,
+  'the-vote': motion.theVote,
+  'the-inner-circle': motion.innerCircle,
+  'the-umbrella-group': motion.umbrellaGroup,
+  'help-911': motion.help911,
+  'the-mind-studio': motion.umbrellaMind,
+  'umbrella-auto-exchange': motion.umbrellaAuto,
+  'umbrella-realty-group': motion.umbrellaRealty,
+  'umbrella-clean-services': motion.umbrellaClean,
+  'umbrella-accounting': motion.umbrellaAccounting,
+  'automation-office': motion.umbrellaAutomation,
+  'reset-therapy': motion.resetTherapy,
+  'lets-talk-about-it': motion.letsTalk,
+  'playmakers-sports-association': motion.psa,
+  trailblazers: motion.trailblazer,
+  'little-farmers-of-the-future': motion.littleFarmers,
+  'freedom-fest': motion.freedomFest,
+  'hakuna-matata': motion.hakunaMatata,
+  'black-pages': motion.blackPages,
+  'mission-365': motion.mission365,
+  'project-x': motion.projectX,
 };
 
-function normalizeName(name: string) {
-  return name.toLowerCase().replace(/[’'`.]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
-}
+/**
+ * These brands have verified, current brand graphics but no verified standalone
+ * video in the animation bucket. Their own still gets subtle kinetic movement
+ * rather than borrowing another company's animation.
+ */
+const KINETIC_STILL_SLUGS = new Set([
+  'just-print',
+  'mister-manufacturing',
+  'living-legacy-farms',
+]);
 
 function cardMotion(company: Company): MotionAsset | undefined {
-  const exact = company.slug ? CARD_VIDEO_BY_SLUG[company.slug] : undefined;
-  if (exact) {
-    return {
-      src: `${CREATIVE_MOTION_BASE}/${exact.path}`,
-      poster: exact.poster || company.hero || company.logo || motion.casperGroup.poster,
-      orientation: exact.orientation || 'landscape',
-    };
+  if (company.slug) {
+    const exactVideo = CARD_VIDEO_BY_SLUG[company.slug];
+    if (exactVideo) {
+      return {
+        src: `${CREATIVE_MOTION_BASE}/${exactVideo.path}`,
+        poster: exactVideo.poster || company.hero || company.logo || TRANSPARENT_POSTER,
+        orientation: exactVideo.orientation || 'landscape',
+      };
+    }
+    return CARD_MOTION_BY_SLUG[company.slug];
   }
-  return CARD_MOTION_ALIASES[normalizeName(company.name)] || motionFor(company.name);
+
+  // Registry-outage fallback data has no stable slug. Name lookup is allowed
+  // only here so the page remains useful during an API outage.
+  return motionFor(company.name);
 }
 
 function cardOrientation(company: Company): Orientation {
-  return cardMotion(company)?.orientation || orientationFor(company.name);
+  const exact = cardMotion(company);
+  if (exact) return exact.orientation;
+  return company.slug ? 'landscape' : orientationFor(company.name);
 }
 
 function companyWebsite(entity: RegistryEntity) {
@@ -191,12 +264,16 @@ export default function CompanyDirectory() {
   const card = (company: Company, variant: 'feature' | 'tile', shape: Orientation = 'landscape') => {
     const animation = cardMotion(company);
     const hasMotion = Boolean(animation);
-    const awaitingArt = !hasMotion && (!company.hero || brokenArt[company.key]);
+    const hasOwnStill = Boolean(company.hero && !brokenArt[company.key]);
+    const kineticStill = Boolean(
+      !hasMotion && company.slug && KINETIC_STILL_SLUGS.has(company.slug) && hasOwnStill,
+    );
+    const awaitingArt = !hasMotion && !hasOwnStill;
 
     return (
       <a className={`${styles.card} ${styles[variant]}`} href={company.href} key={company.key}>
         <span
-          className={`${styles.media} ${shape === 'portrait' ? styles.portrait : ''} ${awaitingArt ? styles.awaiting : ''}`}
+          className={`${styles.media} ${shape === 'portrait' ? styles.portrait : ''} ${awaitingArt ? styles.awaiting : ''} ${kineticStill ? styles.kineticStill : ''}`}
         >
           {awaitingArt ? (
             <span className={styles.plate} aria-hidden="true">
@@ -205,7 +282,6 @@ export default function CompanyDirectory() {
             </span>
           ) : (
             <MotionCover
-              name={company.name}
               animation={animation}
               image={company.hero}
               alt={company.name}
