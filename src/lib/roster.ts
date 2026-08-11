@@ -3,16 +3,23 @@ const RETIRED_NAMES = [
   'Iconic', 'Washington Parq', "Marvin's Room", 'The London',
   'The Attorney Network', 'Attorney Network', 'Kid Fit ATL', 'Kids Fit ATL',
   'Infinity Youth', 'The Sovereign Nation', 'Sovereign Nation', 'Happy Hour', 'Happy Hour ATL',
-  'NOIR', 'Paparazzi', 'Gangsta Gospel', 'Black Ball', 'Snow Ball', 'Monsters Ball',
-  "Monster's Ball", 'Pawchella', 'WRST BHVR', "Sunday's Best", 'REMIX', 'The Kulture',
-  'Winter Wonderland', 'Haunted House', 'Stitch', 'The Puff Dept.', 'Canvas Club',
+  'NOIR', 'Paparazzi', 'Gangsta Gospel', 'Pawchella', 'WRST BHVR', "Sunday's Best", 'REMIX', 'The Kulture',
+  'Haunted House', 'Stitch', 'The Puff Dept.', 'Canvas Club',
   'MYXX', 'Ace Theory', 'BARE', 'AMARA', 'HALO', 'Mr. Mister', 'Ms. Misses',
   'Theory', 'Ritual', 'Dream', 'CASA', 'Body Call', 'Clicks', 'Recess',
   "Breakfast at Tiffany's", 'Pinkie Promise', 'Opium HTX', 'Tulum HTX', 'Whip Addict',
   'Freedom Run', '5K Freedom Run', 'Freedom 5K', 'Freedom 5K Run',
+  "The People's Dept.", "The People's Department", 'The People’s Dept.', 'The People’s Department',
 ];
 
-const EVENT_ENTITY_NAMES = ['GROWN-ISH', 'Taste of Art', 'Freedom Fest', 'Freedom Fest : Juneteent Atl'];
+const PUBLIC_EVENT_NAMES = [
+  'GROWN-ISH', 'GROWNISH', 'Taste of Art', 'Freedom Fest', 'Freedom Fest : Juneteent Atl', 'Project X',
+  'Winter Wonderland', 'Parking Lot Pimpin', 'Secret Society', 'Underground King', 'Golf Tournament',
+  'BALL', 'Greek Ball', "Monster's Ball", 'Monster’s Ball', 'Monsters Ball', 'Snow Ball',
+  'Champagne Ball', 'Black Ball', 'One Big Ass Party',
+];
+
+const EVENT_ENTITY_NAMES = [...PUBLIC_EVENT_NAMES];
 
 export const PRIORITY_NAMES = [
   'Goodfellas Pizza & Wings',
@@ -30,6 +37,7 @@ function normalise(name: string): string {
 
 const RETIRED = new Set(RETIRED_NAMES.map(normalise));
 const EVENT_ENTITIES = new Set(EVENT_ENTITY_NAMES.map(normalise));
+const PUBLIC_EVENTS = new Set(PUBLIC_EVENT_NAMES.map(normalise));
 const PRIORITY = new Map(PRIORITY_NAMES.map((name, index) => [normalise(name), index]));
 
 export function isRetired(name: string | undefined | null): boolean {
@@ -37,16 +45,14 @@ export function isRetired(name: string | undefined | null): boolean {
 }
 
 export function isPublicEvent(name: string | undefined | null): boolean {
-  if (!name) return false;
-  const value = normalise(name);
-  return value.includes('grown ish') || value.includes('taste of art') || value.includes('freedom fest');
+  return Boolean(name && PUBLIC_EVENTS.has(normalise(name)));
 }
 
 export function isEventEntity(name: string | undefined | null, division?: string | null): boolean {
   if (!name) return false;
   if (EVENT_ENTITIES.has(normalise(name))) return true;
   const key = normalise(division || '');
-  return key.includes('events cultural ip') || key.includes('events activations');
+  return key.includes('events cultural ip') || key.includes('events activations') || key.includes('nightlife events activations');
 }
 
 export function withoutRetired<T>(items: T[], nameOf: (item: T) => string | undefined | null): T[] {
