@@ -16,7 +16,7 @@ const PUBLIC_EVENT_NAMES = [
   'GROWN-ISH', 'GROWNISH', 'Taste of Art', 'Freedom Fest', 'Freedom Fest : Juneteent Atl', 'Project X',
   'Winter Wonderland', 'Parking Lot Pimpin', 'Secret Society', 'Underground King', 'Golf Tournament',
   'BALL', 'Greek Ball', "Monster's Ball", 'Monster’s Ball', 'Monsters Ball', 'Snow Ball',
-  'Champagne Ball', 'Black Ball', 'One Big Ass Party',
+  'Champagne Ball', 'Black Ball', 'One Big Ass Party', 'Exclamation Point',
 ];
 
 const EVENT_ENTITY_NAMES = [...PUBLIC_EVENT_NAMES];
