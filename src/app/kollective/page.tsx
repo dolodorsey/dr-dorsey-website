@@ -31,6 +31,7 @@ export default function KollectivePage() {
         <a className={styles.navBrand} href="#top"><img src={EMBLEM} alt="The Kollective" /></a>
         <div className={styles.navLinks}>
           <a href="/companies">Companies</a>
+          <a href="/team">Team</a>
           <a href="/events">Current</a>
           <a href="/network">Network</a>
           <a href="/links">Links</a>
@@ -88,7 +89,7 @@ export default function KollectivePage() {
         <div className={`${styles.accessButtons} ${upgradeStyles.compactAccessButtons}`}><a href="/app">Open the App</a><a href="/app/forms/inquiry">Ask for More Info</a><a href="/app?install=1">Download Kollective</a></div>
       </section>
 
-      <footer className={styles.footer}><img src={EMBLEM} alt="The Kollective" /><p>Independent brands. Shared enterprise leverage. Direct action.</p><div><a href={BOOK_URL}>Buy the Book</a><a href="https://doctordorsey.com">Dr. Dorsey</a><a href="/events">Current</a><a href="/access">Access</a></div></footer>
+      <footer className={styles.footer}><img src={EMBLEM} alt="The Kollective" /><p>Independent brands. Shared enterprise leverage. Direct action.</p><div><a href={BOOK_URL}>Buy the Book</a><a href="https://doctordorsey.com">Dr. Dorsey</a><a href="/team">Team</a><a href="/events">Current</a><a href="/access">Access</a></div></footer>
     </main>
   );
 }
