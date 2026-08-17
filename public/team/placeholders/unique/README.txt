@@ -1,0 +1,1 @@
+Generated fictional portrait placeholders. Replace with approved real team photos as they become available.
