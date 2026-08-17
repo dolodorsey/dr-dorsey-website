@@ -53,9 +53,12 @@ function initials(name: string) {
 
 function PhotoPlaceholder({ name, compact = false }: { name: string; compact?: boolean }) {
   return (
-    <div className={`${styles.photoPlaceholder} ${compact ? styles.compactPlaceholder : ''}`} aria-label={`${name} photo placeholder`}>
-      <div className={styles.placeholderFigure} aria-hidden="true" />
-      <b className={styles.placeholderInitials}>{initials(name)}</b>
+    <div
+      className={styles.photoPlaceholder}
+      aria-label={`${name} photo placeholder`}
+      style={compact ? { width: 92, minWidth: 92, aspectRatio: '1 / 1' } : undefined}
+    >
+      <span>{initials(name)}</span>
       <small>PHOTO PLACEHOLDER</small>
     </div>
   );
@@ -143,8 +146,8 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
         <div className={styles.boardGrid}>
           {board.map((name, index) => (
             <article key={name}>
-              <span className={styles.boardNumber}>{String(index + 1).padStart(2, '0')}</span>
-              <PhotoPlaceholder name={name} compact />
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <PhotoPlaceholder name={name} />
               <h3>{name}</h3>
               <p>Board Member</p>
             </article>
