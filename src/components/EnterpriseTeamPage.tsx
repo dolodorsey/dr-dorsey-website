@@ -42,6 +42,12 @@ const board = [
 
 const PEOPLE_ROOT = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/app/backgrounds';
 const PEOPLE_BACKGROUNDS = Array.from({ length: 11 }, (_, index) => `${PEOPLE_ROOT}/app-background-${String(index + 1).padStart(2, '0')}.jpg`);
+const GENERATED_PORTRAITS = [
+  '/team/placeholders/portrait-01.webp',
+  '/team/placeholders/portrait-04.webp',
+  '/team/placeholders/portrait-07.webp',
+  '/team/placeholders/portrait-10.webp',
+];
 
 function initials(name: string) {
   return name
@@ -54,22 +60,20 @@ function initials(name: string) {
     .toUpperCase();
 }
 
-function imageFor(name: string) {
+function portraitFor(name: string) {
   const score = Array.from(name).reduce((total, character) => total + character.charCodeAt(0), 0);
-  return PEOPLE_BACKGROUNDS[score % PEOPLE_BACKGROUNDS.length];
+  return GENERATED_PORTRAITS[score % GENERATED_PORTRAITS.length];
 }
 
 function PhotoPlaceholder({ name, mini = false }: { name: string; mini?: boolean }) {
   return (
     <div
       className={`${styles.photoPlaceholder} ${mini ? styles.photoMini : ''}`}
-      aria-label={`${name} temporary people-photo placeholder`}
-      style={{
-        backgroundImage: `linear-gradient(180deg, rgba(5,5,5,.08), rgba(5,5,5,.18) 52%, rgba(5,5,5,.82)), url(${imageFor(name)})`,
-      }}
+      aria-label={`${name} generated placeholder portrait`}
     >
-      {!mini ? <small>TEMPORARY PORTRAIT</small> : null}
-      <span>{initials(name)}</span>
+      <img src={portraitFor(name)} alt="" aria-hidden="true" />
+      {!mini ? <small>GENERATED PLACEHOLDER</small> : null}
+      <span className={styles.initialBadge}>{initials(name)}</span>
     </div>
   );
 }
