@@ -40,6 +40,9 @@ const board = [
   'Quintin',
 ];
 
+const PEOPLE_ROOT = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/app/backgrounds';
+const PEOPLE_BACKGROUNDS = Array.from({ length: 11 }, (_, index) => `${PEOPLE_ROOT}/app-background-${String(index + 1).padStart(2, '0')}.jpg`);
+
 function initials(name: string) {
   return name
     .replace(/[^a-zA-Z0-9 ]/g, '')
@@ -51,11 +54,22 @@ function initials(name: string) {
     .toUpperCase();
 }
 
+function imageFor(name: string) {
+  const score = Array.from(name).reduce((total, character) => total + character.charCodeAt(0), 0);
+  return PEOPLE_BACKGROUNDS[score % PEOPLE_BACKGROUNDS.length];
+}
+
 function PhotoPlaceholder({ name, mini = false }: { name: string; mini?: boolean }) {
   return (
-    <div className={`${styles.photoPlaceholder} ${mini ? styles.photoMini : ''}`} aria-label={`${name} photo placeholder`}>
+    <div
+      className={`${styles.photoPlaceholder} ${mini ? styles.photoMini : ''}`}
+      aria-label={`${name} temporary people-photo placeholder`}
+      style={{
+        backgroundImage: `linear-gradient(180deg, rgba(5,5,5,.08), rgba(5,5,5,.18) 52%, rgba(5,5,5,.82)), url(${imageFor(name)})`,
+      }}
+    >
+      {!mini ? <small>TEMPORARY PORTRAIT</small> : null}
       <span>{initials(name)}</span>
-      {!mini ? <small>PORTRAIT PENDING</small> : null}
     </div>
   );
 }
@@ -69,6 +83,7 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
   const command = executiveTeam.slice(0, 3);
   const divisionLeads = executiveTeam.slice(3);
   const nightlife = executiveTeam.filter((member) => member.division === 'Nightlife');
+  const heroImage = isKollective ? PEOPLE_BACKGROUNDS[10] : PEOPLE_BACKGROUNDS[8];
 
   return (
     <main className={styles.page} data-brand={brand}>
@@ -85,14 +100,12 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
         <Link className={styles.navCta} href="/app">All Access</Link>
       </nav>
 
-      <header className={styles.hero}>
+      <header className={styles.hero} style={{ backgroundImage: `linear-gradient(90deg, rgba(5,5,5,.92) 0%, rgba(5,5,5,.68) 48%, rgba(5,5,5,.25) 100%), url(${heroImage})` }}>
         <div className={styles.heroInner}>
           <div className={styles.heroCopy}>
             <p>{isKollective ? 'THE KOLLECTIVE / PEOPLE' : 'DR. DORSEY / ENTERPRISE'}</p>
             <h1>{isKollective ? 'The people behind the portfolio.' : 'The team behind the vision.'}</h1>
-            <span>
-              Operators, strategists, builders and culture leaders working across distinct lanes with one enterprise standard.
-            </span>
+            <span>Operators, strategists, builders and culture leaders working across distinct lanes with one enterprise standard.</span>
           </div>
           <div className={styles.heroMeta}>
             <div><strong>{executiveTeam.length}</strong><span>Leadership</span></div>
@@ -126,7 +139,7 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
         <div className={styles.sectionIntro}>
           <p>DIVISION LEADERSHIP</p>
           <h2>Built by lane.</h2>
-          <span>Each leader owns a clear functional lane while operating inside the same enterprise system.</span>
+          <span>Compact team cards now prioritize the people, their lane and their role without wasting page space.</span>
         </div>
         <div className={styles.leadershipGrid}>
           {divisionLeads.map((member) => (
