@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
 import styles from "../../table-deposit/table-deposit.module.css";
@@ -91,6 +92,10 @@ export default function AppForm({ params }: { params: { type: string } }) {
     <main className={styles.page}>
       <section className={styles.card}>
         <Link href="/app">← Back to Kollective</Link>
+        <div className={styles.formVisual} aria-hidden="true">
+          <Image src="/kollective-app-icon.svg" width={68} height={68} alt="" priority />
+          <span><small>THE KOLLECTIVE</small><strong>BOOK · BUY · BELONG</strong></span>
+        </div>
         <p>DIRECT ACCESS · IN-APP REQUEST</p>
         <h1>{config.title}</h1>
         <span>Complete every field you can so the team can confirm faster.</span>
