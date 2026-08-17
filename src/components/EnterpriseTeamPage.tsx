@@ -49,6 +49,12 @@ const PEOPLE_ROOT = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/
 const PEOPLE_BACKGROUNDS = Array.from({ length: 11 }, (_, index) => `${PEOPLE_ROOT}/app-background-${String(index + 1).padStart(2, '0')}.jpg`);
 const TEAM_SPRITE = '/team-placeholder-sprite';
 
+const APPROVED_PHOTOS: Record<string, string> = {
+  JoJo: '/team/people/joseph.webp',
+  'Joseph Siatta': '/team/people/joseph.webp',
+  Quintin: '/team/people/quintin.webp',
+};
+
 // Every distinct named person has a distinct temporary visual. The same person keeps
 // the same placeholder when they appear in more than one section.
 const PLACEHOLDER_ASSETS: Record<string, PlaceholderAsset> = {
@@ -89,6 +95,16 @@ function initials(name: string) {
 }
 
 function placeholderStyle(name: string): CSSProperties {
+  const approvedPhoto = APPROVED_PHOTOS[name];
+  if (approvedPhoto) {
+    return {
+      backgroundImage: `url(${approvedPhoto})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center 24%',
+      backgroundRepeat: 'no-repeat',
+    };
+  }
+
   const asset = PLACEHOLDER_ASSETS[name];
   if (!asset) {
     return {
@@ -119,14 +135,15 @@ function placeholderStyle(name: string): CSSProperties {
 }
 
 function PhotoPlaceholder({ name, mini = false }: { name: string; mini?: boolean }) {
+  const approved = Boolean(APPROVED_PHOTOS[name]);
   return (
     <div
       className={`${styles.photoPlaceholder} ${mini ? styles.photoMini : ''}`}
-      aria-label={`${name} temporary placeholder portrait`}
+      aria-label={approved ? `${name} team portrait` : `${name} temporary placeholder portrait`}
       style={placeholderStyle(name)}
     >
-      {!mini ? <small>TEMPORARY PLACEHOLDER</small> : null}
-      <span className={styles.initialBadge}>{initials(name)}</span>
+      {!approved && !mini ? <small>TEMPORARY PLACEHOLDER</small> : null}
+      {!approved ? <span className={styles.initialBadge}>{initials(name)}</span> : null}
     </div>
   );
 }
