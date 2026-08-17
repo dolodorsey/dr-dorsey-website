@@ -51,9 +51,19 @@ function initials(name: string) {
     .toUpperCase();
 }
 
+function PhotoPlaceholder({ name, compact = false }: { name: string; compact?: boolean }) {
+  return (
+    <div className={`${styles.photoPlaceholder} ${compact ? styles.compactPlaceholder : ''}`} aria-label={`${name} photo placeholder`}>
+      <div className={styles.placeholderFigure} aria-hidden="true" />
+      <b className={styles.placeholderInitials}>{initials(name)}</b>
+      <small>PHOTO PLACEHOLDER</small>
+    </div>
+  );
+}
+
 export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'dorsey' }) {
   const isKollective = brand === 'kollective';
-  const home = isKollective ? '/' : '/';
+  const home = '/';
   const logo = isKollective
     ? `${SB}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`
     : '/dorsey/logo.png';
@@ -94,15 +104,12 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
       <section className={styles.section}>
         <header className={styles.sectionHead}>
           <div><p>EXECUTIVE LEADERSHIP</p><h2>Clear lanes. Shared standards.</h2></div>
-          <span>Titles are the current operating designations and can be refined as the organization scales.</span>
+          <span>Temporary photo placeholders are installed for every team member and can be replaced individually as portraits are approved.</span>
         </header>
         <div className={styles.teamGrid}>
-          {executiveTeam.map((member, index) => (
+          {executiveTeam.map((member) => (
             <article className={styles.card} key={member.name}>
-              <div className={styles.photoPlaceholder}>
-                <span>{initials(member.name)}</span>
-                <small>PHOTO {String(index + 1).padStart(2, '0')}</small>
-              </div>
+              <PhotoPlaceholder name={member.name} />
               <div className={styles.cardCopy}>
                 <p>{member.division}</p>
                 <h3>{member.name}</h3>
@@ -121,7 +128,7 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
         <div className={styles.nightlifeGrid}>
           {nightlife.map((member) => (
             <article key={member.name}>
-              <b>{initials(member.name)}</b>
+              <PhotoPlaceholder name={member.name} compact />
               <div><h3>{member.name}</h3><p>{member.title}</p></div>
             </article>
           ))}
@@ -136,8 +143,8 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
         <div className={styles.boardGrid}>
           {board.map((name, index) => (
             <article key={name}>
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              <b>{initials(name)}</b>
+              <span className={styles.boardNumber}>{String(index + 1).padStart(2, '0')}</span>
+              <PhotoPlaceholder name={name} compact />
               <h3>{name}</h3>
               <p>Board Member</p>
             </article>
