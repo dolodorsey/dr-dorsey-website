@@ -29,7 +29,6 @@ const BRAND_GRAPHICS =
 const EMBLEM = `${BRAND_GRAPHICS}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
 const HERO_VIDEO = `${BRAND_GRAPHICS}/dr_dorsey/website/hero-video.mp4`;
 const HERO_POSTER = `${BRAND_GRAPHICS}/dr_dorsey/website/hero-bg.jpg`;
-const GOOD_TIMES_VIDEO = `${BRAND_GRAPHICS}/good_times/00-brand-assets/logos/good-times-logo-animation.mp4`;
 
 type Destination = {
   fallback_url?: string;
@@ -181,6 +180,10 @@ function matchesFilter(event: EventItem, filter: EventFilter) {
   return true;
 }
 
+function isKollectiveBookableEvent(event: EventItem) {
+  return /rose on piedmont|opium(?: atl)?|revel(?: atl)?/i.test(event.venue_name || "");
+}
+
 function entityDestination(entity: Entity) {
   const list = Array.isArray(entity.destinations) ? entity.destinations : [];
   const selected = list.find((item) => item.is_primary) ?? list[0];
@@ -237,7 +240,7 @@ function Pill({
   );
 }
 
-function Hero({ hero, event, market }: { hero?: ContentItem; event?: EventItem; market: string }) {
+function Hero({ hero, event, market, onEvents, onBrands }: { hero?: ContentItem; event?: EventItem; market: string; onEvents: () => void; onBrands: () => void }) {
   const player = useVideoPlayer(HERO_VIDEO, (instance) => {
     instance.loop = true;
     instance.muted = true;
@@ -247,30 +250,25 @@ function Hero({ hero, event, market }: { hero?: ContentItem; event?: EventItem; 
 
   return (
     <View style={styles.hero}>
-      <Image source={poster} contentFit="cover" style={StyleSheet.absoluteFill} transition={280} />
-      <VideoView
-        player={player}
-        style={StyleSheet.absoluteFill}
-        contentFit="cover"
-        nativeControls={false}
-        allowsFullscreen={false}
-        allowsPictureInPicture={false}
-      />
-      <LinearGradient
-        colors={["rgba(5,5,5,.08)", "rgba(5,5,5,.34)", "rgba(5,5,5,.98)"]}
-        locations={[0, 0.48, 1]}
-        style={StyleSheet.absoluteFill}
-      />
-      <View style={styles.heroTopline}>
-        <View style={styles.liveChip}>
-          <Feather name="star" size={12} color="#F3D58A" />
-          <Text style={styles.liveChipText}>
-            {event?.is_featured ? "FEATURED" : "KOLLECTIVE NOW"}
-          </Text>
-        </View>
-        <Text style={styles.marketLabel}>{market.toUpperCase()}</Text>
+      <View style={styles.heroMedia}>
+        <Image source={poster} contentFit="cover" style={StyleSheet.absoluteFill} transition={280} />
+        <VideoView
+          player={player}
+          style={StyleSheet.absoluteFill}
+          contentFit="cover"
+          nativeControls={false}
+          allowsFullscreen={false}
+          allowsPictureInPicture={false}
+        />
       </View>
-      <View style={styles.heroCopy}>
+      <View style={styles.heroBody}>
+        <View style={styles.heroTopline}>
+          <View style={styles.liveChip}>
+            <Feather name="star" size={12} color="#F3D58A" />
+            <Text style={styles.liveChipText}>THE KOLLECTIVE</Text>
+          </View>
+          <Text style={styles.marketLabel}>{market.toUpperCase()}</Text>
+        </View>
         <Text style={styles.heroCategory}>{hero?.content_type || event?.event_category || "DISCOVER"}</Text>
         <Text style={styles.heroTitle}>
           {hero?.title || event?.event_name || "Your city. Your people. Your next move."}
@@ -279,14 +277,11 @@ function Hero({ hero, event, market }: { hero?: ContentItem; event?: EventItem; 
           {hero?.summary || event?.ai_summary || "The best of the Kollective, all in one place."}
         </Text>
         <View style={styles.heroActions}>
-          {event?.ticket_url ? (
-            <Pressable style={styles.primaryButton} onPress={() => openUrl(event.ticket_url)}>
-              <Text style={styles.primaryButtonText}>VIEW EVENT</Text>
-              <Feather name="arrow-up-right" size={16} color="#090909" />
-            </Pressable>
-          ) : null}
-          <Pressable style={styles.secondaryButton} onPress={() => openUrl(`${API_BASE}/app`)}>
-            <Text style={styles.secondaryButtonText}>OPEN WEB HUB</Text>
+          <Pressable style={styles.primaryButton} onPress={onEvents}>
+            <Text style={styles.primaryButtonText}>EXPLORE EVENTS</Text>
+          </Pressable>
+          <Pressable style={styles.secondaryButton} onPress={onBrands}>
+            <Text style={styles.secondaryButtonText}>EXPLORE ENTITIES</Text>
           </Pressable>
         </View>
       </View>
@@ -352,33 +347,6 @@ function BrandCard({ entity }: { entity: Entity }) {
   );
 }
 
-function GoodTimesCard() {
-  const player = useVideoPlayer(GOOD_TIMES_VIDEO, (instance) => {
-    instance.loop = true;
-    instance.muted = true;
-    instance.play();
-  });
-  return (
-    <Pressable style={styles.goodTimesCard} onPress={() => openUrl("https://thegoodtimesworldwide.com")}>
-      <VideoView
-        player={player}
-        style={StyleSheet.absoluteFill}
-        contentFit="cover"
-        nativeControls={false}
-        allowsFullscreen={false}
-        allowsPictureInPicture={false}
-      />
-      <LinearGradient
-        colors={["rgba(4,4,4,.12)", "rgba(4,4,4,.9)"]}
-        style={StyleSheet.absoluteFill}
-      />
-      <Feather name="compass" size={24} color="#F3D58A" />
-      <Text style={styles.quickTitle}>Concierge</Text>
-      <Text style={styles.quickDescription}>Let Good Times handle the next move.</Text>
-    </Pressable>
-  );
-}
-
 function QuickCard({
   icon,
   title,
@@ -399,6 +367,66 @@ function QuickCard({
   );
 }
 
+function EventBooking({ events, selectedId, partySize, onSelect, onPartySize }: {
+  events: EventItem[];
+  selectedId?: string;
+  partySize: number;
+  onSelect: (id: string) => void;
+  onPartySize: (size: number) => void;
+}) {
+  const selected = events.find((event) => event.id === selectedId) || events[0];
+  const request = (type: "rsvp" | "vip-section") => {
+    if (!selected) return;
+    const params = new URLSearchParams({
+      event: selected.event_name,
+      venue: selected.venue_name || "",
+      date: selected.event_date,
+      guest_count: String(partySize),
+    });
+    openUrl(`${API_BASE}/app/forms/${type}?${params.toString()}`).catch(() => undefined);
+  };
+
+  return (
+    <View style={styles.bookingCard}>
+      <Text style={styles.eyebrow}>KOLLECTIVE EVENTS ONLY</Text>
+      <Text style={styles.bookingTitle}>Reserve or buy a table.</Text>
+      <Text style={styles.bookingCopy}>Choose one of our live events, then make a reservation or secure a paid table.</Text>
+      {events.length ? (
+        <>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.bookingEventRow}>
+            {events.map((event) => (
+              <Pressable key={event.id} style={[styles.bookingEvent, selected?.id === event.id && styles.bookingEventActive]} onPress={() => onSelect(event.id)}>
+                <Text style={styles.bookingEventName}>{event.event_name}</Text>
+                <Text style={styles.bookingEventMeta}>{eventDate(event.event_date)} · {event.venue_name}</Text>
+              </Pressable>
+            ))}
+          </ScrollView>
+          <View style={styles.bookingActions}>
+            <Pressable style={styles.bookingAction} onPress={() => request("rsvp")}>
+              <Feather name="check-circle" size={21} color="#F3D58A" />
+              <Text style={styles.bookingActionTitle}>MAKE A RESERVATION</Text>
+              <Text style={styles.bookingActionCopy}>Guest list or event reservation</Text>
+            </Pressable>
+            <Pressable style={styles.bookingAction} onPress={() => request("vip-section")}>
+              <Feather name="star" size={21} color="#F3D58A" />
+              <Text style={styles.bookingActionTitle}>BUY A TABLE / VIP</Text>
+              <Text style={styles.bookingActionCopy}>Continue to secure payment</Text>
+            </Pressable>
+          </View>
+          <View style={styles.partyRow}>
+            <Text style={styles.partyLabel}>PARTY SIZE</Text>
+            <View style={styles.partyControl}>
+              <Pressable style={styles.partyButton} onPress={() => onPartySize(Math.max(1, partySize - 1))}><Feather name="minus" size={18} color="#F3D58A" /></Pressable>
+              <Text style={styles.partyValue}>{partySize}</Text>
+              <Pressable style={styles.partyButton} onPress={() => onPartySize(Math.min(1000, partySize + 1))}><Feather name="plus" size={18} color="#F3D58A" /></Pressable>
+            </View>
+          </View>
+        </>
+      ) : <Text style={styles.emptyText}>No bookable Kollective events are active in this market.</Text>}
+    </View>
+  );
+}
+
 function AppContent() {
   const [payload, setPayload] = useState<CustomerPayload | null>(null);
   const [activeTab, setActiveTab] = useState<Tab>("home");
@@ -408,6 +436,8 @@ function AppContent() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [selectedBookableEventId, setSelectedBookableEventId] = useState<string>();
+  const [partySize, setPartySize] = useState(2);
 
   const load = async (isRefresh = false) => {
     if (isRefresh) setRefreshing(true);
@@ -445,6 +475,7 @@ function AppContent() {
       ? source
       : source.filter((event) => (event.market || event.city) === market);
   }, [payload, market]);
+  const bookableEvents = useMemo(() => marketEvents.filter(isKollectiveBookableEvent), [marketEvents]);
 
   const filteredEvents = useMemo(() => {
     const clean = query.trim().toLowerCase();
@@ -561,6 +592,7 @@ function AppContent() {
 
         {activeTab === "home" ? (
           <>
+            <Hero hero={hero} event={nextEvent} market={market} onEvents={() => selectTab("events")} onBrands={() => selectTab("brands")} />
             <SectionTitle eyebrow="CHOOSE YOUR MARKET" title="The Kollective, where you are" />
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.pillRow}>
               {markets.map((item) => (
@@ -572,14 +604,14 @@ function AppContent() {
                 />
               ))}
             </ScrollView>
-            <Hero hero={hero} event={nextEvent} market={market} />
+
+            <EventBooking events={bookableEvents} selectedId={selectedBookableEventId} partySize={partySize} onSelect={setSelectedBookableEventId} onPartySize={setPartySize} />
 
             <SectionTitle eyebrow="START HERE" title="Move through the Kollective" />
             <View style={styles.quickGrid}>
               <QuickCard icon="calendar" title="Tonight" copy="What is happening now" onPress={() => { setFilter("tonight"); selectTab("events"); }} />
               <QuickCard icon="clock" title="This Week" copy="Plan the next move" onPress={() => selectTab("events")} />
               <QuickCard icon="grid" title="Brands" copy="Explore the enterprise" onPress={() => selectTab("brands")} />
-              <GoodTimesCard />
             </View>
 
             <SectionTitle eyebrow="CUSTOMER EXPERIENCE CONTROL" title={`${market} experiences`} />
@@ -695,12 +727,13 @@ const styles = StyleSheet.create({
   pillActive: { backgroundColor: "#D8B04C", borderColor: "#D8B04C" },
   pillText: { color: "#AFA89D", fontSize: 12, fontWeight: "700" },
   pillTextActive: { color: "#080806" },
-  hero: { height: 520, borderRadius: 28, overflow: "hidden", marginTop: 18, borderWidth: 1, borderColor: "#342D20", backgroundColor: "#111" },
-  heroTopline: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 18 },
+  hero: { borderRadius: 28, overflow: "hidden", marginTop: 16, borderWidth: 1, borderColor: "#342D20", backgroundColor: "#0A0907" },
+  heroMedia: { height: 390, overflow: "hidden", backgroundColor: "#111" },
+  heroBody: { padding: 20, gap: 11, backgroundColor: "#0A0907" },
+  heroTopline: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 4 },
   liveChip: { flexDirection: "row", alignItems: "center", gap: 6, backgroundColor: "rgba(8,8,8,.66)", borderRadius: 999, paddingHorizontal: 11, paddingVertical: 8, borderWidth: 1, borderColor: "rgba(243,213,138,.28)" },
   liveChipText: { color: "#F3D58A", fontSize: 9, fontWeight: "900", letterSpacing: 1 },
   marketLabel: { color: "#F5F2EC", fontSize: 10, fontWeight: "800", letterSpacing: 1.4 },
-  heroCopy: { marginTop: "auto", padding: 22, gap: 11 },
   heroCategory: { color: "#F3D58A", fontSize: 11, fontWeight: "800", letterSpacing: 1.5 },
   heroTitle: { color: "#FFFFFF", fontSize: 38, lineHeight: 40, fontWeight: "900", letterSpacing: -1.4 },
   heroSummary: { color: "#D5D0C7", fontSize: 14, lineHeight: 21, maxWidth: 330 },
@@ -711,9 +744,25 @@ const styles = StyleSheet.create({
   secondaryButtonText: { color: "#F5F2EC", fontSize: 10, fontWeight: "800", letterSpacing: 0.8 },
   quickGrid: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
   quickCard: { width: "48.4%", minHeight: 142, borderRadius: 22, padding: 16, justifyContent: "flex-end", backgroundColor: "#12110F", borderWidth: 1, borderColor: "#28241E", gap: 7 },
-  goodTimesCard: { width: "48.4%", minHeight: 142, borderRadius: 22, padding: 16, justifyContent: "flex-end", overflow: "hidden", borderWidth: 1, borderColor: "#4A3E24", gap: 7 },
   quickTitle: { color: "#F5F2EC", fontSize: 17, fontWeight: "800" },
   quickDescription: { color: "#9C958B", fontSize: 11, lineHeight: 16 },
+  bookingCard: { marginTop: 24, padding: 18, borderRadius: 26, borderWidth: 1, borderColor: "#5A4824", backgroundColor: "#0D0B08" },
+  bookingTitle: { color: "#F5F2EC", fontSize: 32, lineHeight: 34, fontWeight: "900", letterSpacing: -1, marginBottom: 8 },
+  bookingCopy: { color: "#AFA89D", fontSize: 13, lineHeight: 19, marginBottom: 18 },
+  bookingEventRow: { gap: 8, paddingRight: 12 },
+  bookingEvent: { width: 246, minHeight: 82, justifyContent: "center", padding: 14, borderRadius: 17, borderWidth: 1, borderColor: "#332A1A", backgroundColor: "#090806" },
+  bookingEventActive: { borderColor: "#D8B04C", backgroundColor: "#1D170C" },
+  bookingEventName: { color: "#F5F2EC", fontSize: 14, fontWeight: "900" },
+  bookingEventMeta: { color: "#AFA89D", fontSize: 10, marginTop: 5 },
+  bookingActions: { flexDirection: "row", gap: 9, marginTop: 12 },
+  bookingAction: { flex: 1, minHeight: 128, justifyContent: "center", padding: 13, borderRadius: 18, borderWidth: 1, borderColor: "#4A3E24", backgroundColor: "#12100C", gap: 7 },
+  bookingActionTitle: { color: "#F5F2EC", fontSize: 10, lineHeight: 13, fontWeight: "900" },
+  bookingActionCopy: { color: "#9C958B", fontSize: 9, lineHeight: 13 },
+  partyRow: { marginTop: 14, flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+  partyLabel: { color: "#F3D58A", fontSize: 9, fontWeight: "900", letterSpacing: 1.3 },
+  partyControl: { flexDirection: "row", alignItems: "center", borderWidth: 1, borderColor: "#4A3E24", borderRadius: 999, overflow: "hidden" },
+  partyButton: { width: 42, height: 42, alignItems: "center", justifyContent: "center", backgroundColor: "#12100C" },
+  partyValue: { width: 38, color: "#F5F2EC", textAlign: "center", fontSize: 15, fontWeight: "900" },
   eventRail: { gap: 12, paddingRight: 16 },
   eventCard: { width: 270, height: 350, borderRadius: 24, overflow: "hidden", borderWidth: 1, borderColor: "#302A21", backgroundColor: "#111" },
   eventCardWide: { width: "100%", height: 390 },
