@@ -22,12 +22,12 @@ const FORM_CONFIG = {
 } as const;
 
 type FormKey = keyof typeof FORM_CONFIG;
-type QueryState = { event: string; venue: string; date: string; package: string; company: string };
+type QueryState = { event: string; venue: string; date: string; package: string; company: string; guestCount: string };
 
 export default function AppForm({ params }: { params: { type: string } }) {
   const type = params.type as FormKey;
   const config = FORM_CONFIG[type];
-  const [query, setQuery] = useState<QueryState>({ event: "", venue: "", date: "", package: "", company: "" });
+  const [query, setQuery] = useState<QueryState>({ event: "", venue: "", date: "", package: "", company: "", guestCount: "" });
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -39,6 +39,7 @@ export default function AppForm({ params }: { params: { type: string } }) {
       date: search.get("date") || "",
       package: search.get("package") || "",
       company: search.get("company") || search.get("brand") || "",
+      guestCount: search.get("guest_count") || "",
     });
   }, []);
 
@@ -100,7 +101,7 @@ export default function AppForm({ params }: { params: { type: string } }) {
         <h1>{config.title}</h1>
         <span>Complete every field you can so the team can confirm faster.</span>
 
-        <form key={`${query.event}-${query.venue}-${query.date}-${query.company}`} onSubmit={submit}>
+        <form key={`${query.event}-${query.venue}-${query.date}-${query.company}-${query.guestCount}`} onSubmit={submit}>
           <input type="hidden" name="request_type" value={type} />
           <input type="hidden" name="selected_venue" value={query.venue} />
           <input type="hidden" name="selected_company" value={query.company} />
@@ -117,7 +118,7 @@ export default function AppForm({ params }: { params: { type: string } }) {
               <label>Venue<input name="venue" defaultValue={query.venue} /></label>
               <label>Requested date<input name="date" type="date" defaultValue={query.date} required /></label>
               <label>Arrival time<input name="arrival_time" type="time" /></label>
-              <label>Number of guests<input name="guest_count" type="number" min="1" max="1000" required /></label>
+              <label>Number of guests<input name="guest_count" type="number" min="1" max="1000" defaultValue={query.guestCount} required /></label>
             </>
           ) : null}
 

@@ -7,7 +7,6 @@ import {
   BookOpen,
   BriefcaseBusiness,
   Building2,
-  CakeSlice,
   CalendarDays,
   ClipboardList,
   Compass,
@@ -28,7 +27,6 @@ import {
   ShoppingBag,
   Sparkles,
   TicketCheck,
-  UtensilsCrossed,
   X,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
@@ -118,6 +116,15 @@ type CustomerPayload = {
 };
 type Tab = "home" | "events" | "access" | "brands" | "directory";
 type EventFilter = "all" | "tonight" | "free" | "culture" | "nightlife";
+type PlanAction = "rsvp" | "vip-section";
+type PlanPreset = {
+  key: string;
+  label: string;
+  meta: string;
+  event: string;
+  venue: string;
+  date: string;
+};
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
@@ -131,8 +138,6 @@ const WEBSITE_GRAPHICS = `${BRAND_GRAPHICS}/good-times-app`;
 /** Same enterprise film the websites run behind their departments band. */
 const HERO_VIDEO = motionLibrary.kollectiveGlobal.src;
 const HERO_POSTER = motionLibrary.kollectiveGlobal.poster;
-/** The GOOD TIMES cut from the shared library, so the app and the sites move together. */
-const GOOD_TIMES_ANIMATION = motionLibrary.goodTimes.src;
 const QUICK_CARD_MOTION = {
   tonight: motionLibrary.kollectiveNetwork,
   week: motionLibrary.kollectiveAni,
@@ -192,28 +197,10 @@ function isFreedomFestEntity(entity: Entity) {
   return /freedom fest|juneteent|juneteenth/i.test(entity.name);
 }
 
-const GUEST_ACTIONS = [
-  { label: "VIP LIST", title: "Join the VIP list", detail: "Send your list request without leaving the app.", href: "/app/forms/rsvp", icon: TicketCheck },
-  { label: "RESERVE TABLE", title: "Reserve a table", detail: "Send a free table RSVP request for your group.", href: "/app/forms/reserve-table", icon: UtensilsCrossed },
-  { label: "VIP SECTION", title: "Reserve a VIP section", detail: "Purchase a section or arrange a birthday celebration.", href: "/app/forms/vip-section", icon: CakeSlice },
-  { label: "CONCIERGE", title: "Ask for more info", detail: "Send the team your complete request in app.", href: "/app/forms/inquiry", icon: MessageCircleMore },
-  { label: "MEMBER PERKS", title: "Discounts, coupons + free item", detail: "Sign up for discounts, coupons, and the monthly free member item.", href: "/app/forms/member-offers", icon: Gift },
-  { label: "AMBASSADOR", title: "Represent the Kollective", detail: "Apply to promote events, companies, products, and experiences.", href: "/app/forms/ambassador", icon: Megaphone },
-] as const;
-
-const SALES_ACTIONS = [
-  { label: "RSVP", title: "Join the list", href: "/app/forms/rsvp", icon: TicketCheck },
-  { label: "TABLE", title: "Reserve now", href: "/app/forms/reserve-table", icon: UtensilsCrossed },
-  { label: "VIP", title: "Buy a section", href: "/app/forms/vip-section", icon: Sparkles },
-  { label: "SHOP", title: "Buy products", href: "/shop", icon: ShoppingBag },
-] as const;
-
-const EVENT_ACCESS_ACTIONS = [
-  { type: "rsvp", label: "VIP LIST", title: "Join the VIP list", detail: "Submit your name and guest details for VIP list consideration.", href: "/app/forms/rsvp", icon: BadgeCheck },
-  { type: "reserve-table", label: "RESERVE TABLE", title: "Reserve a table", detail: "Use the free RSVP table request for your group.", href: "/app/forms/reserve-table", icon: UtensilsCrossed },
-  { type: "vip-section", label: "RESERVE VIP SECTION", title: "Reserve a VIP section", detail: "Purchase a premium section or reserve one for a birthday.", href: "/app/forms/vip-section", icon: CakeSlice },
-  { type: "vendor", label: "VENDORS", title: "Vendor application", detail: "Apply to sell, activate, or provide services at an event.", href: "/app/forms/vendor", icon: BriefcaseBusiness },
-] as const;
+const PLAN_ACTIONS: Array<{ type: PlanAction; label: string; detail: string; icon: typeof Home }> = [
+  { type: "rsvp", label: "MAKE A RESERVATION", detail: "Guest list or event reservation", icon: TicketCheck },
+  { type: "vip-section", label: "BUY A TABLE / VIP", detail: "Continue to secure payment", icon: Sparkles },
+];
 
 const ACCESS_FORM_LINKS = [
   { label: "MEMBER PERKS", title: "Discounts + monthly free member item", detail: "Join for Kollective discounts, coupons, announcements, and the monthly free member item.", href: "/app/forms/member-offers", icon: Gift, cover: "app-background-01.jpg" },
@@ -226,11 +213,6 @@ const ACCESS_FORM_LINKS = [
   { label: "SECURE ACCESS", title: "Enterprise access", detail: "Review private access, agreements, and enterprise entry points.", href: "/access", icon: BadgeCheck, cover: "app-background-08.jpg" },
   { label: "OTHER", title: "General request", detail: "Tell the team what you need when it does not fit another form.", href: "/app/forms/inquiry", icon: MessageCircleMore, cover: "app-background-10.jpg" },
 ] as const;
-
-const ACCESS_VENUES: Entity[] = [
-  { id: "access-rose", slug: "rose-on-piedmont", name: "Rose on Piedmont", category: "DINNER · WEEKLY EVENTS", short_description: "Choose a Rose event, RSVP, celebrate, or request a table.", website_url: "/app/forms/rsvp?venue=Rose%20on%20Piedmont" },
-  ...OWNED_VENUES.filter((entity) => /opium|revel/i.test(entity.name)),
-];
 
 const tabs: Array<{ key: Tab; label: string; icon: typeof Home }> = [
   { key: "home", label: "Home", icon: Home },
@@ -300,10 +282,7 @@ function destination(entity: Entity) {
 function companyFormHref(entity: Entity) {
   const company = encodeURIComponent(entity.name);
   const companySlug = encodeURIComponent(entity.slug);
-  const eventCompany = /nightlife|event|venue|hospitality|rose|opium|revel|grown-ish/i.test(`${entity.category || ""} ${entity.name}`);
-  return eventCompany
-    ? `/app/forms/rsvp?company=${company}&event=${company}`
-    : `/app/forms/inquiry?company=${company}&brand=${companySlug}`;
+  return `/app/forms/inquiry?company=${company}&brand=${companySlug}`;
 }
 function safeCompanyWebsite(entity: Entity, contact?: DirectoryContact) {
   const candidates = [contact?.website, entity.website_url, ...(entity.destinations || []).flatMap((item) => [item.web_url, item.universal_link, item.fallback_url])];
@@ -349,6 +328,9 @@ function matchesFilter(event: EventItem, filter: EventFilter) {
   if (filter === "nightlife") return /nightlife|club|party|lounge|music|dj|bar/.test(category);
   return true;
 }
+function isKollectiveBookableEvent(event: EventItem) {
+  return /rose on piedmont|opium(?: atl)?|revel(?: atl)?/i.test(event.venue_name || "");
+}
 
 export default function CustomerAppV2() {
   const [payload, setPayload] = useState<CustomerPayload | null>(null);
@@ -363,6 +345,9 @@ export default function CustomerAppV2() {
   const [installed, setInstalled] = useState(false);
   const [installHelp, setInstallHelp] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState<Entity | null>(null);
+  const [planSelection, setPlanSelection] = useState("");
+  const [planAction, setPlanAction] = useState<PlanAction>("rsvp");
+  const [planGuests, setPlanGuests] = useState("2");
 
   useEffect(() => {
     let cancelled = false;
@@ -443,6 +428,17 @@ export default function CustomerAppV2() {
       );
   }, [marketEvents, query, filter]);
   const allBrands = useMemo(() => placeRelatedTogether(Array.from(new Map([...FEATURED_CULTURE_BRANDS, ...(payload?.home.entities ?? []).filter((entity) => !isFreedomFestEntity(entity)), ...OWNED_VENUES, ...MORE_KOLLECTIVE_BRANDS].map((entity) => [entity.name.toLowerCase(), entity])).values()), (entity) => entity.name), [payload]);
+  const planPresets = useMemo<PlanPreset[]>(() => {
+    return marketEvents.filter(isKollectiveBookableEvent).slice(0, 12).map((event) => ({
+      key: `event:${event.id}`,
+      label: event.event_name,
+      meta: `${eventDate(event.event_date)}${event.venue_name ? ` · ${event.venue_name}` : ""}`,
+      event: event.event_name,
+      venue: event.venue_name || "",
+      date: event.event_date,
+    }));
+  }, [marketEvents]);
+  const selectedPlan = planPresets.find((preset) => preset.key === planSelection) || planPresets[0];
   const directoryEntities = useMemo(() => {
     const contacts = new Map((payload?.directory?.entities ?? []).map((contact) => [contact.name.toLowerCase(), contact]));
     const entries = new Map<string, DirectoryContact>();
@@ -501,6 +497,16 @@ export default function CustomerAppV2() {
       setQuery(destination.query);
       setSearchOpen(true);
     }
+  };
+  const continuePlan = () => {
+    if (!selectedPlan) return;
+    const search = new URLSearchParams({
+      event: selectedPlan.event,
+      venue: selectedPlan.venue,
+      guest_count: planGuests,
+    });
+    if (selectedPlan.date) search.set("date", selectedPlan.date);
+    window.location.assign(`/app/forms/${planAction}?${search.toString()}`);
   };
   const MarketControl = () => (
     <div className={`${styles.filters} ${styles.marketTabs}`} role="group" aria-label="Choose a city">
@@ -583,74 +589,67 @@ export default function CustomerAppV2() {
           <>
             {activeTab === "home" ? (
               <div className={`${styles.content} ${styles.homeContent}`}>
+                <section className={`${styles.hero} ${styles.kollectiveLead}`} aria-label="The Kollective in motion">
+                  <div className={styles.heroMedia} style={imageStyle(heroPoster)} aria-hidden="true">
+                    <video autoPlay muted loop playsInline preload="metadata" poster={heroPoster}>
+                      <source src={HERO_VIDEO} type="video/mp4" />
+                    </video>
+                  </div>
+                  <div className={styles.heroBody}>
+                    <div className={styles.heroTop}>
+                      <span><Sparkles size={12} />THE KOLLECTIVE</span>
+                      <small>{market.toUpperCase()} · EVENTS · HOSPITALITY · CULTURE</small>
+                    </div>
+                    <div className={styles.heroCopy}>
+                      <p>{hero?.content_type || nextEvent?.event_category || "THE KOLLECTIVE NOW"}</p>
+                      <h1 title={heroTitle}>{heroTitle}</h1>
+                      <span>{hero?.summary || nextEvent?.ai_summary || payload?.app.tagline}</span>
+                      <div className={styles.heroActions}>
+                        <button onClick={() => selectTab("events")}>EXPLORE EVENTS</button>
+                        <button onClick={() => selectTab("brands")}>EXPLORE ENTITIES</button>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
                 <section className={styles.openingStatement}>
                   <Heading eyebrow={`THE KOLLECTIVE · ${market.toUpperCase()}`} title="Live for today. Plan for tomorrow. Party tonight!" />
                   <MarketControl />
                 </section>
 
-                <section className={styles.salesStage} aria-labelledby="sales-stage-title">
-                  <video autoPlay muted loop playsInline preload="metadata" poster={motionLibrary.goodTimes.poster} aria-hidden="true">
-                    <source src={GOOD_TIMES_ANIMATION} type="video/mp4" />
-                  </video>
-                  <i aria-hidden="true" />
-                  <div className={styles.salesCopy}>
-                    <p>FASTEST WAY IN</p>
-                    <h2 id="sales-stage-title">Reserve. RSVP. Buy.</h2>
-                    <span>One tap to the right request. No account required.</span>
+                <section className={styles.planStage} aria-labelledby="plan-title">
+                  <div className={styles.planIntro}>
+                    <p>KOLLECTIVE EVENTS ONLY</p>
+                    <h2 id="plan-title">Reserve or buy a table.</h2>
+                    <span>Choose one of our live events, then make a reservation or secure a paid table.</span>
                   </div>
-                  <div className={styles.salesGrid}>
-                    {SALES_ACTIONS.map((action) => {
-                      const Icon = action.icon;
-                      return (
-                        <a key={action.label} href={action.href} aria-label={`${action.label}: ${action.title}`}>
-                          <Icon aria-hidden="true" />
-                          <span><small>{action.label}</small><strong>{action.title}</strong></span>
-                          <ArrowUpRight aria-hidden="true" />
-                        </a>
-                      );
-                    })}
-                  </div>
-                </section>
-
-                <section
-                  className={`${styles.hero} ${motion.hero}`}
-                  style={imageStyle(heroPoster)}
-                >
-                  <video
-                    className={motion.heroVideo}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    poster={heroPoster}
-                    aria-hidden="true"
-                  >
-                    <source src={HERO_VIDEO} type="video/mp4" />
-                  </video>
-                  <i className={motion.heroScrim} aria-hidden="true" />
-                  <div className={`${styles.heroTop} ${motion.foreground}`}>
-                    <span>
-                      <Sparkles size={12} />
-                      {nextEvent?.is_featured
-                        ? "FEATURED BY THE KOLLECTIVE"
-                        : "THE KOLLECTIVE NOW"}
-                    </span>
-                    <small>CURATED FOR {market.toUpperCase()}</small>
-                  </div>
-                  <div className={`${styles.heroCopy} ${motion.foreground}`}>
-                    <p>{hero?.content_type || nextEvent?.event_category || "FEATURED EXPERIENCE"}</p>
-                    <h1 title={heroTitle}>{heroTitle}</h1>
-                    <span>{hero?.summary || nextEvent?.ai_summary || payload?.app.tagline}</span>
-                    <div className={styles.heroActions}>
-                      {nextEvent?.ticket_url ? (
-                        <a href={nextEvent.ticket_url} target="_blank" rel="noreferrer">
-                          GET DETAILS <ArrowUpRight size={16} />
-                        </a>
-                      ) : null}
-                      <button onClick={() => selectTab("brands")}>EXPLORE BRANDS</button>
+                  <div className={styles.planSteps}>
+                    <label className={styles.planField}>
+                      <span><b>01</b> OUR EVENT</span>
+                      <select value={selectedPlan?.key || ""} onChange={(event) => setPlanSelection(event.target.value)}>
+                        {!planPresets.length ? <option value="">No bookable Kollective events in this market</option> : null}
+                        {planPresets.map((preset) => <option key={preset.key} value={preset.key}>{preset.label} — {preset.meta}</option>)}
+                      </select>
+                    </label>
+                    <fieldset className={styles.planActions}>
+                      <legend><b>02</b> WHAT DO YOU WANT?</legend>
+                      {PLAN_ACTIONS.map((action) => {
+                        const Icon = action.icon;
+                        const selected = planAction === action.type;
+                        return (
+                          <button key={action.type} type="button" className={selected ? styles.selectedPlanAction : undefined} onClick={() => setPlanAction(action.type)} aria-pressed={selected}>
+                            <Icon aria-hidden="true" />
+                            <span><strong>{action.label}</strong><small>{action.detail}</small></span>
+                          </button>
+                        );
+                      })}
+                    </fieldset>
+                    <div className={styles.planFinish}>
+                      <label><span><b>03</b> PARTY SIZE</span><input type="number" min="1" max="1000" value={planGuests} onChange={(event) => setPlanGuests(event.target.value)} /></label>
+                      <button type="button" onClick={continuePlan} disabled={!selectedPlan || !planGuests}>CONTINUE <ArrowUpRight aria-hidden="true" /></button>
                     </div>
                   </div>
+                  <p className={styles.planNote}>{planAction === "vip-section" ? "Next: choose a section package, then continue to secure Stripe checkout." : "Next: complete the pre-filled request and receive confirmation."}</p>
                 </section>
 
                 <section className={styles.focusStage}>
@@ -661,11 +660,8 @@ export default function CustomerAppV2() {
                       const Icon = destination.icon;
                       const content = (
                         <>
-                          <span className={styles.focusNumber}>{String(index + 1).padStart(2, "0")}</span>
-                          <Icon aria-hidden="true" />
-                          <strong>{destination.label}</strong>
-                          <small>{destination.detail}</small>
-                          <ArrowUpRight aria-hidden="true" />
+                          <span className={styles.focusMedia}><span className={styles.focusNumber}>{String(index + 1).padStart(2, "0")}</span><Icon aria-hidden="true" /></span>
+                          <span className={styles.focusBody}><strong>{destination.label}</strong><small>{destination.detail}</small><ArrowUpRight aria-hidden="true" /></span>
                         </>
                       );
                       return destination.href ? (
@@ -686,24 +682,6 @@ export default function CustomerAppV2() {
                   </div>
                 </section>
 
-                <section className={styles.accessStage}>
-                  <Heading eyebrow="BOOK · RSVP · CONNECT" title="Direct access. Done here." />
-                  <div className={styles.guestActionGrid}>
-                    {GUEST_ACTIONS.map((action) => {
-                      const Icon = action.icon;
-                      return (
-                        <a key={action.title} href={action.href}>
-                          <span className={styles.guestActionIcon}><Icon aria-hidden="true" /></span>
-                          <p>{action.label}</p>
-                          <h3>{action.title}</h3>
-                          <small>{action.detail}</small>
-                          <ArrowUpRight aria-hidden="true" />
-                        </a>
-                      );
-                    })}
-                  </div>
-                </section>
-
                 <section className={styles.exploreStage}>
                   <Heading eyebrow="EXPLORE" title="Make your next move" />
                   <div className={styles.quickGrid}>
@@ -714,46 +692,24 @@ export default function CustomerAppV2() {
                         setFilter("tonight");
                       }}
                     >
-                      <video autoPlay muted loop playsInline preload="metadata" poster={QUICK_CARD_MOTION.tonight.poster} aria-hidden="true">
-                        <source src={QUICK_CARD_MOTION.tonight.src} type="video/mp4" />
-                      </video>
-                      <i aria-hidden="true" />
-                      <CalendarDays />
-                      <span>Tonight</span>
-                      <small>What is happening now</small>
+                      <span className={styles.quickMedia} aria-hidden="true"><video autoPlay muted loop playsInline preload="metadata" poster={QUICK_CARD_MOTION.tonight.poster}><source src={QUICK_CARD_MOTION.tonight.src} type="video/mp4" /></video></span>
+                      <span className={styles.quickBody}><CalendarDays /><span>Tonight</span><small>What is happening now</small></span>
                     </button>
                     <button className={styles.motionQuickCard} onClick={() => selectTab("events")}>
-                      <video autoPlay muted loop playsInline preload="metadata" poster={QUICK_CARD_MOTION.week.poster} aria-hidden="true">
-                        <source src={QUICK_CARD_MOTION.week.src} type="video/mp4" />
-                      </video>
-                      <i aria-hidden="true" />
-                      <Compass />
-                      <span>This Week</span>
-                      <small>Plan the next move</small>
+                      <span className={styles.quickMedia} aria-hidden="true"><video autoPlay muted loop playsInline preload="metadata" poster={QUICK_CARD_MOTION.week.poster}><source src={QUICK_CARD_MOTION.week.src} type="video/mp4" /></video></span>
+                      <span className={styles.quickBody}><Compass /><span>This Week</span><small>Plan the next move</small></span>
                     </button>
                     <button className={styles.motionQuickCard} onClick={() => selectTab("brands")}>
-                      <video autoPlay muted loop playsInline preload="metadata" poster={QUICK_CARD_MOTION.brands.poster} aria-hidden="true">
-                        <source src={QUICK_CARD_MOTION.brands.src} type="video/mp4" />
-                      </video>
-                      <i aria-hidden="true" />
-                      <Grid3X3 />
-                      <span>Brands</span>
-                      <small>Explore the enterprise</small>
+                      <span className={styles.quickMedia} aria-hidden="true"><video autoPlay muted loop playsInline preload="metadata" poster={QUICK_CARD_MOTION.brands.poster}><source src={QUICK_CARD_MOTION.brands.src} type="video/mp4" /></video></span>
+                      <span className={styles.quickBody}><Grid3X3 /><span>Brands</span><small>Explore the enterprise</small></span>
                     </button>
-                    <a
-                      className={motion.motionQuick}
-                      href="https://thegoodtimesworldwide.com"
-                      target="_blank"
-                      rel="noreferrer"
+                    <button
+                      className={styles.motionQuickCard}
+                      onClick={() => selectTab("directory")}
                     >
-                      <video autoPlay muted loop playsInline preload="metadata" aria-hidden="true">
-                        <source src={GOOD_TIMES_ANIMATION} type="video/mp4" />
-                      </video>
-                      <i aria-hidden="true" />
-                      <Sparkles />
-                      <span>Concierge</span>
-                      <small>Let Good Times handle it</small>
-                    </a>
+                      <span className={styles.quickMedia} aria-hidden="true"><video autoPlay muted loop playsInline preload="metadata" poster={HERO_POSTER}><source src={HERO_VIDEO} type="video/mp4" /></video></span>
+                      <span className={styles.quickBody}><Building2 /><span>Directory</span><small>Find every Kollective entity</small></span>
+                    </button>
                   </div>
                 </section>
 
@@ -846,21 +802,12 @@ export default function CustomerAppV2() {
 
             {activeTab === "access" ? (
               <div className={styles.content}>
-                <Intro eyebrow="LINKS · FORMS · DIRECT ACCESS" title="Everything you need, one tap away." copy="Join the VIP list, request a table, purchase a VIP section, plan a birthday, or connect with the right Kollective team." />
+                <Intro eyebrow="LINKS · FORMS · DIRECT ACCESS" title="Everything you need, one tap away." copy="Applications, partnerships, member offers, shopping, and the right Kollective contact path." />
 
                 <section className={`${styles.accessStage} ${styles.accessPage}`}>
-                  <Heading eyebrow="DIRECT BOOKING OPTIONS" title="Choose your access" />
-                  <div className={styles.accessOptionGrid}>
-                    {EVENT_ACCESS_ACTIONS.map((action) => {
-                      const Icon = action.icon;
-                      return <a key={action.type} href={action.href} data-access-action={action.type}><Icon /><span><small>{action.label}</small><strong>{action.title}</strong></span><ArrowUpRight /></a>;
-                    })}
-                  </div>
-                </section>
-
-                <section>
-                  <Heading eyebrow="ROSE · OPIUM · REVEL" title="Venue access" />
-                  <div className={styles.brandGrid}>{ACCESS_VENUES.map((entity) => <BrandCard key={entity.id} entity={entity} />)}</div>
+                  <Heading eyebrow="EVENT RESERVATIONS" title="Book from an active Kollective event." />
+                  <p className={styles.focusIntro}>Reservations and paid tables are only available after choosing one of our live events.</p>
+                  <button className={styles.installDone} onClick={() => selectTab("home")}>CHOOSE A KOLLECTIVE EVENT</button>
                 </section>
 
                 <section>
@@ -915,10 +862,6 @@ export default function CustomerAppV2() {
                 <ProfileLink
                   href="mailto:thekollectivehospitality@gmail.com"
                   label="Contact the Kollective"
-                />
-                <ProfileLink
-                  href="https://thegoodtimesworldwide.com"
-                  label="Open Good Times Concierge"
                 />
                 <p className={styles.version}>KOLLECTIVE CUSTOMER EXPERIENCE CONTROL · LIVE</p>
               </div>
@@ -1003,7 +946,7 @@ function EventCard({ event }: { event: EventItem }) {
   return (
     <a
       className={styles.eventCard}
-      href={`/app/forms/rsvp?event=${encodeURIComponent(event.event_name)}&venue=${encodeURIComponent(event.venue_name || "")}`}
+      href={isKollectiveBookableEvent(event) ? `/app/forms/rsvp?event=${encodeURIComponent(event.event_name)}&venue=${encodeURIComponent(event.venue_name || "")}&date=${encodeURIComponent(event.event_date)}` : `/app/forms/inquiry?event=${encodeURIComponent(event.event_name)}`}
     >
       <MotionMedia
         className={styles.eventImage}
@@ -1121,7 +1064,7 @@ function EventRow({ event }: { event: EventItem }) {
   const eventMotion = motionFor(`${event.venue_name || ""}`) || motionFor(event.event_name);
   return (
     <a
-      href={`/app/forms/rsvp?event=${encodeURIComponent(event.event_name)}&venue=${encodeURIComponent(event.venue_name || "")}`}
+      href={isKollectiveBookableEvent(event) ? `/app/forms/rsvp?event=${encodeURIComponent(event.event_name)}&venue=${encodeURIComponent(event.venue_name || "")}&date=${encodeURIComponent(event.event_date)}` : `/app/forms/inquiry?event=${encodeURIComponent(event.event_name)}`}
       className={styles.row}
     >
       <MotionMedia
