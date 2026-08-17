@@ -7,13 +7,14 @@ import styles from './page.module.css';
 
 const navigation = [
   ['Companies', '/companies'],
+  ['Team', '/team'],
   ['Current', '/events'],
   ['Network', '/network'],
   ['Links', '/links'],
   ['Apps', '/app'],
 ] as const;
 
-const dedicatedRoutes = new Set(['companies', 'events', 'network', 'links']);
+const dedicatedRoutes = new Set(['companies', 'team', 'events', 'network', 'links']);
 
 export function generateStaticParams() {
   return Object.keys(kollectivePages)
@@ -50,7 +51,7 @@ export default async function KollectiveInformationPage({
   const page = kollectivePages[slug];
   if (!page) notFound();
 
-  const preferredRelated = ['companies', 'events', 'network', 'links', 'access'];
+  const preferredRelated = ['companies', 'team', 'events', 'network', 'links', 'access'];
   const related = preferredRelated
     .filter((key) => key !== slug && kollectivePages[key])
     .slice(0, 3)
