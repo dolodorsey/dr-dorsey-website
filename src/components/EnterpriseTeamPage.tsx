@@ -51,15 +51,11 @@ function initials(name: string) {
     .toUpperCase();
 }
 
-function PhotoPlaceholder({ name, compact = false }: { name: string; compact?: boolean }) {
+function PhotoPlaceholder({ name, mini = false }: { name: string; mini?: boolean }) {
   return (
-    <div
-      className={styles.photoPlaceholder}
-      aria-label={`${name} photo placeholder`}
-      style={compact ? { width: 92, minWidth: 92, aspectRatio: '1 / 1' } : undefined}
-    >
+    <div className={`${styles.photoPlaceholder} ${mini ? styles.photoMini : ''}`} aria-label={`${name} photo placeholder`}>
       <span>{initials(name)}</span>
-      <small>PHOTO PLACEHOLDER</small>
+      {!mini ? <small>PORTRAIT PENDING</small> : null}
     </div>
   );
 }
@@ -70,6 +66,8 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
   const logo = isKollective
     ? `${SB}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`
     : '/dorsey/logo.png';
+  const command = executiveTeam.slice(0, 3);
+  const divisionLeads = executiveTeam.slice(3);
   const nightlife = executiveTeam.filter((member) => member.division === 'Nightlife');
 
   return (
@@ -87,33 +85,54 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
         <Link className={styles.navCta} href="/app">All Access</Link>
       </nav>
 
-      <section className={styles.hero}>
-        <div className={styles.grid} />
-        <div className={styles.heroCopy}>
-          <p>{isKollective ? 'THE KOLLECTIVE / LEADERSHIP' : 'DR. DORSEY / ENTERPRISE TEAM'}</p>
-          <h1>Experienced leaders.<br /><em>Built to execute.</em></h1>
-          <span>
-            A cross-functional leadership system connecting operations, strategy, nightlife, products, beverages,
-            digital systems, lifestyle, community, and enterprise development.
-          </span>
+      <header className={styles.hero}>
+        <div className={styles.heroInner}>
+          <div className={styles.heroCopy}>
+            <p>{isKollective ? 'THE KOLLECTIVE / PEOPLE' : 'DR. DORSEY / ENTERPRISE'}</p>
+            <h1>{isKollective ? 'The people behind the portfolio.' : 'The team behind the vision.'}</h1>
+            <span>
+              Operators, strategists, builders and culture leaders working across distinct lanes with one enterprise standard.
+            </span>
+          </div>
+          <div className={styles.heroMeta}>
+            <div><strong>{executiveTeam.length}</strong><span>Leadership</span></div>
+            <div><strong>{board.length}</strong><span>Board</span></div>
+            <div><strong>{nightlife.length}</strong><span>Nightlife</span></div>
+          </div>
         </div>
-        <div className={styles.heroStats}>
-          <div><strong>{executiveTeam.length}</strong><span>Named leadership roles</span></div>
-          <div><strong>{board.length}</strong><span>Board members</span></div>
-          <div><strong>{nightlife.length}</strong><span>Nightlife team</span></div>
+      </header>
+
+      <section className={styles.section}>
+        <div className={styles.sectionIntro}>
+          <p>EXECUTIVE COMMAND</p>
+          <h2>Operating leadership.</h2>
+          <span>Enterprise-wide responsibility for operations, growth, strategy and activation.</span>
+        </div>
+        <div className={styles.commandGrid}>
+          {command.map((member, index) => (
+            <article className={styles.commandCard} key={member.name}>
+              <PhotoPlaceholder name={member.name} />
+              <div className={styles.commandCopy}>
+                <span>{String(index + 1).padStart(2, '0')} / {member.division}</span>
+                <h3>{member.name}</h3>
+                <p>{member.title}</p>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section className={styles.section}>
-        <header className={styles.sectionHead}>
-          <div><p>EXECUTIVE LEADERSHIP</p><h2>Clear lanes. Shared standards.</h2></div>
-          <span>Temporary photo placeholders are installed for every team member and can be replaced individually as portraits are approved.</span>
-        </header>
-        <div className={styles.teamGrid}>
-          {executiveTeam.map((member) => (
-            <article className={styles.card} key={member.name}>
+      <section className={`${styles.section} ${styles.leadershipSection}`}>
+        <div className={styles.sectionIntro}>
+          <p>DIVISION LEADERSHIP</p>
+          <h2>Built by lane.</h2>
+          <span>Each leader owns a clear functional lane while operating inside the same enterprise system.</span>
+        </div>
+        <div className={styles.leadershipGrid}>
+          {divisionLeads.map((member) => (
+            <article className={styles.leadCard} key={member.name}>
               <PhotoPlaceholder name={member.name} />
-              <div className={styles.cardCopy}>
+              <div className={styles.leadCopy}>
                 <p>{member.division}</p>
                 <h3>{member.name}</h3>
                 <span>{member.title}</span>
@@ -123,15 +142,16 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
         </div>
       </section>
 
-      <section className={`${styles.section} ${styles.nightlifeSection}`}>
-        <header className={styles.sectionHead}>
-          <div><p>NIGHTLIFE DIVISION</p><h2>Brand, venue, and activation execution.</h2></div>
-          <span>Grayson and Hartley lead the division with Suave and Weezy assigned directly into Nightlife operations and activations.</span>
-        </header>
-        <div className={styles.nightlifeGrid}>
+      <section className={styles.nightlifeSection}>
+        <div className={styles.nightlifeIntro}>
+          <p>NIGHTLIFE DIVISION</p>
+          <h2>Venue. Brand. Activation.</h2>
+          <span>Grayson and Hartley lead the lane with Suave and Weezy assigned directly into Nightlife operations and activations.</span>
+        </div>
+        <div className={styles.nightlifeRoster}>
           {nightlife.map((member) => (
             <article key={member.name}>
-              <PhotoPlaceholder name={member.name} compact />
+              <PhotoPlaceholder name={member.name} mini />
               <div><h3>{member.name}</h3><p>{member.title}</p></div>
             </article>
           ))}
@@ -139,26 +159,26 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
       </section>
 
       <section className={`${styles.section} ${styles.boardSection}`}>
-        <header className={styles.sectionHead}>
-          <div><p>GOVERNANCE</p><h2>The Board.</h2></div>
-          <span>Governance, institutional perspective, culture, accountability, and long-range enterprise stewardship.</span>
-        </header>
-        <div className={styles.boardGrid}>
+        <div className={styles.sectionIntro}>
+          <p>GOVERNANCE</p>
+          <h2>The Board.</h2>
+          <span>Institutional perspective, culture, accountability and long-range enterprise stewardship.</span>
+        </div>
+        <div className={styles.boardList}>
           {board.map((name, index) => (
             <article key={name}>
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              <PhotoPlaceholder name={name} />
-              <h3>{name}</h3>
-              <p>Board Member</p>
+              <span className={styles.boardIndex}>{String(index + 1).padStart(2, '0')}</span>
+              <PhotoPlaceholder name={name} mini />
+              <div><h3>{name}</h3><p>Board Member</p></div>
             </article>
           ))}
         </div>
       </section>
 
       <section className={styles.cta}>
-        <p>ONE TEAM · DISTINCT LANES · ENTERPRISE LEVERAGE</p>
-        <h2>Build the next move.</h2>
-        <div><Link href="/app/forms/partnership">Partner with us</Link><Link href="/companies">Explore the companies</Link></div>
+        <p>ONE TEAM · DISTINCT LANES</p>
+        <h2>{isKollective ? 'One enterprise. Many worlds.' : 'Vision becomes execution here.'}</h2>
+        <div><Link href="/app/forms/partnership">Partner with us</Link><Link href="/companies">Explore companies</Link></div>
       </section>
 
       <footer className={styles.footer}>
