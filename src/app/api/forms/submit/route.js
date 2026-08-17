@@ -24,6 +24,8 @@ export async function POST(request) {
   const email = cleanText(body.email, 254).toLowerCase();
   const phone = cleanText(body.phone, 40) || null;
   const formData = body.form_data && typeof body.form_data === 'object' ? body.form_data : {};
+  const source = cleanText(body.source, 80) || 'website';
+  const brandKey = source === 'kollective-app' ? 'the_kollective' : 'dr_dorsey';
 
   if (!ALLOWED_FORMS.has(formType)) {
     return NextResponse.json({ error: 'Unsupported form type.' }, { status: 400 });
@@ -46,11 +48,11 @@ export async function POST(request) {
     body: JSON.stringify({
       form_type: formType,
       email,
-      brand_key: 'dr_dorsey',
+      brand_key: brandKey,
       full_name: fullName,
       phone,
       form_data: formData,
-      source: 'doctordorsey.com',
+      source,
       user_agent: cleanText(request.headers.get('user-agent'), 500) || null,
       referer: cleanText(request.headers.get('referer'), 500) || null,
       workflow_status: 'pending',

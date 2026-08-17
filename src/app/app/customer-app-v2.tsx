@@ -4,6 +4,7 @@ import {
   ArrowUpRight,
   ArrowLeft,
   BadgeCheck,
+  BookOpen,
   BriefcaseBusiness,
   Building2,
   CakeSlice,
@@ -161,6 +162,32 @@ const MORE_KOLLECTIVE_BRANDS: Entity[] = [
   { id: "more-freedom-fest", slug: "freedom-fest", name: "Freedom Fest", category: "CULTURE & EVENTS", short_description: "Culture, community and celebration in Atlanta.", website_url: "https://freedom-fest-store.vercel.app" },
 ];
 
+const CUSTOMER_FOCUS: Array<{
+  label: string;
+  detail: string;
+  icon: typeof Home;
+  href?: string;
+  tab?: Tab;
+  filter?: EventFilter;
+  query?: string;
+}> = [
+  { label: "Nightlife / Events / Activations", detail: "Tonight, signature events, guest lists, tables and cultural activations.", tab: "events", filter: "nightlife", icon: TicketCheck },
+  { label: "Clothes", detail: "Shop current fashion, merchandise and Kollective drops.", href: "/store", icon: ShoppingBag },
+  { label: "Hakuna Matata", detail: "Buy Dr. Dorsey’s founder field manual directly.", href: "https://bodgeaworldwide.myshopify.com/products/hakuna-matata-by-dr-dorsey", icon: BookOpen },
+  { label: "Apps", detail: "Explore customer platforms, service apps and intelligence products.", tab: "brands", query: "App", icon: Grid3X3 },
+  { label: "Sole Exchange", detail: "Enter the sneaker recovery and community impact platform.", href: "https://soleexchangeworldwide.com", icon: HandHeart },
+  { label: "Services", detail: "Find hospitality, production, mobility, property and business services.", tab: "brands", query: "Service", icon: BriefcaseBusiness },
+  { label: "Groups", detail: "Discover membership, leadership, youth and community groups.", href: "/companies#the-inner-circle", icon: Building2 },
+  { label: "Calendar", detail: "See what is happening across every active market.", tab: "events", filter: "all", icon: CalendarDays },
+  { label: "Discounts", detail: "Join for coupons, member perks and monthly offers.", href: "/app/forms/member-offers", icon: Gift },
+  { label: "Join", detail: "Apply for roles, internships and opportunities across the enterprise.", href: "/app/forms/hiring", icon: Handshake },
+  { label: "+ Ambassador", detail: "Represent Kollective companies, products, events and experiences.", href: "/app/forms/ambassador", icon: Megaphone },
+  { label: "+ Volunteer", detail: "Support events, community work and special projects.", href: "/app/forms/volunteer", icon: HandHeart },
+  { label: "Forms", detail: "Open every RSVP, booking, application and inquiry form.", tab: "access", icon: ClipboardList },
+  { label: "Other Entities", detail: "Explore the rest of the Kollective enterprise portfolio.", tab: "brands", icon: Compass },
+  { label: "Directory", detail: "Find companies, teams and official contact paths.", tab: "directory", icon: Building2 },
+];
+
 function isFreedomFestEntity(entity: Entity) {
   return /freedom fest|juneteent|juneteenth/i.test(entity.name);
 }
@@ -172,6 +199,13 @@ const GUEST_ACTIONS = [
   { label: "CONCIERGE", title: "Ask for more info", detail: "Send the team your complete request in app.", href: "/app/forms/inquiry", icon: MessageCircleMore },
   { label: "MEMBER PERKS", title: "Discounts, coupons + free item", detail: "Sign up for discounts, coupons, and the monthly free member item.", href: "/app/forms/member-offers", icon: Gift },
   { label: "AMBASSADOR", title: "Represent the Kollective", detail: "Apply to promote events, companies, products, and experiences.", href: "/app/forms/ambassador", icon: Megaphone },
+] as const;
+
+const SALES_ACTIONS = [
+  { label: "RSVP", title: "Join the list", href: "/app/forms/rsvp", icon: TicketCheck },
+  { label: "TABLE", title: "Reserve now", href: "/app/forms/reserve-table", icon: UtensilsCrossed },
+  { label: "VIP", title: "Buy a section", href: "/app/forms/vip-section", icon: Sparkles },
+  { label: "SHOP", title: "Buy products", href: "/shop", icon: ShoppingBag },
 ] as const;
 
 const EVENT_ACCESS_ACTIONS = [
@@ -459,6 +493,15 @@ export default function CustomerAppV2() {
     setInstallHelp(false);
     setInstallPrompt(null);
   };
+  const openFocusDestination = (destination: (typeof CUSTOMER_FOCUS)[number]) => {
+    if (!destination.tab) return;
+    selectTab(destination.tab);
+    if (destination.filter) setFilter(destination.filter);
+    if (destination.query) {
+      setQuery(destination.query);
+      setSearchOpen(true);
+    }
+  };
   const MarketControl = () => (
     <div className={`${styles.filters} ${styles.marketTabs}`} role="group" aria-label="Choose a city">
       {markets.map((item) => (
@@ -545,6 +588,30 @@ export default function CustomerAppV2() {
                   <MarketControl />
                 </section>
 
+                <section className={styles.salesStage} aria-labelledby="sales-stage-title">
+                  <video autoPlay muted loop playsInline preload="metadata" poster={motionLibrary.goodTimes.poster} aria-hidden="true">
+                    <source src={GOOD_TIMES_ANIMATION} type="video/mp4" />
+                  </video>
+                  <i aria-hidden="true" />
+                  <div className={styles.salesCopy}>
+                    <p>FASTEST WAY IN</p>
+                    <h2 id="sales-stage-title">Reserve. RSVP. Buy.</h2>
+                    <span>One tap to the right request. No account required.</span>
+                  </div>
+                  <div className={styles.salesGrid}>
+                    {SALES_ACTIONS.map((action) => {
+                      const Icon = action.icon;
+                      return (
+                        <a key={action.label} href={action.href} aria-label={`${action.label}: ${action.title}`}>
+                          <Icon aria-hidden="true" />
+                          <span><small>{action.label}</small><strong>{action.title}</strong></span>
+                          <ArrowUpRight aria-hidden="true" />
+                        </a>
+                      );
+                    })}
+                  </div>
+                </section>
+
                 <section
                   className={`${styles.hero} ${motion.hero}`}
                   style={imageStyle(heroPoster)}
@@ -583,6 +650,39 @@ export default function CustomerAppV2() {
                       ) : null}
                       <button onClick={() => selectTab("brands")}>EXPLORE BRANDS</button>
                     </div>
+                  </div>
+                </section>
+
+                <section className={styles.focusStage}>
+                  <Heading eyebrow="YOUR KOLLECTIVE" title="Choose where you want to go." />
+                  <p className={styles.focusIntro}>Events, products, apps, services, opportunities and the full network—organized around what customers need most.</p>
+                  <div className={styles.focusGrid}>
+                    {CUSTOMER_FOCUS.map((destination, index) => {
+                      const Icon = destination.icon;
+                      const content = (
+                        <>
+                          <span className={styles.focusNumber}>{String(index + 1).padStart(2, "0")}</span>
+                          <Icon aria-hidden="true" />
+                          <strong>{destination.label}</strong>
+                          <small>{destination.detail}</small>
+                          <ArrowUpRight aria-hidden="true" />
+                        </>
+                      );
+                      return destination.href ? (
+                        <a
+                          key={destination.label}
+                          href={destination.href}
+                          target={destination.href.startsWith("http") ? "_blank" : undefined}
+                          rel={destination.href.startsWith("http") ? "noreferrer" : undefined}
+                        >
+                          {content}
+                        </a>
+                      ) : (
+                        <button key={destination.label} type="button" onClick={() => openFocusDestination(destination)}>
+                          {content}
+                        </button>
+                      );
+                    })}
                   </div>
                 </section>
 
@@ -778,7 +878,7 @@ export default function CustomerAppV2() {
                   copy="Discover, book, shop, join, or learn more without digging through the operating website."
                 />
                 <section className={`${styles.brandGrid} ${styles.brandsDirectory}`}>
-                  {allBrands.filter((entity)=>!query || entity.name.toLowerCase().includes(query.toLowerCase())).map((entity) => <BrandCard key={entity.id} entity={entity} />)}
+                  {allBrands.filter((entity) => !query || `${entity.name} ${entity.category || ""}`.toLowerCase().includes(query.toLowerCase())).map((entity) => <BrandCard key={entity.id} entity={entity} />)}
                 </section>
               </div>
             ) : null}
