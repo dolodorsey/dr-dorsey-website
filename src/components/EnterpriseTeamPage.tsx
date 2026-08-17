@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { CSSProperties } from 'react';
 import styles from './EnterpriseTeamPage.module.css';
 import { SB } from '@/lib/enterprise';
 
@@ -7,6 +8,10 @@ type TeamMember = {
   title: string;
   division: string;
 };
+
+type PlaceholderAsset =
+  | { kind: 'sprite'; index: number }
+  | { kind: 'image'; url: string; position?: string };
 
 const executiveTeam: TeamMember[] = [
   { name: 'JoJo', title: 'Co-Chief Operating Officer, Enterprise Operations', division: 'Enterprise Operations' },
@@ -42,12 +47,35 @@ const board = [
 
 const PEOPLE_ROOT = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/app/backgrounds';
 const PEOPLE_BACKGROUNDS = Array.from({ length: 11 }, (_, index) => `${PEOPLE_ROOT}/app-background-${String(index + 1).padStart(2, '0')}.jpg`);
-const GENERATED_PORTRAITS = [
-  '/team/placeholders/portrait-01.webp',
-  '/team/placeholders/portrait-04.webp',
-  '/team/placeholders/portrait-07.webp',
-  '/team/placeholders/portrait-10.webp',
-];
+const TEAM_SPRITE = '/team-placeholder-sprite';
+
+// Every distinct named person has a distinct temporary visual. The same person keeps
+// the same placeholder when they appear in more than one section.
+const PLACEHOLDER_ASSETS: Record<string, PlaceholderAsset> = {
+  JoJo: { kind: 'sprite', index: 0 },
+  Quintin: { kind: 'sprite', index: 1 },
+  Sevant: { kind: 'sprite', index: 2 },
+  Grayson: { kind: 'sprite', index: 3 },
+  Hartley: { kind: 'sprite', index: 4 },
+  Raven: { kind: 'sprite', index: 5 },
+  Kay: { kind: 'sprite', index: 6 },
+  Scrolls: { kind: 'sprite', index: 7 },
+  Lackey: { kind: 'sprite', index: 8 },
+  Alexis: { kind: 'sprite', index: 9 },
+  'Coach Harris': { kind: 'sprite', index: 10 },
+  'Bob Johnson': { kind: 'sprite', index: 11 },
+  'Countryboy Dorsey': { kind: 'sprite', index: 12 },
+  Suave: { kind: 'sprite', index: 13 },
+  Weezy: { kind: 'sprite', index: 14 },
+  'Rick Wade': { kind: 'sprite', index: 15 },
+  'Chief Lightfoot': { kind: 'sprite', index: 16 },
+  'Chief Andre': { kind: 'sprite', index: 17 },
+  'Chief Flyod': { kind: 'sprite', index: 18 },
+  'Chief Joseph': { kind: 'image', url: PEOPLE_BACKGROUNDS[0] },
+  'Brad Dorsey': { kind: 'image', url: PEOPLE_BACKGROUNDS[1] },
+  'Zen Dorsey': { kind: 'image', url: PEOPLE_BACKGROUNDS[2] },
+  'Joseph Siatta': { kind: 'image', url: PEOPLE_BACKGROUNDS[3] },
+};
 
 function initials(name: string) {
   return name
@@ -60,19 +88,44 @@ function initials(name: string) {
     .toUpperCase();
 }
 
-function portraitFor(name: string) {
-  const score = Array.from(name).reduce((total, character) => total + character.charCodeAt(0), 0);
-  return GENERATED_PORTRAITS[score % GENERATED_PORTRAITS.length];
+function placeholderStyle(name: string): CSSProperties {
+  const asset = PLACEHOLDER_ASSETS[name];
+  if (!asset) {
+    return {
+      backgroundImage: `url(${PEOPLE_BACKGROUNDS[10]})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center 25%',
+      backgroundRepeat: 'no-repeat',
+    };
+  }
+
+  if (asset.kind === 'image') {
+    return {
+      backgroundImage: `url(${asset.url})`,
+      backgroundSize: 'cover',
+      backgroundPosition: asset.position || 'center 25%',
+      backgroundRepeat: 'no-repeat',
+    };
+  }
+
+  const column = asset.index % 5;
+  const row = Math.floor(asset.index / 5);
+  return {
+    backgroundImage: `url(${TEAM_SPRITE})`,
+    backgroundSize: '500% 400%',
+    backgroundPosition: `${column * 25}% ${row * (100 / 3)}%`,
+    backgroundRepeat: 'no-repeat',
+  };
 }
 
 function PhotoPlaceholder({ name, mini = false }: { name: string; mini?: boolean }) {
   return (
     <div
       className={`${styles.photoPlaceholder} ${mini ? styles.photoMini : ''}`}
-      aria-label={`${name} generated placeholder portrait`}
+      aria-label={`${name} temporary placeholder portrait`}
+      style={placeholderStyle(name)}
     >
-      <img src={portraitFor(name)} alt="" aria-hidden="true" />
-      {!mini ? <small>GENERATED PLACEHOLDER</small> : null}
+      {!mini ? <small>TEMPORARY PLACEHOLDER</small> : null}
       <span className={styles.initialBadge}>{initials(name)}</span>
     </div>
   );
@@ -143,7 +196,7 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
         <div className={styles.sectionIntro}>
           <p>DIVISION LEADERSHIP</p>
           <h2>Built by lane.</h2>
-          <span>Compact team cards now prioritize the people, their lane and their role without wasting page space.</span>
+          <span>Compact team cards prioritize the people, their lane and their role without wasting page space.</span>
         </div>
         <div className={styles.leadershipGrid}>
           {divisionLeads.map((member) => (
