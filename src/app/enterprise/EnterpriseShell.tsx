@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Activity, Bot, Building2, CalendarDays, ChevronRight, LayoutDashboard, Megaphone, Network, ShieldCheck, TicketCheck } from "lucide-react";
+import { Activity, Bot, Building2, CalendarDays, ChevronRight, Database, LayoutDashboard, Megaphone, Network, ShieldCheck, TicketCheck } from "lucide-react";
 import EnterpriseAuthPanel from "./EnterpriseAuthPanel";
 
 const links = [
   ["/enterprise", "Enterprise HQ", LayoutDashboard],
   ["/enterprise/command-centers", "Command Centers", Network],
+  ["/enterprise/enrichment", "Contact Enrichment", Database],
   ["/enterprise/marketing/campaigns", "Marketing OS", Megaphone],
   ["/enterprise/eventbrite/drafts", "Eventbrite", TicketCheck],
   ["/enterprise/security/rls", "Security", ShieldCheck],
