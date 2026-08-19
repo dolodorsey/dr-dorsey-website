@@ -22,10 +22,12 @@ type Company = {
   division: string;
 };
 
-type VideoSpec = { path: string; poster?: string };
+type VideoSpec = { path?: string; src?: string; poster?: string };
 
 const CREATIVE_MOTION_BASE =
   'https://woqlhjodiedyqfvzweoe.supabase.co/storage/v1/object/public/animations';
+const EVENT_MOTION_BASE =
+  'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/motion/111atl';
 const TRANSPARENT_POSTER =
   'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
 
@@ -78,6 +80,15 @@ const LANDSCAPE_VIDEO_BY_SLUG: Record<string, VideoSpec> = {
   'peace-pizza': { path: 'casper-group/peace-pizza-ani.mp4' },
   'american-dragon': { path: 'casper-group/american-dragon.mp4' },
   'members-elite': { path: 'members-elite-ani.mp4' },
+
+  // Current event motion — owner-supplied landscape animations in Supabase.
+  'greek-ball': { src: `${EVENT_MOTION_BASE}/greek-ball.mp4` },
+  'monsters-ball': { src: `${EVENT_MOTION_BASE}/monsters-ball.mp4` },
+  'black-ball': { src: `${EVENT_MOTION_BASE}/black-ball.mp4` },
+  'snow-ball': { src: `${EVENT_MOTION_BASE}/snow-ball.mp4` },
+  'winter-wonderland': { src: `${EVENT_MOTION_BASE}/winter-wonderland.mp4` },
+  'champagne-ball': { src: `${EVENT_MOTION_BASE}/champagne-ball.mp4` },
+  'rose-ball': { src: `${EVENT_MOTION_BASE}/rose-ball.mp4` },
 };
 
 // These have approved still art but no approved landscape motion yet. They get
@@ -94,7 +105,7 @@ function companyMotion(company: Company): MotionAsset | undefined {
     const exact = LANDSCAPE_VIDEO_BY_SLUG[company.slug];
     if (exact) {
       return {
-        src: `${CREATIVE_MOTION_BASE}/${exact.path}`,
+        src: exact.src || `${CREATIVE_MOTION_BASE}/${exact.path}`,
         poster: exact.poster || company.hero || TRANSPARENT_POSTER,
         orientation: 'landscape',
       };
