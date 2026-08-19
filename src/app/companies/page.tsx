@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import styles from './page.module.css';
-import CompanyDirectory from '@/components/CompanyDirectory';
+import CompanyDirectoryV2 from '@/components/CompanyDirectoryV2';
 import FilmBackdrop from '@/components/FilmBackdrop';
 import { motion } from '@/lib/motion';
 
@@ -43,7 +43,7 @@ export default function CompaniesPage() {
 
       <div className={`${styles.body} k-surface k-emblem k-edge`}>
         <div className={styles.inner}>
-          <CompanyDirectory />
+          <CompanyDirectoryV2 />
         </div>
       </div>
 
