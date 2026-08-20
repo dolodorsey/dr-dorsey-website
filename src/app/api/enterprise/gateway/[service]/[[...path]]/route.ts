@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 const SERVICES: Record<string, string> = {
   work: "enterprise-work",
-  command: "enterprise-command",
+  command: "enterprise-command-intelligence",
   calendar: "enterprise-calendar",
 };
 
@@ -61,7 +61,7 @@ async function proxy(
   headers.set("Content-Type", request.headers.get("content-type") ?? "application/json");
   headers.set("Authorization", authorization);
   headers.set("apikey", KOLLECTIVE_SUPABASE_PUBLISHABLE_KEY);
-  headers.set("x-client-info", request.headers.get("x-client-info") ?? "doctordorsey-enterprise-gateway/2.0");
+  headers.set("x-client-info", request.headers.get("x-client-info") ?? "doctordorsey-enterprise-gateway/2.1");
 
   try {
     const body = request.method === "GET" || request.method === "HEAD"
