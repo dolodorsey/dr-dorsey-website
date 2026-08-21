@@ -1,5 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import MotionCover from '@/components/MotionCover';
+import type { MotionAsset } from '@/lib/motion';
 import styles from './section-hub.module.css';
 
 type Metric = {
@@ -14,6 +16,7 @@ type FeatureCard = {
   href: string;
   meta?: string;
   badge?: string;
+  animation?: MotionAsset;
 };
 
 type LinkItem = {
@@ -116,7 +119,16 @@ export default function SectionHub({
           </header>
           <div className={styles.featureGrid}>
             {features.map((feature) => (
-              <Destination href={feature.href} className={styles.featureCard} key={feature.title}>
+              <Destination
+                href={feature.href}
+                className={`${styles.featureCard} ${feature.animation ? styles.featureCardAnimated : ''}`}
+                key={feature.title}
+              >
+                {feature.animation ? (
+                  <div className={styles.featureMedia}>
+                    <MotionCover animation={feature.animation} alt={feature.title} veil />
+                  </div>
+                ) : null}
                 <div className={styles.featureTop}>
                   <span>{feature.eyebrow}</span>
                   {feature.badge ? <b>{feature.badge}</b> : null}
