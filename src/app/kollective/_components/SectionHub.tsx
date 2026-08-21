@@ -119,13 +119,18 @@ export default function SectionHub({
           </header>
           <div className={styles.featureGrid}>
             {features.map((feature) => (
-              <Destination
-                href={feature.href}
-                className={`${styles.featureCard} ${feature.animation ? styles.featureCardAnimated : ''}`}
-                key={feature.title}
-              >
+              <Destination href={feature.href} className={styles.featureCard} key={feature.title}>
                 {feature.animation ? (
-                  <div className={styles.featureMedia}>
+                  <div
+                    style={{
+                      position: 'relative',
+                      aspectRatio: '16 / 9',
+                      margin: '-28px -28px 24px',
+                      overflow: 'hidden',
+                      background: '#080808',
+                      borderBottom: '1px solid rgba(255,255,255,.1)',
+                    }}
+                  >
                     <MotionCover animation={feature.animation} alt={feature.title} veil />
                   </div>
                 ) : null}
@@ -133,7 +138,7 @@ export default function SectionHub({
                   <span>{feature.eyebrow}</span>
                   {feature.badge ? <b>{feature.badge}</b> : null}
                 </div>
-                <h3>{feature.title}</h3>
+                <h3 style={feature.animation ? { marginTop: 24 } : undefined}>{feature.title}</h3>
                 <p>{feature.description}</p>
                 <footer>
                   <span>{feature.meta || 'Open destination'}</span>
