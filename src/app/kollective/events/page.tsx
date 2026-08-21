@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SectionHub from '../_components/SectionHub';
+import { eventMotion } from '@/lib/event-motion';
 
 export const metadata: Metadata = {
   title: 'Current — The Kollective',
@@ -14,40 +15,46 @@ export default function CurrentPage() {
       title="What is moving now."
       intro="The live calendar, featured experiences, reservations, RSVPs, and the shortest path into what The Kollective is producing right now."
       metrics={[
-        { value: 'AUG 07', label: 'GROWN-ISH returns to Atlanta' },
-        { value: 'AUG 22', label: 'Taste of Art cultural experience' },
+        { value: 'SEP 04–07', label: 'Labor Day Weekend programming in Atlanta' },
+        { value: '4 LIVE', label: 'New event animations now powering current discovery' },
         { value: 'ONE APP', label: 'RSVP, reserve, discover, and receive updates' },
       ]}
       features={[
         {
-          eyebrow: 'FRIDAY · AUGUST 07',
-          title: 'GROWN-ISH',
-          description: 'The Friday night experience built for grown energy, culture, music, and direct VIP access.',
-          href: 'https://www.eventbrite.com/e/the-grown-ish-aug-07-tickets-1988881854165',
-          meta: 'Official Eventbrite listing',
-          badge: 'Featured',
-        },
-        {
-          eyebrow: 'SATURDAY · AUGUST 08',
-          title: 'Back to School Drive',
-          description: 'A community activation connecting school support, families, partners, and direct participation.',
-          href: 'https://www.eventbrite.com/e/the-back-to-school-drive-aug-08-tickets-1988881869210',
-          meta: 'Official Eventbrite listing',
-        },
-        {
-          eyebrow: 'SUNDAY · AUGUST 09',
-          title: 'Soul Session',
-          description: 'A culture-forward Sunday program centered on music, connection, atmosphere, and community.',
-          href: 'https://www.eventbrite.com/e/the-soul-session-aug-09-tickets-1988881865198',
-          meta: 'Official Eventbrite listing',
-        },
-        {
-          eyebrow: 'SATURDAY · AUGUST 22',
+          eyebrow: 'FRIDAY · LABOR DAY WEEKEND',
           title: 'Taste of Art',
-          description: 'Art, music, food, people, and experience design brought together as one cultural environment.',
-          href: 'https://www.eventbrite.com/e/the-taste-of-art-aug-22-tickets-1988881972519',
-          meta: 'Official Eventbrite listing',
-          badge: 'Major Event',
+          description: 'Art, food, music, people, and experience design brought together as one cultural environment.',
+          href: 'https://111atl.com',
+          meta: 'Open official event hub',
+          badge: 'Featured',
+          animation: eventMotion.tasteOfArt,
+        },
+        {
+          eyebrow: 'SUNDAY · LABOR DAY WEEKEND',
+          title: 'BLOW',
+          description: 'The all-white nightlife experience at Seven Midtown with a direct path to event access.',
+          href: 'https://111atl.com',
+          meta: 'Open official event hub',
+          badge: 'All White',
+          animation: eventMotion.blow,
+        },
+        {
+          eyebrow: 'MONDAY · LABOR DAY WEEKEND',
+          title: 'TEA TIME',
+          description: 'Business, brotherhood, competition, and culture on the course for the Labor Day golf tournament.',
+          href: 'https://111atl.com',
+          meta: 'Open official event hub',
+          badge: 'Golf',
+          animation: eventMotion.teaTime,
+        },
+        {
+          eyebrow: 'NEW YEAR’S EVE',
+          title: 'BRAVO',
+          description: 'The premium New Year’s Eve celebration built as the closing statement for the year.',
+          href: 'https://111atl.com',
+          meta: 'Open official event hub',
+          badge: 'NYE',
+          animation: eventMotion.bravo,
         },
       ]}
       groups={[
@@ -67,12 +74,12 @@ export default function CurrentPage() {
           description: 'Use the customer platforms for ongoing discovery while every event keeps its own verified listing and terms.',
           items: [
             { title: 'GOOD TIMES', description: 'Discover culture, nightlife, experiences, and what is happening around you.', href: 'https://www.thegoodtimesworldwide.com', meta: 'Visit Platform' },
-            { title: 'Rose on Piedmont', description: 'Enter current Rose programming, reservations, birthdays, and VIP access.', href: '/app/forms/reserve-table', meta: 'Plan a Visit' },
+            { title: '111ATL', description: 'Open the current Atlanta event hub and move directly into active event inventory.', href: 'https://111atl.com', meta: 'Open Events' },
             { title: 'Enterprise Event Inquiry', description: 'Bring a venue, sponsorship, activation, media, or partnership opportunity.', href: '/app/forms/inquiry', meta: 'Start Inquiry' },
           ],
         },
       ]}
-      primaryAction={{ label: 'Open Current Access', href: '/app' }}
+      primaryAction={{ label: 'Open Current Access', href: 'https://111atl.com' }}
       secondaryAction={{ label: 'Reserve a Table', href: '/app/forms/reserve-table' }}
     />
   );
