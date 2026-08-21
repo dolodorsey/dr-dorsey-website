@@ -6,19 +6,30 @@ import { BOOK_URL } from '@/lib/enterprise';
 import MotionCover from '@/components/MotionCover';
 import DepartmentGrid from '@/components/DepartmentGrid';
 import FilmBackdrop from '@/components/FilmBackdrop';
-import { motion, ENTITY_MOTION } from '@/lib/motion';
+import { motion, ENTITY_MOTION, type MotionAsset } from '@/lib/motion';
+import { eventMotion } from '@/lib/event-motion';
 
 /** Founder landing film. Explicit hero assignment, not a name lookup. */
 const founderHero = ENTITY_MOTION['dr-dorsey'].hero;
+
+type CurrentMove = {
+  name: string;
+  kind: string;
+  href: string;
+  image?: string;
+  animation?: MotionAsset;
+};
 
 /**
  * The first two entries render as the large featured pair.
  * Everything after them renders four across.
  */
-const currentMoves = [
+const currentMoves: CurrentMove[] = [
+  { name: 'BLOW', kind: 'Sunday · Labor Day Weekend · All White', href: 'https://111atl.com', animation: eventMotion.blow },
+  { name: 'TEA TIME', kind: 'Monday · Labor Day Weekend · Golf', href: 'https://111atl.com', animation: eventMotion.teaTime },
+  { name: 'Taste of Art', kind: 'Friday · Labor Day Weekend', image: '/dorsey/current/taste-of-art.jpg', href: 'https://111atl.com', animation: eventMotion.tasteOfArt },
+  { name: 'BRAVO', kind: 'New Year’s Eve', href: 'https://111atl.com', animation: eventMotion.bravo },
   { name: 'GOOD TIMES', kind: 'The culture calendar', image: '/dorsey/current/good-times.jpg', href: 'https://www.thegoodtimesworldwide.com' },
-  { name: 'Taste of Art', kind: 'August 22 · Atlanta', image: '/dorsey/current/taste-of-art.jpg', href: 'https://www.eventbrite.com/e/the-taste-of-art-aug-22-tickets-1988881972519' },
-  { name: 'Freedom Fest', kind: 'Juneteenth · Culture · Community', href: 'https://freedom-fest-store.vercel.app' },
   { name: 'STUSH', kind: 'Fashion', image: '/dorsey/current/stush-fashion.jpg', href: 'https://stushusa.com' },
   { name: 'Pronto Energy', kind: 'Active beverage brand', image: '/dorsey/current/pronto-energy.jpg', href: 'https://prontoenergydrink.com' },
   { name: 'Infinity Water', kind: 'Active water brand', image: '/dorsey/current/infinity-water.jpg', href: 'https://watertoinfinity.com' },
@@ -27,7 +38,6 @@ const currentMoves = [
   { name: 'The University', kind: 'Trades · Workforce · Ownership', href: 'https://the-university.vercel.app' },
   { name: 'Hakuna Matata', kind: 'The founder’s field manual', href: BOOK_URL },
 ];
-
 
 export default function HomePage() {
   const [menu, setMenu] = useState(false);
@@ -120,7 +130,7 @@ export default function HomePage() {
         <div className={styles.currentGrid}>
           {currentMoves.map((item) => (
             <a href={item.href} className={styles.currentTile} key={item.name}>
-              <MotionCover name={item.name} image={item.image} alt={item.name} veil />
+              <MotionCover animation={item.animation} name={item.name} image={item.image} alt={item.name} veil />
               <div><small>{item.kind}</small><h3>{item.name}</h3><b>Enter ↗</b></div>
             </a>
           ))}
