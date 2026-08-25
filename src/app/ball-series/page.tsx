@@ -6,6 +6,7 @@ import styles from './page.module.css';
 export const metadata: Metadata = {
   title: 'Ball Series — The Kollective',
   description: 'Six signature formal worlds inside The Kollective Ball Series.',
+  alternates: { canonical: 'https://thekollectivehospitality.com/ball-series' },
 };
 
 const balls = [
