@@ -10,17 +10,25 @@ const RETIRED_NAMES = [
   "Breakfast at Tiffany's", 'Pinkie Promise', 'Opium HTX', 'Tulum HTX', 'Whip Addict',
   'Freedom Run', '5K Freedom Run', 'Freedom 5K', 'Freedom 5K Run',
   "The People's Dept.", "The People's Department", 'The People’s Dept.', 'The People’s Department',
+  // Removed from public website surfaces by executive direction.
+  'Secret Society', 'Parking Lot Pimpin', 'Underground King',
+  'New Year’s Eve', "New Year's Eve", 'NEW YEARS EVE',
+  'Exclamation Point', 'The Brand Studio', 'Brand Studio',
+  'GROWN-ISH', 'GROWNISH', 'Grownish', 'Grown-ish',
+  'One Big Ass Party',
 ];
 
 const PUBLIC_EVENT_NAMES = [
-  'GROWN-ISH', 'GROWNISH', 'Taste of Art', 'Freedom Fest', 'Freedom Fest : Juneteent Atl', 'Project X',
-  'Winter Wonderland', 'Parking Lot Pimpin', 'Secret Society', 'Underground King', 'Golf Tournament',
-  'BALL', 'Greek Ball', "Monster's Ball", 'Monster’s Ball', 'Monsters Ball', 'Snow Ball',
-  'Champagne Ball', 'Black Ball', 'Rose Ball', 'New Year’s Eve', "New Year's Eve", 'BRAVO',
-  'One Big Ass Party', 'Exclamation Point',
+  'Taste of Art', 'Freedom Fest', 'Freedom Fest : Juneteent Atl', 'Project X',
+  'Winter Wonderland', 'Golf Tournament',
+  'Ball Series', 'Greek Ball', "Monster's Ball", 'Monster’s Ball', 'Monsters Ball', 'Snow Ball',
+  'Champagne Ball', 'Black Ball', 'Rose Ball', 'BRAVO',
 ];
 
-const EVENT_ENTITY_NAMES = [...PUBLIC_EVENT_NAMES];
+const EVENT_ENTITY_NAMES = [
+  ...PUBLIC_EVENT_NAMES,
+  'BALL',
+];
 
 export const PRIORITY_NAMES = [
   'Goodfellas Pizza & Wings',
@@ -53,7 +61,7 @@ export function isEventEntity(name: string | undefined | null, division?: string
   if (!name) return false;
   if (EVENT_ENTITIES.has(normalise(name))) return true;
   const key = normalise(division || '');
-  return key === 'events cultural ip' || key === 'events activations';
+  return key === 'events cultural ip' || key === 'events activations' || key === 'nightlife events activations';
 }
 
 export function withoutRetired<T>(items: T[], nameOf: (item: T) => string | undefined | null): T[] {
@@ -71,14 +79,5 @@ export function priorityRank(name: string | undefined | null): number {
 
 export function placeRelatedTogether<T>(items: T[], nameOf: (item: T) => string): T[] {
   const output = withoutRetired([...items], nameOf);
-  for (const [anchor, related] of [['Rose on Piedmont', 'GROWN-ISH']] as const) {
-    const anchorIndex = output.findIndex((item) => normalise(nameOf(item)) === normalise(anchor));
-    const relatedIndex = output.findIndex((item) => normalise(nameOf(item)) === normalise(related));
-    if (anchorIndex >= 0 && relatedIndex >= 0 && relatedIndex !== anchorIndex + 1) {
-      const [entry] = output.splice(relatedIndex, 1);
-      const refreshedAnchor = output.findIndex((item) => normalise(nameOf(item)) === normalise(anchor));
-      output.splice(refreshedAnchor + 1, 0, entry);
-    }
-  }
   return output;
 }
