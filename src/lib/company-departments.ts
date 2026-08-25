@@ -18,10 +18,9 @@ function assign(department: DepartmentTitle, names: string[]) {
 
 assign('Nightlife / Events / Activations', [
   'Opium ATL', 'Sea Salt ATL', 'Tulum ATL', 'Hungry AF', 'Goodfellas Pizza & Wings', 'Revel',
-  'GROWN-ISH', 'GROWNISH', 'Taste of Art', 'Freedom Fest', 'Freedom Fest : Juneteent Atl', 'Project X',
-  'Winter Wonderland', 'Parking Lot Pimpin', 'Secret Society', 'Underground King', 'Golf Tournament',
-  'BALL', 'Greek Ball', "Monster's Ball", 'Monster’s Ball', 'Monsters Ball', 'Snow Ball',
-  'Champagne Ball', 'Black Ball', 'One Big Ass Party',
+  'Taste of Art', 'Freedom Fest', 'Freedom Fest : Juneteent Atl', 'Project X', 'Winter Wonderland',
+  'Golf Tournament', 'Ball Series', 'Greek Ball', "Monster's Ball", 'Monster’s Ball', 'Monsters Ball',
+  'Snow Ball', 'Champagne Ball', 'Black Ball', 'Rose Ball', 'BRAVO',
 ]);
 
 assign('Staples', [
@@ -60,7 +59,7 @@ assign('Casper Group', [
 ]);
 
 assign('Umbrella Group', [
-  'The Umbrella Group', 'The Mind Studio', 'Brand Studio', 'The Brand Studio',
+  'The Umbrella Group', 'The Mind Studio',
   'Umbrella Auto Exchange', 'Umbrella Realty Group', 'Umbrella Clean Services',
   'Umbrella Accounting', 'The Automation Office', 'Automation Office', 'Umbrella Travel',
   'Reset Therapy', 'Umbrella Injury Network',
