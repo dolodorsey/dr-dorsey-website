@@ -5,7 +5,8 @@ import styles from './CompanyDirectory.module.css';
 import MotionCover from './MotionCover';
 import type { RegistryEntity } from '@/lib/kollective-public';
 import { currentFocusBrands } from '@/lib/enterprise';
-import { motion, motionFor, orientationFor, type MotionAsset, type Orientation } from '@/lib/motion';
+import { motion, motionFor, type MotionAsset, type Orientation } from '@/lib/motion';
+import { eventMotion } from '@/lib/event-motion';
 import { isEventEntity, isPublicEvent, isRetired, priorityRank } from '@/lib/roster';
 import { departmentFor, departmentRank, departmentSlug } from '@/lib/company-departments';
 
@@ -24,7 +25,6 @@ type Company = {
 
 type CardVideoSpec = {
   path: string;
-  orientation?: Orientation;
   poster?: string;
 };
 
@@ -35,12 +35,13 @@ const TRANSPARENT_POSTER =
 
 /**
  * Exact Creative Engine video assignments.
- * These are keyed by registry slug, never display name, so similarly named
- * brands can never inherit one another's motion.
+ *
+ * Only landscape animations belong here. Frequency currently has a portrait
+ * MP4 only, so its card deliberately falls through to the verified landscape
+ * entity graphic from the public registry rather than stacking/cropping it.
  */
 const CARD_VIDEO_BY_SLUG: Record<string, CardVideoSpec> = {
-  'frequency-productions': { path: 'frequency-port-ani.mp4', orientation: 'portrait' },
-  'synergy-sounds': { path: 'synergy-ani2.mp4', poster: `${CREATIVE_MOTION_BASE}/synergy-sounds-logo.png` },
+  'synergy-sounds': { path: 'synergy-ani2.mp4' },
   'the-casper-group': { path: 'casper-group/casper/casper-group-ani.mp4' },
   'angel-wings': { path: 'casper-group/angel-wings-ani.mp4', poster: `${CREATIVE_MOTION_BASE}/gif/angel-wings.gif` },
   'pasta-bish': { path: 'casper-group/pasta-bish-ani.mp4', poster: `${CREATIVE_MOTION_BASE}/gif/pasta-bish.gif` },
@@ -48,7 +49,7 @@ const CARD_VIDEO_BY_SLUG: Record<string, CardVideoSpec> = {
   'patty-daddy': { path: 'casper-group/patty-daddy-ani.mp4', poster: `${CREATIVE_MOTION_BASE}/gif/patty-daddy.gif` },
   'espresso-co': { path: 'casper-group/espresso-ani.mp4', poster: `${CREATIVE_MOTION_BASE}/gif/espresso-co.gif` },
   'morning-after': { path: 'casper-group/mornig-ani.mp4', poster: `${CREATIVE_MOTION_BASE}/gif/morning-after.gif` },
-  'tossd': { path: 'casper-group/tossd-ani.mp4' },
+  tossd: { path: 'casper-group/tossd-ani.mp4' },
   'sweet-tooth': { path: 'casper-group/sweet-tooth-ani.mp4', poster: `${CREATIVE_MOTION_BASE}/gif/sweet-tooth.gif` },
   'mojo-juice': { path: 'casper-group/mojo-ani.mp4', poster: `${CREATIVE_MOTION_BASE}/gif/mojo-juice.gif` },
   'mr-oyster': { path: 'casper-group/mr-oyster-ani.mp4', poster: `${CREATIVE_MOTION_BASE}/gif/mr-oyster.gif` },
@@ -57,7 +58,7 @@ const CARD_VIDEO_BY_SLUG: Record<string, CardVideoSpec> = {
   'members-elite': { path: 'members-elite-ani.mp4' },
 };
 
-/** Exact assignments already available in the shared motion library. */
+/** Exact landscape assignments already available in the shared motion library. */
 const CARD_MOTION_BY_SLUG: Record<string, MotionAsset> = {
   'dr-dorsey': motion.drAni,
   'the-kollective-ent': motion.kollectiveGlobal,
@@ -70,7 +71,6 @@ const CARD_MOTION_BY_SLUG: Record<string, MotionAsset> = {
   'tribal-water': motion.tribalWater,
   'pronto-energy': motion.pronto,
   'rose-on-piedmont': motion.rose,
-  'grown-ish': motion.grownish,
   'sole-exchange': motion.soleExchange,
   bodega: motion.bodega,
   stush: motion.stush,
@@ -111,12 +111,20 @@ const CARD_MOTION_BY_SLUG: Record<string, MotionAsset> = {
   'black-pages': motion.blackPages,
   'mission-365': motion.mission365,
   'project-x': motion.projectX,
+  'greek-ball': eventMotion.greekBall,
+  'monsters-ball': eventMotion.monstersBall,
+  'snow-ball': eventMotion.snowBall,
+  'champagne-ball': eventMotion.champagneBall,
+  'black-ball': eventMotion.blackBall,
+  'rose-ball': eventMotion.roseBall,
+  bravo: eventMotion.bravo,
 };
 
 const KINETIC_STILL_SLUGS = new Set([
   'just-print',
   'mister-manufacturing',
   'living-legacy-farms',
+  'frequency-productions',
 ]);
 
 function cardMotion(company: Company): MotionAsset | undefined {
@@ -125,8 +133,8 @@ function cardMotion(company: Company): MotionAsset | undefined {
     if (exactVideo) {
       return {
         src: `${CREATIVE_MOTION_BASE}/${exactVideo.path}`,
-        poster: exactVideo.poster || company.hero || company.logo || TRANSPARENT_POSTER,
-        orientation: exactVideo.orientation || 'landscape',
+        poster: exactVideo.poster || company.hero || TRANSPARENT_POSTER,
+        orientation: 'landscape',
       };
     }
     return CARD_MOTION_BY_SLUG[company.slug];
@@ -134,13 +142,22 @@ function cardMotion(company: Company): MotionAsset | undefined {
 
   // Registry-outage fallback data has no stable slug. Name lookup is allowed
   // only here so the page remains useful during an API outage.
-  return motionFor(company.name);
+  const fallback = motionFor(company.name);
+  return fallback?.orientation === 'landscape' ? fallback : undefined;
 }
 
-function cardOrientation(company: Company): Orientation {
-  const exact = cardMotion(company);
-  if (exact) return exact.orientation;
-  return company.slug ? 'landscape' : orientationFor(company.name);
+/** Every public company cover is rendered in the landscape system. */
+function cardOrientation(): Orientation {
+  return 'landscape';
+}
+
+function isFormUrl(url?: string | null): boolean {
+  if (!url) return false;
+  return /(?:\/forms?(?:[/?#.]|$)|forms\.html|type=(?:inquiry|consultation|rsvp|reservation|onboarding|volunteer))/i.test(url);
+}
+
+function usableWebUrl(url?: string | null): url is string {
+  return Boolean(url && /^https?:\/\//i.test(url) && !isFormUrl(url));
 }
 
 function companyWebsite(entity: RegistryEntity) {
@@ -148,21 +165,33 @@ function companyWebsite(entity: RegistryEntity) {
     (destination) =>
       destination.action_key === 'open' &&
       destination.destination_type === 'web' &&
-      Boolean(destination.web_url),
+      usableWebUrl(destination.web_url),
   )?.web_url;
 
-  if (directWeb) return directWeb;
-  if (entity.website_url && !/111atl\.com/i.test(entity.website_url)) return entity.website_url;
+  if (usableWebUrl(directWeb)) return directWeb;
+  if (usableWebUrl(entity.website_url)) return entity.website_url;
 
   const primaryWeb = entity.destinations?.find(
     (destination) =>
       destination.is_primary &&
       destination.destination_type === 'web' &&
-      Boolean(destination.web_url),
+      usableWebUrl(destination.web_url),
   )?.web_url;
 
-  if (primaryWeb) return primaryWeb;
-  return `/go/${entity.slug}?source=companies_page`;
+  if (usableWebUrl(primaryWeb)) return primaryWeb;
+
+  // Events with no verified checkout/site still go to the live event hub —
+  // never to a lead form. Company fallbacks go to their portfolio department.
+  if (isEventEntity(entity.name, entity.division_name || entity.division_slug)) {
+    return 'https://111atl.com';
+  }
+
+  const department = departmentFor({ name: entity.name, division: entity.division_name });
+  if (department === 'Casper Group') return 'https://caspergroupworldwide.com';
+  if (department === 'Umbrella Group') return 'https://theumbrella.group';
+  if (department === 'Change the World') return 'https://soleexchangeworldwide.com';
+
+  return `https://thekollectivehospitality.com/companies#${departmentSlug(department)}`;
 }
 
 function fromRegistry(entity: RegistryEntity): Company {
@@ -214,7 +243,7 @@ export default function CompanyDirectory() {
               category: brand.category,
               description: undefined,
               status: brand.status,
-              href: brand.href,
+              href: isFormUrl(brand.href) ? 'https://thekollectivehospitality.com/companies' : brand.href,
               logo: brand.logo,
               division: 'Current Enterprise Command',
             }))
@@ -283,9 +312,6 @@ export default function CompanyDirectory() {
             />
           )}
         </span>
-        {company.logo && !awaitingArt ? (
-          <img className={styles.logo} src={company.logo} alt="" aria-hidden="true" />
-        ) : null}
         <div className={styles.body}>
           {company.status ? <small className={styles.status}>{company.status}</small> : null}
           <h3 className={styles.name}>{company.name}</h3>
@@ -303,19 +329,11 @@ export default function CompanyDirectory() {
     }
 
     const landscape = items.filter((company) => cardOrientation(company) === 'landscape');
-    const portrait = items.filter((company) => cardOrientation(company) === 'portrait');
 
     return (
-      <>
-        {landscape.length ? (
-          <div className={styles.grid}>{landscape.map((company) => card(company, variant, 'landscape'))}</div>
-        ) : null}
-        {portrait.length ? (
-          <div className={`${styles.grid} ${landscape.length ? styles.gridNext : ''}`}>
-            {portrait.map((company) => card(company, variant, 'portrait'))}
-          </div>
-        ) : null}
-      </>
+      <div className={styles.grid}>
+        {landscape.map((company) => card(company, variant, 'landscape'))}
+      </div>
     );
   };
 
