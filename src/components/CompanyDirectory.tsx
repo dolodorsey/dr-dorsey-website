@@ -5,7 +5,7 @@ import styles from './CompanyDirectory.module.css';
 import MotionCover from './MotionCover';
 import type { RegistryEntity } from '@/lib/kollective-public';
 import { currentFocusBrands } from '@/lib/enterprise';
-import { motion, motionFor, type MotionAsset, type Orientation } from '@/lib/motion';
+import { motion, motionFor, type MotionAsset } from '@/lib/motion';
 import { eventMotion } from '@/lib/event-motion';
 import { isEventEntity, isPublicEvent, isRetired, priorityRank } from '@/lib/roster';
 import { departmentFor, departmentRank, departmentSlug } from '@/lib/company-departments';
@@ -18,28 +18,18 @@ type Company = {
   description?: string;
   status: string;
   href: string;
-  logo?: string;
   hero?: string;
   division: string;
 };
 
-type CardVideoSpec = {
-  path: string;
-  poster?: string;
-};
+type CardVideoSpec = { path: string; poster?: string };
 
 const CREATIVE_MOTION_BASE =
   'https://woqlhjodiedyqfvzweoe.supabase.co/storage/v1/object/public/animations';
 const TRANSPARENT_POSTER =
   'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
 
-/**
- * Exact Creative Engine video assignments.
- *
- * Only landscape animations belong here. Frequency currently has a portrait
- * MP4 only, so its card deliberately falls through to the verified landscape
- * entity graphic from the public registry rather than stacking/cropping it.
- */
+/** Only verified landscape Creative Engine videos belong here. */
 const CARD_VIDEO_BY_SLUG: Record<string, CardVideoSpec> = {
   'synergy-sounds': { path: 'synergy-ani2.mp4' },
   'the-casper-group': { path: 'casper-group/casper/casper-group-ani.mp4' },
@@ -58,7 +48,6 @@ const CARD_VIDEO_BY_SLUG: Record<string, CardVideoSpec> = {
   'members-elite': { path: 'members-elite-ani.mp4' },
 };
 
-/** Exact landscape assignments already available in the shared motion library. */
 const CARD_MOTION_BY_SLUG: Record<string, MotionAsset> = {
   'dr-dorsey': motion.drAni,
   'the-kollective-ent': motion.kollectiveGlobal,
@@ -111,6 +100,8 @@ const CARD_MOTION_BY_SLUG: Record<string, MotionAsset> = {
   'black-pages': motion.blackPages,
   'mission-365': motion.mission365,
   'project-x': motion.projectX,
+  'golf-tournament': eventMotion.teaTime,
+  'winter-wonderland': eventMotion.winterWonderland,
   'greek-ball': eventMotion.greekBall,
   'monsters-ball': eventMotion.monstersBall,
   'snow-ball': eventMotion.snowBall,
@@ -118,6 +109,9 @@ const CARD_MOTION_BY_SLUG: Record<string, MotionAsset> = {
   'black-ball': eventMotion.blackBall,
   'rose-ball': eventMotion.roseBall,
   bravo: eventMotion.bravo,
+  // No dedicated Umbrella Travel art exists in Supabase yet; use the parent
+  // portfolio visual rather than a blank card or an unrelated brand asset.
+  'umbrella-travel': motion.umbrellaGroup,
 };
 
 const KINETIC_STILL_SLUGS = new Set([
@@ -125,30 +119,24 @@ const KINETIC_STILL_SLUGS = new Set([
   'mister-manufacturing',
   'living-legacy-farms',
   'frequency-productions',
+  'ball-series',
 ]);
 
 function cardMotion(company: Company): MotionAsset | undefined {
   if (company.slug) {
-    const exactVideo = CARD_VIDEO_BY_SLUG[company.slug];
-    if (exactVideo) {
+    const video = CARD_VIDEO_BY_SLUG[company.slug];
+    if (video) {
       return {
-        src: `${CREATIVE_MOTION_BASE}/${exactVideo.path}`,
-        poster: exactVideo.poster || company.hero || TRANSPARENT_POSTER,
+        src: `${CREATIVE_MOTION_BASE}/${video.path}`,
+        poster: video.poster || company.hero || TRANSPARENT_POSTER,
         orientation: 'landscape',
       };
     }
     return CARD_MOTION_BY_SLUG[company.slug];
   }
 
-  // Registry-outage fallback data has no stable slug. Name lookup is allowed
-  // only here so the page remains useful during an API outage.
   const fallback = motionFor(company.name);
   return fallback?.orientation === 'landscape' ? fallback : undefined;
-}
-
-/** Every public company cover is rendered in the landscape system. */
-function cardOrientation(): Orientation {
-  return 'landscape';
 }
 
 function isFormUrl(url?: string | null): boolean {
@@ -160,28 +148,24 @@ function usableWebUrl(url?: string | null): url is string {
   return Boolean(url && /^https?:\/\//i.test(url) && !isFormUrl(url));
 }
 
-function companyWebsite(entity: RegistryEntity) {
-  const directWeb = entity.destinations?.find(
+function companyWebsite(entity: RegistryEntity): string {
+  const direct = entity.destinations?.find(
     (destination) =>
       destination.action_key === 'open' &&
       destination.destination_type === 'web' &&
       usableWebUrl(destination.web_url),
   )?.web_url;
-
-  if (usableWebUrl(directWeb)) return directWeb;
+  if (usableWebUrl(direct)) return direct;
   if (usableWebUrl(entity.website_url)) return entity.website_url;
 
-  const primaryWeb = entity.destinations?.find(
+  const primary = entity.destinations?.find(
     (destination) =>
       destination.is_primary &&
       destination.destination_type === 'web' &&
       usableWebUrl(destination.web_url),
   )?.web_url;
+  if (usableWebUrl(primary)) return primary;
 
-  if (usableWebUrl(primaryWeb)) return primaryWeb;
-
-  // Events with no verified checkout/site still go to the live event hub —
-  // never to a lead form. Company fallbacks go to their portfolio department.
   if (isEventEntity(entity.name, entity.division_name || entity.division_slug)) {
     return 'https://111atl.com';
   }
@@ -190,7 +174,6 @@ function companyWebsite(entity: RegistryEntity) {
   if (department === 'Casper Group') return 'https://caspergroupworldwide.com';
   if (department === 'Umbrella Group') return 'https://theumbrella.group';
   if (department === 'Change the World') return 'https://soleexchangeworldwide.com';
-
   return `https://thekollectivehospitality.com/companies#${departmentSlug(department)}`;
 }
 
@@ -203,7 +186,6 @@ function fromRegistry(entity: RegistryEntity): Company {
     description: entity.short_description || undefined,
     status: entity.status_label || entity.status || '',
     href: companyWebsite(entity),
-    logo: entity.logo_url || undefined,
     hero: entity.hero_url || undefined,
     division: entity.division_name || 'The Enterprise',
   };
@@ -228,11 +210,10 @@ export default function CompanyDirectory() {
           setFailed(true);
         }
       });
-
     return () => controller.abort();
   }, []);
 
-  const companies: Company[] = useMemo(() => {
+  const companies = useMemo<Company[]>(() => {
     const source: Company[] =
       entities && entities.length
         ? entities.map(fromRegistry)
@@ -241,10 +222,8 @@ export default function CompanyDirectory() {
               key: brand.name,
               name: brand.name,
               category: brand.category,
-              description: undefined,
               status: brand.status,
               href: isFormUrl(brand.href) ? 'https://thekollectivehospitality.com/companies' : brand.href,
-              logo: brand.logo,
               division: 'Current Enterprise Command',
             }))
           : [];
@@ -258,12 +237,9 @@ export default function CompanyDirectory() {
 
   const featured = companies.slice(0, 2);
   const rest = companies.slice(2);
-
   const staples = useMemo(
-    () =>
-      rest
-        .filter((company) => priorityRank(company.name) >= 0)
-        .sort((a, b) => priorityRank(a.name) - priorityRank(b.name)),
+    () => rest.filter((company) => priorityRank(company.name) >= 0)
+      .sort((a, b) => priorityRank(a.name) - priorityRank(b.name)),
     [rest],
   );
 
@@ -280,24 +256,20 @@ export default function CompanyDirectory() {
       .map(([division, items]) => ({ division, slug: departmentSlug(division), items }));
   }, [rest]);
 
-  if (!companies.length) {
-    return <p className={styles.empty}>Loading the enterprise registry…</p>;
-  }
+  if (!companies.length) return <p className={styles.empty}>Loading the enterprise registry…</p>;
 
-  const card = (company: Company, variant: 'feature' | 'tile', shape: Orientation = 'landscape') => {
+  const renderCard = (company: Company, variant: 'feature' | 'tile') => {
     const animation = cardMotion(company);
     const hasMotion = Boolean(animation);
-    const hasOwnStill = Boolean(company.hero && !brokenArt[company.key]);
+    const hasStill = Boolean(company.hero && !brokenArt[company.key]);
     const kineticStill = Boolean(
-      !hasMotion && company.slug && KINETIC_STILL_SLUGS.has(company.slug) && hasOwnStill,
+      !hasMotion && company.slug && KINETIC_STILL_SLUGS.has(company.slug) && hasStill,
     );
-    const awaitingArt = !hasMotion && !hasOwnStill;
+    const awaitingArt = !hasMotion && !hasStill;
 
     return (
       <a className={`${styles.card} ${styles[variant]}`} href={company.href} key={company.key}>
-        <span
-          className={`${styles.media} ${shape === 'portrait' ? styles.portrait : ''} ${awaitingArt ? styles.awaiting : ''} ${kineticStill ? styles.kineticStill : ''}`}
-        >
+        <span className={`${styles.media} ${awaitingArt ? styles.awaiting : ''} ${kineticStill ? styles.kineticStill : ''}`}>
           {awaitingArt ? (
             <span className={styles.plate} aria-hidden="true">
               <b>{company.name}</b>
@@ -323,47 +295,25 @@ export default function CompanyDirectory() {
     );
   };
 
-  const rows = (items: Company[], variant: 'feature' | 'tile', group = true) => {
-    if (!group) {
-      return <div className={styles.grid}>{items.map((company) => card(company, variant, 'landscape'))}</div>;
-    }
-
-    const landscape = items.filter((company) => cardOrientation(company) === 'landscape');
-
-    return (
-      <div className={styles.grid}>
-        {landscape.map((company) => card(company, variant, 'landscape'))}
-      </div>
-    );
-  };
+  const renderRows = (items: Company[], variant: 'feature' | 'tile') => (
+    <div className={styles.grid}>{items.map((company) => renderCard(company, variant))}</div>
+  );
 
   return (
     <div className={styles.wrap}>
       <nav className={styles.chips} aria-label="Jump to a department">
-        {staples.length ? (
-          <a href="#staples" className={styles.chipLead}>
-            Staples
-            <b>{staples.length}</b>
-          </a>
-        ) : null}
+        {staples.length ? <a href="#staples" className={styles.chipLead}>Staples<b>{staples.length}</b></a> : null}
         {sections.map((section) => (
-          <a href={`#${section.slug}`} key={section.slug}>
-            {section.division}
-            <b>{section.items.length}</b>
-          </a>
+          <a href={`#${section.slug}`} key={section.slug}>{section.division}<b>{section.items.length}</b></a>
         ))}
       </nav>
 
-      {featured.length ? (
-        <div className={styles.section}>{rows(featured, 'feature', false)}</div>
-      ) : null}
+      {featured.length ? <div className={styles.section}>{renderRows(featured, 'feature')}</div> : null}
 
       {staples.length ? (
         <section className={styles.section} id="staples">
-          <header className={styles.sectionHead}>
-            <h3>Staples</h3>
-          </header>
-          {rows(staples, 'tile', false)}
+          <header className={styles.sectionHead}><h3>Staples</h3></header>
+          {renderRows(staples, 'tile')}
         </section>
       ) : null}
 
@@ -371,11 +321,9 @@ export default function CompanyDirectory() {
         <section className={styles.section} id={section.slug} key={section.slug}>
           <header className={styles.sectionHead}>
             <h3>{section.division}</h3>
-            <span>
-              {section.items.length} {section.items.length === 1 ? 'company' : 'companies'}
-            </span>
+            <span>{section.items.length} {section.items.length === 1 ? 'company' : 'companies'}</span>
           </header>
-          {rows(section.items, 'tile')}
+          {renderRows(section.items, 'tile')}
         </section>
       ))}
     </div>
