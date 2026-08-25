@@ -11,7 +11,7 @@ const ROSE_TICKETS = 'https://www.eventbrite.com/e/rose-ball-valentines-weekend-
 export const metadata: Metadata = {
   title: 'The Ball Series — The Kollective',
   description:
-    'Six signature formal event chapters across Atlanta: Greek Ball, Monster’s Ball, Snow Ball, Black Ball, Champagne Ball and Rose Ball.',
+    'Six signature formal event chapters across Atlanta: Greek Ball, Monster’s Ball, Black Ball, Snow Ball, Champagne Ball and Rose Ball.',
   alternates: { canonical: 'https://thekollectivehospitality.com/ball-series' },
   openGraph: {
     title: 'The Ball Series — The Kollective',
@@ -62,11 +62,28 @@ const balls = [
     live: false,
   },
   {
-    slug: 'snow-ball',
+    slug: 'black-ball',
     chapter: '03',
+    name: 'Black Ball',
+    title: 'BLACK ON BLACK',
+    date: 'NOV 28',
+    year: '2026',
+    day: 'SATURDAY',
+    eyebrow: 'THANKSGIVING WEEKEND · FORMAL',
+    dress: 'ALL BLACK · NO EXCEPTIONS',
+    description:
+      'One palette. Maximum presence. An all-black formal night built around intentional elegance, sharp silhouettes and collective visual impact.',
+    animation: eventMotion.blackBall,
+    href: EVENT_HUB,
+    cta: 'Release coming ↗',
+    live: false,
+  },
+  {
+    slug: 'snow-ball',
+    chapter: '04',
     name: 'Snow Ball',
     title: 'WINTER WHITE',
-    date: 'NOV 21',
+    date: 'DEC 12',
     year: '2026',
     day: 'SATURDAY',
     eyebrow: 'HOLIDAY · WINTER FANTASY',
@@ -74,23 +91,6 @@ const balls = [
     description:
       'A glowing winter-white world built for elevated dress, holiday energy and a grown social experience that feels transported.',
     animation: eventMotion.snowBall,
-    href: EVENT_HUB,
-    cta: 'Release coming ↗',
-    live: false,
-  },
-  {
-    slug: 'black-ball',
-    chapter: '04',
-    name: 'Black Ball',
-    title: 'BLACK ON BLACK',
-    date: 'NOV 27',
-    year: '2026',
-    day: 'FRIDAY',
-    eyebrow: 'THANKSGIVING WEEKEND · FORMAL',
-    dress: 'ALL BLACK · NO EXCEPTIONS',
-    description:
-      'One palette. Maximum presence. An all-black formal night built around intentional elegance, sharp silhouettes and collective visual impact.',
-    animation: eventMotion.blackBall,
     href: EVENT_HUB,
     cta: 'Release coming ↗',
     live: false,
