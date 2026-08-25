@@ -6,6 +6,7 @@ import MotionCover from './MotionCover';
 import type { RegistryEntity } from '@/lib/kollective-public';
 import { currentFocusBrands } from '@/lib/enterprise';
 import { motionFor, type MotionAsset } from '@/lib/motion';
+import { eventMotion } from '@/lib/event-motion';
 import { isEventEntity, isPublicEvent, isRetired, priorityRank } from '@/lib/roster';
 import { departmentFor, departmentRank, departmentSlug } from '@/lib/company-departments';
 
@@ -17,7 +18,6 @@ type Company = {
   description?: string;
   status: string;
   href: string;
-  logo?: string;
   hero?: string;
   division: string;
 };
@@ -32,13 +32,11 @@ const TRANSPARENT_POSTER =
   'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
 
 // Only verified landscape media belongs on the company grid. Portrait media is
-// intentionally excluded here so a portrait animation can never be stacked or
-// letterboxed on top of a landscape company card.
+// intentionally excluded so portrait animations can never stack over landscape cards.
 const LANDSCAPE_VIDEO_BY_SLUG: Record<string, VideoSpec> = {
-  'synergy-sounds': {
-    path: 'synergy-ani2.mp4',
-    poster: `${CREATIVE_MOTION_BASE}/synergy-sounds-logo.png`,
-  },
+  // No poster override here: use Synergy's verified landscape entity graphic,
+  // never the logo, while the landscape MP4 is loading.
+  'synergy-sounds': { path: 'synergy-ani2.mp4' },
   'the-casper-group': { path: 'casper-group/casper/casper-group-ani.mp4' },
   'angel-wings': {
     path: 'casper-group/angel-wings-ani.mp4',
@@ -89,15 +87,17 @@ const LANDSCAPE_VIDEO_BY_SLUG: Record<string, VideoSpec> = {
   'winter-wonderland': { src: `${EVENT_MOTION_BASE}/winter-wonderland.mp4` },
   'champagne-ball': { src: `${EVENT_MOTION_BASE}/champagne-ball.mp4` },
   'rose-ball': { src: `${EVENT_MOTION_BASE}/rose-ball.mp4` },
+  bravo: { src: eventMotion.bravo.src, poster: eventMotion.bravo.poster },
+  'golf-tournament': { src: eventMotion.teaTime.src, poster: eventMotion.teaTime.poster },
 };
 
-// These have approved still art but no approved landscape motion yet. They get
-// subtle movement rather than borrowing/stretching a portrait animation.
+// These have approved landscape still art but no approved landscape motion yet.
 const KINETIC_STILL_SLUGS = new Set([
   'frequency-productions',
   'just-print',
   'mister-manufacturing',
   'living-legacy-farms',
+  'ball-series',
 ]);
 
 function companyMotion(company: Company): MotionAsset | undefined {
@@ -118,26 +118,44 @@ function companyMotion(company: Company): MotionAsset | undefined {
   return inherited?.orientation === 'landscape' ? inherited : undefined;
 }
 
-function companyWebsite(entity: RegistryEntity) {
+function isFormUrl(url?: string | null): boolean {
+  if (!url) return false;
+  return /(?:\/forms?(?:[/?#.]|$)|forms\.html|type=(?:inquiry|consultation|rsvp|reservation|onboarding|volunteer))/i.test(url);
+}
+
+function usableWebUrl(url?: string | null): url is string {
+  return Boolean(url && /^https?:\/\//i.test(url) && !isFormUrl(url));
+}
+
+function companyWebsite(entity: RegistryEntity): string {
   const directWeb = entity.destinations?.find(
     (destination) =>
       destination.action_key === 'open' &&
       destination.destination_type === 'web' &&
-      Boolean(destination.web_url),
+      usableWebUrl(destination.web_url),
   )?.web_url;
+  if (usableWebUrl(directWeb)) return directWeb;
 
-  if (directWeb) return directWeb;
-  if (entity.website_url && !/111atl\.com/i.test(entity.website_url)) return entity.website_url;
+  if (usableWebUrl(entity.website_url)) return entity.website_url;
 
   const primaryWeb = entity.destinations?.find(
     (destination) =>
       destination.is_primary &&
       destination.destination_type === 'web' &&
-      Boolean(destination.web_url),
+      usableWebUrl(destination.web_url),
   )?.web_url;
+  if (usableWebUrl(primaryWeb)) return primaryWeb;
 
-  if (primaryWeb) return primaryWeb;
-  return `/go/${entity.slug}?source=companies_page`;
+  if (isEventEntity(entity.name, entity.division_name || entity.division_slug)) {
+    return 'https://111atl.com';
+  }
+
+  const department = departmentFor({ name: entity.name, division: entity.division_name });
+  if (department === 'Casper Group') return 'https://caspergroupworldwide.com';
+  if (department === 'Umbrella Group') return 'https://umbrellagroupworldwide.com';
+  if (department === 'Change the World') return 'https://soleexchangeworldwide.com';
+
+  return `https://thekollectivehospitality.com/companies#${departmentSlug(department)}`;
 }
 
 function fromRegistry(entity: RegistryEntity): Company {
@@ -149,7 +167,6 @@ function fromRegistry(entity: RegistryEntity): Company {
     description: entity.short_description || undefined,
     status: entity.status_label || entity.status || '',
     href: companyWebsite(entity),
-    logo: entity.logo_url || undefined,
     hero: entity.hero_url || undefined,
     division: entity.division_name || 'The Enterprise',
   };
@@ -188,8 +205,7 @@ export default function CompanyDirectoryV2() {
               name: brand.name,
               category: brand.category,
               status: brand.status,
-              href: brand.href,
-              logo: brand.logo,
+              href: isFormUrl(brand.href) ? 'https://thekollectivehospitality.com/companies' : brand.href,
               division: 'Current Enterprise Command',
             }))
           : [];
