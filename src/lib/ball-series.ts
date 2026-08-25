@@ -228,14 +228,23 @@ export async function getBallLiveState(config: BallConfig): Promise<BallLiveStat
         .order('display_order', { ascending: true })
     : { data: [] as TicketTier[] };
 
-  // Multiple historical/planning event rows can share a Ball name. Use the
-  // first event row that actually has configured tiers, preserving its order.
   const rows = (tierRows || []) as Array<TicketTier & { khg_event_id?: string }>;
   const tierEventId = eventIds.find((id) => rows.some((row) => row.khg_event_id === id));
-  const tiers = rows
+  const tiers: TicketTier[] = rows
     .filter((row) => !tierEventId || row.khg_event_id === tierEventId)
     .filter((row) => row.price_cents > 0)
-    .map(({ khg_event_id: _eventId, ...row }) => row as TicketTier);
+    .map((row) => ({
+      tier_key: row.tier_key,
+      tier_label: row.tier_label,
+      display_order: row.display_order,
+      price_cents: row.price_cents,
+      capacity: row.capacity,
+      is_vip: row.is_vip,
+      is_section: row.is_section,
+      section_capacity: row.section_capacity,
+      bottles_included: row.bottles_included,
+      description: row.description,
+    }));
 
   const settingsStatus = String(settings?.status || '').toLowerCase();
   const soldOut = ['sold_out', 'sold out', 'closed'].includes(settingsStatus);
