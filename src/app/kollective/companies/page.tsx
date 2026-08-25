@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: 'Companies — The Kollective',
   description:
     'Every company inside The Kollective: hospitality, nightlife, events, technology, products, water, services, impact, and the Casper Group.',
-  alternates: { canonical: '/kollective/companies' },
+  alternates: { canonical: 'https://thekollectivehospitality.com/companies' },
 };
 
 export default function KollectiveCompaniesPage() {
