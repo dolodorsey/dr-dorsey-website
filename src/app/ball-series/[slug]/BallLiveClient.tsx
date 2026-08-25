@@ -71,7 +71,8 @@ export default function BallLiveClient({
   }, [trackingUrl, ticketUrl, params]);
 
   const shareUrl = typeof window === 'undefined' ? '' : window.location.href;
-  const caption = `${title}: ${name}. The Ball Series by The Kollective. Dress up. Show out. Come correct. ${shareUrl}`;
+  const hashtag = `#${slug.replace(/-/g, '')}`;
+  const caption = `${title}: ${name}. The Ball Series by The Kollective. Dress up. Show out. Come correct. ${shareUrl} ${hashtag}`;
   const storyAsset = `/api/social/story-card?brand=kollective&eyebrow=${encodeURIComponent('THE BALL SERIES')}&title=${encodeURIComponent(`${title}: ${name}`)}&body=${encodeURIComponent('Dress up. Show out. Come correct.')}&cta=${encodeURIComponent(statusLabel)}&footer=${encodeURIComponent('@thekollectiveent')}&background=${encodeURIComponent(poster)}`;
 
   const copyCaption = async () => {
