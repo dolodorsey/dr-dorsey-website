@@ -12,7 +12,7 @@ import BallLiveClient from './BallLiveClient';
 import GreekBallConversion from './GreekBallConversion';
 import styles from './page.module.css';
 
-export const revalidate = 300;
+export const revalidate = 60;
 
 export function generateStaticParams() {
   return BALLS.map((ball) => ({ slug: ball.slug }));
