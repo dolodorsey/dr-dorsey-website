@@ -15,15 +15,14 @@ const allDepartments: Department[] = [
   {
     title: 'Nightlife / Events / Activations',
     eyebrow: 'Nightlife · Events · Cultural IP',
-    detail: 'Recurring nightlife concepts, signature event series, cultural activations, car shows, tournaments and major one-off celebrations.',
+    detail: 'Recurring nightlife concepts, signature event series, cultural activations, tournaments and major destination events.',
     sample: [
-      'GROWN-ISH', 'Winter Wonderland', 'Taste of Art', 'Parking Lot Pimpin', 'Secret Society',
-      'Underground King', 'Golf Tournament', 'BALL', 'Greek Ball', 'Monster’s Ball', 'Snow Ball',
-      'Champagne Ball', 'Black Ball', 'One Big Ass Party',
+      'Winter Wonderland', 'Taste of Art', 'Golf Tournament', 'Ball Series', 'Greek Ball',
+      'Monster’s Ball', 'Snow Ball', 'Champagne Ball', 'Black Ball', 'Rose Ball', 'BRAVO',
     ],
     href: '/events',
     cta: 'Open nightlife and events',
-    animations: [motion.grownish, motion.tasteOfArt, motion.freedomFest, motion.projectX],
+    animations: [motion.tasteOfArt, motion.freedomFest, motion.projectX],
   },
   {
     title: 'Staples',
@@ -123,7 +122,7 @@ const allDepartments: Department[] = [
     eyebrow: 'Service Portfolio',
     detail: 'A separate coordinated network for property, mobility, finance, wellness, travel and business services.',
     sample: [
-      'Umbrella Auto Exchange', 'Umbrella Realty Group', 'The Mind Studio', 'Brand Studio',
+      'Umbrella Auto Exchange', 'Umbrella Realty Group', 'The Mind Studio',
       'Automation Office', 'Umbrella Travel', 'Reset Therapy',
     ],
     href: 'https://umbrellagroupworldwide.com',
