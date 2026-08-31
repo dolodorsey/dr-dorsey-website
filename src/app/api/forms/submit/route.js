@@ -11,6 +11,8 @@ const ALLOWED_FORMS = new Set([
   'member_offers','ambassador_application',
 ]);
 
+const SMS_CONSENT_TEXT = 'I agree to receive recurring informational and marketing text messages from Kollective Hospitality Texas at the number provided. Message frequency varies. Message and data rates may apply. Reply STOP to opt out and HELP for help. Consent is not a condition of purchase.';
+
 function cleanText(value, max = 500) {
   return String(value ?? '').trim().slice(0, max);
 }
@@ -37,6 +39,22 @@ export async function POST(request) {
     return NextResponse.json({ error: 'A valid name is required.' }, { status: 400 });
   }
 
+  const isSmsOptIn = formData.request_type === 'sms_opt_in';
+  const phoneDigits = phone?.replace(/\D/g, '') || '';
+  if (isSmsOptIn && (source !== 'kollective-app' || formData.sms_consent !== true || phoneDigits.length < 7 || phoneDigits.length > 15)) {
+    return NextResponse.json({ error: 'Valid SMS consent and a mobile number are required.' }, { status: 400 });
+  }
+
+  const storedFormData = isSmsOptIn
+    ? {
+        ...formData,
+        sms_consent: true,
+        sms_consent_text: SMS_CONSENT_TEXT,
+        consent_timestamp: new Date().toISOString(),
+        consent_capture: 'server_validated',
+      }
+    : formData;
+
   const response = await fetch(`${SUPABASE_URL}/rest/v1/form_submissions`, {
     method: 'POST',
     headers: {
@@ -51,7 +69,7 @@ export async function POST(request) {
       brand_key: brandKey,
       full_name: fullName,
       phone,
-      form_data: formData,
+      form_data: storedFormData,
       source,
       user_agent: cleanText(request.headers.get('user-agent'), 500) || null,
       referer: cleanText(request.headers.get('referer'), 500) || null,
