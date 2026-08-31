@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import LegalPage from '../_components/LegalPage';
 import styles from '../_components/legal-page.module.css';
+import SmsOptInForm from './SmsOptInForm';
 
 export const metadata: Metadata = {
   title: 'SMS Consent | The Kollective',
@@ -33,6 +34,12 @@ export default function SmsConsentPage() {
           <li>Reply HELP for help or email <a href="mailto:thekollectivehospitality@gmail.com">thekollectivehospitality@gmail.com</a>.</li>
           <li>Declining or withdrawing SMS consent does not prevent you from making a purchase or requesting service through another available channel.</li>
         </ul>
+      </section>
+
+      <section>
+        <h2>Opt in to SMS</h2>
+        <p>Use this form only if you want text messages from Kollective Hospitality Texas. The SMS checkbox is optional to your relationship with us and is never pre-selected.</p>
+        <SmsOptInForm />
       </section>
 
       <section>
