@@ -43,7 +43,7 @@ export async function POST(request) {
       apikey: SUPABASE_KEY,
       Authorization: `Bearer ${SUPABASE_KEY}`,
       'Content-Type': 'application/json',
-      Prefer: 'return=representation',
+      Prefer: 'return=minimal',
     },
     body: JSON.stringify({
       form_type: formType,
