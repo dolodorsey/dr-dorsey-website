@@ -5,7 +5,7 @@ export const revalidate = 60;
 
 export const metadata = {
   title: 'The Shop — Dr. Dorsey',
-  description: 'Hakuna Matata by Dr. Dorsey. Capsule 01: The Architect. The Kollective essentials.',
+  description: 'Hakuna Matata by Dr. Dorsey. Dr. Dorsey signature pieces. The Kollective essentials.',
 };
 
 const GOLD = '#D4B87A';
@@ -101,7 +101,7 @@ export default async function ShopPage() {
         )}
 
         {dorseyPieces.length > 0 && (
-          <ProductSection eyebrow="Dr. Dorsey · Capsule 01" title="The Architect." products={dorseyPieces} />
+          <ProductSection eyebrow="Dr. Dorsey · Signature" title="Wear the mindset." products={dorseyPieces} />
         )}
       </section>
 
@@ -168,28 +168,21 @@ function ProductSection({ eyebrow, title, products, emptyCopy = 'Products coming
 
 function ProductCard({ product }: { product: ShopifyProduct }) {
   const img = product.images?.[0]?.src;
-  const variant = product.variants?.[0];
-  const price = variant?.price;
-  const variantId = variant?.id;
-  const comingSoon = product.tags?.some(tag => tag.trim() === 'status:coming_soon') || variant?.available === false;
+  const price = product.variants?.[0]?.price;
+  const variantId = product.variants?.[0]?.id;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <a href={productPageUrl(product.handle)} style={{ display: 'block', aspectRatio: '3/4', background: '#0d0d10', overflow: 'hidden', textDecoration: 'none', position: 'relative' }}>
+      <a href={productPageUrl(product.handle)} style={{ display: 'block', aspectRatio: '3/4', background: '#0d0d10', overflow: 'hidden', textDecoration: 'none' }}>
         {img && <img src={img} alt={product.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
-        {comingSoon && (
-          <span style={{ position: 'absolute', left: 16, top: 16, padding: '8px 10px', background: 'rgba(6,6,7,.88)', border: `1px solid ${GOLD}`, color: GOLD, fontFamily: 'DM Mono, monospace', fontSize: 9, letterSpacing: '.2em', textTransform: 'uppercase' }}>Coming Soon</span>
-        )}
       </a>
       <div style={{ padding: '20px 4px 0', display: 'flex', flexDirection: 'column', gap: 8 }}>
         <a href={productPageUrl(product.handle)} style={{ color: '#F5EFE0', textDecoration: 'none', fontFamily: 'Cormorant Garamond, serif', fontSize: 20, letterSpacing: '0.01em' }}>{product.title}</a>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
           <span style={{ fontFamily: 'DM Mono, monospace', fontSize: 13, color: GOLD, letterSpacing: '0.05em' }}>{formatPrice(price)}</span>
-          {comingSoon ? (
-            <span style={{ fontFamily: 'DM Mono, monospace', fontSize: 10, letterSpacing: '0.3em', color: 'rgba(245,239,224,.55)', textTransform: 'uppercase' }}>Coming Soon</span>
-          ) : variantId ? (
+          {variantId && (
             <a href={cartAddUrl(variantId)} style={{ fontFamily: 'DM Mono, monospace', fontSize: 10, letterSpacing: '0.3em', color: GB, textDecoration: 'none', textTransform: 'uppercase', borderBottom: `1px solid ${GOLD}`, paddingBottom: 2 }}>Add →</a>
-          ) : null}
+          )}
         </div>
       </div>
     </div>
