@@ -53,6 +53,13 @@ export default function KollectivePage() {
         <video className={upgradeStyles.heroVideo} autoPlay muted loop playsInline preload="metadata" poster={HERO_POSTER} aria-label="The Kollective global enterprise animation">
           <source src={HERO_VIDEO} type="video/mp4" />
         </video>
+        <div className={upgradeStyles.heroShade} aria-hidden="true" />
+        <div className={upgradeStyles.heroGhost} aria-hidden="true">KOLLECTIVE</div>
+        <div className={upgradeStyles.heroIdentity}>
+          <p>THE KOLLECTIVE HOSPITALITY GROUP</p>
+          <h1>A house of<br /><em>independent brands.</em></h1>
+          <div><span>HOSPITALITY</span><i>•</i><span>ENTERTAINMENT</span><i>•</i><span>CONSUMER</span><i>•</i><span>TECHNOLOGY</span></div>
+        </div>
         <a className={styles.scrollCue} href="#departments"><span /></a>
       </section>
 
