@@ -2,6 +2,7 @@
 
 import styles from './kollective.module.css';
 import upgradeStyles from './kollective-upgrade.module.css';
+import heroStyles from './kollective-hero-premium.module.css';
 import { accessLinks, SB } from '@/lib/enterprise';
 import DepartmentGrid from '@/components/DepartmentGrid';
 import MotionCover from '@/components/MotionCover';
@@ -53,9 +54,9 @@ export default function KollectivePage() {
         <video className={upgradeStyles.heroVideo} autoPlay muted loop playsInline preload="metadata" poster={HERO_POSTER} aria-label="The Kollective global enterprise animation">
           <source src={HERO_VIDEO} type="video/mp4" />
         </video>
-        <div className={upgradeStyles.heroShade} aria-hidden="true" />
-        <div className={upgradeStyles.heroGhost} aria-hidden="true">KOLLECTIVE</div>
-        <div className={upgradeStyles.heroIdentity}>
+        <div className={heroStyles.heroShade} aria-hidden="true" />
+        <div className={heroStyles.heroGhost} aria-hidden="true">KOLLECTIVE</div>
+        <div className={heroStyles.heroIdentity}>
           <p>THE KOLLECTIVE HOSPITALITY GROUP</p>
           <h1>A house of<br /><em>independent brands.</em></h1>
           <div><span>HOSPITALITY</span><i>•</i><span>ENTERTAINMENT</span><i>•</i><span>CONSUMER</span><i>•</i><span>TECHNOLOGY</span></div>
