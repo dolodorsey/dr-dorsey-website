@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "./kollective-surface.css";
+import "./founder-hero-polish.css";
 import { brandVariablesCss } from "@/lib/brand-tokens";
 import AppDownloadPrompt from "@/components/AppDownloadPrompt";
 
