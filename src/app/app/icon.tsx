@@ -5,7 +5,7 @@ export const size = { width: 512, height: 512 };
 export const contentType = "image/png";
 
 const EMBLEM_URL =
-  "https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png";
+  "https://dr-dorsey-website.vercel.app/kollective-app-icon.svg";
 
 export default function Icon() {
   return new ImageResponse(
