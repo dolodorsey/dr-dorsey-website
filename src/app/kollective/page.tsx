@@ -26,7 +26,7 @@ function publicAccessHref(item: { title: string; href: string }) {
   if (item.title === 'Table Reservation') return '/app/forms/reserve-table';
   if (/111atl\.com/i.test(item.href)) return '/app/forms/inquiry';
   if (item.href.startsWith('/forms')) return `/app${item.href}`;
-  if (item.href === '/shop') return '/store';
+  if (item.href === '/shop') return '/shop';
   return item.href;
 }
 
@@ -41,11 +41,12 @@ export default function KollectivePage() {
           <a href="/companies">Companies</a>
           <a href="/team">Team</a>
           <a href="/events">Current</a>
+          <a href="/shop">Shop</a>
           <a href="/network">Network</a>
           <a href="/links">Links</a>
           <a href="/app">Apps</a>
         </div>
-        <a className={styles.navCta} href="/app?install=1">Download App</a>
+        <a className={styles.navCta} href="/shop">Shop Merch</a>
       </nav>
 
       <section className={`${styles.hero} ${upgradeStyles.compactHero}`} id="top" aria-label="The Kollective visual introduction">
@@ -58,7 +59,7 @@ export default function KollectivePage() {
       <section className={`${upgradeStyles.actionBar} k-surface k-edge`} aria-label="Fast enterprise actions">
         <a href="/app/forms/rsvp"><strong>RSVP</strong><span>Events and guest lists</span></a>
         <a href="/app/forms/reserve-table"><strong>Reserve</strong><span>Dining and nightlife</span></a>
-        <a href={BOOK_URL}><strong>Buy</strong><span>Hakuna Matata</span></a>
+        <a href="/shop"><strong>Shop</strong><span>Official Kollective merch</span></a>
         <a href="/app/forms/partnership"><strong>Partner</strong><span>Sponsors and enterprise deals</span></a>
         <a href="/app/forms/hiring"><strong>Join</strong><span>Careers and opportunities</span></a>
         <a href="/app"><strong>All Access</strong><span>Every form and link</span></a>
@@ -108,7 +109,7 @@ export default function KollectivePage() {
           <h2>Hakuna Matata.<br />The mindset behind the machine.</h2>
           <p>A direct look at the philosophy, pressure, ambition, and discipline behind Dr. Dorsey’s approach to life, leadership, and enterprise building.</p>
           <div className={upgradeStyles.bookPrice}>Available now · $44.44</div>
-          <div className={upgradeStyles.bookActions}><a className={upgradeStyles.goldButton} href={BOOK_URL}>Buy the Book</a><a className={upgradeStyles.lineButton} href="https://doctordorsey.com/forms/bulk_orders">Bulk Orders</a><a className={upgradeStyles.lineButton} href="https://doctordorsey.com/forms/speaking">Book Dr. Dorsey</a></div>
+          <div className={upgradeStyles.bookActions}><a className={upgradeStyles.goldButton} href={BOOK_URL}>Buy the Book</a><a className={upgradeStyles.lineButton} href="/shop">Shop Kollective</a><a className={upgradeStyles.lineButton} href="https://doctordorsey.com/forms/bulk_orders">Bulk Orders</a><a className={upgradeStyles.lineButton} href="https://doctordorsey.com/forms/speaking">Book Dr. Dorsey</a></div>
         </div>
       </section>
 
@@ -118,10 +119,10 @@ export default function KollectivePage() {
         <div className={`${styles.accessGrid} ${upgradeStyles.compactAccessGrid}`}>{featuredAccess.map((item) => (
           <a href={publicAccessHref(item)} key={item.title}><b>{item.title}</b><span>{item.description}</span><i>↗</i></a>
         ))}</div>
-        <div className={`${styles.accessButtons} ${upgradeStyles.compactAccessButtons}`}><a href="/app">Open the App</a><a href="/app/forms/inquiry">Ask for More Info</a><a href="/app?install=1">Download Kollective</a></div>
+        <div className={`${styles.accessButtons} ${upgradeStyles.compactAccessButtons}`}><a href="/shop">Shop Merch</a><a href="/app">Open the App</a><a href="/app/forms/inquiry">Ask for More Info</a><a href="/app?install=1">Download Kollective</a></div>
       </section>
 
-      <footer className={styles.footer}><img src={EMBLEM} alt="The Kollective" /><p>Independent brands. Shared enterprise leverage. Direct action.</p><div><a href={BOOK_URL}>Buy the Book</a><a href="https://doctordorsey.com">Dr. Dorsey</a><a href="/team">Team</a><a href="/events">Current</a><a href="/access">Access</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/sms-consent">SMS Consent</a></div></footer>
+      <footer className={styles.footer}><img src={EMBLEM} alt="The Kollective" /><p>Independent brands. Shared enterprise leverage. Direct action.</p><div><a href="/shop">Shop Merch</a><a href={BOOK_URL}>Buy the Book</a><a href="https://doctordorsey.com">Dr. Dorsey</a><a href="/team">Team</a><a href="/events">Current</a><a href="/access">Access</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/sms-consent">SMS Consent</a></div></footer>
     </main>
   );
 }
