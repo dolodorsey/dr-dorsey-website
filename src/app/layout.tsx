@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   keywords: "Dr. Dorsey, DoLo Dorsey, The Kollective, Hakuna Matata, enterprise builder, hospitality, technology, consumer brands, Atlanta",
   openGraph: { title: "Dr. DoLo Dorsey — I Build the Machines Behind Culture", description: "Founder. Author. Enterprise architect. Enter the philosophy, work, and operating system behind The Kollective.", type: "website", siteName: "Dr. DoLo Dorsey", images: ['/dorsey/book-office.png'] },
   twitter: { card: "summary_large_image", title: "Dr. DoLo Dorsey — The Architect Behind the Enterprise", description: "I build the machines behind culture.", images: ['/dorsey/book-office.png'] },
-  icons: { icon: 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png' },
+  icons: { icon: '/favicon.ico' },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
