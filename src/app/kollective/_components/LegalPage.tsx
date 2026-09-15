@@ -29,14 +29,14 @@ export default function LegalPage({ eyebrow, title, intro, children }: LegalPage
       <article className={styles.document}>
         <p className={styles.eyebrow}>{eyebrow}</p>
         <h1>{title}</h1>
-        <p className={styles.updated}>Effective August 31, 2026</p>
+        <p className={styles.updated}>Effective September 15, 2026</p>
         <p className={styles.intro}>{intro}</p>
         <div className={styles.content}>{children}</div>
       </article>
 
       <footer className={styles.footer}>
-        <p>Kollective Hospitality Texas</p>
-        <p>2811 Washington Ave, Houston, TX 77007</p>
+        <p>The Kollective</p>
+        <p>SMS messaging program legal sender: The Inner Circle LLC</p>
         <a href="mailto:thekollectivehospitality@gmail.com">thekollectivehospitality@gmail.com</a>
       </footer>
     </main>
