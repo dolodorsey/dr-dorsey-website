@@ -3,7 +3,10 @@
 import { FormEvent, useState } from 'react';
 import styles from './sms-opt-in.module.css';
 
-const CONSENT_TEXT = 'I agree to receive recurring informational and marketing text messages from Kollective Hospitality Texas at the number provided. Message frequency varies. Message and data rates may apply. Reply STOP to opt out and HELP for help. Consent is not a condition of purchase.';
+const LEGAL_SMS_SENDER = 'The Inner Circle LLC';
+const MESSAGING_PROGRAM = 'The Kollective';
+const CONSENT_VERSION = '2026-09-15-a2p-v1';
+const CONSENT_TEXT = `I agree to receive recurring informational and marketing text messages from ${LEGAL_SMS_SENDER}, the legal sender for ${MESSAGING_PROGRAM} messaging program, at the mobile number provided. Message frequency varies. Message and data rates may apply. Reply STOP to opt out and HELP for help. Consent is not a condition of purchase.`;
 
 export default function SmsOptInForm() {
   const [busy, setBusy] = useState(false);
@@ -33,6 +36,10 @@ export default function SmsOptInForm() {
             request_type: 'sms_opt_in',
             sms_consent: true,
             sms_consent_text: CONSENT_TEXT,
+            sms_consent_version: CONSENT_VERSION,
+            legal_sms_sender: LEGAL_SMS_SENDER,
+            messaging_program: MESSAGING_PROGRAM,
+            consent_method: 'website_checkbox',
             consent_timestamp: new Date().toISOString(),
             consent_page: window.location.href,
           },
@@ -74,6 +81,8 @@ export default function SmsOptInForm() {
           {CONSENT_TEXT} Review our <a href="/privacy">Privacy Policy</a> and <a href="/terms">Terms of Service</a>.
         </span>
       </label>
+
+      <p className={styles.disclosure}>The SMS consent checkbox is never pre-selected. Submitting this dedicated SMS opt-in form requires you to affirm the disclosure above.</p>
 
       <button type="submit" disabled={busy}>{busy ? 'Saving…' : 'Opt in to SMS'}</button>
       {notice ? <p className={styles.success} role="status">{notice}</p> : null}
