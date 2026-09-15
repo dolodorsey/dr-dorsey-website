@@ -6,7 +6,7 @@ import styles from './sms-opt-in.module.css';
 const LEGAL_SMS_SENDER = 'The Inner Circle LLC';
 const MESSAGING_PROGRAM = 'The Kollective';
 const CONSENT_VERSION = '2026-09-15-a2p-v1';
-const CONSENT_TEXT = `I agree to receive recurring informational and marketing text messages from ${LEGAL_SMS_SENDER}, the legal sender for the ${MESSAGING_PROGRAM} messaging program, at the mobile number provided. Message frequency varies. Message and data rates may apply. Reply STOP to opt out and HELP for help. Consent is not a condition of purchase.`;
+const CONSENT_TEXT = `I agree to receive recurring informational and marketing text messages from ${LEGAL_SMS_SENDER}, the legal sender for ${MESSAGING_PROGRAM} messaging program, at the mobile number provided. Message frequency varies. Message and data rates may apply. Reply STOP to opt out and HELP for help. Consent is not a condition of purchase.`;
 
 export default function SmsOptInForm() {
   const [busy, setBusy] = useState(false);
