@@ -1,0 +1,24 @@
+name: Career content boundary
+on:
+  pull_request:
+    paths:
+      - 'src/lib/dorsey-career.ts'
+      - 'src/app/page.tsx'
+      - 'src/app/author/dr-dorsey/page.tsx'
+      - 'src/app/kollective/page.tsx'
+      - 'src/middleware.ts'
+      - 'scripts/check-career-boundary.mjs'
+      - '.github/workflows/career-content-boundary.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check scoped career content and domain boundaries
+        run: node scripts/check-career-boundary.mjs

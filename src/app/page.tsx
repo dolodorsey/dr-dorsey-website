@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import styles from './home.module.css';
 import { BOOK_URL } from '@/lib/enterprise';
+import { DORSEY_ORIGIN, DORSEY_CAREER_SUMMARY } from '@/lib/dorsey-career';
 import MotionCover from '@/components/MotionCover';
 import DepartmentGrid from '@/components/DepartmentGrid';
 import FilmBackdrop from '@/components/FilmBackdrop';
@@ -59,6 +60,7 @@ export default function HomePage() {
           <img src="/dorsey/logo.png" alt="Dr. Dorsey" />
         </a>
         <div className={styles.navLinks}>
+          <a href="/author/dr-dorsey">The Story</a>
           <a href="/companies">Companies</a>
           <a href="/directory">Directory</a>
           <a href="/events">Current</a>
@@ -80,12 +82,13 @@ export default function HomePage() {
 
       <div className={`${styles.mobileMenu} ${menu ? styles.open : ''}`}>
         <p>Dr. Dorsey / Direct access</p>
-        <a href="/companies" onClick={() => setMenu(false)}>Companies <span>01</span></a>
-        <a href="/directory" onClick={() => setMenu(false)}>Directory <span>02</span></a>
-        <a href="/events" onClick={() => setMenu(false)}>Current & Events <span>03</span></a>
-        <a href="/network">Network <span>04</span></a>
-        <a href="/links">All Links <span>05</span></a>
-        <a href="/app?install=1" onClick={() => setMenu(false)}>Download App <span>06</span></a>
+        <a href="/author/dr-dorsey" onClick={() => setMenu(false)}>The Story <span>01</span></a>
+        <a href="/companies" onClick={() => setMenu(false)}>Companies <span>02</span></a>
+        <a href="/directory" onClick={() => setMenu(false)}>Directory <span>03</span></a>
+        <a href="/events" onClick={() => setMenu(false)}>Current & Events <span>04</span></a>
+        <a href="/network">Network <span>05</span></a>
+        <a href="/links">All Links <span>06</span></a>
+        <a href="/app?install=1" onClick={() => setMenu(false)}>Download App <span>07</span></a>
       </div>
 
       <section className={styles.hero} id="top">
@@ -164,27 +167,24 @@ export default function HomePage() {
 
       <section className={`${styles.architect} k-surface k-emblem k-emblem-left`} id="architect">
         <div className={styles.architectCopy}>
-          <p className={styles.kicker}>The architect / not the influencer</p>
+          <p className={styles.kicker}>The architect / Atlanta roots</p>
           <h2>
-            THE WORK ISN’T
+            BEFORE THE
             <br />
-            ONE COMPANY.
+            ENTERPRISE,
             <br />
-            <em>IT’S THE SYSTEM.</em>
+            <em>THERE WAS ATLANTA.</em>
           </h2>
           <div className={styles.architectBody}>
+            <p>{DORSEY_ORIGIN}</p>
+            <p>{DORSEY_CAREER_SUMMARY}</p>
             <p>
-              Dr. Dorsey operates where hospitality, culture, enterprise,
-              products, technology, and community infrastructure meet.
-            </p>
-            <p>
-              The method is direct: establish the belief, create the identity,
-              build the experience, install the operating model, connect the
-              enterprise leverage, and make the next market possible.
+              Today, that experience connects with his work across hospitality,
+              independent brands, publishing and The Kollective.
             </p>
           </div>
           <div className={styles.architectActions}>
-            <a href="/forms/consultation">Private strategy ↗</a>
+            <a href="/author/dr-dorsey#selected-work">Selected work & the story ↗</a>
             <a href="/forms/speaking">Speaking & appearances ↗</a>
           </div>
         </div>
@@ -276,6 +276,7 @@ export default function HomePage() {
         <img src="/dorsey/logo.png" alt="Dr. Dorsey" />
         <p>LIVE FOR TODAY. PLAN FOR TOMORROW. PARTY TONIGHT.</p>
         <div>
+          <a href="/author/dr-dorsey">The Story</a>
           <a href="/kollective">The Kollective</a>
           <a href="https://111atl.com">111ATL</a>
           <a href="https://instagram.com/dolodorsey">Instagram</a>

@@ -110,6 +110,17 @@ export default function KollectivePage() {
         </div>
       </section>
 
+      <section className={`${styles.focus} ${upgradeStyles.compactSection} k-surface k-edge`} id="founder-history" aria-labelledby="founder-history-title">
+        <header className={`${styles.sectionHead} ${upgradeStyles.compactSectionHead}`}>
+          <div><p className={styles.kicker}>The founder’s background</p><h2 id="founder-history-title">Atlanta roots.<br />An enterprise perspective.</h2></div>
+          <p>Dr. Dorsey’s work in Atlanta’s nightlife and party scene began in high school. His personal curation credits include Parking Lot Concert and 2 Chainz’s Pink Trap House activation and tour. Explore that career record separately from The Kollective’s company portfolio.</p>
+        </header>
+        <div className={upgradeStyles.bookActions}>
+          <a className={upgradeStyles.goldButton} href="https://doctordorsey.com/author/dr-dorsey#selected-work">Explore the founder’s selected work ↗</a>
+          <a className={upgradeStyles.lineButton} href="/companies">Explore our companies</a>
+        </div>
+      </section>
+
       <section className={`${upgradeStyles.bookPromo} k-surface k-surface-warm k-emblem`} id="book">
         <div className={upgradeStyles.bookVisual}><div className={upgradeStyles.bookGlow} /><div className={upgradeStyles.bookFilm}><MotionCover animation={motion.hakunaMatata} alt="Hakuna Matata by Dr. Dorsey" /></div></div>
         <div className={upgradeStyles.bookCopy}>
@@ -130,7 +141,7 @@ export default function KollectivePage() {
         <div className={`${styles.accessButtons} ${upgradeStyles.compactAccessButtons}`}><a href="/shop">Shop Merch</a><a href="/app">Open the App</a><a href="/app/forms/inquiry">Ask for More Info</a><a href="/app?install=1">Download Kollective</a></div>
       </section>
 
-      <footer className={styles.footer}><img src={EMBLEM} alt="The Kollective" /><p>Independent brands. Shared enterprise leverage. Direct action.</p><div><a href="/shop">Shop Merch</a><a href={BOOK_URL}>Buy the Book</a><a href="https://doctordorsey.com">Dr. Dorsey</a><a href="/team">Team</a><a href="/events">Current</a><a href="/access">Access</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/sms-consent">SMS Consent</a></div></footer>
+      <footer className={styles.footer}><img src={EMBLEM} alt="The Kollective" /><p>Independent brands. Shared enterprise leverage. Direct action.</p><div><a href="/shop">Shop Merch</a><a href={BOOK_URL}>Buy the Book</a><a href="https://doctordorsey.com/author/dr-dorsey">Dr. Dorsey</a><a href="/team">Team</a><a href="/events">Current</a><a href="/access">Access</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/sms-consent">SMS Consent</a></div></footer>
     </main>
   );
 }
