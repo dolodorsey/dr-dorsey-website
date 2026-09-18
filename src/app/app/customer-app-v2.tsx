@@ -552,8 +552,9 @@ export default function CustomerAppV2() {
               {searchOpen ? <X /> : <Search />}
             </button>
             {!installed ? (
-              <button className={styles.goldButton} onClick={install} aria-label="Install">
+              <button className={styles.goldButton} onClick={install} aria-label="Get The Kollective app">
                 <Download />
+                <span>GET APP</span>
               </button>
             ) : null}
           </div>
