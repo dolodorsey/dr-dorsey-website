@@ -344,6 +344,7 @@ export default function CustomerAppV2() {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [installed, setInstalled] = useState(false);
   const [installHelp, setInstallHelp] = useState(false);
+  const [installQr, setInstallQr] = useState("");
   const [selectedCompany, setSelectedCompany] = useState<Entity | null>(null);
   const [planSelection, setPlanSelection] = useState("");
   const [planAction, setPlanAction] = useState<PlanAction>("rsvp");
@@ -381,6 +382,10 @@ export default function CustomerAppV2() {
     }
     setInstalled(window.matchMedia("(display-mode: standalone)").matches);
     const requestedInstall = new URLSearchParams(window.location.search).get("install") === "1";
+    if (window.innerWidth >= 760) {
+      const installTarget = `${window.location.origin}/app?install=1`;
+      setInstallQr(`https://wfkohcwxxsrhcxhepfql.supabase.co/functions/v1/app-install-qr?url=${encodeURIComponent(installTarget)}`);
+    }
     if (requestedInstall && !window.matchMedia("(display-mode: standalone)").matches) setInstallHelp(true);
     const onPrompt = (event: Event) => {
       event.preventDefault();
@@ -891,6 +896,13 @@ export default function CustomerAppV2() {
         ) : null}
         {installHelp ? (
           <div className={styles.installOverlay} role="dialog" aria-modal="true" aria-labelledby="install-title">
+            {installQr ? (
+              <aside className={styles.installQr} aria-label="Scan to install The Kollective on your phone">
+                <img src={installQr} alt="QR code to install The Kollective" width={176} height={176} />
+                <strong>SCAN TO GET THE KOLLECTIVE</strong>
+                <small>Point your phone camera here. The install guide opens automatically.</small>
+              </aside>
+            ) : null}
             <div className={styles.installSheet}>
               <button className={styles.installClose} onClick={() => setInstallHelp(false)} aria-label="Close install instructions"><X /></button>
               <Download />
@@ -898,9 +910,9 @@ export default function CustomerAppV2() {
               <h2 id="install-title">Install Kollective</h2>
               <ol>
                 {installPrompt ? <li><strong>Ready now:</strong> tap the gold install button below to download Kollective.</li> : null}
-                <li><strong>iPhone or iPad:</strong> tap Share, then “Add to Home Screen.”</li>
+                <li><strong>iPhone or iPad:</strong> tap Share → “Add to Home Screen” → keep “Open as Web App” on → Add.</li>
                 <li><strong>Android:</strong> open the browser menu, then tap “Install app.”</li>
-                <li><strong>Desktop:</strong> use the install icon in the address bar.</li>
+                <li><strong>Desktop:</strong> scan the QR code to move the install directly to your phone, or use the install icon in the address bar.</li>
               </ol>
               <button className={styles.installDone} onClick={installPrompt ? install : () => setInstallHelp(false)}>{installPrompt ? "INSTALL KOLLECTIVE" : "GOT IT"}</button>
             </div>
