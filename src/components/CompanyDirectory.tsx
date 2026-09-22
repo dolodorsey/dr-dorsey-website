@@ -7,7 +7,7 @@ import type { RegistryEntity } from '@/lib/kollective-public';
 import { currentFocusBrands } from '@/lib/enterprise';
 import { motion, motionFor, type MotionAsset } from '@/lib/motion';
 import { eventMotion } from '@/lib/event-motion';
-import { isEventEntity, isPublicEvent, isRetired, priorityRank } from '@/lib/roster';
+import { isEventEntity, isPublicEvent, isPubliclyHidden, isRetired, priorityRank } from '@/lib/roster';
 import { departmentFor, departmentRank, departmentSlug } from '@/lib/company-departments';
 
 type Company = {
@@ -229,7 +229,7 @@ export default function CompanyDirectory() {
           : [];
 
     return source.filter((company) => {
-      if (isRetired(company.name)) return false;
+      if (isRetired(company.name) || isPubliclyHidden(company.name)) return false;
       if (isEventEntity(company.name, company.division)) return isPublicEvent(company.name);
       return true;
     });
