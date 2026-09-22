@@ -16,7 +16,7 @@ export default function CurrentPage() {
       intro="The live calendar, featured experiences, reservations, RSVPs, and the shortest path into what The Kollective is producing right now."
       metrics={[
         { value: 'SEP 04–07', label: 'Labor Day Weekend programming in Atlanta' },
-        { value: '4 LIVE', label: 'New event animations now powering current discovery' },
+        { value: '3 LIVE', label: 'Focused event discovery without portfolio clutter' },
         { value: 'ONE APP', label: 'RSVP, reserve, discover, and receive updates' },
       ]}
       features={[
@@ -37,15 +37,6 @@ export default function CurrentPage() {
           meta: 'Open official event hub',
           badge: 'All White',
           animation: eventMotion.blow,
-        },
-        {
-          eyebrow: 'MONDAY · LABOR DAY WEEKEND',
-          title: 'TEA TIME',
-          description: 'Business, brotherhood, competition, and culture on the course for the Labor Day golf tournament.',
-          href: 'https://111atl.com',
-          meta: 'Open official event hub',
-          badge: 'Golf',
-          animation: eventMotion.teaTime,
         },
         {
           eyebrow: 'NEW YEAR’S EVE',
