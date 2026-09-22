@@ -3,7 +3,7 @@ import EnterpriseTeamPage from '@/components/EnterpriseTeamPage';
 
 export const metadata: Metadata = {
   title: 'Enterprise Team — Dr. Dorsey',
-  description: 'Meet the executive leadership and board supporting Dr. Dorsey and the enterprise.',
+  description: 'Meet the enterprise command and current owner-operators supporting Dr. Dorsey and the portfolio.',
   robots: {
     index: false,
     follow: false,
