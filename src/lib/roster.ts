@@ -1,6 +1,6 @@
 /** Public roster controls shared by both domains. */
 const RETIRED_NAMES = [
-  'Iconic', 'Washington Parq', "Marvin's Room", 'The London',
+  'Washington Parq', "Marvin's Room", 'The London',
   'The Attorney Network', 'Attorney Network', 'Kid Fit ATL', 'Kids Fit ATL',
   'Infinity Youth', 'The Sovereign Nation', 'Sovereign Nation', 'Happy Hour', 'Happy Hour ATL',
   'NOIR', 'Paparazzi', 'Gangsta Gospel', 'Pawchella', 'WRST BHVR', "Sunday's Best", 'REMIX', 'The Kulture',
@@ -16,6 +16,59 @@ const RETIRED_NAMES = [
   'Exclamation Point', 'The Brand Studio', 'Brand Studio',
   'GROWN-ISH', 'GROWNISH', 'Grownish', 'Grown-ish',
   'One Big Ass Party',
+];
+
+/**
+ * Temporarily hidden from public listings without deleting registry rows,
+ * integrations, destinations, or operating records.
+ */
+const PUBLICLY_HIDDEN_NAMES = [
+  'Help 911',
+  'Rose Ball',
+  'Project X',
+  'Black Ball',
+  'Greek Ball',
+  'Snow Ball',
+  'Champagne Ball',
+  'Ball Series',
+  "Monster's Ball",
+  'Monster’s Ball',
+  'Monsters Ball',
+  'Golf Tournament',
+  'Tea Time',
+  'TEA TIME',
+  'Just Print',
+  'Synergy Sounds',
+  'Frequency Productions',
+  'On Call',
+  'Black Pages',
+  'The Black Pages',
+  'The Law',
+  'Luxe on Demand',
+  'The Vote',
+  'The Tribe',
+  'The Tribe - Memphis',
+  'The Tribe — Memphis',
+  'The University',
+  'The Fraternity',
+  'Little Farmers of the Future',
+  'Living Legacy Farms',
+  'Trailblazers',
+  'Everyday Water Group',
+  'Aquifer Waterworks',
+  'Nativa Waterworks',
+  'Tribal Water',
+  'The Mind Studio',
+  'Umbrella Auto Exchange',
+  'The Umbrella Group',
+  'Umbrella Realty Group',
+  'Reset Therapy',
+  'Umbrella Accounting',
+  'Umbrella Clean Services',
+  'The Automation Office',
+  'Automation Office',
+  'Umbrella Travel',
+  'The Inner Circle',
 ];
 
 const PUBLIC_EVENT_NAMES = [
@@ -37,7 +90,6 @@ export const PRIORITY_NAMES = [
   'Sea Salt ATL',
   'Tulum ATL',
   'Rose on Piedmont',
-  'Help 911',
 ];
 
 function normalise(name: string): string {
@@ -45,6 +97,7 @@ function normalise(name: string): string {
 }
 
 const RETIRED = new Set(RETIRED_NAMES.map(normalise));
+const HIDDEN = new Set(PUBLICLY_HIDDEN_NAMES.map(normalise));
 const EVENT_ENTITIES = new Set(EVENT_ENTITY_NAMES.map(normalise));
 const PUBLIC_EVENTS = new Set(PUBLIC_EVENT_NAMES.map(normalise));
 const PRIORITY = new Map(PRIORITY_NAMES.map((name, index) => [normalise(name), index]));
@@ -53,8 +106,12 @@ export function isRetired(name: string | undefined | null): boolean {
   return Boolean(name && RETIRED.has(normalise(name)));
 }
 
+export function isPubliclyHidden(name: string | undefined | null): boolean {
+  return Boolean(name && HIDDEN.has(normalise(name)));
+}
+
 export function isPublicEvent(name: string | undefined | null): boolean {
-  return Boolean(name && PUBLIC_EVENTS.has(normalise(name)));
+  return Boolean(name && !isPubliclyHidden(name) && PUBLIC_EVENTS.has(normalise(name)));
 }
 
 export function isEventEntity(name: string | undefined | null, division?: string | null): boolean {
@@ -65,11 +122,17 @@ export function isEventEntity(name: string | undefined | null, division?: string
 }
 
 export function withoutRetired<T>(items: T[], nameOf: (item: T) => string | undefined | null): T[] {
-  return items.filter((item) => !isRetired(nameOf(item)));
+  return items.filter((item) => {
+    const name = nameOf(item);
+    return !isRetired(name) && !isPubliclyHidden(name);
+  });
 }
 
 export function pruneNames(names: string[]): string[] {
-  return names.filter((name) => !isRetired(name.split('—')[0].trim()));
+  return names.filter((name) => {
+    const base = name.split('—')[0].trim();
+    return !isRetired(base) && !isPubliclyHidden(base);
+  });
 }
 
 export function priorityRank(name: string | undefined | null): number {
@@ -78,6 +141,5 @@ export function priorityRank(name: string | undefined | null): number {
 }
 
 export function placeRelatedTogether<T>(items: T[], nameOf: (item: T) => string): T[] {
-  const output = withoutRetired([...items], nameOf);
-  return output;
+  return withoutRetired([...items], nameOf);
 }
