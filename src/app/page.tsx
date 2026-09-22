@@ -7,7 +7,6 @@ import MotionCover from '@/components/MotionCover';
 import DepartmentGrid from '@/components/DepartmentGrid';
 import FilmBackdrop from '@/components/FilmBackdrop';
 import { motion, ENTITY_MOTION, type MotionAsset } from '@/lib/motion';
-import { eventMotion } from '@/lib/event-motion';
 
 /** Founder landing film. Explicit hero assignment, not a name lookup. */
 const founderHero = ENTITY_MOTION['dr-dorsey'].hero;
@@ -25,17 +24,17 @@ type CurrentMove = {
  * Everything after them renders four across.
  */
 const currentMoves: CurrentMove[] = [
-  { name: 'BLOW', kind: 'Sunday · Labor Day Weekend · All White', href: 'https://111atl.com', animation: eventMotion.blow },
-  { name: 'TEA TIME', kind: 'Monday · Labor Day Weekend · Golf', href: 'https://111atl.com', animation: eventMotion.teaTime },
-  { name: 'Taste of Art', kind: 'Friday · Labor Day Weekend', image: '/dorsey/current/taste-of-art.jpg', href: 'https://111atl.com', animation: eventMotion.tasteOfArt },
-  { name: 'BRAVO', kind: 'New Year’s Eve', href: 'https://111atl.com', animation: eventMotion.bravo },
-  { name: 'GOOD TIMES', kind: 'The culture calendar', image: '/dorsey/current/good-times.jpg', href: 'https://www.thegoodtimesworldwide.com' },
+  { name: 'ICONIC', kind: 'Live entertainment · concerts · music', href: 'https://iconic-atl.com' },
+  { name: 'BEVCO INTL.', kind: 'Beverage house · 11 distinct consumer brands', href: 'https://bevco-intl.vercel.app' },
+  { name: 'FĚNYX', kind: 'Fashion · performance · lifestyle', href: 'https://fenyx-gules.vercel.app' },
+  { name: 'GOOD TIMES', kind: 'Culture and experience discovery', image: '/dorsey/current/good-times.jpg', href: 'https://www.thegoodtimesworldwide.com' },
   { name: 'STUSH', kind: 'Fashion', image: '/dorsey/current/stush-fashion.jpg', href: 'https://stushusa.com' },
-  { name: 'Pronto Energy', kind: 'Active beverage brand', image: '/dorsey/current/pronto-energy.jpg', href: 'https://prontoenergydrink.com' },
-  { name: 'Infinity Water', kind: 'Active water brand', image: '/dorsey/current/infinity-water.jpg', href: 'https://watertoinfinity.com' },
-  { name: 'Sole Exchange', kind: 'Impact · Philanthropy', href: 'https://soleexchangeworldwide.com' },
-  { name: 'Help 911', kind: 'Response network', href: 'https://www.help911.help' },
-  { name: 'The University', kind: 'Trades · Workforce · Ownership', href: 'https://the-university.vercel.app' },
+  { name: 'Pronto Energy', kind: 'BEVCO · energy drink', image: '/dorsey/current/pronto-energy.jpg', href: 'https://prontoenergydrink.com' },
+  { name: 'Infinity Water', kind: 'BEVCO · premium water', image: '/dorsey/current/infinity-water.jpg', href: 'https://watertoinfinity.com' },
+  { name: 'Sole Exchange', kind: 'Community impact · sneaker recovery', href: 'https://soleexchangeworldwide.com' },
+  { name: 'S.O.S.', kind: 'Roadside assistance platform', href: 'https://sos-app-website.vercel.app' },
+  { name: 'Mission 365', kind: 'Mission · productivity platform', href: 'https://mission-365.vercel.app' },
+  { name: 'The Casper Group', kind: 'Multi-brand food house', href: 'https://caspergroupworldwide.com' },
   { name: 'Hakuna Matata', kind: 'The founder’s field manual', href: BOOK_URL },
 ];
 
@@ -110,7 +109,7 @@ export default function HomePage() {
         <FilmBackdrop animation={motion.kollectiveGlobal} opacity={0.16} />
         <header>
           <p className={styles.kicker}>The departments</p>
-          <h2>FOURTEEN DEPARTMENTS. <em>ONE ENTERPRISE.</em></h2>
+          <h2>FOCUSED DEPARTMENTS. <em>ONE ENTERPRISE.</em></h2>
           <span>Every department runs its own companies, audience, economics, and atmosphere.</span>
         </header>
         <DepartmentGrid />

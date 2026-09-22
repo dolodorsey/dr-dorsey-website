@@ -20,7 +20,7 @@ assign('Nightlife / Events / Activations', [
   'Opium ATL', 'Sea Salt ATL', 'Tulum ATL', 'Hungry AF', 'Goodfellas Pizza & Wings', 'Revel',
   'Taste of Art', 'Freedom Fest', 'Freedom Fest : Juneteent Atl', 'Project X', 'Winter Wonderland',
   'Golf Tournament', 'Ball Series', 'Greek Ball', "Monster's Ball", 'Monster’s Ball', 'Monsters Ball',
-  'Snow Ball', 'Champagne Ball', 'Black Ball', 'Rose Ball', 'BRAVO',
+  'Snow Ball', 'Champagne Ball', 'Black Ball', 'Rose Ball', 'BRAVO', 'ICONIC', 'Iconic',
 ]);
 
 assign('Staples', [
@@ -47,9 +47,9 @@ assign('The Inner Circle', [
   "Member's Elite", 'Member’s Elite',
 ]);
 
-assign('Products / Clothing', ['Bodega', 'STUSH', 'PULSE', 'Make Atlanta Great Again']);
+assign('Products / Clothing', ['Bodega', 'FĚNYX', 'FENYX', 'STUSH', 'PULSE', 'Make Atlanta Great Again']);
 assign('Water Sourcing', ['Everyday Water Group', 'Aquifer Waterworks', 'Nativa Waterworks']);
-assign('Beverages', ['Infinity Water', 'Tribal Water', 'Pronto Energy', 'The Tribe Wine']);
+assign('Beverages', ['BEVCO INTL.', 'BEVCO INTL', 'Infinity Water', 'Pronto Energy', 'ORA', 'OTINI', 'TEMPO', 'Casa Cantina', 'Island Water', '00 : DOUBLE ZERO', 'Double Zero', 'NOIR — Espresso Liqueur', 'PRIVÈ VODKA', 'PRIVE VODKA', 'XXX VODKA', 'Tribal Water', 'The Tribe Wine']);
 assign('Change the World', ['Sole Exchange', "Let's Talk About It", "Playmaker's Sports Association"]);
 
 assign('Casper Group', [

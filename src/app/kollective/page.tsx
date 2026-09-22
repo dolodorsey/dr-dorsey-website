@@ -18,7 +18,6 @@ const BOOK_URL = 'https://bodgeaworldwide.myshopify.com/products/hakuna-matata-b
 const currentCulture = [
   { title: 'Taste of Art', meta: 'FRIDAY · LABOR DAY WEEKEND', animation: eventMotion.tasteOfArt },
   { title: 'BLOW', meta: 'SUNDAY · ALL WHITE PARTY', animation: eventMotion.blow },
-  { title: 'TEA TIME', meta: 'MONDAY · GOLF TOURNAMENT', animation: eventMotion.teaTime },
   { title: 'BRAVO', meta: 'NEW YEAR’S EVE', animation: eventMotion.bravo },
 ];
 

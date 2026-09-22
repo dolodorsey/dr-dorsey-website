@@ -20,13 +20,6 @@ const items = [
     animation: eventMotion.blow,
   },
   {
-    name: 'TEA TIME',
-    eyebrow: 'MONDAY · GOLF TOURNAMENT',
-    description: 'Business, brotherhood, competition, and culture on the course for Labor Day Weekend.',
-    href: 'https://111atl.com',
-    animation: eventMotion.teaTime,
-  },
-  {
     name: 'BRAVO',
     eyebrow: 'NEW YEAR’S EVE',
     description: 'The New Year’s Eve celebration built as a premium closing statement for the year.',

@@ -10,7 +10,7 @@ const EMBLEM = `${SB}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-whi
 export const metadata: Metadata = {
   title: 'Companies — The Kollective',
   description:
-    'Every company inside The Kollective: hospitality, nightlife, events, technology, products, water, services, impact, and the Casper Group.',
+    'The current public Kollective portfolio, organized by focused operating lane and direct destination.',
   alternates: { canonical: 'https://thekollectivehospitality.com/companies' },
 };
 
@@ -32,14 +32,14 @@ export default function KollectiveCompaniesPage() {
 
       <header className={`${styles.hero} k-surface k-surface-deep`}>
         <FilmBackdrop animation={motion.kollectiveNetwork} opacity={0.2} />
-        <p className={styles.kicker}>Companies / the full roster</p>
+        <p className={styles.kicker}>Companies / current public portfolio</p>
         <h1>
-          Every company.
+          Focused companies.
           <br />
           <em>One enterprise.</em>
         </h1>
         <p>
-          The complete portfolio, grouped by department. Every company keeps its own identity,
+          The current public portfolio, grouped by operating lane. Every company keeps its own identity,
           audience, and route to market. The enterprise supplies the leverage behind them.
         </p>
       </header>

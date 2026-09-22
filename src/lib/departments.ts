@@ -17,8 +17,7 @@ const allDepartments: Department[] = [
     eyebrow: 'Nightlife · Events · Cultural IP',
     detail: 'Recurring nightlife concepts, signature event series, cultural activations, tournaments and major destination events.',
     sample: [
-      'Winter Wonderland', 'Taste of Art', 'Golf Tournament', 'Ball Series', 'Greek Ball',
-      'Monster’s Ball', 'Snow Ball', 'Champagne Ball', 'Black Ball', 'Rose Ball', 'BRAVO',
+      'ICONIC', 'Winter Wonderland', 'Taste of Art', 'BRAVO',
     ],
     href: '/events',
     cta: 'Open nightlife and events',
@@ -76,7 +75,7 @@ const allDepartments: Department[] = [
     title: 'Products / Clothing',
     eyebrow: 'Commerce',
     detail: 'Fashion and consumer product worlds with direct routes to purchase.',
-    sample: ['STUSH', 'Bodega', 'PULSE', 'Make Atlanta Great Again'],
+    sample: ['FĚNYX', 'STUSH', 'Bodega', 'PULSE', 'Make Atlanta Great Again'],
     href: '/store',
     cta: 'Shop the portfolio',
     animations: [motion.stush, motion.bodega, motion.pulse, motion.maga],
@@ -93,8 +92,8 @@ const allDepartments: Department[] = [
   {
     title: 'Beverages',
     eyebrow: 'Consumer Products',
-    detail: 'Water and energy brands designed for hospitality, culture and retail.',
-    sample: ['Infinity Water', 'Tribal Water', 'Pronto Energy', 'The Tribe Wine'],
+    detail: 'BEVCO INTL. and its distinct beverage brands built for hospitality, culture, retail, distribution and everyday movement.',
+    sample: ['BEVCO INTL.', 'Infinity Water', 'Pronto Energy', 'ORA', 'OTINI', 'TEMPO', 'Casa Cantina', 'Island Water', '00 : DOUBLE ZERO', 'NOIR — Espresso Liqueur', 'PRIVÈ VODKA', 'XXX VODKA'],
     href: '/store',
     cta: 'Explore beverages',
     animations: [motion.infinityWater, motion.tribalWater, motion.pronto],
@@ -131,7 +130,6 @@ const allDepartments: Department[] = [
   },
 ];
 
-export const departments: Department[] = allDepartments.map((department) => ({
-  ...department,
-  sample: pruneNames(department.sample),
-}));
+export const departments: Department[] = allDepartments
+  .map((department) => ({ ...department, sample: pruneNames(department.sample) }))
+  .filter((department) => department.sample.length > 0);
