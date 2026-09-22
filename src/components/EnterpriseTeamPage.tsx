@@ -7,80 +7,107 @@ type TeamMember = {
   name: string;
   title: string;
   division: string;
+  focus: string;
 };
 
 type PlaceholderAsset =
   | { kind: 'sprite'; index: number }
   | { kind: 'image'; url: string; position?: string };
 
-const executiveTeam: TeamMember[] = [
-  { name: 'JoJo', title: 'Co-Chief Operating Officer, Enterprise Operations', division: 'Enterprise Operations' },
-  { name: 'Quintin', title: 'Co-Chief Operating Officer, Business Operations & Growth', division: 'Business Operations & Growth' },
-  { name: 'Sevant', title: 'Chief Strategy & Activation Officer', division: 'Strategy & Activations' },
-  { name: 'Grayson', title: 'Director of Nightlife & Brand Activations', division: 'Nightlife' },
-  { name: 'Hartley', title: 'Director of Nightlife & Venue Operations', division: 'Nightlife' },
-  { name: 'Raven', title: 'Director of Products & Apparel', division: 'Products & Apparel' },
-  { name: 'Kay', title: 'Director of Beverage Operations & Strategic Projects', division: 'Beverage Operations' },
-  { name: 'Scrolls', title: 'Director of Digital Systems & Applications', division: 'Digital Systems & Applications' },
-  { name: 'Lackey', title: 'Director of Lifestyle Operations', division: 'Lifestyle Operations' },
-  { name: 'Alexis', title: 'Executive Project Manager', division: 'Executive Project Management' },
-  { name: 'Coach Harris', title: 'Executive Director of Strategic Development', division: 'Strategic Development' },
-  { name: 'Bob Johnson', title: 'Executive Director of Culture & Community Affairs', division: 'Culture & Community Affairs' },
-  { name: 'Countryboy Dorsey', title: 'Director of Community & Field Operations', division: 'Community & Field Operations' },
-  { name: 'Suave', title: 'Nightlife Operations & Activations', division: 'Nightlife' },
-  { name: 'Weezy', title: 'Nightlife Operations & Activations', division: 'Nightlife' },
+const command: TeamMember[] = [
+  {
+    name: 'Bri',
+    title: 'Executive Assistant · Enterprise Communications & Operations',
+    division: 'Executive Office',
+    focus: 'ICONIC LIVE · KOLLECTIVE · CASPER',
+  },
+  {
+    name: 'JoJo',
+    title: 'Operating Partner · Enterprise Execution',
+    division: 'Enterprise Operations',
+    focus: 'KOLLECTIVE · CASPER · SOLE EXCHANGE · S.O.S. · MISSION 365',
+  },
+  {
+    name: 'Quinten',
+    title: 'Strategic Partner · Growth, Capital & External Development',
+    division: 'Strategy & Growth',
+    focus: 'KOLLECTIVE · GOOD TIMES · S.O.S. · ICONIC MUSIC · MISSION 365',
+  },
 ];
 
-const board = [
-  'Rick Wade',
-  'Bob Johnson',
-  'Coach Harris',
-  'Chief Lightfoot',
-  'Chief Andre',
-  'Chief Flyod',
-  'Chief Joseph',
-  'Brad Dorsey',
-  'Zen Dorsey',
-  'Joseph Siatta',
-  'Quintin',
+const ownerOperators: TeamMember[] = [
+  {
+    name: 'Diesel',
+    title: 'ICONIC LIVE Partner · Live Entertainment & Activations',
+    division: 'ICONIC LIVE',
+    focus: 'ICONIC LIVE',
+  },
+  {
+    name: 'Kay',
+    title: 'BEVCO Owner-Operator · Beverage Portfolio',
+    division: 'BEVCO + Beverage Brands',
+    focus: 'BEVCO INTL. · INFINITY · PRONTO · ORA · OTINI · TEMPO · CASA CANTINA · ISLAND WATER · DOUBLE ZERO · NOIR · PRIVÈ · XXX',
+  },
+  {
+    name: 'Chizzy',
+    title: 'Entertainment & Community Owner-Operator',
+    division: 'Entertainment / Community',
+    focus: 'ENT. · SOLE EXCHANGE · GOOD TIMES · MISSION 365',
+  },
+  {
+    name: 'Sevant',
+    title: 'Entertainment Strategy · Music & Activations',
+    division: 'Entertainment / Music',
+    focus: 'ENT. · ICONIC MUSIC',
+  },
+  {
+    name: 'Raven',
+    title: 'Fashion & Retail Owner-Operator',
+    division: 'Fashion / Retail',
+    focus: 'FĚNYX · STUSH · PULSE / BARE',
+  },
+  {
+    name: 'Tay',
+    title: 'Products, Retail & Sports Owner-Operator',
+    division: 'Products / Sports',
+    focus: 'FĚNYX · STUSH · SOLE EXCHANGE · MISTER MANUFACTURING · MEMBER’S ELITE · PULSE / BARE',
+  },
+  {
+    name: 'Kenny',
+    title: 'Manufacturing & Merchandise Lead',
+    division: 'Manufacturing',
+    focus: 'MISTER MANUFACTURING',
+  },
+  {
+    name: 'Justin',
+    title: 'Member’s Elite Operator',
+    division: 'Sports / Membership',
+    focus: 'MEMBER’S ELITE',
+  },
 ];
 
+const fullTeam = [...command, ...ownerOperators];
 const PEOPLE_ROOT = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/app/backgrounds';
 const PEOPLE_BACKGROUNDS = Array.from({ length: 11 }, (_, index) => `${PEOPLE_ROOT}/app-background-${String(index + 1).padStart(2, '0')}.jpg`);
 const TEAM_SPRITE = '/team-placeholder-sprite';
 
 const APPROVED_PHOTOS: Record<string, string> = {
   JoJo: '/team/people/joseph.webp',
-  'Joseph Siatta': '/team/people/joseph.webp',
-  Quintin: '/team/people/quintin.webp',
+  Quinten: '/team/people/quintin.webp',
 };
 
-// Every distinct named person has a distinct temporary visual. The same person keeps
-// the same placeholder when they appear in more than one section.
 const PLACEHOLDER_ASSETS: Record<string, PlaceholderAsset> = {
-  JoJo: { kind: 'sprite', index: 0 },
-  Quintin: { kind: 'sprite', index: 1 },
-  Sevant: { kind: 'sprite', index: 2 },
-  Grayson: { kind: 'sprite', index: 3 },
-  Hartley: { kind: 'sprite', index: 4 },
-  Raven: { kind: 'sprite', index: 5 },
-  Kay: { kind: 'sprite', index: 6 },
-  Scrolls: { kind: 'sprite', index: 7 },
-  Lackey: { kind: 'sprite', index: 8 },
-  Alexis: { kind: 'sprite', index: 9 },
-  'Coach Harris': { kind: 'sprite', index: 10 },
-  'Bob Johnson': { kind: 'sprite', index: 11 },
-  'Countryboy Dorsey': { kind: 'sprite', index: 12 },
-  Suave: { kind: 'sprite', index: 13 },
-  Weezy: { kind: 'sprite', index: 14 },
-  'Rick Wade': { kind: 'sprite', index: 15 },
-  'Chief Lightfoot': { kind: 'sprite', index: 16 },
-  'Chief Andre': { kind: 'sprite', index: 17 },
-  'Chief Flyod': { kind: 'sprite', index: 18 },
-  'Chief Joseph': { kind: 'image', url: PEOPLE_BACKGROUNDS[0] },
-  'Brad Dorsey': { kind: 'image', url: PEOPLE_BACKGROUNDS[1] },
-  'Zen Dorsey': { kind: 'image', url: PEOPLE_BACKGROUNDS[2] },
-  'Joseph Siatta': { kind: 'image', url: PEOPLE_BACKGROUNDS[3] },
+  Bri: { kind: 'sprite', index: 0 },
+  JoJo: { kind: 'sprite', index: 1 },
+  Quinten: { kind: 'sprite', index: 2 },
+  Diesel: { kind: 'sprite', index: 3 },
+  Kay: { kind: 'sprite', index: 4 },
+  Chizzy: { kind: 'sprite', index: 5 },
+  Sevant: { kind: 'sprite', index: 6 },
+  Raven: { kind: 'sprite', index: 7 },
+  Tay: { kind: 'sprite', index: 8 },
+  Kenny: { kind: 'sprite', index: 9 },
+  Justin: { kind: 'sprite', index: 10 },
 };
 
 function initials(name: string) {
@@ -134,15 +161,15 @@ function placeholderStyle(name: string): CSSProperties {
   };
 }
 
-function PhotoPlaceholder({ name, mini = false }: { name: string; mini?: boolean }) {
+function PhotoPlaceholder({ name }: { name: string }) {
   const approved = Boolean(APPROVED_PHOTOS[name]);
   return (
     <div
-      className={`${styles.photoPlaceholder} ${mini ? styles.photoMini : ''}`}
+      className={styles.photoPlaceholder}
       aria-label={approved ? `${name} team portrait` : `${name} temporary placeholder portrait`}
       style={placeholderStyle(name)}
     >
-      {!approved && !mini ? <small>TEMPORARY PLACEHOLDER</small> : null}
+      {!approved ? <small>TEMPORARY PLACEHOLDER</small> : null}
       {!approved ? <span className={styles.initialBadge}>{initials(name)}</span> : null}
     </div>
   );
@@ -154,9 +181,6 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
   const logo = isKollective
     ? `${SB}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`
     : '/dorsey/logo.png';
-  const command = executiveTeam.slice(0, 3);
-  const divisionLeads = executiveTeam.slice(3);
-  const nightlife = executiveTeam.filter((member) => member.division === 'Nightlife');
   const heroImage = isKollective ? PEOPLE_BACKGROUNDS[10] : PEOPLE_BACKGROUNDS[8];
 
   return (
@@ -179,12 +203,12 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
           <div className={styles.heroCopy}>
             <p>{isKollective ? 'THE KOLLECTIVE / PEOPLE' : 'DR. DORSEY / ENTERPRISE'}</p>
             <h1>{isKollective ? 'The people behind the portfolio.' : 'The team behind the vision.'}</h1>
-            <span>Operators, strategists, builders and culture leaders working across distinct lanes with one enterprise standard.</span>
+            <span>Enterprise command and owner-operators with clear lanes, accountable focuses and one operating standard.</span>
           </div>
           <div className={styles.heroMeta}>
-            <div><strong>{executiveTeam.length}</strong><span>Leadership</span></div>
-            <div><strong>{board.length}</strong><span>Board</span></div>
-            <div><strong>{nightlife.length}</strong><span>Nightlife</span></div>
+            <div><strong>{fullTeam.length}</strong><span>Team</span></div>
+            <div><strong>{command.length}</strong><span>Command</span></div>
+            <div><strong>15</strong><span>Focus Lanes</span></div>
           </div>
         </div>
       </header>
@@ -192,8 +216,8 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
       <section className={styles.section}>
         <div className={styles.sectionIntro}>
           <p>EXECUTIVE COMMAND</p>
-          <h2>Operating leadership.</h2>
-          <span>Enterprise-wide responsibility for operations, growth, strategy and activation.</span>
+          <h2>Enterprise leadership.</h2>
+          <span>The enterprise layer keeps communication, execution, growth and accountability moving across distinct companies.</span>
         </div>
         <div className={styles.commandGrid}>
           {command.map((member, index) => (
@@ -203,6 +227,7 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
                 <span>{String(index + 1).padStart(2, '0')} / {member.division}</span>
                 <h3>{member.name}</h3>
                 <p>{member.title}</p>
+                <p><b>Focus:</b> {member.focus}</p>
               </div>
             </article>
           ))}
@@ -211,52 +236,20 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
 
       <section className={`${styles.section} ${styles.leadershipSection}`}>
         <div className={styles.sectionIntro}>
-          <p>DIVISION LEADERSHIP</p>
+          <p>OWNER-OPERATORS</p>
           <h2>Built by lane.</h2>
-          <span>Compact team cards prioritize the people, their lane and their role without wasting page space.</span>
+          <span>Every operator has a defined company lane. Brands stay separate; accountability stays visible.</span>
         </div>
         <div className={styles.leadershipGrid}>
-          {divisionLeads.map((member) => (
+          {ownerOperators.map((member) => (
             <article className={styles.leadCard} key={member.name}>
               <PhotoPlaceholder name={member.name} />
               <div className={styles.leadCopy}>
                 <p>{member.division}</p>
                 <h3>{member.name}</h3>
                 <span>{member.title}</span>
+                <span><b>Focus:</b> {member.focus}</span>
               </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className={styles.nightlifeSection}>
-        <div className={styles.nightlifeIntro}>
-          <p>NIGHTLIFE DIVISION</p>
-          <h2>Venue. Brand. Activation.</h2>
-          <span>Grayson and Hartley lead the lane with Suave and Weezy assigned directly into Nightlife operations and activations.</span>
-        </div>
-        <div className={styles.nightlifeRoster}>
-          {nightlife.map((member) => (
-            <article key={member.name}>
-              <PhotoPlaceholder name={member.name} mini />
-              <div><h3>{member.name}</h3><p>{member.title}</p></div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className={`${styles.section} ${styles.boardSection}`}>
-        <div className={styles.sectionIntro}>
-          <p>GOVERNANCE</p>
-          <h2>The Board.</h2>
-          <span>Institutional perspective, culture, accountability and long-range enterprise stewardship.</span>
-        </div>
-        <div className={styles.boardList}>
-          {board.map((name, index) => (
-            <article key={name}>
-              <span className={styles.boardIndex}>{String(index + 1).padStart(2, '0')}</span>
-              <PhotoPlaceholder name={name} mini />
-              <div><h3>{name}</h3><p>Board Member</p></div>
             </article>
           ))}
         </div>
