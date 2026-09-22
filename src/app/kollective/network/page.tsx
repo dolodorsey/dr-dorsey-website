@@ -3,7 +3,7 @@ import SectionHub from '../_components/SectionHub';
 
 export const metadata: Metadata = {
   title: 'Network — The Kollective',
-  description: 'The Kollective water, infrastructure, consumer, community, and education network.',
+  description: 'The current Kollective operating network across beverages, entertainment, consumer brands, apps, food, and community.',
 };
 
 export default function NetworkPage() {
@@ -11,81 +11,80 @@ export default function NetworkPage() {
     <SectionHub
       active="network"
       eyebrow="THE CONNECTED NETWORK"
-      title="From source to culture."
-      intro="A clear view of the water, infrastructure, consumer, education, and community systems—without collapsing the companies into one brand."
+      title="Focused companies. Shared leverage."
+      intro="A cleaner view of the operating lanes we are actively pushing now. Every company remains distinct while the enterprise connects capital, distribution, technology, marketing, and execution."
       metrics={[
-        { value: 'SOURCE', label: 'Aquifer intelligence and raw-water strategy' },
-        { value: 'SYSTEM', label: 'Infrastructure, treatment, and portfolio coordination' },
-        { value: 'CULTURE', label: 'Consumer products, education, and community worlds' },
+        { value: 'BEVCO', label: 'A full beverage house with distinct consumer brands' },
+        { value: 'ICONIC', label: 'Live entertainment, music, concerts, and activations' },
+        { value: 'ONE OS', label: 'Shared enterprise leverage without merging brand identities' },
       ]}
       features={[
         {
-          eyebrow: 'PORTFOLIO COORDINATION',
-          title: 'Everyday Water Group',
-          description: 'The coordinating enterprise for water sourcing, infrastructure, treatment, production, and long-term market development.',
-          href: 'https://everydaywatergroup.com',
-          meta: 'Open company site',
-          badge: 'System',
+          eyebrow: 'BEVERAGE HOUSE',
+          title: 'BEVCO INTL.',
+          description: 'The parent beverage company coordinating Infinity Water, Pronto Energy, ORA, OTINI, TEMPO, Casa Cantina, Island Water, Double Zero, NOIR Espresso Liqueur, PRIVÈ Vodka, and XXX Vodka.',
+          href: 'https://bevco-intl.vercel.app',
+          meta: 'Open BEVCO',
+          badge: 'Portfolio',
         },
         {
-          eyebrow: 'SOURCE INTELLIGENCE',
-          title: 'Aquifer Waterworks',
-          description: 'Source-led water intelligence, rights, access, and raw-water strategy connected to the Memphis aquifer system.',
-          href: 'https://aquiferwaterworks.com',
-          meta: 'Open company site',
-          badge: 'Source',
+          eyebrow: 'LIVE ENTERTAINMENT',
+          title: 'ICONIC',
+          description: 'Concerts, live entertainment, music, cultural moments, and scalable event IP.',
+          href: 'https://iconic-atl.com',
+          meta: 'Enter ICONIC',
+          badge: 'Entertainment',
         },
         {
-          eyebrow: 'INFRASTRUCTURE',
-          title: 'Nativa Waterworks',
-          description: 'Place-led water infrastructure, clean filtered water, treatment, production, and regional system development.',
-          href: 'https://nativawaterworks.com',
-          meta: 'Open company site',
-          badge: 'Operations',
+          eyebrow: 'FASHION / LIFESTYLE',
+          title: 'FĚNYX',
+          description: 'A distinct fashion and lifestyle brand built around bold identity, product drops, and culture.',
+          href: 'https://fenyx-gules.vercel.app',
+          meta: 'Open FĚNYX',
+          badge: 'Fashion',
         },
         {
-          eyebrow: 'PREMIUM CONSUMER WATER',
-          title: 'Infinity Water',
-          description: 'A distinct premium consumer-water brand with its own identity, market, product promise, and sales path.',
-          href: 'https://watertoinfinity.com',
-          meta: 'Open brand site',
-          badge: 'Consumer',
+          eyebrow: 'DISCOVERY PLATFORM',
+          title: 'GOOD TIMES',
+          description: 'A consumer discovery platform connecting people to nightlife, culture, experiences, and places worth knowing.',
+          href: 'https://thegoodtimesworldwide.com',
+          meta: 'Open GOOD TIMES',
+          badge: 'App',
         },
       ]}
       groups={[
         {
-          eyebrow: 'SOURCE & INFRASTRUCTURE',
-          title: 'The operating water layer.',
-          description: 'Each company keeps a defined job. Coordination creates leverage; responsibility remains company-specific.',
+          eyebrow: 'CONSUMER',
+          title: 'Brands people can touch.',
+          description: 'Each product world has its own identity, audience, offer, site, and operating plan.',
           items: [
-            { title: 'Everyday Water Group', description: 'Portfolio coordination, development, treatment strategy, production, and expansion.', href: 'https://everydaywatergroup.com', meta: 'Coordinate' },
-            { title: 'Aquifer Waterworks', description: 'Raw-water source intelligence, access, rights, and supply strategy.', href: 'https://aquiferwaterworks.com', meta: 'Source' },
-            { title: 'Nativa Waterworks', description: 'Filtered water, infrastructure, production, and place-led operations.', href: 'https://nativawaterworks.com', meta: 'Operate' },
+            { title: 'STUSH', description: 'Elevated streetwear and fashion drops.', href: 'https://stushusa.com', meta: 'Shop / Explore' },
+            { title: 'FĚNYX', description: 'Fashion, performance, and lifestyle product world.', href: 'https://fenyx-gules.vercel.app', meta: 'Explore Brand' },
+            { title: 'BEVCO INTL.', description: 'The beverage parent and route into the complete brand portfolio.', href: 'https://bevco-intl.vercel.app', meta: 'Open Portfolio' },
           ],
         },
         {
-          eyebrow: 'CONSUMER & COMMUNITY',
-          title: 'Distinct worlds built from the system.',
-          description: 'Consumer water, cultural identity, gathering, and learning remain independent public brands with direct destinations.',
+          eyebrow: 'ENTERTAINMENT & CULTURE',
+          title: 'Attention into ownership.',
+          description: 'Entertainment, discovery, and community platforms built to create durable audience relationships.',
           items: [
-            { title: 'Infinity Water', description: 'Premium consumer water positioned as a separate luxury product world.', href: 'https://watertoinfinity.com', meta: 'Shop / Explore' },
-            { title: 'Tribal Water', description: 'A separate consumer-water brand rooted in community, identity, and purpose.', href: 'https://tribal-water.vercel.app', meta: 'Explore Brand' },
-            { title: 'The Tribe', description: 'The gathering, culture, enterprise, and community world connected to the broader network.', href: 'https://the-tribe-wine.vercel.app', meta: 'Enter World' },
-            { title: 'The University', description: 'A national trade-school and workforce platform built for practical skills and economic mobility.', href: 'https://the-university.vercel.app', meta: 'Explore Programs' },
+            { title: 'ICONIC', description: 'Live entertainment, concert, music, and activation platform.', href: 'https://iconic-atl.com', meta: 'Enter ICONIC' },
+            { title: 'GOOD TIMES', description: 'Culture and experience discovery platform.', href: 'https://thegoodtimesworldwide.com', meta: 'Open Platform' },
+            { title: 'Sole Exchange', description: 'Sneaker recovery, community impact, and restoration programming.', href: 'https://soleexchangeworldwide.com', meta: 'Enter Initiative' },
           ],
         },
         {
-          eyebrow: 'WORK WITH THE NETWORK',
-          title: 'Bring a real opportunity.',
-          description: 'Distribution, land, infrastructure, production, logistics, retail, institutional, and community opportunities need a defined scope and accountable owner.',
+          eyebrow: 'OPERATING PLATFORMS',
+          title: 'Systems that compound.',
+          description: 'Food, service, productivity, and enterprise infrastructure that can expand market by market.',
           items: [
-            { title: 'Distribution / Retail', description: 'Introduce a qualified route to market for a specific water or beverage brand.', href: '/app/forms/partnership', meta: 'Partner' },
-            { title: 'Infrastructure / Property', description: 'Submit land, facility, production, treatment, or logistics opportunities.', href: '/app/forms/inquiry', meta: 'Submit Opportunity' },
-            { title: 'Enterprise Access', description: 'Route the request to the correct company without merging brand responsibilities.', href: '/access', meta: 'Open Access' },
+            { title: 'The Casper Group', description: 'Distinct food concepts built under one operating food house.', href: 'https://caspergroupworldwide.com', meta: 'Open Casper' },
+            { title: 'S.O.S.', description: 'Roadside-assistance and service-routing platform.', href: 'https://sos-app-website.vercel.app', meta: 'Open S.O.S.' },
+            { title: 'Mission 365', description: 'Mission and productivity platform for consistent daily execution.', href: 'https://mission-365.vercel.app', meta: 'Open Mission 365' },
           ],
         },
       ]}
-      primaryAction={{ label: 'Explore the Network', href: 'https://everydaywatergroup.com' }}
+      primaryAction={{ label: 'Explore Companies', href: '/companies' }}
       secondaryAction={{ label: 'Bring an Opportunity', href: '/app/forms/inquiry' }}
     />
   );
