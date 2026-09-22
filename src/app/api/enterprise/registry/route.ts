@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { KOLLECTIVE_SUPABASE_PUBLISHABLE_KEY, KOLLECTIVE_SUPABASE_URL } from '@/lib/kollective-public';
 import { departmentFor, departmentSlug } from '@/lib/company-departments';
-import { isEventEntity, isPublicEvent, isRetired } from '@/lib/roster';
+import { isEventEntity, isPublicEvent, isPubliclyHidden, isRetired } from '@/lib/roster';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
   const entities = (data || []).flatMap((entity) => {
     const legacyDivision = entity.division_name || entity.division_slug || null;
 
-    if (isRetired(entity.name)) return [];
+    if (isRetired(entity.name) || isPubliclyHidden(entity.name)) return [];
     if (isEventEntity(entity.name, legacyDivision) && !isPublicEvent(entity.name)) return [];
 
     const department = departmentFor({ name: entity.name, division: legacyDivision });
