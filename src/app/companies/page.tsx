@@ -7,7 +7,7 @@ import { motion } from '@/lib/motion';
 export const metadata: Metadata = {
   title: 'Companies — Dr. DoLo Dorsey',
   description:
-    'Every company across The Kollective: hospitality, events, technology, products, water, services, impact, and the Casper Group.',
+    'The current public portfolio across The Kollective, organized by focused operating lane and direct destination.',
   alternates: { canonical: '/companies' },
 };
 
@@ -29,14 +29,14 @@ export default function CompaniesPage() {
 
       <header className={`${styles.hero} k-surface k-surface-deep`}>
         <FilmBackdrop animation={motion.kollectiveGlobal} opacity={0.2} />
-        <p className={styles.kicker}>Companies / the full roster</p>
+        <p className={styles.kicker}>Companies / current public portfolio</p>
         <h1>
-          EVERY COMPANY.
+          FOCUSED COMPANIES.
           <br />
           <em>ONE ENTERPRISE.</em>
         </h1>
         <p>
-          The complete portfolio, grouped by department. Each company keeps its own identity,
+          The current public portfolio, grouped by operating lane. Each company keeps its own identity,
           audience, and route to market — the enterprise supplies the leverage behind them.
         </p>
       </header>
