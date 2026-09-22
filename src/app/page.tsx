@@ -7,7 +7,6 @@ import MotionCover from '@/components/MotionCover';
 import DepartmentGrid from '@/components/DepartmentGrid';
 import FilmBackdrop from '@/components/FilmBackdrop';
 import { motion, ENTITY_MOTION, type MotionAsset } from '@/lib/motion';
-import { eventMotion } from '@/lib/event-motion';
 
 /** Founder landing film. Explicit hero assignment, not a name lookup. */
 const founderHero = ENTITY_MOTION['dr-dorsey'].hero;
