@@ -75,7 +75,7 @@ const PUBLIC_EVENT_NAMES = [
   'Taste of Art', 'Freedom Fest', 'Freedom Fest : Juneteent Atl', 'Project X',
   'Winter Wonderland', 'Golf Tournament',
   'Ball Series', 'Greek Ball', "Monster's Ball", 'Monster’s Ball', 'Monsters Ball', 'Snow Ball',
-  'Champagne Ball', 'Black Ball', 'Rose Ball', 'BRAVO',
+  'Champagne Ball', 'Black Ball', 'Rose Ball', 'BRAVO', 'ICONIC', 'Iconic',
 ];
 
 const EVENT_ENTITY_NAMES = [
