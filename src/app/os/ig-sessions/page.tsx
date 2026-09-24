@@ -81,7 +81,7 @@ export default async function IgSessionsPage() {
           <div className="text-xs uppercase tracking-[0.25em] text-yellow-200/80">Priority #1</div>
           <h1 className="mt-3 text-5xl font-semibold tracking-tight sm:text-6xl">Social Profile Readiness</h1>
           <p className="mt-4 max-w-3xl text-sm leading-6 text-white/60">
-            This board tracks which priority profiles are ready for safe automation. Start with @dolodorsey, then move through the rest of the priority list.
+            This board tracks readiness for approved publishing, analytics and engagement recommendations. For @dolodorsey, private messages remain owner-managed and are excluded from automation.
           </p>
           {data.errors?.length ? <div className="mt-4 rounded-2xl border border-red-400/30 bg-red-950/30 p-4 text-sm text-red-100">{data.errors.join(' • ')}</div> : null}
         </section>
@@ -144,13 +144,13 @@ export default async function IgSessionsPage() {
             </section>
 
             <section className="rounded-3xl border border-white/10 bg-white/[0.035] p-5">
-              <div className="text-xs uppercase tracking-[0.25em] text-yellow-200/80">Next Move</div>
+              <div className="text-xs uppercase tracking-[0.25em] text-yellow-200/80">Dolo Operating Rule</div>
               <ol className="mt-4 list-decimal space-y-3 pl-5 text-sm leading-6 text-white/65">
-                <li>Start with @dolodorsey.</li>
-                <li>Complete the account owner step outside this chat.</li>
-                <li>Click Recheck @dolodorsey.</li>
-                <li>When ready, click Queue Controlled Test.</li>
-                <li>Then repeat for each priority profile.</li>
+                <li>Connect @dolodorsey through the Dolo-specific Meta button.</li>
+                <li>Validate approved publishing and analytics access.</li>
+                <li>Use the content calendar and engagement queue for recommendations.</li>
+                <li>Collect post insights and attributed traffic.</li>
+                <li>Leave all Instagram private messages to Dr. Dorsey.</li>
               </ol>
             </section>
           </aside>
