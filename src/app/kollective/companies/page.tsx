@@ -31,16 +31,16 @@ export default function KollectiveCompaniesPage() {
       </nav>
 
       <header className={`${styles.hero} k-surface k-surface-deep`}>
-        <FilmBackdrop animation={motion.kollectiveNetwork} opacity={0.2} />
+        <FilmBackdrop animation={motion.kollectiveGlobal} opacity={0.2} />
         <p className={styles.kicker}>Companies / current sales focus</p>
         <h1>
-          Focused companies.
+          WHAT WE’RE SELLING.
           <br />
-          <em>One enterprise.</em>
+          <em>RIGHT NOW.</em>
         </h1>
         <p>
-          The current public portfolio, grouped by operating lane. Every company keeps its own identity,
-          audience, and route to market. The enterprise supplies the leverage behind them.
+          The current sales focus across The Kollective. Every company stays independent; this page gives
+          customers, buyers and partners one clean entry point into the active portfolio.
         </p>
       </header>
 
