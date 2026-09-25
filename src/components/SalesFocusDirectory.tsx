@@ -13,6 +13,7 @@ type FocusCard = {
   href: string;
   animation?: MotionAsset;
   image?: string;
+  sequence?: string[];
   contain?: boolean;
 };
 
@@ -154,7 +155,11 @@ const sections: FocusSection[] = [
         category: 'Electrolytes',
         description: 'Electrolyte beverage positioned for active culture, hospitality and daily hydration.',
         href: 'https://tempo-five-lilac.vercel.app',
-        image: 'https://tempo-five-lilac.vercel.app/api/media/drive/10oszRJ3qylLdUUkTHQfF31Fj4SC2QLl0',
+        sequence: [
+          'https://tempo-five-lilac.vercel.app/api/media/drive/10oszRJ3qylLdUUkTHQfF31Fj4SC2QLl0',
+          'https://tempo-five-lilac.vercel.app/api/media/drive/1DSXLoieG7htx6L5bBNk-LvuFy1luEusV',
+          'https://tempo-five-lilac.vercel.app/api/media/drive/1l1TOWyKkbM0Vv-uVjt0YrH-RcC2rW5eH',
+        ],
       },
       {
         key: 'casa-cantina',
@@ -189,7 +194,10 @@ const sections: FocusSection[] = [
         category: 'Zero-Proof Mocktail',
         description: 'A zero-proof cocktail brand for social occasions, hospitality and modern nightlife.',
         href: 'https://double-zero-three.vercel.app',
-        image: 'https://double-zero-three.vercel.app/api/media/drive/1YSVjtUTauJk3L5lky75kU6-fnzgcKiAA',
+        sequence: [
+          'https://double-zero-three.vercel.app/api/media/drive/18D8CAPdfK3RG4T7VcfjIi-qKb7Xe-3ks',
+          'https://double-zero-three.vercel.app/api/media/drive/18kaPTR0EX4lH6YDu3etzRUhbZkQXn8uf',
+        ],
       },
       {
         key: 'noir',
@@ -362,7 +370,7 @@ const sections: FocusSection[] = [
 ];
 
 function FocusCardView({ card, featuredCard = false }: { card: FocusCard; featuredCard?: boolean }) {
-  const kinetic = !card.animation && Boolean(card.image);
+  const kinetic = !card.animation && !card.sequence?.length && Boolean(card.image);
   return (
     <a
       className={`${styles.card} ${featuredCard ? styles.featuredCard : ''}`}
@@ -370,13 +378,30 @@ function FocusCardView({ card, featuredCard = false }: { card: FocusCard; featur
       aria-label={`Open ${card.name}`}
     >
       <span className={`${styles.media} ${kinetic ? styles.kinetic : ''}`}>
-        <MotionCover
-          animation={card.animation}
-          image={card.image}
-          alt={card.name}
-          veil
-          containStill={card.contain}
-        />
+        {card.sequence?.length ? (
+          <span className={styles.sequence} aria-label={card.name}>
+            {card.sequence.map((src, index) => (
+              <img
+                src={src}
+                alt={index === 0 ? card.name : ''}
+                aria-hidden={index === 0 ? undefined : true}
+                loading="lazy"
+                key={src}
+                style={{
+                  animationDelay: `${-(index * (12 / card.sequence!.length))}s`,
+                }}
+              />
+            ))}
+          </span>
+        ) : (
+          <MotionCover
+            animation={card.animation}
+            image={card.image}
+            alt={card.name}
+            veil
+            containStill={card.contain}
+          />
+        )}
       </span>
       <span className={styles.copy}>
         <small>{card.eyebrow}</small>
