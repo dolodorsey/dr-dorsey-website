@@ -22,7 +22,6 @@ const currentCulture = [
 ];
 
 function publicAccessHref(item: { title: string; href: string }) {
-  if (item.title === 'Rose Weekly Schedule') return '/events';
   if (item.title === 'Table Reservation') return '/app/forms/reserve-table';
   if (/111atl\.com/i.test(item.href)) return '/app/forms/inquiry';
   if (item.href.startsWith('/forms')) return `/app${item.href}`;
