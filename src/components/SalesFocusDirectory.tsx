@@ -194,10 +194,11 @@ const sections: FocusSection[] = [
         category: 'Zero-Proof Mocktail',
         description: 'A zero-proof cocktail brand for social occasions, hospitality and modern nightlife.',
         href: 'https://double-zero-three.vercel.app',
-        sequence: [
-          'https://double-zero-three.vercel.app/api/media/drive/18D8CAPdfK3RG4T7VcfjIi-qKb7Xe-3ks',
-          'https://double-zero-three.vercel.app/api/media/drive/18kaPTR0EX4lH6YDu3etzRUhbZkQXn8uf',
-        ],
+        animation: {
+          src: 'https://d2ol7oe51mr4n9.cloudfront.net/user_3D3tpcPT3kXsjbP3gZR8PWLh4a1/4c1fb69c-58c3-4b82-8c89-735bcf8f7678.mp4',
+          poster: 'https://double-zero-three.vercel.app/api/media/drive/18D8CAPdfK3RG4T7VcfjIi-qKb7Xe-3ks',
+          orientation: 'landscape',
+        },
       },
       {
         key: 'noir',
@@ -270,7 +271,11 @@ const sections: FocusSection[] = [
         category: 'Fashion · Performance · Lifestyle',
         description: 'Performance-led fashion and lifestyle built around motion, resilience and identity.',
         href: 'https://fenyx-gules.vercel.app',
-        image: BODEGA_FENYX,
+        animation: {
+          src: 'https://d2ol7oe51mr4n9.cloudfront.net/user_3D3tpcPT3kXsjbP3gZR8PWLh4a1/654b6456-6df9-4789-84d8-b58f92347694.mp4',
+          poster: BODEGA_FENYX,
+          orientation: 'landscape',
+        },
       },
       {
         key: 'mister-manufacturing',
@@ -288,7 +293,11 @@ const sections: FocusSection[] = [
         category: 'Official Enterprise Merchandise',
         description: 'The uniform for the people building the enterprise — official Kollective merchandise.',
         href: 'https://bodegabodegabodega.com/kollective',
-        image: BODEGA_KOLLECTIVE,
+        animation: {
+          src: 'https://d2ol7oe51mr4n9.cloudfront.net/user_3D3tpcPT3kXsjbP3gZR8PWLh4a1/8c5631ef-d9d3-4dd7-86a0-e8a19380e83b.mp4',
+          poster: BODEGA_KOLLECTIVE,
+          orientation: 'landscape',
+        },
       },
     ],
   },
@@ -347,7 +356,11 @@ const sections: FocusSection[] = [
         category: 'Chicken Wings',
         description: 'A chicken-wing concept in active launch and promotional development under the Casper Group.',
         href: 'https://caspergroupworldwide.com',
-        image: 'https://woqlhjodiedyqfvzweoe.supabase.co/storage/v1/object/public/animations/gif/angel-wings.gif',
+        animation: {
+          src: 'https://d2ol7oe51mr4n9.cloudfront.net/user_3D3tpcPT3kXsjbP3gZR8PWLh4a1/3c245643-c518-4cfa-9336-37988247ee19.mp4',
+          poster: 'https://woqlhjodiedyqfvzweoe.supabase.co/storage/v1/object/public/animations/gif/angel-wings.gif',
+          orientation: 'landscape',
+        },
       },
     ],
   },
