@@ -28,16 +28,16 @@ export default function CompaniesPage() {
       </nav>
 
       <header className={`${styles.hero} k-surface k-surface-deep`}>
-        <FilmBackdrop animation={motion.kollectiveGlobal} opacity={0.2} />
+        <FilmBackdrop animation={motion.drDorsey} opacity={0.2} />
         <p className={styles.kicker}>Companies / current sales focus</p>
         <h1>
-          FOCUSED COMPANIES.
+          WHAT WE’RE SELLING.
           <br />
-          <em>ONE ENTERPRISE.</em>
+          <em>RIGHT NOW.</em>
         </h1>
         <p>
-          The current public portfolio, grouped by operating lane. Each company keeps its own identity,
-          audience, and route to market — the enterprise supplies the leverage behind them.
+          The current sales focus across Dr. Dorsey and The Kollective. Every company keeps its own identity,
+          audience and route to market — this is the clean front door into what is active now.
         </p>
       </header>
 
