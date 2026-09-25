@@ -25,7 +25,7 @@ assign('Nightlife / Events / Activations', [
 
 assign('Staples', [
   'Goodfellas Pizza & Wings', 'Hungry AF', 'Opium ATL', 'Sea Salt ATL', 'Tulum ATL',
-  'Rose on Piedmont', 'Help 911',
+  'Help 911',
 ]);
 
 assign('Dorsey / Kollective', [
