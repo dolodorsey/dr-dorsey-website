@@ -96,7 +96,7 @@ const focusBrandRoster: BrandCard[] = [
     name: 'Pronto Energy',
     category: 'Consumer Beverage',
     logo: `${SB}/pronto_energy/logos/pronto-logo.png`,
-    href: 'https://prontoenergydrink.com',
+    href: 'https://pronto-energy-website.vercel.app',
     status: 'Active Brand',
     actionLabel: 'Explore',
     destinationType: 'website',
@@ -195,14 +195,6 @@ const focusBrandRoster: BrandCard[] = [
     href: 'https://fenyx-gules.vercel.app',
     status: 'Active Brand',
     actionLabel: 'Explore',
-    destinationType: 'website',
-  },
-  {
-    name: 'Rose on Piedmont',
-    category: 'Hospitality · Weekly Programming',
-    href: 'https://111atl.com/#events',
-    status: 'Operating',
-    actionLabel: 'See This Week',
     destinationType: 'website',
   },
   {
@@ -373,7 +365,6 @@ export type AccessLink = {
 };
 
 export const accessLinks: AccessLink[] = [
-  { title: 'Rose Weekly Schedule', description: 'Current Rose on Piedmont programming, RSVPs, birthdays and VIP access.', href: 'https://111atl.com/#events', group: 'Sales & Reservations', featured: true },
   { title: 'Table Reservation', description: 'Restaurant, lounge and nightlife table requests.', href: 'https://111atl.com/#forms', group: 'Sales & Reservations' },
   { title: 'Group Pricing', description: 'Large parties, catering, group packages and private bookings.', href: '/forms/group_pricing', group: 'Sales & Reservations' },
   { title: 'Shop The Enterprise', description: 'Books, apparel, products and current releases.', href: '/shop', group: 'Sales & Reservations' },
