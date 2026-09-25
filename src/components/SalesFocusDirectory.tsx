@@ -118,7 +118,7 @@ const sections: FocusSection[] = [
         eyebrow: 'BEVCO BRAND',
         category: 'Energy Drink',
         description: 'Energy built for culture, nightlife, hospitality, retail and everyday momentum.',
-        href: 'https://prontoenergydrink.com',
+        href: 'https://pronto-energy-website.vercel.app',
         animation: motion.pronto,
       },
       {
