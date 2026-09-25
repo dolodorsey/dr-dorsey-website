@@ -33,7 +33,7 @@ assign('Dorsey / Kollective', [
 ]);
 
 assign('Production', [
-  'Frequency Productions', 'Synergy Sounds', 'Just Print', 'Mister Manufacturing',
+  'Frequency Productions', 'Synergy Sounds', 'Just Print',
 ]);
 
 assign('Our Apps', [
