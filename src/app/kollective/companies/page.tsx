@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import styles from './page.module.css';
-import CompanyDirectory from '@/components/CompanyDirectory';
+import SalesFocusDirectory from '@/components/SalesFocusDirectory';
 import FilmBackdrop from '@/components/FilmBackdrop';
 import { motion } from '@/lib/motion';
 import { SB } from '@/lib/enterprise';
@@ -10,7 +10,7 @@ const EMBLEM = `${SB}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-whi
 export const metadata: Metadata = {
   title: 'Companies — The Kollective',
   description:
-    'The current public Kollective portfolio, organized by focused operating lane and direct destination.',
+    'The current Kollective sales focus — direct paths into active companies, products, platforms and consumer brands.',
   alternates: { canonical: 'https://thekollectivehospitality.com/companies' },
 };
 
@@ -32,7 +32,7 @@ export default function KollectiveCompaniesPage() {
 
       <header className={`${styles.hero} k-surface k-surface-deep`}>
         <FilmBackdrop animation={motion.kollectiveNetwork} opacity={0.2} />
-        <p className={styles.kicker}>Companies / current public portfolio</p>
+        <p className={styles.kicker}>Companies / current sales focus</p>
         <h1>
           Focused companies.
           <br />
@@ -46,7 +46,7 @@ export default function KollectiveCompaniesPage() {
 
       <div className={`${styles.body} k-surface k-emblem k-edge`}>
         <div className={styles.inner}>
-          <CompanyDirectory />
+          <SalesFocusDirectory />
         </div>
       </div>
 
