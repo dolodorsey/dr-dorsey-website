@@ -24,6 +24,7 @@ const RETIRED_NAMES = [
  */
 const PUBLICLY_HIDDEN_NAMES = [
   'Help 911',
+  'Rose on Piedmont',
   'Rose Ball',
   'Project X',
   'Black Ball',
@@ -89,7 +90,6 @@ export const PRIORITY_NAMES = [
   'Opium ATL',
   'Sea Salt ATL',
   'Tulum ATL',
-  'Rose on Piedmont',
 ];
 
 function normalise(name: string): string {
