@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 import styles from './page.module.css';
-import CompanyDirectoryV2 from '@/components/CompanyDirectoryV2';
+import SalesFocusDirectory from '@/components/SalesFocusDirectory';
 import FilmBackdrop from '@/components/FilmBackdrop';
 import { motion } from '@/lib/motion';
 
 export const metadata: Metadata = {
   title: 'Companies — Dr. DoLo Dorsey',
   description:
-    'The current public portfolio across The Kollective, organized by focused operating lane and direct destination.',
+    'The current sales focus across Dr. Dorsey and The Kollective — direct paths into active companies, products and platforms.',
   alternates: { canonical: '/companies' },
 };
 
@@ -29,7 +29,7 @@ export default function CompaniesPage() {
 
       <header className={`${styles.hero} k-surface k-surface-deep`}>
         <FilmBackdrop animation={motion.kollectiveGlobal} opacity={0.2} />
-        <p className={styles.kicker}>Companies / current public portfolio</p>
+        <p className={styles.kicker}>Companies / current sales focus</p>
         <h1>
           FOCUSED COMPANIES.
           <br />
@@ -43,7 +43,7 @@ export default function CompaniesPage() {
 
       <div className={`${styles.body} k-surface k-emblem k-edge`}>
         <div className={styles.inner}>
-          <CompanyDirectoryV2 />
+          <SalesFocusDirectory />
         </div>
       </div>
 
