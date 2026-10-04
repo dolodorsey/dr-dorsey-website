@@ -30,6 +30,10 @@ const cards = [
   {n:'20',name:'S.O.S.',category:'On-Demand Services',tagline:'Real help on standby through a network of independent service providers.',href:'https://thesuperherosonstandby.com'},
   {n:'21',name:'Mission 365',category:'Fundraising & Impact',tagline:'Fundraising, community and mission work 365 days a year.',href:'https://mission-365.vercel.app'},
   {n:'22',name:'Hakuna Matata',category:'Founder / Publishing',tagline:'Live for today. Build for tomorrow.',href:'https://doctordorsey.com/hakuna-matata',image:'/dorsey/book-cover.png'},
+  {n:'23',name:'Opium ATL',category:'Nightlife & Culture',tagline:'Nightlife, entertainment and culture rooted in Atlanta.',href:'https://opiumatl.com'},
+  {n:'24',name:'Tulum ATL',category:'Dining & Experience',tagline:'Dining, cocktails, music and an immersive hospitality experience.',href:'https://tulumatl.com/atlanta-tulum-food-menu'},
+  {n:'25',name:'Hungry AF',category:'Food & Culture',tagline:'A scalable quick-serve food brand built around craveable comfort food.',href:'https://thehungryaf.com'},
+  {n:'26',name:'GoodFellas Pizza',category:'Pizza & Wings',tagline:'Pizza, wings, comfort food and a culture-forward Atlanta identity.',href:'https://tharealgoodfellas.com'},
 ];
 
 export default function KollectivePage(){
