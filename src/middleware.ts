@@ -6,6 +6,8 @@ const KOLLECTIVE_HOSTS = new Set([
 ]);
 
 const INNER_CIRCLE_HOSTS = new Set([
+  'houstatlantavegas.com',
+  'www.houstatlantavegas.com',
   'innercircle.thekollectivehospitality.com',
 ]);
 
