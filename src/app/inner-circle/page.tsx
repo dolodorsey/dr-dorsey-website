@@ -4,7 +4,7 @@ import styles from '../card-directory.module.css';
 export const metadata: Metadata = {
   title: 'Inner Circle — Portfolio',
   description: 'The Inner Circle portfolio of venue revenue, guest experience, media, technology, food, beverage, manufacturing, and commerce platforms.',
-  alternates: { canonical: 'https://innercircle.thekollectivehospitality.com' },
+  alternates: { canonical: 'https://houstatlantavegas.com' },
 };
 
 const cards = [
