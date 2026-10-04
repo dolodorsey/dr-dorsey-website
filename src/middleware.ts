@@ -8,12 +8,17 @@ const KOLLECTIVE_HOSTS = new Set([
 const INNER_CIRCLE_HOSTS = new Set([
   'houstatlantavegas.com',
   'www.houstatlantavegas.com',
-  'innercircle.thekollectivehospitality.com',
 ]);
+
+const LEGACY_INNER_CIRCLE_HOST = 'innercircle.thekollectivehospitality.com';
 
 export function middleware(request: NextRequest) {
   const hostname = (request.headers.get('host') || '').split(':')[0].toLowerCase();
   const pathname = request.nextUrl.pathname;
+
+  if (hostname === LEGACY_INNER_CIRCLE_HOST) {
+    return NextResponse.redirect(new URL(`https://houstatlantavegas.com${pathname}`));
+  }
 
   if (INNER_CIRCLE_HOSTS.has(hostname) && pathname === '/') {
     const url = request.nextUrl.clone();
