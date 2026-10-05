@@ -60,7 +60,10 @@ export default function InnerCirclePage(){
             venue assets, improve guest experience, create media, add commerce, expand food and
             beverage revenue, and build new reasons for customers to stay longer and spend more.
           </p>
-          <a className={styles.scrollCue} href="#portfolio">Enter the portfolio ↓</a>
+          <div style={{display:'flex',gap:12,flexWrap:'wrap',marginTop:24}}>
+            <a className={styles.scrollCue} href="#portfolio">Enter the portfolio ↓</a>
+            <a href="/inner-circle/revenue-review" style={{display:'inline-flex',alignItems:'center',justifyContent:'center',padding:'12px 18px',border:'1px solid rgba(255,255,255,.55)',borderRadius:999,color:'#fff',textDecoration:'none',fontSize:12,fontWeight:800,letterSpacing:1,textTransform:'uppercase'}}>Request Venue Revenue Review ↗</a>
+          </div>
         </div>
       </section>
 
@@ -90,6 +93,13 @@ export default function InnerCirclePage(){
             </a>
           ))}
         </div>
+      </section>
+
+      <section style={{padding:'56px 5vw',background:'#0b0a08',color:'#fff',borderTop:'1px solid rgba(255,255,255,.12)',textAlign:'center'}}>
+        <p style={{margin:'0 0 8px',fontSize:11,letterSpacing:2,textTransform:'uppercase',opacity:.7}}>Venue owners · operators · hospitality groups</p>
+        <h2 style={{margin:'0 auto 16px',maxWidth:860,fontSize:'clamp(34px,5vw,64px)',lineHeight:.95,fontWeight:500}}>Find the revenue already sitting inside your four walls.</h2>
+        <p style={{maxWidth:760,margin:'0 auto 24px',opacity:.72,lineHeight:1.6}}>Inner Circle reviews your venue across guest acquisition, media, food, beverage, automated retail, merchandise, community activation and underused operating capacity—then recommends only the assets that fit.</p>
+        <a href="/inner-circle/revenue-review" style={{display:'inline-flex',padding:'14px 22px',borderRadius:999,background:'#fff',color:'#111',textDecoration:'none',fontWeight:900,letterSpacing:1,textTransform:'uppercase'}}>Start the Revenue Review ↗</a>
       </section>
 
       <footer className={styles.footer}>
