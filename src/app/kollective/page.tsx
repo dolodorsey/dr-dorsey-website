@@ -66,7 +66,7 @@ export default function KollectivePage() {
         <a href="/app/forms/rsvp"><strong>RSVP</strong><span>Events and guest lists</span></a>
         <a href="/app/forms/reserve-table"><strong>Reserve</strong><span>Dining and nightlife</span></a>
         <a href="/shop"><strong>Shop</strong><span>Official Kollective merch</span></a>
-        <a href="/app/forms/partnership"><strong>Partner</strong><span>Sponsors and enterprise deals</span></a>
+        <a href="/app/forms/partnership?company=The%20Kollective"><strong>Partner</strong><span>Sponsors and enterprise deals</span></a>
         <a href="/app/forms/hiring"><strong>Join</strong><span>Careers and opportunities</span></a>
         <a href="/app"><strong>All Access</strong><span>Every form and link</span></a>
       </section>
