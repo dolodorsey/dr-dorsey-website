@@ -8,6 +8,34 @@ import DepartmentGrid from '@/components/DepartmentGrid';
 import FilmBackdrop from '@/components/FilmBackdrop';
 import { motion, ENTITY_MOTION, type MotionAsset } from '@/lib/motion';
 
+
+const founderProfileSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': 'https://doctordorsey.com/author/dr-dorsey#person',
+  name: 'Dr. DoLo Dorsey',
+  alternateName: ['Dr. Dorsey', 'DoLo Dorsey'],
+  jobTitle: 'Founder & CEO',
+  url: 'https://doctordorsey.com',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'The Kollective',
+    url: 'https://thekollectivehospitality.com',
+  },
+  sameAs: [
+    'https://www.instagram.com/dolodorsey',
+    'https://www.linkedin.com/in/dolodorsey',
+  ],
+  knowsAbout: [
+    'Enterprise Architecture',
+    'Hospitality',
+    'Brand Strategy',
+    'Event Production',
+    'Consumer Products',
+    'Technology',
+  ],
+};
+
 /** Founder landing film. Explicit hero assignment, not a name lookup. */
 const founderHero = ENTITY_MOTION['dr-dorsey'].hero;
 
@@ -53,6 +81,7 @@ export default function HomePage() {
 
   return (
     <main className={styles.page}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(founderProfileSchema) }} />
       <nav className={styles.nav}>
         <a className={styles.navBrand} href="#top" aria-label="Dr. Dorsey home">
           <img src="/dorsey/logo.png" alt="Dr. Dorsey" />
