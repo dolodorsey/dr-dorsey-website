@@ -27,7 +27,12 @@ export async function POST(request) {
   const phone = cleanText(body.phone, 40) || null;
   const formData = body.form_data && typeof body.form_data === 'object' ? body.form_data : {};
   const source = cleanText(body.source, 80) || 'website';
-  const brandKey = source === 'kollective-app' ? 'the_kollective' : 'dr_dorsey';
+  const brandKey =
+    source === 'kollective-app'
+      ? 'the_kollective'
+      : source === 'inner-circle'
+        ? 'inner_circle'
+        : 'dr_dorsey';
 
   if (!ALLOWED_FORMS.has(formType)) {
     return NextResponse.json({ error: 'Unsupported form type.' }, { status: 400 });
