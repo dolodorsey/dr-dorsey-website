@@ -67,6 +67,44 @@ export default function InnerCirclePage(){
         </div>
       </section>
 
+      <section style={{padding:'64px 5vw',background:'#f5efe3',color:'#16130f',borderBottom:'1px solid rgba(0,0,0,.08)'}}>
+        <div style={{maxWidth:1180,margin:'0 auto'}}>
+          <span className={styles.kicker}>THE COMMERCIAL OPERATING LAYER</span>
+          <h2 style={{fontSize:'clamp(42px,6vw,78px)',lineHeight:.94,margin:'12px 0 18px'}}>Not another vendor.<br/>One venue. One strategy.</h2>
+          <p style={{fontSize:17,lineHeight:1.65,maxWidth:860,opacity:.76}}>
+            Inner Circle connects separate venue opportunities—traffic, attention, time, space, infrastructure and brand equity—into one coordinated commercial strategy. The goal is to identify what should be monetized, how it should be monetized, who should operate it, where it should live and when it should expand.
+          </p>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(3,minmax(0,1fr))',gap:10,marginTop:24}}>
+            {[
+              ['Revenue / guest','How many profitable transactions can one visit support?'],
+              ['Revenue / sq. ft.','Which physical areas are economically productive?'],
+              ['Revenue / hour','Can infrastructure create value outside current operating periods?'],
+              ['Revenue / impression','What is the commercial value of venue attention?'],
+              ['Revenue / experience','Can moments generate content, sponsorship, data or repeat visits?'],
+              ['Revenue beyond visit','Can the relationship continue digitally after guests leave?'],
+            ].map(([title,copy])=><div key={title} style={{padding:16,border:'1px solid rgba(0,0,0,.1)',borderRadius:14,background:'rgba(255,255,255,.55)'}}><b style={{display:'block',fontSize:13,textTransform:'uppercase',letterSpacing:1}}>{title}</b><span style={{display:'block',marginTop:7,fontSize:12,lineHeight:1.45,opacity:.68}}>{copy}</span></div>)}
+          </div>
+        </div>
+      </section>
+
+      <section style={{padding:'64px 5vw',background:'#11100e',color:'#fff',borderBottom:'1px solid rgba(255,255,255,.08)'}}>
+        <div style={{maxWidth:1180,margin:'0 auto'}}>
+          <span className={styles.kicker}>HOW INNER CIRCLE ACTIVATES A PROPERTY</span>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(5,minmax(0,1fr))',gap:10,marginTop:22}}>
+            {[
+              ['01','Audit','Identify underused space, traffic, touchpoints and monetization gaps.'],
+              ['02','Architect','Build the right revenue model, offer mix and operating structure.'],
+              ['03','Align','Secure the right partners, approvals and launch requirements.'],
+              ['04','Activate','Deploy the concepts, experiences and commercial systems.'],
+              ['05','Optimize','Track performance, improve conversion and scale what works.'],
+            ].map(([n,title,copy])=><div key={title} style={{padding:18,border:'1px solid rgba(255,255,255,.12)',borderRadius:14,background:'rgba(255,255,255,.04)'}}><span style={{fontSize:11,opacity:.5}}>{n}</span><h3 style={{margin:'10px 0 8px',fontSize:22}}>{title}</h3><p style={{margin:0,fontSize:12,lineHeight:1.5,opacity:.66}}>{copy}</p></div>)}
+          </div>
+          <p style={{margin:'28px 0 0',paddingTop:24,borderTop:'1px solid rgba(255,255,255,.1)',fontSize:15,lineHeight:1.7,opacity:.8}}>
+            Best fit: nightlife venues · event spaces · sports bars and lounges · entertainment destinations · mixed-use properties · high-traffic hospitality venues.
+          </p>
+        </div>
+      </section>
+
       <section className={styles.directory} id="portfolio">
         <header className={styles.head}>
           <div>
