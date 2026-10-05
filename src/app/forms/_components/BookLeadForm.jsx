@@ -26,7 +26,7 @@ export default function BookLeadForm({ type, title, subtitle, icon, fields }) {
           email: data.email || '',
           phone: data.phone || '',
           form_data: data,
-          source: 'kollective_book_promotion',
+          source: 'dr_dorsey_book_promotion',
           source_url: window.location.href,
           submitted_at: new Date().toISOString(),
         }),
@@ -43,13 +43,13 @@ export default function BookLeadForm({ type, title, subtitle, icon, fields }) {
   }
 
   if (status === 'success') {
-    return <Shell><div style={{ textAlign: 'center' }}><div style={successIcon}>✓</div><h1 style={titleStyle}>Request received.</h1><p style={copyStyle}>Your information was delivered to The Kollective team. A representative will follow up using the contact details provided.</p><a href="/kollective#book" style={outlineButton}>Return to the book</a></div></Shell>;
+    return <Shell><div style={{ textAlign: 'center' }}><div style={successIcon}>✓</div><h1 style={titleStyle}>Request received.</h1><p style={copyStyle}>Your information was recorded for the Dr. Dorsey team. A representative will follow up using the contact details provided.</p><a href="/#book" style={outlineButton}>Return to the book</a></div></Shell>;
   }
 
   return (
     <Shell>
       <div style={{ textAlign: 'center', marginBottom: 34 }}>
-        <a href="/kollective#book" style={backLink}>← Hakuna Matata</a>
+        <a href="/#book" style={backLink}>← Hakuna Matata</a>
         <div style={{ fontSize: 40, marginBottom: 12 }}>{icon}</div>
         <h1 style={titleStyle}>{title}</h1>
         <p style={copyStyle}>{subtitle}</p>
