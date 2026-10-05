@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 const BRAND_KEY = 'dr_dorsey';
 const BRAND = { name: 'Dr. Dorsey', bg: '#080604', accent: '#D4B87A', text: '#F5F0E8', font: "'Cormorant Garamond', serif" };
-const WEBHOOK = 'https://dorsey.app.n8n.cloud/webhook/khg-form-submit';
+const DIRECT_FORM_ENDPOINT = '/api/forms/submit';
 const BG_IMG = '/images/forms-bg.png';
 
 const FORMS = {
@@ -167,7 +167,29 @@ export default function FormPage({params}){
   const set=(n,v)=>setData(p=>({...p,[n]:v}));
   const submit=async(e)=>{
     e.preventDefault();setStatus('submitting');
-    try{await fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({brand_key:BRAND_KEY,form_type:type,full_name:data.full_name||'',email:data.email||'',phone:data.phone||'',form_data:data,source:'standalone_form',submitted_at:new Date().toISOString()})});setStatus('success');}catch{setStatus('error');}
+    try{
+      const response=await fetch(DIRECT_FORM_ENDPOINT,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          brand_key:BRAND_KEY,
+          form_type:type,
+          full_name:data.full_name||'',
+          email:data.email||'',
+          phone:data.phone||'',
+          form_data:data,
+          source:'dr_dorsey_direct_form',
+          source_url:window.location.href,
+          submitted_at:new Date().toISOString()
+        })
+      });
+      const payload=await response.json().catch(()=>null);
+      if(!response.ok||payload?.success!==true) throw new Error(payload?.error||`Submission failed with ${response.status}`);
+      setStatus('success');
+    }catch(error){
+      console.error(error);
+      setStatus('error');
+    }
   };
 
   if(!form) return <FormsIndex/>;
@@ -179,7 +201,7 @@ export default function FormPage({params}){
         <div style={{textAlign:'center',maxWidth:480}}>
           <div style={{width:72,height:72,borderRadius:'50%',border:`2px solid ${BRAND.accent}`,display:'flex',alignItems:'center',justifyContent:'center',margin:'0 auto 24px',fontSize:32,color:BRAND.accent}}>✓</div>
           <h1 style={{fontSize:32,fontWeight:300,marginBottom:12,color:'#fff',fontFamily:BRAND.font}}>Submitted</h1>
-          <p style={{fontSize:15,color:'rgba(255,255,255,0.85)',fontFamily:"'DM Sans',sans-serif",lineHeight:1.6}}>Thank you{data.full_name?', '+data.full_name:''}. We received your {form.title.toLowerCase()} and will be in touch shortly.</p>
+          <p style={{fontSize:15,color:'rgba(255,255,255,0.85)',fontFamily:"'DM Sans',sans-serif",lineHeight:1.6}}>Thank you{data.full_name?', '+data.full_name:''}. Your {form.title.toLowerCase()} was recorded successfully for the Dr. Dorsey team and will be routed for follow-up.</p>
           <a href={'/forms/'+type} style={{display:'inline-block',marginTop:32,padding:'12px 32px',border:`1px solid ${BRAND.accent}60`,color:BRAND.accent,borderRadius:6,textDecoration:'none',fontSize:13,letterSpacing:1,textTransform:'uppercase',fontFamily:"'DM Sans',sans-serif"}}>Submit Another</a>
         </div>
       </div>
