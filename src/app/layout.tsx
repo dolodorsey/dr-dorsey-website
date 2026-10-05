@@ -25,7 +25,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@type': 'Person', name: 'Dr. DoLo Dorsey', jobTitle: 'Founder & CEO', worksFor: { '@type': 'Organization', name: 'The Kollective' }, url: 'https://doctordorsey.com', sameAs: ['https://instagram.com/dolodorsey'], knowsAbout: ['Enterprise Architecture', 'Hospitality', 'Brand Strategy', 'Event Production', 'Consumer Products', 'Technology'] }) }} />
       </head>
       <body suppressHydrationWarning>{children}<AppDownloadPrompt /></body>
     </html>
