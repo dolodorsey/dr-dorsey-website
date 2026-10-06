@@ -61,15 +61,12 @@ const allDepartments: Department[] = [
   },
   {
     title: 'The Inner Circle',
-    eyebrow: 'Membership · Development · Legacy',
-    detail: 'The private relationship, community, education, agriculture, youth and leadership layer of the enterprise.',
-    sample: [
-      'The Fraternity', "The Gentleman's Club", 'The Tribe', 'The University', 'Living Legacy Farms',
-      'Trailblazers', 'Little Farmers of the Future', "Member's Elite",
-    ],
-    href: '/companies#the-inner-circle',
-    cta: 'Enter the inner circle',
-    animations: [motion.innerCircle, motion.fraternity, motion.gentlemansClub, motion.tribe, motion.university, motion.littleFarmers],
+    eyebrow: 'Venue Revenue Optimization',
+    detail: 'A strategic operating layer that helps independent venues monetize guest traffic, media, food, beverage, underused space, automated retail, merchandise and digital follow-up.',
+    sample: ['Memory Machine', 'GOOD TIMES', 'BEVCO', 'VAPR', 'Casper Group', 'Mister Manufacturing', 'Sole Exchange'],
+    href: 'https://innercircle.thekollectivehospitality.com',
+    cta: 'Review your venue',
+    animations: [motion.innerCircle],
   },
   {
     title: 'Products / Clothing',
