@@ -6,24 +6,30 @@ const KOLLECTIVE_HOSTS = new Set([
 ]);
 
 const INNER_CIRCLE_HOSTS = new Set([
+  'innercircle.thekollectivehospitality.com',
   'houstatlantavegas.com',
   'www.houstatlantavegas.com',
 ]);
-
-const LEGACY_INNER_CIRCLE_HOST = 'innercircle.thekollectivehospitality.com';
 
 export function middleware(request: NextRequest) {
   const hostname = (request.headers.get('host') || '').split(':')[0].toLowerCase();
   const pathname = request.nextUrl.pathname;
 
-  if (hostname === LEGACY_INNER_CIRCLE_HOST) {
-    return NextResponse.redirect(new URL(`https://houstatlantavegas.com${pathname}`));
+  if (INNER_CIRCLE_HOSTS.has(hostname)) {
+    if (pathname === '/') {
+      const url = request.nextUrl.clone();
+      url.pathname = '/inner-circle';
+      return NextResponse.rewrite(url);
+    }
+    if (pathname === '/revenue-review') {
+      const url = request.nextUrl.clone();
+      url.pathname = '/inner-circle/revenue-review';
+      return NextResponse.rewrite(url);
+    }
   }
 
-  if (INNER_CIRCLE_HOSTS.has(hostname) && pathname === '/') {
-    const url = request.nextUrl.clone();
-    url.pathname = '/inner-circle';
-    return NextResponse.rewrite(url);
+  if (KOLLECTIVE_HOSTS.has(hostname) && pathname === '/inner-circle') {
+    return NextResponse.redirect(new URL('https://innercircle.thekollectivehospitality.com'));
   }
 
   // Shared app, auth, API, and destination routes live at the root. Keep them
