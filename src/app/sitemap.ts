@@ -1,21 +1,48 @@
 import type { MetadataRoute } from 'next';
+import { headers } from 'next/headers';
 
-const SITE_URL = 'https://doctordorsey.com';
+export const dynamic = 'force-dynamic';
+
+const KOLLECTIVE_HOSTS = new Set([
+  'thekollectivehospitality.com',
+  'www.thekollectivehospitality.com',
+]);
+
+function requestHost() {
+  return (headers().get('host') || '').split(':')[0].toLowerCase();
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
+  const isKollective = KOLLECTIVE_HOSTS.has(requestHost());
+  const site = isKollective
+    ? 'https://thekollectivehospitality.com'
+    : 'https://doctordorsey.com';
+
+  if (isKollective) {
+    return [
+      { url: site, lastModified: now, changeFrequency: 'weekly', priority: 1 },
+      { url: `${site}/events`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
+      { url: `${site}/shop`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+      { url: `${site}/app`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+      { url: `${site}/access`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
+      { url: `${site}/team`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
+      { url: `${site}/privacy`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
+      { url: `${site}/terms`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
+    ];
+  }
 
   return [
-    { url: SITE_URL, lastModified: now, changeFrequency: 'weekly', priority: 1 },
-    { url: `${SITE_URL}/companies`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${SITE_URL}/directory`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
-    { url: `${SITE_URL}/events`, lastModified: now, changeFrequency: 'daily', priority: 0.8 },
-    { url: `${SITE_URL}/kollective`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${SITE_URL}/access`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${SITE_URL}/links`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${SITE_URL}/author/dr-dorsey`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${SITE_URL}/insights`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${SITE_URL}/press`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${SITE_URL}/privacy`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
+    { url: site, lastModified: now, changeFrequency: 'weekly', priority: 1 },
+    { url: `${site}/companies`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${site}/directory`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${site}/events`, lastModified: now, changeFrequency: 'daily', priority: 0.8 },
+    { url: `${site}/kollective`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${site}/access`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${site}/links`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${site}/author/dr-dorsey`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${site}/insights`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${site}/press`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${site}/privacy`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
   ];
 }
