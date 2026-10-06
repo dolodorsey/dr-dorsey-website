@@ -8,7 +8,7 @@ const ALLOWED_FORMS = new Set([
   'onboarding','what_you_do','rsvp','ticket','intern','volunteer','hiring_inquiry',
   'inquiry','group_pricing','table_reservation','nda','book_club','bulk_orders',
   'speaking','media',
-  'member_offers','ambassador_application',
+  'member_offers','ambassador_application','newsletter',
 ]);
 
 const SMS_CONSENT_TEXT = 'I agree to receive recurring informational and marketing text messages from Kollective Hospitality Texas at the number provided. Message frequency varies. Message and data rates may apply. Reply STOP to opt out and HELP for help. Consent is not a condition of purchase.';
@@ -45,10 +45,17 @@ export async function POST(request) {
   }
 
   const isSmsOptIn = formData.request_type === 'sms_opt_in';
+  const isNewsletterOptIn = formType === 'newsletter';
   const phoneDigits = phone?.replace(/\D/g, '') || '';
+  if (isNewsletterOptIn && formData.email_marketing_consent !== true) {
+    return NextResponse.json({ error: 'Email marketing consent is required to join the newsletter.' }, { status: 400 });
+  }
+
   if (isSmsOptIn && (source !== 'kollective-app' || formData.sms_consent !== true || phoneDigits.length < 7 || phoneDigits.length > 15)) {
     return NextResponse.json({ error: 'Valid SMS consent and a mobile number are required.' }, { status: 400 });
   }
+
+  const NEWSLETTER_CONSENT_TEXT = 'I want to receive Dr. Dorsey founder notes and occasional marketing emails. I can unsubscribe at any time.';
 
   const storedFormData = isSmsOptIn
     ? {
@@ -58,7 +65,15 @@ export async function POST(request) {
         consent_timestamp: new Date().toISOString(),
         consent_capture: 'server_validated',
       }
-    : formData;
+    : isNewsletterOptIn
+      ? {
+          ...formData,
+          email_marketing_consent: true,
+          email_marketing_consent_text: NEWSLETTER_CONSENT_TEXT,
+          consent_timestamp: new Date().toISOString(),
+          consent_capture: 'server_validated',
+        }
+      : formData;
 
   const response = await fetch(`${SUPABASE_URL}/rest/v1/form_submissions`, {
     method: 'POST',

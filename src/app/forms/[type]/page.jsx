@@ -24,6 +24,9 @@ const FORMS = {
     {n:'instagram',l:'Instagram Handle',t:'text',r:1},{n:'tiktok',l:'TikTok Handle',t:'text'},
     {n:'follower_count',l:'Total Following',t:'select',r:1,o:['Under 5K','5K–10K','10K–25K','25K–50K','50K–100K','100K+']},
     {n:'niche',l:'Content Niche',t:'text',r:1},{n:'pitch',l:'Why should we work together?',t:'textarea',r:1}]},
+  newsletter:{title:'Founder Notes',sub:'Dr. Dorsey operating notes, ideas & direct updates',icon:'✍🏾',cat:'General',fields:[
+    {n:'full_name',l:'Full Name',t:'text',r:1},{n:'email',l:'Email',t:'email',r:1},
+    {n:'email_marketing_consent',l:'I want to receive Dr. Dorsey founder notes and occasional marketing emails. I can unsubscribe at any time.',t:'checkbox',r:1}]},
   sponsor:{title:'Sponsor Inquiry',sub:'Sponsor our events & experiences',icon:'🤝',cat:'Business',fields:[
     {n:'full_name',l:'Full Name',t:'text',r:1},{n:'email',l:'Email',t:'email',r:1},{n:'phone',l:'Phone',t:'tel',r:1},
     {n:'company',l:'Company / Brand',t:'text',r:1},{n:'title',l:'Your Title',t:'text'},
