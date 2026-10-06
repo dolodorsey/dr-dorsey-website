@@ -42,6 +42,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${site}/links`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${site}/author/dr-dorsey`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${site}/insights`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${site}/insights/shared-infrastructure-independent-brands`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${site}/press`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${site}/privacy`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
   ];
