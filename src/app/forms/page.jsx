@@ -1,4 +1,5 @@
 const routes = [
+  ['Founder Notes', 'Direct updates', 'Original operating notes, founder ideas, and occasional Dr. Dorsey updates—opt in directly.', '/forms/newsletter'],
   ['Private Strategy', 'Founder access', 'A focused conversation about enterprise architecture, positioning, growth, and the next move.', '/forms/consultation'],
   ['Speaking & Appearances', 'Founder platform', 'Keynotes, panels, interviews, podcasts, lectures, and cultural conversations.', '/forms/speaking'],
   ['Partnership / Sponsor', 'Enterprise', 'Sponsorship, integrations, licensing, strategic alliances, and multi-brand opportunities.', '/forms/sponsor'],
