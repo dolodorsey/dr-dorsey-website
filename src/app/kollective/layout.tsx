@@ -1,17 +1,27 @@
 import type { Metadata } from 'next';
 
+const KOLLECTIVE_URL = 'https://thekollectivehospitality.com';
+const KOLLECTIVE_LOGO = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-black.png';
+
 export const metadata: Metadata = {
   title: 'The Kollective — One Enterprise. Independent Brands. Direct Access.',
-  description: 'The official Kollective enterprise platform: twenty current-focus entities, eight independent divisions, direct public actions and the roadmap for one unified member app.',
+  description: 'The official Kollective enterprise platform: independent brands across focused divisions, direct public actions and one enterprise operating layer.',
+  alternates: {
+    canonical: KOLLECTIVE_URL,
+  },
   openGraph: {
     title: 'The Kollective — One Enterprise. Many Worlds.',
     description: 'Explore the current focus, full enterprise portfolio, direct access routes and unified enterprise app roadmap.',
-    images: ['https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-black.png'],
+    url: KOLLECTIVE_URL,
+    siteName: 'The Kollective',
+    type: 'website',
+    images: [KOLLECTIVE_LOGO],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'The Kollective — One Enterprise. Many Worlds.',
     description: 'Independent brands. Shared enterprise leverage. Direct action through one platform.',
+    images: [KOLLECTIVE_LOGO],
   },
 };
 
@@ -22,5 +32,28 @@ export const metadata: Metadata = {
  * tokens to every surface underneath it.
  */
 export default function KollectiveLayout({ children }: { children: React.ReactNode }) {
-  return <div data-brand="kollective">{children}</div>;
+  const organization = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${KOLLECTIVE_URL}/#organization`,
+    name: 'The Kollective Hospitality Group',
+    alternateName: 'The Kollective',
+    url: KOLLECTIVE_URL,
+    logo: KOLLECTIVE_LOGO,
+    founder: {
+      '@type': 'Person',
+      name: 'Dr. DoLo Dorsey',
+      url: 'https://doctordorsey.com',
+    },
+  };
+
+  return (
+    <div data-brand="kollective">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }}
+      />
+      {children}
+    </div>
+  );
 }
