@@ -26,6 +26,11 @@ export function middleware(request: NextRequest) {
       url.pathname = '/inner-circle/revenue-review';
       return NextResponse.rewrite(url);
     }
+    if (pathname === '/brief') {
+      const url = request.nextUrl.clone();
+      url.pathname = '/inner-circle/brief';
+      return NextResponse.rewrite(url);
+    }
   }
 
   if (KOLLECTIVE_HOSTS.has(hostname) && pathname === '/inner-circle') {
