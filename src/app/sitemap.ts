@@ -8,16 +8,33 @@ const KOLLECTIVE_HOSTS = new Set([
   'www.thekollectivehospitality.com',
 ]);
 
+const INNER_CIRCLE_HOSTS = new Set([
+  'innercircle.thekollectivehospitality.com',
+  'houstatlantavegas.com',
+  'www.houstatlantavegas.com',
+]);
+
 function requestHost() {
   return (headers().get('host') || '').split(':')[0].toLowerCase();
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const isKollective = KOLLECTIVE_HOSTS.has(requestHost());
-  const site = isKollective
-    ? 'https://thekollectivehospitality.com'
-    : 'https://doctordorsey.com';
+  const host = requestHost();
+  const isInnerCircle = INNER_CIRCLE_HOSTS.has(host);
+  const isKollective = KOLLECTIVE_HOSTS.has(host);
+  const site = isInnerCircle
+    ? 'https://innercircle.thekollectivehospitality.com'
+    : isKollective
+      ? 'https://thekollectivehospitality.com'
+      : 'https://doctordorsey.com';
+
+  if (isInnerCircle) {
+    return [
+      { url: site, lastModified: now, changeFrequency: 'weekly', priority: 1 },
+      { url: `${site}/revenue-review`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+    ];
+  }
 
   if (isKollective) {
     return [
