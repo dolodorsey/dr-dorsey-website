@@ -50,6 +50,13 @@ export default function InsightsPage() {
 
       <section className={styles.section}>
         <div className={styles.sectionInner}>
+          <div className={styles.sectionHeader}><p>Latest operating note</p><div><h2>Independent Brands Should Share Infrastructure, Not Identity</h2><span>Centralize capability and evidence while keeping each brand&apos;s identity, audience, economics and permission boundaries distinct.</span></div></div>
+          <div className={styles.actions}><a href="/insights/shared-infrastructure-independent-brands">Read the operating note ↗</a></div>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <div className={styles.sectionInner}>
           <div className={styles.sectionHeader}><p>Editorial lanes</p><div><h2>Depth first. Distribution second.</h2><span>The goal is not commodity content. Each published piece should contain a first-hand point of view, a useful framework, an original story, or evidence that cannot be copied from a generic search result.</span></div></div>
           <div className={styles.grid}>{lanes.map(([title, copy]) => <article className={styles.card} key={title}><small>Dr. Dorsey</small><h3>{title}</h3><p>{copy}</p></article>)}</div>
         </div>
