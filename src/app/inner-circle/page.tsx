@@ -202,7 +202,10 @@ export default function InnerCirclePage(){
         <p style={{margin:'0 0 8px',fontSize:11,letterSpacing:2,textTransform:'uppercase',opacity:.7}}>Venue owners · operators · hospitality groups</p>
         <h2 style={{margin:'0 auto 16px',maxWidth:860,fontSize:'clamp(34px,5vw,64px)',lineHeight:.95,fontWeight:500}}>Find the revenue already sitting inside your four walls.</h2>
         <p style={{maxWidth:760,margin:'0 auto 24px',opacity:.72,lineHeight:1.6}}>Inner Circle reviews your venue across guest acquisition, media, food, beverage, automated retail, merchandise, community activation and underused operating capacity—then recommends only the assets that fit.</p>
-        <a href="/inner-circle/revenue-review" style={{display:'inline-flex',padding:'14px 22px',borderRadius:999,background:'#fff',color:'#111',textDecoration:'none',fontWeight:900,letterSpacing:1,textTransform:'uppercase'}}>Start the Revenue Review ↗</a>
+        <div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap'}}>
+          <a href="/inner-circle/revenue-review" style={{display:'inline-flex',padding:'14px 22px',borderRadius:999,background:'#fff',color:'#111',textDecoration:'none',fontWeight:900,letterSpacing:1,textTransform:'uppercase'}}>Start the Revenue Review ↗</a>
+          <a href="/inner-circle/brief" style={{display:'inline-flex',padding:'14px 22px',borderRadius:999,border:'1px solid rgba(255,255,255,.45)',color:'#fff',textDecoration:'none',fontWeight:900,letterSpacing:1,textTransform:'uppercase'}}>Join the Venue Revenue Brief ↗</a>
+        </div>
       </section>
 
       <footer className={styles.footer}>
