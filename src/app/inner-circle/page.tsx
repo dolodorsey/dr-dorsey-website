@@ -55,8 +55,51 @@ const cards = [
 ];
 
 export default function InnerCirclePage(){
+  const serviceSchema = {
+    '@context':'https://schema.org',
+    '@type':'Service',
+    '@id':'https://innercircle.thekollectivehospitality.com/#service',
+    name:'The Venue Revenue Optimization Engine™',
+    provider:{
+      '@type':'Organization',
+      name:'The Inner Circle',
+      url:'https://innercircle.thekollectivehospitality.com',
+    },
+    areaServed:'United States',
+    serviceType:'Venue revenue optimization and hospitality commercial strategy',
+    url:'https://innercircle.thekollectivehospitality.com',
+    description:'A strategic operating layer that helps independent venues identify and activate revenue from guest traffic, media, food, beverage, underused space, automated retail, merchandise and digital follow-up.',
+  };
+  const faqSchema = {
+    '@context':'https://schema.org',
+    '@type':'FAQPage',
+    mainEntity:[
+      {
+        '@type':'Question',
+        name:'What is The Inner Circle Venue Revenue Optimization Engine?',
+        acceptedAnswer:{'@type':'Answer',text:'The Inner Circle reviews how an independent venue uses guest traffic, time, space, media, food, beverage, commerce and digital follow-up, then recommends only the revenue opportunities that fit the property.'}
+      },
+      {
+        '@type':'Question',
+        name:'What kinds of venues are a fit for Inner Circle?',
+        acceptedAnswer:{'@type':'Answer',text:'The strongest fits include nightlife venues, event spaces, sports bars and lounges, entertainment destinations, mixed-use properties and other high-traffic hospitality venues.'}
+      },
+      {
+        '@type':'Question',
+        name:'Does Inner Circle replace the companies in its portfolio?',
+        acceptedAnswer:{'@type':'Answer',text:'No. Each company, product and platform remains a separate operating brand. Inner Circle is the strategic front door that selects and coordinates the right assets for a venue.'}
+      },
+      {
+        '@type':'Question',
+        name:'What happens after a Venue Revenue Review?',
+        acceptedAnswer:{'@type':'Answer',text:'The process is audit, architect, align, activate and optimize. A review identifies monetization gaps first; only the highest-fit opportunities move into partner alignment and activation.'}
+      }
+    ]
+  };
   return (
     <main className={styles.site}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(serviceSchema)}} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(faqSchema)}} />
       <section className={styles.hero}>
         <div className={styles.heroShade} />
         <div className={styles.heroCopy}>
@@ -140,11 +183,29 @@ export default function InnerCirclePage(){
         </div>
       </section>
 
+      <section style={{padding:'64px 5vw',background:'#f5efe3',color:'#16130f',borderTop:'1px solid rgba(0,0,0,.08)'}}>
+        <div style={{maxWidth:1180,margin:'0 auto'}}>
+          <span className={styles.kicker}>VENUE REVENUE FAQ</span>
+          <h2 style={{fontSize:'clamp(38px,5vw,64px)',lineHeight:.96,margin:'12px 0 26px'}}>The questions venue operators ask first.</h2>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(2,minmax(0,1fr))',gap:12}}>
+            {[
+              ['What is the Venue Revenue Optimization Engine™?','A commercial review of guest traffic, time, space, media, food, beverage, commerce and digital follow-up. Inner Circle recommends only the revenue opportunities that fit the property.'],
+              ['What venues are the best fit?','Nightlife venues, event spaces, sports bars and lounges, entertainment destinations, mixed-use properties and other high-traffic hospitality venues.'],
+              ['Does Inner Circle replace the portfolio companies?','No. Each company, product and platform stays separate. Inner Circle is the strategic front door that selects and coordinates the right assets for a venue.'],
+              ['What happens after the Revenue Review?','Audit first. Then architect the model, align the required partners and approvals, activate only the fit opportunities, and optimize from measured performance.'],
+            ].map(([q,a])=><article key={q} style={{padding:20,border:'1px solid rgba(0,0,0,.1)',borderRadius:14,background:'rgba(255,255,255,.6)'}}><h3 style={{margin:'0 0 9px',fontSize:20}}>{q}</h3><p style={{margin:0,fontSize:13,lineHeight:1.6,opacity:.72}}>{a}</p></article>)}
+          </div>
+        </div>
+      </section>
+
       <section style={{padding:'56px 5vw',background:'#0b0a08',color:'#fff',borderTop:'1px solid rgba(255,255,255,.12)',textAlign:'center'}}>
         <p style={{margin:'0 0 8px',fontSize:11,letterSpacing:2,textTransform:'uppercase',opacity:.7}}>Venue owners · operators · hospitality groups</p>
         <h2 style={{margin:'0 auto 16px',maxWidth:860,fontSize:'clamp(34px,5vw,64px)',lineHeight:.95,fontWeight:500}}>Find the revenue already sitting inside your four walls.</h2>
         <p style={{maxWidth:760,margin:'0 auto 24px',opacity:.72,lineHeight:1.6}}>Inner Circle reviews your venue across guest acquisition, media, food, beverage, automated retail, merchandise, community activation and underused operating capacity—then recommends only the assets that fit.</p>
-        <a href="/inner-circle/revenue-review" style={{display:'inline-flex',padding:'14px 22px',borderRadius:999,background:'#fff',color:'#111',textDecoration:'none',fontWeight:900,letterSpacing:1,textTransform:'uppercase'}}>Start the Revenue Review ↗</a>
+        <div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap'}}>
+          <a href="/inner-circle/revenue-review" style={{display:'inline-flex',padding:'14px 22px',borderRadius:999,background:'#fff',color:'#111',textDecoration:'none',fontWeight:900,letterSpacing:1,textTransform:'uppercase'}}>Start the Revenue Review ↗</a>
+          <a href="/inner-circle/brief" style={{display:'inline-flex',padding:'14px 22px',borderRadius:999,border:'1px solid rgba(255,255,255,.45)',color:'#fff',textDecoration:'none',fontWeight:900,letterSpacing:1,textTransform:'uppercase'}}>Join the Venue Revenue Brief ↗</a>
+        </div>
       </section>
 
       <footer className={styles.footer}>
