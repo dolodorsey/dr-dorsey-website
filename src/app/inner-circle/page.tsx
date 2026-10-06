@@ -2,9 +2,16 @@ import type { Metadata } from 'next';
 import styles from '../card-directory.module.css';
 
 export const metadata: Metadata = {
-  title: 'Inner Circle — Portfolio',
-  description: 'The Inner Circle portfolio of venue revenue, guest experience, media, technology, food, beverage, manufacturing, and commerce platforms.',
-  alternates: { canonical: 'https://houstatlantavegas.com' },
+  title: 'The Inner Circle — Venue Revenue Optimization Engine™',
+  description: 'The Inner Circle helps independent venues identify and activate new revenue from guest traffic, media, food, beverage, underused space, automated retail, merchandise and digital follow-up.',
+  alternates: { canonical: 'https://innercircle.thekollectivehospitality.com' },
+  openGraph: {
+    title: 'The Inner Circle — Venue Revenue Optimization Engine™',
+    description: 'Find the revenue already sitting inside your four walls.',
+    url: 'https://innercircle.thekollectivehospitality.com',
+    siteName: 'The Inner Circle',
+    type: 'website',
+  },
 };
 
 const cards = [
