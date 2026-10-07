@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit --pretty false",
+    "test:baseline": "node --test tests/baseline-contracts.test.mjs",
+    "smoke:routes": "node scripts/smoke-routes.mjs",
+    "check:baseline": "npm run test:baseline && npm run typecheck"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.95.3",
