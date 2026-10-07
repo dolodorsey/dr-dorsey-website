@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const departmentLinks = [
   ["/ops-os/departments", "Department OS"],
@@ -10,6 +13,8 @@ const departmentLinks = [
 ] as const;
 
 export default function DepartmentRibbon() {
+  const pathname = usePathname();
+  if (pathname.startsWith("/ops-os/dorsey")) return null;
   return (
     <div className="ops-panel" style={{ margin: "0 34px 18px", padding: 14 }}>
       <div className="ops-action-row">
