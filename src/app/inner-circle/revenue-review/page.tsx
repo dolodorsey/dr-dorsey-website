@@ -20,27 +20,34 @@ export default function InnerCircleRevenueReview() {
     event.preventDefault();
     setLoading(true);
     setStatus("");
-    const data=Object.fromEntries(new FormData(event.currentTarget));
-    const response=await fetch("/api/forms/submit",{
-      method:"POST",
-      headers:{"content-type":"application/json"},
-      body:JSON.stringify({
-        form_type:"inquiry",
-        full_name:String(data.full_name||""),
-        email:String(data.email||""),
-        phone:String(data.phone||""),
-        form_data:{...data,request_type:"venue_revenue_review"},
-        source:"inner-circle",
-      }),
-    });
-    const output=await response.json().catch(()=>null);
-    if(response.ok&&output?.success){
-      setStatus("success");
-      event.currentTarget.reset();
-    }else{
-      setStatus(output?.error||"We could not save the request yet.");
+    const form=event.currentTarget;
+    try {
+      const formData=new FormData(form);
+      const data=Object.fromEntries(formData);
+      const response=await fetch("/api/forms/submit",{
+        method:"POST",
+        headers:{"content-type":"application/json"},
+        body:JSON.stringify({
+          form_type:"inquiry",
+          full_name:String(data.full_name||""),
+          email:String(data.email||""),
+          phone:String(data.phone||""),
+          form_data:{...data,asset_interest:formData.getAll("asset_interest"),request_type:"venue_revenue_review"},
+          source:"inner-circle",
+        }),
+      });
+      const output=await response.json().catch(()=>null);
+      if(response.ok&&output?.success){
+        setStatus("success");
+        form.reset();
+      }else{
+        setStatus(output?.error||"We could not confirm that the request was saved. Check for confirmation before submitting again.");
+      }
+    } catch {
+      setStatus("We could not confirm that the request was saved. Keep your details here and check for confirmation before submitting again.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   return (
