@@ -28,18 +28,118 @@ grant select, insert on public.khg_dorsey_execution_audit to authenticated;
 do $$
 begin
   if not exists (
-    select 1 from pg_policies where schemaname='public' and tablename='khg_dorsey_execution_audit' and policyname='dorsey_audit_staff_read'
+    select 1 from pg_policies
+    where schemaname='public' and tablename='khg_dorsey_execution_audit' and policyname='dorsey_audit_staff_read'
   ) then
     create policy dorsey_audit_staff_read on public.khg_dorsey_execution_audit
       for select to authenticated using (public.is_khg_staff());
   end if;
   if not exists (
-    select 1 from pg_policies where schemaname='public' and tablename='khg_dorsey_execution_audit' and policyname='dorsey_audit_staff_insert'
+    select 1 from pg_policies
+    where schemaname='public' and tablename='khg_dorsey_execution_audit' and policyname='dorsey_audit_staff_insert'
   ) then
     create policy dorsey_audit_staff_insert on public.khg_dorsey_execution_audit
-      for insert to authenticated with check (public.is_khg_staff() and entity_key in ('dr-dorsey','dr_dorsey','dorsey','the-kollective','the_kollective','kollective'));
+      for insert to authenticated with check (
+        public.is_khg_staff()
+        and entity_key in ('dr-dorsey','dr_dorsey','dorsey','the-kollective','the_kollective','kollective')
+      );
   end if;
 end $$;
 
--- Handoffs and enterprise notes are internal control-plane records. The app uses
--- the signed-in staff JWT; no service-role key i...[truncated]
+-- These are internal control-plane records. Browser writes use the signed-in
+-- staff JWT. No service-role key is exposed to the client.
+grant select, insert, update on public.enterprise_handoff_notes to authenticated;
+grant select, insert, update on public.khg_managed_agent_handoffs to authenticated;
+grant select on public.agent_health to authenticated;
+grant select on public.agent_executions to authenticated;
+grant select on public.worker_dispatch_log to authenticated;
+grant update on public.worker_state to authenticated;
+
+do $$
+begin
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='enterprise_handoff_notes' and policyname='dorsey_notes_staff_read'
+  ) then
+    create policy dorsey_notes_staff_read on public.enterprise_handoff_notes
+      for select to authenticated using (public.is_khg_staff());
+  end if;
+
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='enterprise_handoff_notes' and policyname='dorsey_notes_staff_insert'
+  ) then
+    create policy dorsey_notes_staff_insert on public.enterprise_handoff_notes
+      for insert to authenticated with check (public.is_khg_staff());
+  end if;
+
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='enterprise_handoff_notes' and policyname='dorsey_notes_staff_update'
+  ) then
+    create policy dorsey_notes_staff_update on public.enterprise_handoff_notes
+      for update to authenticated
+      using (public.is_khg_staff())
+      with check (public.is_khg_staff());
+  end if;
+
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='khg_managed_agent_handoffs' and policyname='dorsey_handoffs_staff_read'
+  ) then
+    create policy dorsey_handoffs_staff_read on public.khg_managed_agent_handoffs
+      for select to authenticated using (public.is_khg_staff());
+  end if;
+
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='khg_managed_agent_handoffs' and policyname='dorsey_handoffs_staff_insert'
+  ) then
+    create policy dorsey_handoffs_staff_insert on public.khg_managed_agent_handoffs
+      for insert to authenticated with check (public.is_khg_staff());
+  end if;
+
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='khg_managed_agent_handoffs' and policyname='dorsey_handoffs_staff_update'
+  ) then
+    create policy dorsey_handoffs_staff_update on public.khg_managed_agent_handoffs
+      for update to authenticated
+      using (public.is_khg_staff())
+      with check (public.is_khg_staff());
+  end if;
+
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='agent_health' and policyname='dorsey_agent_health_staff_read'
+  ) then
+    create policy dorsey_agent_health_staff_read on public.agent_health
+      for select to authenticated using (public.is_khg_staff());
+  end if;
+
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='agent_executions' and policyname='dorsey_agent_exec_staff_read'
+  ) then
+    create policy dorsey_agent_exec_staff_read on public.agent_executions
+      for select to authenticated using (public.is_khg_staff());
+  end if;
+
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='worker_dispatch_log' and policyname='dorsey_worker_dispatch_staff_read'
+  ) then
+    create policy dorsey_worker_dispatch_staff_read on public.worker_dispatch_log
+      for select to authenticated using (public.is_khg_staff());
+  end if;
+
+  if not exists (
+    select 1 from pg_policies
+    where schemaname='public' and tablename='worker_state' and policyname='dorsey_worker_state_admin_update'
+  ) then
+    create policy dorsey_worker_state_admin_update on public.worker_state
+      for update to authenticated
+      using (public.is_khg_admin())
+      with check (public.is_khg_admin());
+  end if;
+end $$;
