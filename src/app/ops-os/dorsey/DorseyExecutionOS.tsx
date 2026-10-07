@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import {
-  Activity, AlertTriangle, Bot, Check, Clock3, ExternalLink, FileCheck2,
+  AlertTriangle, Bot, Check, Clock3, ExternalLink, FileCheck2,
   Handshake, History, Loader2, Megaphone, MessageSquare, Newspaper, Plus,
-  RefreshCw, Search, ShieldCheck, Sparkles, Target, UserCheck, Users, X, Zap
+  RefreshCw, Search, ShieldCheck, Target, UserCheck, Users, X, Zap
 } from "lucide-react";
 import styles from "./DorseyExecutionOS.module.css";
 
@@ -103,8 +103,8 @@ export default function DorseyExecutionOS(){
 
   const work=data.work||[],notes=data.notes||[],opps=data.opportunities||[],content=data.content||[],campaigns=data.campaigns||[];
   const approvals=data.approvals||[],handoffs=data.handoffs||[],health=data.agent_health||[],workers=data.workers||[],audit=data.audit||[];
-  const openWork=useMemo(()=>work.filter(open).sort((a:J,b:J)=>(prio[priority(a)]??9)-(prio[priority(b)]??9)),[work]);
-  const openNotes=useMemo(()=>notes.filter(open).sort((a:J,b:J)=>(prio[priority(a)]??9)-(prio[priority(b)]??9)),[notes]);
+  const openWork=work.filter(open).sort((a:J,b:J)=>(prio[priority(a)]??9)-(prio[priority(b)]??9));
+  const openNotes=notes.filter(open).sort((a:J,b:J)=>(prio[priority(a)]??9)-(prio[priority(b)]??9));
   const founder=[...openWork.filter((x:J)=>/dorsey|founder/i.test(owner(x))||x.metadata?.needs_dorsey),...openNotes.filter((x:J)=>/dorsey|founder|human submission/i.test(owner(x))||x.metadata?.needs_dorsey)].slice(0,10);
   const today=[...openWork,...openNotes].sort((a:J,b:J)=>(prio[priority(a)]??9)-(prio[priority(b)]??9)).slice(0,5);
   const blocks=[...openWork,...openNotes,...opps.filter(open)].filter((x:J)=>blocker(x)||low(status(x))==="blocked").slice(0,10);
