@@ -145,17 +145,17 @@ export default function DorseyExecutionOS(){
     <main className={styles.main}>{loading?<div className={styles.loading}><Loader2 className={styles.spin}/>Loading live execution truth…</div>:<>
       {tab==="today"&&<Screen n="01" t="Command Center / Today" s="Only work that changes outcome today.">
         <div className={styles.grid}>
-          <Lane t="TODAY" badge="MAX 5">{today.length?<div className={styles.stack}>{today.filter(match).map((r:J)=><Row key={r.id} row={r} source={work.includes(r)?"work":"note"} busy={busy} patch={patch} act={act} opts={{compact:true}}/>)}</div>:<Empty text="No Dorsey-critical priority loaded."/ >}</Lane>
-          <Lane t="NEEDS DORSEY" badge={`${founder.length}/10`}>{founder.length?<div className={styles.stack}>{founder.filter(match).map((r:J)=><Row key={r.id} row={r} source={work.includes(r)?"work":"note"} busy={busy} patch={patch} act={act} opts={{founder:true}}/>)}</div>:<Empty text="Founder queue is clear."/ >}</Lane>
+          <Lane t="TODAY" badge="MAX 5">{today.length?<div className={styles.stack}>{today.filter(match).map((r:J)=><Row key={r.id} row={r} source={work.includes(r)?"work":"note"} busy={busy} patch={patch} act={act} opts={{compact:true}}/>)}</div>:<Empty text="No Dorsey-critical priority loaded."/>}</Lane>
+          <Lane t="NEEDS DORSEY" badge={`${founder.length}/10`}>{founder.length?<div className={styles.stack}>{founder.filter(match).map((r:J)=><Row key={r.id} row={r} source={work.includes(r)?"work":"note"} busy={busy} patch={patch} act={act} opts={{founder:true}}/>)}</div>:<Empty text="Founder queue is clear."/>}</Lane>
           <Lane t="HOT SIGNALS">{rows(signals,"note","No high-value signal surfaced.",{relationship:true})}</Lane>
-          <Lane t="BLOCKERS" badge={String(blocks.length)}>{blocks.length?<div className={styles.stack}>{blocks.filter(match).map((r:J)=><Row key={r.id} row={r} source={work.includes(r)?"work":opps.includes(r)?"opportunity":"note"} busy={busy} patch={patch} act={act} opts={{compact:true}}/>)}</div>:<Empty text="No execution blocker surfaced."/ >}</Lane>
-          <Lane t="PROOF / RECENTLY EXECUTED">{proofEvents.length?<Audit items={proofEvents}/>:<Empty text="No recent proof event recorded."/ >}</Lane>
+          <Lane t="BLOCKERS" badge={String(blocks.length)}>{blocks.length?<div className={styles.stack}>{blocks.filter(match).map((r:J)=><Row key={r.id} row={r} source={work.includes(r)?"work":opps.includes(r)?"opportunity":"note"} busy={busy} patch={patch} act={act} opts={{compact:true}}/>)}</div>:<Empty text="No execution blocker surfaced."/>}</Lane>
+          <Lane t="PROOF / RECENTLY EXECUTED">{proofEvents.length?<Audit items={proofEvents}/>:<Empty text="No recent proof event recorded."/>}</Lane>
           <Lane t="TOMORROW PREP">{rows([...openWork,...openNotes].filter((r:J)=>{const d=due(r);if(!d)return false;const x=new Date(d),t=new Date();t.setDate(t.getDate()+1);return x.toDateString()===t.toDateString();}),"note","Nothing is due tomorrow.")}</Lane>
         </div>
       </Screen>}
       {tab==="founder"&&<Screen n="02" t="Founder Queue" s="Maximum 10 actions where Dr. Dorsey materially improves the outcome.">
         <div className={styles.actions}><button onClick={()=>{setDraft({priority:"executive",owner_label:"Dr. Dorsey",proof_required:true,needs_dorsey:true});setModal("work");}}><Plus size={14}/>Add founder action</button></div>
-        {founder.length?<div className={styles.stack}>{founder.filter(match).map((r:J)=><Row key={r.id} row={r} source={work.includes(r)?"work":"note"} busy={busy} patch={patch} act={act} opts={{founder:true}}/>)}</div>:<Empty text="Founder queue is clear."/ >}
+        {founder.length?<div className={styles.stack}>{founder.filter(match).map((r:J)=><Row key={r.id} row={r} source={work.includes(r)?"work":"note"} busy={busy} patch={patch} act={act} opts={{founder:true}}/>)}</div>:<Empty text="Founder queue is clear."/>}
         {founder.length>=10&&<div className={styles.warning}><AlertTriangle size={14}/>Founder queue cap reached. Delegate before adding routine work.</div>}
       </Screen>}
       {tab==="social"&&<Screen n="03" t="Social + Content" s="Create, approve, hand to Muse, schedule, and prove publication. Scheduled is not executed.">
@@ -186,7 +186,7 @@ export default function DorseyExecutionOS(){
         <div className={styles.actions}>{agents.map(a=><button key={a} onClick={()=>{setDraft({agent:a,priority:"high"});setModal("handoff");}}><Bot size={14}/>Ask {a==="dot"?"DOT":a[0].toUpperCase()+a.slice(1)}</button>)}</div>
         <Lane t="DORSEY HANDOFFS" badge={String(handoffs.length)}>{rows(handoffs,"handoff","No Dorsey handoff exists.",{handoff:true})}</Lane>
         <Lane t="AGENT HEALTH" badge={`${stale} STALE`}><div className={styles.health}>{health.slice(0,60).map((r:J)=><div className={r.heartbeat_stale?styles.bad:styles.good} key={r.id||r.agent_key}><b>{r.agent_key}</b><span>{r.status}</span><em>{r.last_heartbeat?`${age(r.last_heartbeat)} ago`:"No heartbeat"}</em></div>)}</div></Lane>
-        <Lane t="WORKER CONTROLS">{workers.length?<div className={styles.stack}>{workers.map((r:J)=><Row key={r.worker} row={r} source="worker" busy={busy} patch={patch} act={act} opts={{worker:true}}/>)}</div>:<Empty text="No worker-state rows returned."/ >}</Lane>
+        <Lane t="WORKER CONTROLS">{workers.length?<div className={styles.stack}>{workers.map((r:J)=><Row key={r.worker} row={r} source="worker" busy={busy} patch={patch} act={act} opts={{worker:true}}/>)}</div>:<Empty text="No worker-state rows returned."/>}</Lane>
       </Screen>}
       {tab==="proof"&&<Screen n="10" t="Proof / Audit / History" s="Execution counts only with proof. Every Dorsey mutation on this surface is auditable.">
         <div className={styles.proofStats}><Stat l="Audit events" v={audit.length}/><Stat l="Proof gaps" v={proofGaps}/><Stat l="Execution proof events" v={proofEvents.length}/></div>
