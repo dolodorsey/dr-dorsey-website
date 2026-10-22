@@ -60,33 +60,47 @@ export default function AppForm({ params }: { params: { type: string } }) {
       return;
     }
 
-    const response = await fetch(table ? "/api/customer/table-deposit" : "/api/forms/submit", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(
-        table
-          ? data
-          : {
-              form_type: config.formType,
-              full_name: String(data.name || ""),
-              email: String(data.email || ""),
-              phone: String(data.phone || ""),
-              form_data: data,
-              source: "kollective-app",
-            },
-      ),
-    });
-    const output = await response.json();
-    if (response.ok && output.url) {
-      location.assign(output.url);
-      return;
+    try {
+      const response = await fetch(table ? "/api/customer/table-deposit" : "/api/forms/submit", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(
+          table
+            ? data
+            : {
+                form_type: config.formType,
+                full_name: String(data.name || ""),
+                email: String(data.email || ""),
+                phone: String(data.phone || ""),
+                form_data: data,
+                source: "kollective-app",
+              },
+        ),
+      });
+      const output = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        setStatus(output?.error || "We could not confirm your submission. Please contact our team.");
+        return;
+      }
+      if (table) {
+        if (typeof output?.url === "string" && output.url.length > 0) {
+          location.assign(output.url);
+        } else {
+          setStatus("We could not start the secure deposit. Please contact our team.");
+        }
+        return;
+      }
+      if (output?.success !== true || !output?.submission_ref) {
+        setStatus("Submission was not confirmed. Please contact our team before resubmitting.");
+        return;
+      }
+      setStatus(`Received — reference ${output.submission_ref}. The Kollective team will follow up.`);
+    } catch {
+      setStatus("Connection interrupted. Submission was not confirmed. Please contact our team before resubmitting.");
+    } finally {
+      setLoading(false);
     }
-    setStatus(
-      response.ok
-        ? "Received. The Kollective team will follow up using the details you provided."
-        : output.error || "We could not submit this yet.",
-    );
-    setLoading(false);
   }
 
   return (
@@ -201,7 +215,7 @@ export default function AppForm({ params }: { params: { type: string } }) {
           {config.kind === "inquiry" ? <label className={styles.full}>What do you need?<input name="topic" required /></label> : null}
 
           <label className={styles.full}>{config.kind === "membership" || config.kind === "ambassador" ? "Anything else?" : "Details and special requests"}<textarea name="notes" rows={5} required={config.kind !== "membership" && config.kind !== "ambassador"} /></label>
-          {status ? <div className={styles.error}>{status}</div> : null}
+          {status ? <div role="status" aria-live="polite" className={status.startsWith("Received") ? undefined : styles.error} style={status.startsWith("Received") ? { color: "#146C43", padding: "12px 0", fontWeight: 600 } : undefined}>{status}</div> : null}
           <button disabled={loading}>{loading ? "SUBMITTING…" : config.kind === "table" ? "CONTINUE TO SECURE DEPOSIT" : "SUBMIT REQUEST"}</button>
         </form>
       </section>
