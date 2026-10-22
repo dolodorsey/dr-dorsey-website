@@ -114,6 +114,14 @@ export default function AppForm({ params }: { params: { type: string } }) {
         <p>DIRECT ACCESS · IN-APP REQUEST</p>
         <h1>{config.title}</h1>
         <span>Complete every field you can so the team can confirm faster.</span>
+        {type === "partnership" ? (
+          <p style={{ marginTop: 14, marginBottom: 14, lineHeight: 1.6 }}>
+            Seeking a modeling or creative casting opportunity with STUSH?{" "}
+            <a href="https://apply.stushusa.com/model" style={{ textDecoration: "underline", fontWeight: 700 }}>
+              Use the STUSH Model Application ↗
+            </a>
+          </p>
+        ) : null}
 
         <form key={`${query.event}-${query.venue}-${query.date}-${query.company}-${query.guestCount}`} onSubmit={submit}>
           <input type="hidden" name="request_type" value={type} />
