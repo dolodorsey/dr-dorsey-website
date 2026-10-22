@@ -25,7 +25,7 @@ export async function POST(request) {
   const fullName = cleanText(body.full_name, 120);
   const email = cleanText(body.email, 254).toLowerCase();
   const phone = cleanText(body.phone, 40) || null;
-  const formData = body.form_data && typeof body.form_data === 'object' ? body.form_data : {};
+  const formData = body.form_data && typeof body.form_data === 'object' && !Array.isArray(body.form_data) ? body.form_data : {};
   const source = cleanText(body.source, 80) || 'website';
   const brandKey =
     source === 'kollective-app'
@@ -75,7 +75,13 @@ export async function POST(request) {
         }
       : formData;
 
-  const response = await fetch(`${SUPABASE_URL}/rest/v1/form_submissions`, {
+  // Keep an auditable receipt in the same database row. No SELECT grant is
+  // required for public submissions, and we must not pretend a return=minimal
+  // response contains an inserted row ID.
+  const submissionRef = `KHG-${new Date().toISOString().slice(0, 10).replaceAll('-', '')}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
+  let response;
+  try {
+    response = await fetch(`${SUPABASE_URL}/rest/v1/form_submissions`, {
     method: 'POST',
     headers: {
       apikey: SUPABASE_KEY,
@@ -89,14 +95,22 @@ export async function POST(request) {
       brand_key: brandKey,
       full_name: fullName,
       phone,
-      form_data: storedFormData,
+      form_data: { ...storedFormData, submission_ref: submissionRef },
       source,
       user_agent: cleanText(request.headers.get('user-agent'), 500) || null,
       referer: cleanText(request.headers.get('referer'), 500) || null,
       workflow_status: 'pending',
       submitted_at: new Date().toISOString(),
     }),
-  });
+      signal: AbortSignal.timeout(12000),
+    });
+  } catch (error) {
+    console.error('Kollective form persistence request failed', error);
+    return NextResponse.json(
+      { error: 'Unable to confirm the submission. Please contact our team and mention that this form did not return a receipt.' },
+      { status: 503 },
+    );
+  }
 
   const payload = await response.json().catch(() => null);
   if (!response.ok) {
@@ -104,5 +118,5 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Your submission could not be saved.' }, { status: 502 });
   }
 
-  return NextResponse.json({ success: true, id: payload?.[0]?.id ?? null }, { status: 201 });
+  return NextResponse.json({ success: true, submission_ref: submissionRef }, { status: 201 });
 }
