@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { isKollectiveHost, isOffSite, scopeTeamMember } from "@/lib/kollective-scope";
+import { isKollectiveHost, isOffSite, isStaleListing, scopeTeamMember } from "@/lib/kollective-scope";
 import {
   KOLLECTIVE_SUPABASE_PUBLISHABLE_KEY,
   KOLLECTIVE_SUPABASE_URL,
@@ -481,6 +481,8 @@ export async function GET(request: Request) {
     kollectiveHost ? rows.filter((row) => !isOffSite(...fields(row))) : rows;
   const eventFields = (event: Record<string, unknown>) => [event.event_name, event.venue_name, event.venue_address, event.neighborhood, event.ticket_url, event.source_url];
   const entityFields = (entity: Record<string, unknown>) => [entity.name, entity.slug, entity.key, entity.category, entity.website, entity.website_url, entity.instagram, entity.short_description];
+  const currentEntities = (rows: Array<Record<string, unknown>>) =>
+    kollectiveHost ? onSite(rows, entityFields).filter((row) => !isStaleListing(row.name, row.slug, row.key, row.brand_key, row.category)) : rows;
   const notGrownIsh = <T extends Record<string, unknown>>(rows: T[]) =>
     kollectiveHost ? rows.filter((row) => !isGrownIsh(String(row.event_name || ""))) : rows;
   const scopedEntityLogos = kollectiveHost
@@ -500,15 +502,15 @@ export async function GET(request: Request) {
         featured: content,
         featuredEvents: notGrownIsh(onSite(featuredEvents as Array<Record<string, unknown>>, eventFields)),
         events: notGrownIsh(onSite(events as Array<Record<string, unknown>>, eventFields)),
-        entities: onSite(entities as Array<Record<string, unknown>>, entityFields),
+        entities: currentEntities(entities as Array<Record<string, unknown>>),
       },
       directory: {
-        entities: onSite(directoryEntities as Array<Record<string, unknown>>, entityFields).map((entry) => (kollectiveHost ? { ...entry, logo_url: isOffSite(entry.logo_url) ? null : entry.logo_url } : entry)),
+        entities: currentEntities(directoryEntities as Array<Record<string, unknown>>).map((entry) => (kollectiveHost ? { ...entry, logo_url: isOffSite(entry.logo_url) ? null : entry.logo_url } : entry)),
         team: kollectiveHost
           ? (team as Array<Record<string, unknown>>).flatMap((member) => scopeTeamMember(member) ?? [])
           : team,
         entityLogos: scopedEntityLogos,
-        excludedEventNames: kollectiveHost ? excludedEventNames.filter((name) => !isOffSite(name)) : excludedEventNames,
+        excludedEventNames: kollectiveHost ? excludedEventNames.filter((name) => !isOffSite(name) && !isStaleListing(name)) : excludedEventNames,
       },
       source: "Kollective Customer Experience Control",
       generatedAt: new Date().toISOString(),

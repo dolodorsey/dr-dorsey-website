@@ -171,7 +171,7 @@ export default function AppForm({ params }: { params: { type: string } }) {
           {config.kind === "vendor" ? (
             <>
               <label>Business name<input name="business_name" required /></label>
-              <label>Vendor category<select name="vendor_category" required><option value="">Choose one</option><option>Food + beverage</option><option>Retail</option><option>Beauty + wellness</option><option>Art + culture</option><option>Production + services</option><option>Other</option></select></label>
+              <label>Vendor category<select name="vendor_category" required><option value="">Choose one</option><option>Food + beverage</option><option>Retail</option><option>Beauty + wellness</option><option>Art + culture</option><option>Event services</option><option>Other</option></select></label>
               <label className={styles.full}>Website or social link<input name="website" type="url" placeholder="https://" /></label>
             </>
           ) : null}

@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { KOLLECTIVE_SUPABASE_PUBLISHABLE_KEY, KOLLECTIVE_SUPABASE_URL } from '@/lib/kollective-public';
 import { departmentFor, departmentSlug } from '@/lib/company-departments';
 import { isEventEntity, isPublicEvent, isPubliclyHidden, isRetired } from '@/lib/roster';
-import { isKollectiveHost, isOffSite } from '@/lib/kollective-scope';
+import { isKollectiveHost, isOffSite, isStaleListing } from '@/lib/kollective-scope';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -38,6 +38,7 @@ export async function GET(request: NextRequest) {
 
     if (isRetired(entity.name) || isPubliclyHidden(entity.name)) return [];
     if (kollectiveHost && isOffSite(entity.name, entity.slug, entity.category, entity.website_url, entity.division_name, entity.short_description)) return [];
+    if (kollectiveHost && isStaleListing(entity.name, entity.slug, entity.category)) return [];
     if (isEventEntity(entity.name, legacyDivision) && !isPublicEvent(entity.name)) return [];
 
     const department = departmentFor({ name: entity.name, division: legacyDivision });
