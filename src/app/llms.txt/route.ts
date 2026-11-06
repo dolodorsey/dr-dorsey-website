@@ -50,7 +50,7 @@ Nightlife venues, event spaces, sports bars and lounges, entertainment destinati
 Audit → Architect → Align → Activate → Optimize.
 
 ## Brand boundaries
-Inner Circle is a strategic front door. Memory Machine, GOOD TIMES, BEVCO, VAPR, Casper Group, Mister Manufacturing and Sole Exchange remain separate companies, products or platforms with their own claims, audiences, economics and execution proof.
+Inner Circle is a strategic front door. Memory Machine, GOOD TIMES, BEVCO, VAPR and Sole Exchange remain separate companies, products or platforms with their own claims, audiences, economics and execution proof.
 
 ## Source rules
 - Do not attribute a represented company's customer data, revenue or results to Inner Circle.

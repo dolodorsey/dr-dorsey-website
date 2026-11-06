@@ -34,7 +34,6 @@ const currentMoves: CurrentMove[] = [
   { name: 'Sole Exchange', kind: 'Community impact · sneaker recovery', href: 'https://soleexchangeworldwide.com' },
   { name: 'S.O.S.', kind: 'Roadside assistance platform', href: 'https://sos-app-website.vercel.app' },
   { name: 'Mission 365', kind: 'Mission · productivity platform', href: 'https://mission-365.vercel.app' },
-  { name: 'The Casper Group', kind: 'Multi-brand food house', href: 'https://caspergroupworldwide.com' },
   { name: 'Hakuna Matata', kind: 'The founder’s field manual', href: BOOK_URL },
 ];
 

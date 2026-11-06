@@ -192,7 +192,6 @@ const NAME_MOTION: Record<string, MotionAsset> = {
   'project x': motion.projectX,
   'the umbrella group': motion.umbrellaGroup,
   'umbrella group': motion.umbrellaGroup,
-  'rose on piedmont': motion.rose,
   'opium atl': motion.opium,
   'opium': motion.opium,
   'sea salt atl': motion.seaSaltAlt,
@@ -205,7 +204,6 @@ const NAME_MOTION: Record<string, MotionAsset> = {
   'goodfellas': motion.goodfellasAlt,
   'revel': motion.revel,
   'medicine': motion.medicine,
-  'rose bar': motion.rose,
   'bodega': motion.bodega,
   'bodegea': motion.bodega,
   'pulse': motion.pulse,
@@ -246,7 +244,6 @@ export type EntityMotion = { hero: MotionAsset; card: MotionAsset };
 
 export const ENTITY_MOTION = {
   'dr-dorsey': { hero: motion.drDolo, card: motion.drAni },
-  'rose-on-piedmont': { hero: motion.rose, card: motion.rose },
   'grown-ish': { hero: motion.grownish, card: motion.grownish },
   'casper-group': { hero: motion.casperGroup, card: motion.casperGroup },
   'inner-circle': { hero: motion.innerCircle, card: motion.innerCircle },

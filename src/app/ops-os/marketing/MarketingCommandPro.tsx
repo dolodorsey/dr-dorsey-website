@@ -27,7 +27,7 @@ type MarketingForm = {
   owner: string;
 };
 
-const brands = ["Dr. Dorsey", "Make Atlanta Great Again", "The Kollective", "GOOD TIMES", "The Fraternity", "Casper Group", "The Mind Studio", "Products Division", "Club at South Dekalb"];
+const brands = ["Dr. Dorsey", "Make Atlanta Great Again", "The Kollective", "GOOD TIMES", "The Fraternity", "The Mind Studio", "Products Division", "Club at South Dekalb"];
 const channels = ["email", "sms", "evite", "eventbrite", "ads", "retargeting", "landing_page", "seo", "engagement", "street_team"];
 const stages = ["awareness", "engagement", "lead", "invited", "clicked", "rsvp", "confirmed", "attended", "bought", "retention", "reactivation"];
 const timeBlocks = ["09:00", "12:00", "15:00", "18:00", "20:00", "22:00", "custom"];

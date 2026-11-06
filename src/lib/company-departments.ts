@@ -32,10 +32,6 @@ assign('Dorsey / Kollective', [
   'Dr. Dorsey', 'The Kollective ENT.', 'Courses', 'Consultations', 'HugLife', 'Hakuna Matata',
 ]);
 
-assign('Production', [
-  'Frequency Productions', 'Synergy Sounds', 'Just Print',
-]);
-
 assign('Our Apps', [
   'GOOD TIMES', 'On Call', 'S.O.S.', 'Luxe on Demand', 'The Law', 'The Vote', 'Mission 365',
   'Black Pages', 'The Black Pages',
@@ -69,7 +65,6 @@ const byDivision: Record<string, DepartmentTitle> = {
   'founder & enterprise': 'Dorsey / Kollective',
   'hospitality & nightlife': 'Nightlife / Events / Activations',
   'events & cultural ip': 'Nightlife / Events / Activations',
-  'production': 'Production',
   'technology & apps': 'Our Apps',
   'products & commerce': 'Products / Clothing',
   'the casper group': 'Casper Group',

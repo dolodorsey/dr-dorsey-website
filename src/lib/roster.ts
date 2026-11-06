@@ -16,6 +16,10 @@ const RETIRED_NAMES = [
   'Exclamation Point', 'The Brand Studio', 'Brand Studio',
   'GROWN-ISH', 'GROWNISH', 'Grownish', 'Grown-ish',
   'One Big Ass Party',
+  // Rose on Piedmont — removed from all surfaces.
+  'Rose on Piedmont',
+  // Production group — removed entirely.
+  'Mister Manufacturing', 'Frequency Productions', 'Synergy Sounds', 'Just Print',
 ];
 
 /**
@@ -24,7 +28,6 @@ const RETIRED_NAMES = [
  */
 const PUBLICLY_HIDDEN_NAMES = [
   'Help 911',
-  'Rose on Piedmont',
   'Rose Ball',
   'Project X',
   'Black Ball',
@@ -38,9 +41,6 @@ const PUBLICLY_HIDDEN_NAMES = [
   'Golf Tournament',
   'Tea Time',
   'TEA TIME',
-  'Just Print',
-  'Synergy Sounds',
-  'Frequency Productions',
   'On Call',
   'Black Pages',
   'The Black Pages',

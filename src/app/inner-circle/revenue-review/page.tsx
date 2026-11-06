@@ -7,8 +7,7 @@ const assets = [
   "Good Times / venue discovery + promotion",
   "BEVCO / beverage placement",
   "VAPR / automated retail",
-  "Casper Group / food + kitchen activation",
-  "Mister Manufacturing / venue merchandise",
+
   "Sole Exchange / commerce + community activation",
 ];
 

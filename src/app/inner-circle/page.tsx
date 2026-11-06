@@ -38,17 +38,7 @@ const cards = [
     href:'https://vapr-seven.vercel.app',
   },
   {
-    n:'05', name:'Casper Group + Entities', category:'Food & Hospitality',
-    tagline:'A multi-brand food platform built for scalable kitchens, venues and delivery.',
-    href:'https://caspergroupworldwide.com',
-  },
-  {
-    n:'06', name:'Mister Manufacturing', category:'Manufacturing',
-    tagline:'Production infrastructure for merchandise, packaging, fabrication and branded goods.',
-    href:'https://mister-manufacturing.vercel.app',
-  },
-  {
-    n:'07', name:'Sole Exchange', category:'Commerce & Community',
+    n:'05', name:'Sole Exchange', category:'Commerce & Community',
     tagline:'Sneakers, streetwear, exchange, restoration, collection and community impact.',
     href:'https://sole-exchange-website.vercel.app',
   },

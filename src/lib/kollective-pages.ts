@@ -192,7 +192,7 @@ export const kollectivePages: Record<string, KollectivePage> = {
     sections: [
       {
         title: 'Culture, technology, and commerce',
-        body: ['Entertainment includes Rose on Piedmont, GROWN-ISH, Taste of Art, HugLife, Iconic, GOOD TIMES, and original cultural IP. The technology world includes active platforms GOOD TIMES, On Call, and S.O.S., alongside products in development and planning.', 'Products and commerce include Hakuna Matata, Bodega, STUSH, PULSE, Make Atlanta Great Again, and Scented Flowers.'],
+        body: ['Entertainment includes GROWN-ISH, Taste of Art, HugLife, Iconic, GOOD TIMES, and original cultural IP. The technology world includes active platforms GOOD TIMES, On Call, and S.O.S., alongside products in development and planning.', 'Products and commerce include Hakuna Matata, Bodega, STUSH, PULSE, Make Atlanta Great Again, and Scented Flowers.'],
         links: [['Open every entity', '/entities'], ['Current experiences', '/events'], ['Shop the portfolio', '/store']],
       },
       {

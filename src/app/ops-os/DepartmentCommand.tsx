@@ -130,7 +130,7 @@ const divisions: Record<DivisionKey, Division> = {
     modules: [
       { title: "Infinity Water", purpose: "Aluminum water product tracker, venue placement, inventory, campaign content, and distribution targets.", cadence: "Weekly", owner: "Product Ops", status: "Build Next" },
       { title: "Pronto Energy", purpose: "Energy drink launch tracker, sample activations, accounts, assets, and retail follow-up.", cadence: "Weekly", owner: "Product Ops", status: "Build Next" },
-      { title: "Mister Manufacturing", purpose: "Dropship/merch manufacturing tracker, mockups, vendors, proofs, and product pages.", cadence: "Daily", owner: "Merch Ops", status: "Build Next" },
+      { title: "Merch Production", purpose: "Dropship/merch manufacturing tracker, mockups, vendors, proofs, and product pages.", cadence: "Daily", owner: "Merch Ops", status: "Build Next" },
       { title: "Drop Campaigns", purpose: "SKU, creative, captions, landing pages, email/SMS, influencer pushes, and sales recap.", cadence: "Launch-based", owner: "Marketing + Product", status: "Build Next" },
     ],
     workflow: ["Create product idea", "Assign product brand", "Create SKU", "Request mockups", "Approve vendor/proof", "Build product page", "Launch campaign", "Track revenue"],

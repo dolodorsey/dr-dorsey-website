@@ -1,4 +1,5 @@
 import { motion, type MotionAsset } from '@/lib/motion';
+import { eventMotion } from '@/lib/event-motion';
 import { pruneNames } from '@/lib/roster';
 
 export type Department = {
@@ -21,16 +22,16 @@ const allDepartments: Department[] = [
     ],
     href: '/events',
     cta: 'Open nightlife and events',
-    animations: [motion.tasteOfArt, motion.freedomFest, motion.projectX],
+    animations: [eventMotion.blackBall, motion.tasteOfArt],
   },
   {
     title: 'Staples',
     eyebrow: 'Flagship Brands',
     detail: 'The high-visibility operating brands that serve as permanent anchors of the enterprise.',
-    sample: ['Goodfellas Pizza & Wings', 'Hungry AF', 'Opium ATL', 'Sea Salt ATL', 'Tulum ATL', 'Rose on Piedmont', 'Help 911'],
+    sample: ['Goodfellas Pizza & Wings', 'Hungry AF', 'Opium ATL', 'Sea Salt ATL', 'Tulum ATL', 'Help 911'],
     href: '/companies#staples',
     cta: 'Explore the staples',
-    animations: [motion.rose, motion.help911],
+    animations: [motion.goodfellas, motion.help911],
   },
   {
     title: 'Dorsey / Kollective',
@@ -40,15 +41,6 @@ const allDepartments: Department[] = [
     href: '/companies#dorsey-kollective',
     cta: 'Enter the enterprise',
     animations: [motion.drDorsey, motion.hakunaMatata],
-  },
-  {
-    title: 'Production',
-    eyebrow: 'Production · Sound · Print · Manufacturing',
-    detail: 'Enterprise production capabilities spanning live event technology, sound, commercial print and product manufacturing.',
-    sample: ['Frequency Productions', 'Synergy Sounds', 'Just Print', 'Mister Manufacturing'],
-    href: '/companies#production',
-    cta: 'Explore production',
-    animations: [],
   },
   {
     title: 'Our Apps',
@@ -63,7 +55,7 @@ const allDepartments: Department[] = [
     title: 'The Inner Circle',
     eyebrow: 'Venue Revenue Optimization',
     detail: 'A strategic operating layer that helps independent venues monetize guest traffic, media, food, beverage, underused space, automated retail, merchandise and digital follow-up.',
-    sample: ['Memory Machine', 'GOOD TIMES', 'BEVCO', 'VAPR', 'Casper Group', 'Mister Manufacturing', 'Sole Exchange'],
+    sample: ['Memory Machine', 'GOOD TIMES', 'BEVCO', 'VAPR', 'Sole Exchange'],
     href: 'https://innercircle.thekollectivehospitality.com',
     cta: 'Review your venue',
     animations: [motion.innerCircle],
@@ -103,15 +95,6 @@ const allDepartments: Department[] = [
     href: 'https://soleexchangeworldwide.com',
     cta: 'Enter the impact network',
     animations: [motion.soleExchange, motion.psa, motion.letsTalk],
-  },
-  {
-    title: 'Casper Group',
-    eyebrow: 'Food Portfolio',
-    detail: 'A distinct multi-brand food house built for delivery, licensing and expansion.',
-    sample: ['American Dragon', 'Peace Pizza', 'Taco Yaki', 'Pasta Bish', 'Angel Wings'],
-    href: 'https://caspergroupworldwide.com',
-    cta: 'Enter Casper Group',
-    animations: [motion.casperGroup],
   },
   {
     title: 'Umbrella Group',

@@ -19,13 +19,13 @@ const command: TeamMember[] = [
     name: 'Bri',
     title: 'Executive Assistant · Enterprise Communications & Operations',
     division: 'Executive Office',
-    focus: 'ICONIC LIVE · KOLLECTIVE · CASPER',
+    focus: 'ICONIC LIVE · KOLLECTIVE',
   },
   {
     name: 'JoJo',
     title: 'Operating Partner · Enterprise Execution',
     division: 'Enterprise Operations',
-    focus: 'KOLLECTIVE · CASPER · SOLE EXCHANGE · S.O.S. · MISSION 365',
+    focus: 'KOLLECTIVE · SOLE EXCHANGE · S.O.S. · MISSION 365',
   },
   {
     name: 'Quinten',
@@ -70,13 +70,13 @@ const ownerOperators: TeamMember[] = [
     name: 'Tay',
     title: 'Products, Retail & Sports Owner-Operator',
     division: 'Products / Sports',
-    focus: 'FĚNYX · STUSH · SOLE EXCHANGE · MISTER MANUFACTURING · MEMBER’S ELITE · PULSE / BARE',
+    focus: ‘FĚNYX · STUSH · SOLE EXCHANGE · MEMBER’S ELITE · PULSE / BARE’,
   },
   {
     name: 'Kenny',
-    title: 'Manufacturing & Merchandise Lead',
-    division: 'Manufacturing',
-    focus: 'MISTER MANUFACTURING',
+    title: 'Merchandise & Production Lead',
+    division: 'Products',
+    focus: 'MERCHANDISE · PRODUCTION',
   },
   {
     name: 'Justin',

@@ -199,7 +199,7 @@ const focusBrandRoster: BrandCard[] = [
   },
   {
     name: 'GROWN-ISH',
-    category: 'Friday Nightlife · Rose on Piedmont',
+    category: 'Friday Nightlife',
     href: 'https://111atl.com/#events',
     status: 'Operating',
     actionLabel: 'Reserve Friday',
@@ -280,7 +280,7 @@ const allDivisions: Division[] = [
     title: 'Entertainment',
     eyebrow: 'Culture & IP',
     description: 'Nightlife, music, live programming, museums, and signature experiences engineered to become repeatable cultural rituals.',
-    brands: ['Rose on Piedmont — Operating', 'GROWN-ISH — Active', 'Taste of Art — Active', 'HugLife', 'Iconic', 'GOOD TIMES', 'Forever Futbol', 'Soul Sessions'],
+    brands: ['GROWN-ISH — Active', 'Taste of Art — Active', 'HugLife', 'Iconic', 'GOOD TIMES', 'Forever Futbol', 'Soul Sessions'],
     href: '/events',
     cta: 'Enter Current Culture',
   },

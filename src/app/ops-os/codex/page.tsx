@@ -140,7 +140,7 @@ const seedTasks: CodexTask[] = [
     id: "CODEX-007",
     brand: "Products Division",
     project: "ops-os products command",
-    task: "Add product launch dashboard for Infinity Water, Pronto Energy, Mister Manufacturing, and merch drops",
+    task: "Add product launch dashboard for Infinity Water, Pronto Energy, and merch drops",
     type: "Division Buildout",
     priority: "P2",
     status: "Backlog",

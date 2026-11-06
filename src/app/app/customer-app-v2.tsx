@@ -164,7 +164,6 @@ const MORE_KOLLECTIVE_BRANDS: Entity[] = [
   { id: "more-stush", slug: "stush", name: "STUSH", category: "FASHION", short_description: "Never blend in.", website_url: "https://stushusa.com" },
   { id: "more-bodega", slug: "bodega", name: "Bodega", category: "COMMERCE", short_description: "The pop-up store with city flavor.", website_url: "https://bodegabodegabodega.com" },
   { id: "more-pulse", slug: "pulse", name: "PULSE", category: "LIFESTYLE", short_description: "The energy behind the moment.", website_url: "/forms/inquiry?brand=pulse" },
-  { id: "more-freedom-fest", slug: "freedom-fest", name: "Freedom Fest", category: "CULTURE & EVENTS", short_description: "Culture, community and celebration in Atlanta.", website_url: "https://freedom-fest-store.vercel.app" },
 ];
 
 const CUSTOMER_FOCUS: Array<{
@@ -329,7 +328,7 @@ function matchesFilter(event: EventItem, filter: EventFilter) {
   return true;
 }
 function isKollectiveBookableEvent(event: EventItem) {
-  return /rose on piedmont|opium(?: atl)?|revel(?: atl)?/i.test(event.venue_name || "");
+  return /opium(?: atl)?|revel(?: atl)?/i.test(event.venue_name || "");
 }
 
 export default function CustomerAppV2() {
@@ -1057,7 +1056,7 @@ function BrandCard({ entity }: { entity: Entity }) {
   return (
     <a href={href} className={styles.brandCard} target={external ? "_blank" : undefined} rel={external ? "noreferrer" : undefined}>
       <MotionMedia
-        className={`${styles.brandMedia} ${entity.slug === "rose-on-piedmont" ? styles.roseLogoPosition : ""}`}
+        className={styles.brandMedia}
         video={brandMotion?.src}
         poster={entity.hero_url || brandMotion?.poster}
         label={entity.name}
