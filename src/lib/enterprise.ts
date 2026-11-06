@@ -333,14 +333,6 @@ const allDivisions: Division[] = [
     cta: 'Enter the Impact Network',
   },
   {
-    title: 'Casper Group',
-    eyebrow: 'Hospitality / 12 Brands',
-    description: 'Original food and beverage identities designed for delivery, licensing, food halls, and multi-unit expansion.',
-    brands: ['American Dragon', 'Peace Pizza', 'Taco Yaki', 'Pasta Bish', 'Patty Daddy', 'Angel Wings', 'Mr. Oyster', 'Sweet Tooth', "Toss’d", 'Mojo Juice', 'Morning After', 'Espresso Co.'],
-    href: 'https://caspergroupworldwide.com',
-    cta: 'Enter the Casper Group',
-  },
-  {
     title: 'Umbrella Group',
     eyebrow: 'Services',
     description: 'Property, mobility, cleaning, accounting, travel, wellness, people operations, and client support under one coordinated standard.',
@@ -380,7 +372,7 @@ export const accessLinks: AccessLink[] = [
   { title: 'Buy Hakuna Matata', description: 'Order Dr. Dorsey’s book directly.', href: BOOK_URL, group: 'Book & Media', featured: true },
   { title: 'Bulk Book Orders', description: 'Organizations, teams, schools and corporate orders.', href: '/forms/bulk_orders', group: 'Book & Media' },
   { title: 'Speaking Request', description: 'Keynotes, panels, classes, interviews and appearances.', href: '/forms/speaking', group: 'Book & Media' },
-  { title: 'Media / Press', description: 'Interviews, features, press access and production requests.', href: '/forms/media', group: 'Book & Media' },
+  { title: 'Media / Press', description: 'Interviews, features, press access and media requests.', href: '/forms/media', group: 'Book & Media' },
   { title: 'Book Strategy Session', description: 'Private consultation with Dr. Dorsey.', href: '/forms/consultation', group: 'Private & Legal', featured: true },
   { title: 'Request NDA', description: 'Start protected conversations before private information is shared.', href: '/forms/nda', group: 'Private & Legal' },
   { title: 'Onboarding', description: 'Approved partner, team and enterprise onboarding.', href: '/forms/onboarding', group: 'Private & Legal' },

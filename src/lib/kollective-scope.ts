@@ -16,7 +16,7 @@ export function isOffSite(...fields: unknown[]): boolean {
   return fields.some((field) => field != null && OFF_SITE.test(String(field)));
 }
 
-const STALE_LISTING = /\bbravo\b|taste of art|freedom fest|juneteen|winter wonderland|greek ball|beauty (&|and) the beast|monster.?s[- ]ball|monsters-ball|grown-?ish|labor day/i;
+const STALE_LISTING = /\bbravo\b|taste[- ]of[- ]art|freedom[- ]fest|juneteen|winter[- ]wonderland|greek[- ]ball|beauty (&|and) the beast|monster.?s[- ]ball|grown[- ]?ish|labor[- ]day/i;
 
 /** True for a brand or event entry that is past or not in the promoted season. Not for third-party event feeds. */
 export function isStaleListing(...fields: unknown[]): boolean {

@@ -123,7 +123,7 @@ export default function OpsWorkspaceClient({ lane, team, fixes }: OpsWorkspaceCl
           <div className="mt-4 grid gap-4 md:grid-cols-2">
             <Field label="Title" name="title" placeholder="Call vendor / approve flyer / source leads" />
             <Field label="Assigned To" name="assigned_to" placeholder="Team member" />
-            <Field label="Brand" name="brand" placeholder="Help 911 / Casper / Good Times" />
+            <Field label="Brand" name="brand" placeholder="Help 911 / Good Times" />
             <Field label="Priority" name="priority" placeholder="urgent / high" defaultValue="urgent" />
             <input type="hidden" name="project" value={lane} />
           </div>

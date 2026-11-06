@@ -42,7 +42,6 @@ export const motion = {
   aquifer: asset('aquifer-ani'),
   blackPages: asset('black-pages-ani2'),
   bodega: asset('bodega-ani'),
-  casperGroup: asset('casper-group-ani'),
   everydayWater: asset('everyday-wg-ani'),
   drDorsey: asset('dr-dolo-ani'),
   freedomFest: asset('freedom-fest-ani'),
@@ -226,8 +225,6 @@ const NAME_MOTION: Record<string, MotionAsset> = {
   'the vote': motion.theVote,
   'trailblazer': motion.trailblazer,
   'trailblazers': motion.trailblazer,
-  'the casper group': motion.casperGroup,
-  'casper group': motion.casperGroup,
   'kollective network': motion.kollectiveNetwork,
 };
 
@@ -244,7 +241,6 @@ export type EntityMotion = { hero: MotionAsset; card: MotionAsset };
 export const ENTITY_MOTION = {
   'dr-dorsey': { hero: motion.drDolo, card: motion.drAni },
   'grown-ish': { hero: motion.grownish, card: motion.grownish },
-  'casper-group': { hero: motion.casperGroup, card: motion.casperGroup },
   'inner-circle': { hero: motion.innerCircle, card: motion.innerCircle },
   'hakuna-matata': { hero: motion.hakunaMatata, card: motion.hakunaMatata },
   'lets-talk-about-it': { hero: motion.letsTalk, card: motion.letsTalk },

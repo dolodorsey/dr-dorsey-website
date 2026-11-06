@@ -16,10 +16,7 @@ const RETIRED_NAMES = [
   'Exclamation Point', 'The Brand Studio', 'Brand Studio',
   'GROWN-ISH', 'GROWNISH', 'Grownish', 'Grown-ish',
   'One Big Ass Party',
-  // Rose on Piedmont — removed from all surfaces.
-  'Rose on Piedmont',
-  // Production group — removed entirely.
-  'Mister Manufacturing', 'Frequency Productions', 'Synergy Sounds', 'Just Print',
+  'Synergy Sounds', 'Just Print',
 ];
 
 /**
@@ -28,7 +25,6 @@ const RETIRED_NAMES = [
  */
 const PUBLICLY_HIDDEN_NAMES = [
   'Help 911',
-  'Rose Ball',
   'Project X',
   'Black Ball',
   'Greek Ball',
@@ -76,7 +72,7 @@ const PUBLIC_EVENT_NAMES = [
   'Taste of Art', 'Freedom Fest', 'Freedom Fest : Juneteent Atl', 'Project X',
   'Winter Wonderland', 'Golf Tournament',
   'Ball Series', 'Greek Ball', "Monster's Ball", 'Monster’s Ball', 'Monsters Ball', 'Snow Ball',
-  'Champagne Ball', 'Black Ball', 'Rose Ball', 'BRAVO', 'ICONIC', 'Iconic',
+  'Champagne Ball', 'Black Ball', 'BRAVO', 'ICONIC', 'Iconic',
 ];
 
 const EVENT_ENTITY_NAMES = [
@@ -96,6 +92,21 @@ function normalise(name: string): string {
   return name.toLowerCase().replace(/[’'`.]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
 }
 
+/**
+ * Removed brands, stored as FNV-1a hashes of the normalised name so this file,
+ * which ships to the browser, does not contain the names.
+ */
+const REMOVED_NAME_HASHES = new Set(['f07b0651', 'e68ed7e3', '4fc9f159', 'e2d19b55']);
+
+function nameHash(value: string): string {
+  let hash = 0x811c9dc5;
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 0x01000193);
+  }
+  return (hash >>> 0).toString(16).padStart(8, '0');
+}
+
 const RETIRED = new Set(RETIRED_NAMES.map(normalise));
 const HIDDEN = new Set(PUBLICLY_HIDDEN_NAMES.map(normalise));
 const EVENT_ENTITIES = new Set(EVENT_ENTITY_NAMES.map(normalise));
@@ -103,7 +114,9 @@ const PUBLIC_EVENTS = new Set(PUBLIC_EVENT_NAMES.map(normalise));
 const PRIORITY = new Map(PRIORITY_NAMES.map((name, index) => [normalise(name), index]));
 
 export function isRetired(name: string | undefined | null): boolean {
-  return Boolean(name && RETIRED.has(normalise(name)));
+  if (!name) return false;
+  const key = normalise(name);
+  return RETIRED.has(key) || REMOVED_NAME_HASHES.has(nameHash(key));
 }
 
 export function isPubliclyHidden(name: string | undefined | null): boolean {
