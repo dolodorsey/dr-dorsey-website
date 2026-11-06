@@ -37,6 +37,13 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('https://innercircle.thekollectivehospitality.com'));
   }
 
+  // The /kollective prefix check below would otherwise expose this older page.
+  if (KOLLECTIVE_HOSTS.has(hostname) && pathname === '/kollective-portfolio') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/portfolio';
+    return NextResponse.redirect(url);
+  }
+
   // Shared app, auth, API, and destination routes live at the root. Keep them
   // outside the public /kollective rewrite so email confirmations and app
   // sessions always land on their real handlers.
