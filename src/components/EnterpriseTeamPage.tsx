@@ -70,7 +70,7 @@ const ownerOperators: TeamMember[] = [
     name: 'Tay',
     title: 'Products, Retail & Sports Owner-Operator',
     division: 'Products / Sports',
-    focus: ‘FĚNYX · STUSH · SOLE EXCHANGE · MEMBER’S ELITE · PULSE / BARE’,
+    focus: 'FĚNYX · STUSH · SOLE EXCHANGE · MEMBER’S ELITE · PULSE / BARE',
   },
   {
     name: 'Kenny',
@@ -86,7 +86,15 @@ const ownerOperators: TeamMember[] = [
   },
 ];
 
-const fullTeam = [...command, ...ownerOperators];
+/** thekollectivehospitality.com does not use the Production label. */
+function kollectiveMembers(members: TeamMember[]): TeamMember[] {
+  return members.map((member) => ({
+    ...member,
+    title: member.title.replace(' & Production', ''),
+    focus: member.focus.replace(' · PRODUCTION', ''),
+  }));
+}
+
 const PEOPLE_ROOT = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/app/backgrounds';
 const PEOPLE_BACKGROUNDS = Array.from({ length: 11 }, (_, index) => `${PEOPLE_ROOT}/app-background-${String(index + 1).padStart(2, '0')}.jpg`);
 const TEAM_SPRITE = '/team-placeholder-sprite';
@@ -177,6 +185,8 @@ function PhotoPlaceholder({ name }: { name: string }) {
 
 export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'dorsey' }) {
   const isKollective = brand === 'kollective';
+  const commandTeam = isKollective ? kollectiveMembers(command) : command;
+  const operatorTeam = isKollective ? kollectiveMembers(ownerOperators) : ownerOperators;
   const home = '/';
   const logo = isKollective
     ? `${SB}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`
@@ -206,8 +216,8 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
             <span>Enterprise command and owner-operators with clear lanes, accountable focuses and one operating standard.</span>
           </div>
           <div className={styles.heroMeta}>
-            <div><strong>{fullTeam.length}</strong><span>Team</span></div>
-            <div><strong>{command.length}</strong><span>Command</span></div>
+            <div><strong>{commandTeam.length + operatorTeam.length}</strong><span>Team</span></div>
+            <div><strong>{commandTeam.length}</strong><span>Command</span></div>
             <div><strong>15</strong><span>Focus Lanes</span></div>
           </div>
         </div>
@@ -220,7 +230,7 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
           <span>The enterprise layer keeps communication, execution, growth and accountability moving across distinct companies.</span>
         </div>
         <div className={styles.commandGrid}>
-          {command.map((member, index) => (
+          {commandTeam.map((member, index) => (
             <article className={styles.commandCard} key={member.name}>
               <PhotoPlaceholder name={member.name} />
               <div className={styles.commandCopy}>
@@ -241,7 +251,7 @@ export default function EnterpriseTeamPage({ brand }: { brand: 'kollective' | 'd
           <span>Every operator has a defined company lane. Brands stay separate; accountability stays visible.</span>
         </div>
         <div className={styles.leadershipGrid}>
-          {ownerOperators.map((member) => (
+          {operatorTeam.map((member) => (
             <article className={styles.leadCard} key={member.name}>
               <PhotoPlaceholder name={member.name} />
               <div className={styles.leadCopy}>

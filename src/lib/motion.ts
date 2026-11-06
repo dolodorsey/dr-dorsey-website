@@ -107,7 +107,6 @@ export const motion = {
   pronto: asset('pronto-cans'),
   projectX: asset('project-x-animation'),
   pulse: asset('pulse-ani'),
-  rose: asset('rose-on-piedmont'),
   seaSalt: asset('sea-salt-ani'),
   seaSaltAlt: asset('seasalt-ani'),
   soleExchange: asset('sole-exchange-ani'),

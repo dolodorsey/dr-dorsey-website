@@ -54,7 +54,7 @@ export default function TableDepositPage() {
           <label>Email<input name="email" type="email" autoComplete="email" required /></label>
           <label>Phone<input name="phone" type="tel" autoComplete="tel" required /></label>
           <label>Instagram handle<input name="instagram" required placeholder="@yourhandle" /></label>
-          <label>Event or venue<input name="event" required placeholder="Example: GROWN-ISH at 111ATL" /></label>
+          <label>Event or venue<input name="event" required placeholder="Example: Black Ball" /></label>
           <label>Confirmed table total<input name="total" type="number" inputMode="decimal" min="100" max="10000" step="0.01" required placeholder="$" /></label>
           <label>Reservation or host name <small>(optional)</small><input name="reference" /></label>
           {error ? <div className={styles.error}>{error}</div> : null}

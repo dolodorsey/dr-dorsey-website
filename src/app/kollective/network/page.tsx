@@ -3,7 +3,7 @@ import SectionHub from '../_components/SectionHub';
 
 export const metadata: Metadata = {
   title: 'Network — The Kollective',
-  description: 'The current Kollective operating network across beverages, entertainment, consumer brands, apps, food, and community.',
+  description: 'The current Kollective operating network across beverages, entertainment, consumer brands, apps, and community.',
 };
 
 export default function NetworkPage() {
@@ -76,9 +76,8 @@ export default function NetworkPage() {
         {
           eyebrow: 'OPERATING PLATFORMS',
           title: 'Systems that compound.',
-          description: 'Food, service, productivity, and enterprise infrastructure that can expand market by market.',
+          description: 'Service, productivity, and enterprise infrastructure that can expand market by market.',
           items: [
-            { title: 'The Casper Group', description: 'Distinct food concepts built under one operating food house.', href: 'https://caspergroupworldwide.com', meta: 'Open Casper' },
             { title: 'S.O.S.', description: 'Roadside-assistance and service-routing platform.', href: 'https://sos-app-website.vercel.app', meta: 'Open S.O.S.' },
             { title: 'Mission 365', description: 'Mission and productivity platform for consistent daily execution.', href: 'https://mission-365.vercel.app', meta: 'Open Mission 365' },
           ],

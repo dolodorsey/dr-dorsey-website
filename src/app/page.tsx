@@ -5,6 +5,7 @@ import styles from './home.module.css';
 import { BOOK_URL } from '@/lib/enterprise';
 import MotionCover from '@/components/MotionCover';
 import DepartmentGrid from '@/components/DepartmentGrid';
+import { departments } from '@/lib/departments';
 import FilmBackdrop from '@/components/FilmBackdrop';
 import { motion, ENTITY_MOTION, type MotionAsset } from '@/lib/motion';
 
@@ -111,7 +112,7 @@ export default function HomePage() {
           <h2>FOCUSED DEPARTMENTS. <em>ONE ENTERPRISE.</em></h2>
           <span>Every department runs its own companies, audience, economics, and atmosphere.</span>
         </header>
-        <DepartmentGrid />
+        <DepartmentGrid items={departments} />
         <div className={styles.departmentsCta}>
           <a href="/companies">See every company ↗</a>
           <a href="/directory">Open the directory ↗</a>

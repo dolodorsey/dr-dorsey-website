@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { KOLLECTIVE_SUPABASE_PUBLISHABLE_KEY, KOLLECTIVE_SUPABASE_URL } from '@/lib/kollective-public';
+import { isKollectiveHost, isOffSite } from '@/lib/kollective-scope';
 
 export const dynamic = 'force-dynamic';
 
@@ -34,6 +35,9 @@ function safeDestination(slug: string, destination: string | null | undefined) {
 
 export async function GET(request: NextRequest, context: { params: { slug: string } }) {
   const slug = context.params.slug;
+  if (isKollectiveHost(request.headers.get('host')) && (isOffSite(slug.replace(/-/g, ' ')) || /grown-?ish/i.test(slug))) {
+    return NextResponse.redirect('https://thekollectivehospitality.com/companies', 307);
+  }
   const sessionId = request.cookies.get('kollective_session')?.value || crypto.randomUUID();
   const supabase = createClient(KOLLECTIVE_SUPABASE_URL, KOLLECTIVE_SUPABASE_PUBLISHABLE_KEY, { auth: { persistSession: false, autoRefreshToken: false } });
 

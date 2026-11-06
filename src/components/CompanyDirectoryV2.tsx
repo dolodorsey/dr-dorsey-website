@@ -86,7 +86,6 @@ const LANDSCAPE_VIDEO_BY_SLUG: Record<string, VideoSpec> = {
   'snow-ball': { src: `${EVENT_MOTION_BASE}/snow-ball.mp4` },
   'winter-wonderland': { src: `${EVENT_MOTION_BASE}/winter-wonderland.mp4` },
   'champagne-ball': { src: `${EVENT_MOTION_BASE}/champagne-ball.mp4` },
-  'rose-ball': { src: `${EVENT_MOTION_BASE}/rose-ball.mp4` },
   bravo: { src: eventMotion.bravo.src, poster: eventMotion.bravo.poster },
   'golf-tournament': { src: eventMotion.teaTime.src, poster: eventMotion.teaTime.poster },
 };

@@ -155,7 +155,6 @@ const OWNED_VENUES: Entity[] = [
 
 const FEATURED_CULTURE_BRANDS: Entity[] = [
   { id: "more-maga", slug: "make-atlanta-great-again", name: "Make Atlanta Great Again", category: "ATLANTA CULTURE", short_description: "Atlanta culture, worn forward.", website_url: "https://thaoldatlanta.com" },
-  { id: "more-taste-of-art", slug: "taste-of-art", name: "Taste of Art", category: "CULTURE & EVENTS", short_description: "Fall and winter dates coming soon.", website_url: "/app/taste-of-art" },
 ];
 const MORE_KOLLECTIVE_BRANDS: Entity[] = [
   { id: "more-infinity", slug: "infinity-water", name: "Infinity Water", category: "BEVERAGES", short_description: "Premium hydration and hospitality.", website_url: "https://watertoinfinity.com" },
@@ -180,7 +179,7 @@ const CUSTOMER_FOCUS: Array<{
   { label: "Hakuna Matata", detail: "Buy Dr. Dorsey’s founder field manual directly.", href: "https://bodgeaworldwide.myshopify.com/products/hakuna-matata-by-dr-dorsey", icon: BookOpen },
   { label: "Apps", detail: "Explore customer platforms, service apps and intelligence products.", tab: "brands", query: "App", icon: Grid3X3 },
   { label: "Sole Exchange", detail: "Enter the sneaker recovery and community impact platform.", href: "https://soleexchangeworldwide.com", icon: HandHeart },
-  { label: "Services", detail: "Find hospitality, production, mobility, property and business services.", tab: "brands", query: "Service", icon: BriefcaseBusiness },
+  { label: "Services", detail: "Find hospitality, mobility, property and business services.", tab: "brands", query: "Service", icon: BriefcaseBusiness },
   { label: "Groups", detail: "Discover membership, leadership, youth and community groups.", href: "/companies#the-inner-circle", icon: Building2 },
   { label: "Calendar", detail: "See what is happening across every active market.", tab: "events", filter: "all", icon: CalendarDays },
   { label: "Discounts", detail: "Join for coupons, member perks and monthly offers.", href: "/app/forms/member-offers", icon: Gift },
@@ -207,7 +206,7 @@ const ACCESS_FORM_LINKS = [
   { label: "APPLY", title: "Hiring", detail: "Roles, talent, internships, and opportunities across the Kollective.", href: "/app/forms/hiring", icon: ClipboardList, cover: "app-background-03.jpg" },
   { label: "COMMUNITY", title: "Volunteer", detail: "Support events, community work, guest experience, and special projects.", href: "/app/forms/volunteer", icon: HandHeart, cover: "app-background-04.jpg" },
   { label: "PARTNER", title: "Partnerships", detail: "Sponsorships, collaborations, brand activations, and strategic partnerships.", href: "/app/forms/partnership", icon: Handshake, cover: "app-background-05.jpg" },
-  { label: "VENDOR", title: "Vendor application", detail: "Food, retail, services, production, and event vendor opportunities.", href: "/app/forms/vendor", icon: BriefcaseBusiness, cover: "app-background-06.jpg" },
+  { label: "VENDOR", title: "Vendor application", detail: "Food, retail, services, and event vendor opportunities.", href: "/app/forms/vendor", icon: BriefcaseBusiness, cover: "app-background-06.jpg" },
   { label: "SHOP", title: "Shop", detail: "Products, fashion, books, and current Kollective drops.", href: "/shop", icon: ShoppingBag, cover: "app-background-07.jpg" },
   { label: "SECURE ACCESS", title: "Enterprise access", detail: "Review private access, agreements, and enterprise entry points.", href: "/access", icon: BadgeCheck, cover: "app-background-08.jpg" },
   { label: "OTHER", title: "General request", detail: "Tell the team what you need when it does not fit another form.", href: "/app/forms/inquiry", icon: MessageCircleMore, cover: "app-background-10.jpg" },

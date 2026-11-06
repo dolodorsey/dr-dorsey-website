@@ -60,7 +60,6 @@ export default function LinksPage() {
           items: [
             { title: 'Current Kollective Events', description: 'See what is moving now and use each official event listing.', href: '/events', meta: 'View Calendar' },
             { title: 'GOOD TIMES', description: 'Discover nightlife, culture, experiences, and what is happening around you.', href: 'https://www.thegoodtimesworldwide.com', meta: 'Open Platform' },
-            { title: 'Casper Group', description: 'Explore the independent hospitality portfolio and its operating brands.', href: 'https://caspergroupworldwide.com', meta: 'Explore Group' },
             { title: 'Reserve / RSVP', description: 'Start the correct guest-list, table, birthday, or nightlife request.', href: '/app', meta: 'Open Access' },
           ],
         },
@@ -79,10 +78,8 @@ export default function LinksPage() {
         {
           eyebrow: 'SERVICES, IMPACT & SYSTEMS',
           title: 'Get help. Build something.',
-          description: 'Services, emergency support, community programs, partnerships, and enterprise opportunities.',
+          description: 'Community programs, partnerships, and enterprise opportunities.',
           items: [
-            { title: 'Umbrella Group', description: 'Enter the services ecosystem for property, travel, wellness, people, and operating support.', href: 'https://theumbrella.group', meta: 'Request Service' },
-            { title: 'Help 911', description: 'Enter the personal-injury support and response concierge platform.', href: 'https://www.help911.help', meta: 'Get Help' },
             { title: 'Sole Exchange', description: 'Support the independent footwear donation and community impact platform.', href: 'https://soleexchangeworldwide.com', meta: 'Support Mission' },
             { title: 'Partner with The Kollective', description: 'Submit a defined sponsorship, distribution, property, technology, or strategic opportunity.', href: '/app/forms/partnership', meta: 'Partner' },
             { title: 'Careers / Hiring', description: 'Apply for operating, management, creative, technology, or specialist opportunities.', href: '/app/forms/hiring', meta: 'Apply' },

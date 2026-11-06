@@ -41,5 +41,4 @@ export const eventMotion = {
   snowBall: sharedAsset('snow-ball'),
   champagneBall: sharedAsset('champagne-ball'),
   blackBall: sharedAsset('black-ball'),
-  roseBall: sharedAsset('rose-ball'),
 } satisfies Record<string, MotionAsset>;

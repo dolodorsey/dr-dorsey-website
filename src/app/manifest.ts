@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     id: "/app",
     name: "The Kollective",
     short_name: "Kollective",
-    description: "Member access to Grown-Ish, reservations, perks, brands, staff, and direct Kollective connections.",
+    description: "Member access to events, reservations, perks, brands, staff, and direct Kollective connections.",
     start_url: "/app",
     scope: "/",
     display: "standalone",
@@ -29,7 +29,7 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     prefer_related_applications: false,
     shortcuts: [
-      { name: "Grown-Ish RSVP", short_name: "Grown-Ish", url: "/app#events" },
+      { name: "Event RSVP", short_name: "RSVP", url: "/app#events" },
       { name: "Reserve a table", short_name: "Reserve", url: "/app/forms/reserve-table" },
       { name: "Member perks", short_name: "Perks", url: "/app/forms/member-offers" },
     ],

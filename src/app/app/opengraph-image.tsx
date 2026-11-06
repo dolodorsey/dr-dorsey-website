@@ -105,7 +105,7 @@ export default function OpenGraphImage() {
                 marginBottom: 22,
               }}
             >
-              GROWN-ISH · RESERVATIONS · MEMBER ACCESS
+              EVENTS · RESERVATIONS · MEMBER ACCESS
             </div>
             <div
               style={{

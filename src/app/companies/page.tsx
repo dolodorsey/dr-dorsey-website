@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import styles from './page.module.css';
 import SalesFocusDirectory from '@/components/SalesFocusDirectory';
+import { salesFocusFeatured, salesFocusSections } from '@/lib/sales-focus';
 import FilmBackdrop from '@/components/FilmBackdrop';
 import { motion } from '@/lib/motion';
 
@@ -43,7 +44,7 @@ export default function CompaniesPage() {
 
       <div className={`${styles.body} k-surface k-emblem k-edge`}>
         <div className={styles.inner}>
-          <SalesFocusDirectory />
+          <SalesFocusDirectory featured={salesFocusFeatured} sections={salesFocusSections} />
         </div>
       </div>
 
