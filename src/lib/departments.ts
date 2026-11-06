@@ -18,7 +18,7 @@ const allDepartments: Department[] = [
     eyebrow: 'Nightlife · Events · Cultural IP',
     detail: 'Recurring nightlife concepts, signature event series, cultural activations, tournaments and major destination events.',
     sample: [
-      'ICONIC', 'Winter Wonderland', 'Taste of Art', 'BRAVO',
+      'Black Ball', 'Snow Ball', 'Santa in Atlanta', 'Champagne Ball',
     ],
     href: '/events',
     cta: 'Open nightlife and events',
@@ -111,5 +111,13 @@ const allDepartments: Department[] = [
 ];
 
 export const departments: Department[] = allDepartments
-  .map((department) => ({ ...department, sample: pruneNames(department.sample) }))
+  .map((department) => ({
+    ...department,
+    // Nightlife sample names are hand-curated promoted events, not entity
+    // registry names — skip pruning so current-season events show even when
+    // they are hidden from the standalone company-card grid.
+    sample: department.href === '/events'
+      ? department.sample
+      : pruneNames(department.sample),
+  }))
   .filter((department) => department.sample.length > 0);
