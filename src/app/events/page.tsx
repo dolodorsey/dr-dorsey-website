@@ -1,7 +1,6 @@
 'use client';
 
 import MotionCover from '@/components/MotionCover';
-import { motion } from '@/lib/motion';
 import { roseMotion } from '@/lib/departments';
 import { eventMotion } from '@/lib/event-motion';
 
