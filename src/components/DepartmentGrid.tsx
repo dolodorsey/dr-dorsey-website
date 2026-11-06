@@ -2,16 +2,16 @@
 
 import styles from './DepartmentGrid.module.css';
 import MotionCover from './MotionCover';
-import { departments } from '@/lib/departments';
+import type { Department } from '@/lib/departments';
 import { motion } from '@/lib/motion';
 import { useVisitRotation } from '@/lib/use-visit-rotation';
 
-export default function DepartmentGrid({ featuredCount = 2 }: { featuredCount?: number }) {
+export default function DepartmentGrid({ items, featuredCount = 2 }: { items: Department[]; featuredCount?: number }) {
   const visit = useVisitRotation();
 
   return (
     <div className={styles.grid}>
-      {departments.map((department, index) => {
+      {items.map((department, index) => {
         const featured = index < featuredCount;
         const pool = department.animations;
         const animation = pool.length ? pool[(visit + index) % pool.length] : motion.kollectiveLogos;

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import SectionHub from '../_components/SectionHub';
 import { eventMotion } from '@/lib/event-motion';
+import { BLACK_BALL_TICKETS, kollectiveSeason } from '@/lib/kollective-season';
 
 export const metadata: Metadata = {
   title: 'Current — The Kollective',
@@ -14,40 +15,21 @@ export default function CurrentPage() {
       eyebrow="CURRENT CULTURE"
       title="What is moving now."
       intro="The live calendar, featured experiences, reservations, RSVPs, and the shortest path into what The Kollective is producing right now."
+      heroAnimation={eventMotion.blackBall}
       metrics={[
-        { value: 'SEP 04–07', label: 'Labor Day Weekend programming in Atlanta' },
-        { value: '3 LIVE', label: 'Focused event discovery without portfolio clutter' },
+        { value: 'NOV 21–DEC 31', label: 'The current season in Atlanta' },
+        { value: '4 LIVE', label: 'Focused event discovery without portfolio clutter' },
         { value: 'ONE APP', label: 'RSVP, reserve, discover, and receive updates' },
       ]}
-      features={[
-        {
-          eyebrow: 'FRIDAY · LABOR DAY WEEKEND',
-          title: 'Taste of Art',
-          description: 'Art, food, music, people, and experience design brought together as one cultural environment.',
-          href: 'https://111atl.com',
-          meta: 'Open official event hub',
-          badge: 'Featured',
-          animation: eventMotion.tasteOfArt,
-        },
-        {
-          eyebrow: 'SUNDAY · LABOR DAY WEEKEND',
-          title: 'BLOW',
-          description: 'The all-white nightlife experience at Seven Midtown with a direct path to event access.',
-          href: 'https://111atl.com',
-          meta: 'Open official event hub',
-          badge: 'All White',
-          animation: eventMotion.blow,
-        },
-        {
-          eyebrow: 'NEW YEAR’S EVE',
-          title: 'BRAVO',
-          description: 'The premium New Year’s Eve celebration built as the closing statement for the year.',
-          href: 'https://111atl.com',
-          meta: 'Open official event hub',
-          badge: 'NYE',
-          animation: eventMotion.bravo,
-        },
-      ]}
+      features={kollectiveSeason.map((event) => ({
+        eyebrow: event.date,
+        title: event.title,
+        description: event.description,
+        href: event.href,
+        meta: event.cta,
+        badge: event.badge,
+        animation: event.animation,
+      }))}
       groups={[
         {
           eyebrow: 'PLAN THE NIGHT',
@@ -70,7 +52,7 @@ export default function CurrentPage() {
           ],
         },
       ]}
-      primaryAction={{ label: 'Open Current Access', href: 'https://111atl.com' }}
+      primaryAction={{ label: 'Get Black Ball Tickets', href: BLACK_BALL_TICKETS }}
       secondaryAction={{ label: 'Reserve a Table', href: '/app/forms/reserve-table' }}
     />
   );

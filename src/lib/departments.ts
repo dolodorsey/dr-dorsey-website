@@ -1,5 +1,12 @@
-import { motion, type MotionAsset } from '@/lib/motion';
+import { MOTION_BASE, motion, type MotionAsset } from '@/lib/motion';
 import { pruneNames } from '@/lib/roster';
+
+/** Used only on doctordorsey.com surfaces; kept out of the shared motion library. */
+export const roseMotion: MotionAsset = {
+  src: `${MOTION_BASE}/rose-on-piedmont.mp4`,
+  poster: `${MOTION_BASE}/rose-on-piedmont.jpg`,
+  orientation: 'landscape',
+};
 
 export type Department = {
   title: string;
@@ -30,7 +37,7 @@ const allDepartments: Department[] = [
     sample: ['Goodfellas Pizza & Wings', 'Hungry AF', 'Opium ATL', 'Sea Salt ATL', 'Tulum ATL', 'Rose on Piedmont', 'Help 911'],
     href: '/companies#staples',
     cta: 'Explore the staples',
-    animations: [motion.rose, motion.help911],
+    animations: [roseMotion, motion.help911],
   },
   {
     title: 'Dorsey / Kollective',

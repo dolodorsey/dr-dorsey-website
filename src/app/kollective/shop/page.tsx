@@ -1,5 +1,6 @@
 import { getCollectionProducts, formatPrice, cartAddUrl, productPageUrl, CART_ORIGIN } from '@/lib/shopify';
 import type { ShopifyProduct } from '@/lib/shopify';
+import { isOffSite } from '@/lib/kollective-scope';
 
 export const revalidate = 60;
 
@@ -14,7 +15,7 @@ const MUTED = 'rgba(246,240,228,.58)';
 
 export default async function KollectiveShopPage() {
   const raw = await getCollectionProducts('kollective-1', 80);
-  const products = raw.filter((p) => Boolean(p.images?.[0]?.src && p.variants?.[0]?.id));
+  const products = raw.filter((p) => Boolean(p.images?.[0]?.src && p.variants?.[0]?.id) && !isOffSite(p.title, p.handle));
 
   return (
     <main style={{ minHeight: '100vh', background: '#050506', color: CREAM, fontFamily: 'DM Sans, sans-serif' }}>

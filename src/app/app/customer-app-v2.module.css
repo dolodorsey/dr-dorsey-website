@@ -99,7 +99,6 @@
 .guestActionGrid>a>svg{position:absolute;right:16px;top:16px;width:18px;color:var(--gold)}
 .guestActionIcon{display:grid;place-items:center;width:42px;height:42px;margin-bottom:auto;border:1px solid rgba(200,169,110,.35);border-radius:14px;background:rgba(8,6,4,.35);color:var(--gold)}
 .guestActionIcon svg{width:20px}.guestActionGrid p{margin:16px 0 5px;color:var(--gold);font-size:8px;font-weight:800;letter-spacing:.17em}.guestActionGrid h3{font-size:18px;line-height:1.05;letter-spacing:-.03em}.guestActionGrid small{margin-top:8px;color:var(--muted);font-size:10px;line-height:1.45}
-.roseLogoPosition video{object-position:center top!important}
 .homeContent{--bg-root:"https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/app/backgrounds/";position:relative}
 .homeContent>section{position:relative;isolation:isolate}
 .openingStatement,.accessStage,.exploreStage{overflow:hidden;padding:clamp(22px,4vw,38px);border:1px solid rgba(232,192,111,.22);border-radius:clamp(28px,5vw,42px);background-color:#0b0907;background-position:center;background-size:cover;box-shadow:0 28px 80px rgba(0,0,0,.42)}

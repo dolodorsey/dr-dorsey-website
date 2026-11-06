@@ -1,5 +1,7 @@
-import { NextResponse } from 'next/server';
-import { departments } from '@/lib/departments';
+import { NextRequest, NextResponse } from 'next/server';
+import { departments as allDepartments } from '@/lib/departments';
+import { kollectiveDepartments } from '@/lib/kollective-departments';
+import { isKollectiveHost } from '@/lib/kollective-scope';
 
 /**
  * The fourteen operating departments, with the animation pool for each.
@@ -13,10 +15,10 @@ import { departments } from '@/lib/departments';
  *
  * GET /api/departments
  */
-export const dynamic = 'force-static';
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
-export function GET() {
+export function GET(request: NextRequest) {
+  const departments = isKollectiveHost(request.headers.get('host')) ? kollectiveDepartments : allDepartments;
   return NextResponse.json(
     {
       count: departments.length,

@@ -43,6 +43,8 @@ type SectionHubProps = {
   groups: LinkGroup[];
   primaryAction: { label: string; href: string };
   secondaryAction: { label: string; href: string };
+  /** Animated hero cover. Falls back to the Kollective still. */
+  heroAnimation?: MotionAsset;
 };
 
 const navigation = [
@@ -71,6 +73,7 @@ export default function SectionHub({
   groups,
   primaryAction,
   secondaryAction,
+  heroAnimation,
 }: SectionHubProps) {
   return (
     <div className={styles.site} data-section={active}>
@@ -90,7 +93,13 @@ export default function SectionHub({
 
       <main>
         <section className={styles.hero}>
-          <Image src="/brand/kollective-hero-poster.png" alt="" fill sizes="100vw" priority />
+          {heroAnimation ? (
+            <div aria-hidden="true" style={{ position: 'absolute', inset: 0 }}>
+              <MotionCover animation={heroAnimation} alt="" fill />
+            </div>
+          ) : (
+            <Image src="/brand/kollective-hero-poster.png" alt="" fill sizes="100vw" priority />
+          )}
           <div className={styles.heroShade} />
           <div className={styles.heroContent}>
             <p className={styles.eyebrow}>{eyebrow}</p>

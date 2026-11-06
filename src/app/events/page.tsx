@@ -2,6 +2,7 @@
 
 import MotionCover from '@/components/MotionCover';
 import { motion } from '@/lib/motion';
+import { roseMotion } from '@/lib/departments';
 import { eventMotion } from '@/lib/event-motion';
 
 const items = [
@@ -31,7 +32,7 @@ const items = [
     eyebrow: 'VENUE',
     description: 'Weekly programming, tables, birthdays, and direct venue access.',
     href: '/app/forms/rsvp?venue=Rose%20on%20Piedmont',
-    animation: motion.rose,
+    animation: roseMotion,
   },
 ];
 

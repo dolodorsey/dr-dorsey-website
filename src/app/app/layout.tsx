@@ -4,7 +4,7 @@ import "./customer-ui-continuity.css";
 import "./customer-app-enhancements.css";
 
 const title = "The Kollective App — Members, Events & Direct Access";
-const description = "Create your Kollective account to access Grown-Ish, reservations, member perks, brands, and direct customer connections.";
+const description = "Create your Kollective account to access events, reservations, member perks, brands, and direct customer connections.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://thekollectivehospitality.com"),

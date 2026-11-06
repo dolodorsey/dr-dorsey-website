@@ -59,7 +59,6 @@ const CARD_MOTION_BY_SLUG: Record<string, MotionAsset> = {
   'infinity-water': motion.infinityWater,
   'tribal-water': motion.tribalWater,
   'pronto-energy': motion.pronto,
-  'rose-on-piedmont': motion.rose,
   'sole-exchange': motion.soleExchange,
   bodega: motion.bodega,
   stush: motion.stush,
@@ -107,7 +106,6 @@ const CARD_MOTION_BY_SLUG: Record<string, MotionAsset> = {
   'snow-ball': eventMotion.snowBall,
   'champagne-ball': eventMotion.champagneBall,
   'black-ball': eventMotion.blackBall,
-  'rose-ball': eventMotion.roseBall,
   bravo: eventMotion.bravo,
   // No dedicated Umbrella Travel art exists in Supabase yet; use the parent
   // portfolio visual rather than a blank card or an unrelated brand asset.

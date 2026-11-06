@@ -8,18 +8,13 @@ import DepartmentGrid from '@/components/DepartmentGrid';
 import MotionCover from '@/components/MotionCover';
 import FilmBackdrop from '@/components/FilmBackdrop';
 import { motion } from '@/lib/motion';
-import { eventMotion } from '@/lib/event-motion';
+import { kollectiveDepartments } from '@/lib/kollective-departments';
+import { kollectiveSeason } from '@/lib/kollective-season';
 
 const EMBLEM = `${SB}/dr_dorsey/00-brand-assets/logos/kollective-emblem-gold-white.png`;
 const HERO_VIDEO = '/brand/kollective-hero.mp4';
 const HERO_POSTER = '/brand/kollective-hero-poster.png';
 const BOOK_URL = 'https://bodgeaworldwide.myshopify.com/products/hakuna-matata-by-dr-dorsey';
-
-const currentCulture = [
-  { title: 'Taste of Art', meta: 'FRIDAY · LABOR DAY WEEKEND', animation: eventMotion.tasteOfArt },
-  { title: 'BLOW', meta: 'SUNDAY · ALL WHITE PARTY', animation: eventMotion.blow },
-  { title: 'BRAVO', meta: 'NEW YEAR’S EVE', animation: eventMotion.bravo },
-];
 
 function publicAccessHref(item: { title: string; href: string }) {
   if (item.title === 'Table Reservation') return '/app/forms/reserve-table';
@@ -77,7 +72,7 @@ export default function KollectivePage() {
           <div><p className={styles.kicker}>The companies</p><h2>Live for today.<br />Plan for tomorrow.<br />Party tonight!</h2></div>
           <p>Every division runs its own companies, audience, economics, and atmosphere. Every card routes to a direct company site or the correct internal access page.</p>
         </header>
-        <DepartmentGrid />
+        <DepartmentGrid items={kollectiveDepartments} />
         <div className={upgradeStyles.bookActions} style={{ marginTop: 30, justifyContent: 'center' }}>
           <a className={upgradeStyles.goldButton} href="/companies">See every company</a>
           <a className={upgradeStyles.lineButton} href="/events">Open Current Culture</a>
@@ -93,15 +88,15 @@ export default function KollectivePage() {
           <a href="/events">See all current access ↗</a>
         </header>
         <div className={upgradeStyles.currentGrid}>
-          {currentCulture.map((item) => (
-            <a className={upgradeStyles.currentCard} href="https://111atl.com" key={item.title}>
+          {kollectiveSeason.map((item) => (
+            <a className={upgradeStyles.currentCard} href={item.href} key={item.title}>
               <div className={upgradeStyles.currentMedia}>
                 <MotionCover animation={item.animation} alt={item.title} veil />
               </div>
               <div className={upgradeStyles.currentCopy}>
-                <small>{item.meta}</small>
+                <small>{item.date}</small>
                 <strong>{item.title}</strong>
-                <span>Open event ↗</span>
+                <span>{item.cta} ↗</span>
               </div>
             </a>
           ))}
