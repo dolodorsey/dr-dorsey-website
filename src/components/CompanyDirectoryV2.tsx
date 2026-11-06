@@ -94,7 +94,7 @@ const LANDSCAPE_VIDEO_BY_SLUG: Record<string, VideoSpec> = {
 const KINETIC_STILL_SLUGS = new Set([
   'frequency-productions',
   'just-print',
-  'mister-manufacturing',
+
   'living-legacy-farms',
   'ball-series',
 ]);
@@ -150,7 +150,7 @@ function companyWebsite(entity: RegistryEntity): string {
   }
 
   const department = departmentFor({ name: entity.name, division: entity.division_name });
-  if (department === 'Casper Group') return 'https://caspergroupworldwide.com';
+
   if (department === 'Umbrella Group') return 'https://umbrellagroupworldwide.com';
   if (department === 'Change the World') return 'https://soleexchangeworldwide.com';
 

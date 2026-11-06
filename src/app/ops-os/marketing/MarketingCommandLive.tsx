@@ -7,7 +7,7 @@ import { CalendarClock, DollarSign, Loader2, Megaphone, Send } from "lucide-reac
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Row = Record<string, any>;
 
-const brands = ["Dr. Dorsey", "Make Atlanta Great Again", "The Kollective", "GOOD TIMES", "The Fraternity", "Casper Group", "The Mind Studio", "Products Division", "Club at South Dekalb"];
+const brands = ["Dr. Dorsey", "Make Atlanta Great Again", "The Kollective", "GOOD TIMES", "The Fraternity", "The Mind Studio", "Products Division", "Club at South Dekalb"];
 const channels = ["email", "sms", "evite", "eventbrite", "ads", "retargeting", "landing_page", "seo", "engagement", "street_team"];
 const stages = ["awareness", "engagement", "lead", "invited", "clicked", "rsvp", "confirmed", "attended", "bought", "retention", "reactivation"];
 const times = ["09:00", "12:00", "15:00", "18:00", "20:00", "22:00", "custom"];

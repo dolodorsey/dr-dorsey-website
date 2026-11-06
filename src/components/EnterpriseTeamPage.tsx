@@ -19,13 +19,13 @@ const command: TeamMember[] = [
     name: 'Bri',
     title: 'Executive Assistant · Enterprise Communications & Operations',
     division: 'Executive Office',
-    focus: 'ICONIC LIVE · KOLLECTIVE · CASPER',
+    focus: 'ICONIC LIVE · KOLLECTIVE',
   },
   {
     name: 'JoJo',
     title: 'Operating Partner · Enterprise Execution',
     division: 'Enterprise Operations',
-    focus: 'KOLLECTIVE · CASPER · SOLE EXCHANGE · S.O.S. · MISSION 365',
+    focus: 'KOLLECTIVE · SOLE EXCHANGE · S.O.S. · MISSION 365',
   },
   {
     name: 'Quinten',
@@ -70,13 +70,13 @@ const ownerOperators: TeamMember[] = [
     name: 'Tay',
     title: 'Products, Retail & Sports Owner-Operator',
     division: 'Products / Sports',
-    focus: 'FĚNYX · STUSH · SOLE EXCHANGE · MISTER MANUFACTURING · MEMBER’S ELITE · PULSE / BARE',
+    focus: 'FĚNYX · STUSH · SOLE EXCHANGE · MEMBER’S ELITE · PULSE / BARE',
   },
   {
     name: 'Kenny',
-    title: 'Manufacturing & Merchandise Lead',
-    division: 'Manufacturing',
-    focus: 'MISTER MANUFACTURING',
+    title: 'Merchandise & Production Lead',
+    division: 'Products',
+    focus: 'MERCHANDISE · PRODUCTION',
   },
   {
     name: 'Justin',
@@ -86,15 +86,15 @@ const ownerOperators: TeamMember[] = [
   },
 ];
 
-/** thekollectivehospitality.com omits the Mister Manufacturing lead and paused or removed brand lines. */
+/** thekollectivehospitality.com does not use the Production label. */
 function kollectiveMembers(members: TeamMember[]): TeamMember[] {
-  return members
-    .filter((member) => member.focus !== 'MISTER MANUFACTURING')
-    .map((member) => ({
-      ...member,
-      focus: member.focus.replace(/(CASPER|MISTER MANUFACTURING) · | · (CASPER|MISTER MANUFACTURING)/g, ''),
-    }));
+  return members.map((member) => ({
+    ...member,
+    title: member.title.replace(' & Production', ''),
+    focus: member.focus.replace(' · PRODUCTION', ''),
+  }));
 }
+
 const PEOPLE_ROOT = 'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/app/backgrounds';
 const PEOPLE_BACKGROUNDS = Array.from({ length: 11 }, (_, index) => `${PEOPLE_ROOT}/app-background-${String(index + 1).padStart(2, '0')}.jpg`);
 const TEAM_SPRITE = '/team-placeholder-sprite';

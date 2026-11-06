@@ -6,11 +6,8 @@ import { isKollectiveHost, isOffSite } from '@/lib/kollective-scope';
 export const dynamic = 'force-dynamic';
 
 const DIRECT_DESTINATIONS: Record<string, string> = {
-  'rose-on-piedmont': '/app/forms/rsvp?venue=Rose%20on%20Piedmont',
   'tulum-atl': 'https://www.tulumatl.com',
-  'grown-ish': '/app/forms/rsvp?event=GROWN-ISH&venue=Rose%20on%20Piedmont',
   'taste-of-art': 'https://thatasteofart.com',
-  'freedom-fest': 'https://freedom-fest-store.vercel.app',
   'the-fraternity': '/app/forms/inquiry?company=The%20Fraternity',
   'the-gentlemans-club': '/app/forms/inquiry?company=The%20Gentlemans%20Club',
   'the-tribe-memphis': '/app/forms/inquiry?company=The%20Tribe',

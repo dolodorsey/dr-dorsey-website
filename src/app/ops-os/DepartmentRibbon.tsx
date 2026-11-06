@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 const departmentLinks = [
   ["/ops-os/departments", "Department OS"],
-  ["/ops-os/casper", "Casper Group"],
+
   ["/ops-os/mind-studio", "Mind Studio"],
   ["/ops-os/products", "Products"],
   ["/ops-os/tech", "Tech Builds"],

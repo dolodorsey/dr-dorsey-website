@@ -59,6 +59,7 @@ const CARD_MOTION_BY_SLUG: Record<string, MotionAsset> = {
   'infinity-water': motion.infinityWater,
   'tribal-water': motion.tribalWater,
   'pronto-energy': motion.pronto,
+
   'sole-exchange': motion.soleExchange,
   bodega: motion.bodega,
   stush: motion.stush,
@@ -94,7 +95,7 @@ const CARD_MOTION_BY_SLUG: Record<string, MotionAsset> = {
   'playmakers-sports-association': motion.psa,
   trailblazers: motion.trailblazer,
   'little-farmers-of-the-future': motion.littleFarmers,
-  'freedom-fest': motion.freedomFest,
+
   'hakuna-matata': motion.hakunaMatata,
   'black-pages': motion.blackPages,
   'mission-365': motion.mission365,
@@ -114,7 +115,6 @@ const CARD_MOTION_BY_SLUG: Record<string, MotionAsset> = {
 
 const KINETIC_STILL_SLUGS = new Set([
   'just-print',
-  'mister-manufacturing',
   'living-legacy-farms',
   'frequency-productions',
   'ball-series',
@@ -169,7 +169,7 @@ function companyWebsite(entity: RegistryEntity): string {
   }
 
   const department = departmentFor({ name: entity.name, division: entity.division_name });
-  if (department === 'Casper Group') return 'https://caspergroupworldwide.com';
+
   if (department === 'Umbrella Group') return 'https://theumbrella.group';
   if (department === 'Change the World') return 'https://soleexchangeworldwide.com';
   return `https://thekollectivehospitality.com/companies#${departmentSlug(department)}`;

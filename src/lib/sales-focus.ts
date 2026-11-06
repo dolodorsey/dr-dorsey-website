@@ -28,8 +28,6 @@ const BODEGA_FENYX =
   'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/bodega-fenyx-card.webp?v=1790286517';
 const BODEGA_KOLLECTIVE =
   'https://cdn.shopify.com/s/files/1/0759/7506/5791/files/bodega-kollective-card.webp?v=1790286532';
-const MISTER_ART =
-  'https://woqlhjodiedyqfvzweoe.supabase.co/storage/v1/object/public/website-graphics/mister-graphics/chatgpt-image-aug-10-2026-03_21_06-am-10-.png';
 
 export const salesFocusFeatured: FocusCard[] = [
   {
@@ -274,15 +272,6 @@ export const salesFocusSections: FocusSection[] = [
         },
       },
       {
-        key: 'mister-manufacturing',
-        name: 'MISTER MANUFACTURING',
-        eyebrow: 'PRODUCT EXECUTION',
-        category: 'Manufacturing · Production · Merch',
-        description: 'Manufacturing and production execution for apparel, merchandise and physical product programs.',
-        href: 'https://mister-manufacturing.vercel.app',
-        image: MISTER_ART,
-      },
-      {
         key: 'kollective-merch',
         name: 'KOLLECTIVE MERCH',
         eyebrow: 'KOLLECTIVE',
@@ -332,35 +321,6 @@ export const salesFocusSections: FocusSection[] = [
     ],
   },
   {
-    key: 'casper',
-    title: 'Casper Group',
-    description: 'Food concepts positioned for launch, licensing, delivery, retail environments and multi-unit growth.',
-    cards: [
-      {
-        key: 'casper-group',
-        name: 'THE CASPER GROUP',
-        eyebrow: 'FOOD HOUSE',
-        category: 'Multi-Brand Food Portfolio',
-        description: 'The food-company platform housing scalable, individually branded restaurant concepts.',
-        href: 'https://caspergroupworldwide.com',
-        animation: motion.casperGroup,
-      },
-      {
-        key: 'angel-wings',
-        name: 'ANGEL WINGS',
-        eyebrow: 'CASPER GROUP',
-        category: 'Chicken Wings',
-        description: 'A chicken-wing concept in active launch and promotional development under the Casper Group.',
-        href: 'https://caspergroupworldwide.com',
-        animation: {
-          src: 'https://d2ol7oe51mr4n9.cloudfront.net/user_3D3tpcPT3kXsjbP3gZR8PWLh4a1/3c245643-c518-4cfa-9336-37988247ee19.mp4',
-          poster: 'https://woqlhjodiedyqfvzweoe.supabase.co/storage/v1/object/public/animations/gif/angel-wings.gif',
-          orientation: 'landscape',
-        },
-      },
-    ],
-  },
-  {
     key: 'impact',
     title: 'Impact',
     description: 'Mission-led work with a direct community, partner or contribution path.',
@@ -378,14 +338,10 @@ export const salesFocusSections: FocusSection[] = [
   },
 ];
 
-/** thekollectivehospitality.com: Mister Manufacturing and the paused Casper Group are not listed. */
-export const kollectiveSalesFocusSections: FocusSection[] = salesFocusSections
-  .filter((section) => section.key !== 'casper')
-  .map((section) => ({
-    ...section,
-    cards: section.cards
-      .filter((card) => card.key !== 'mister-manufacturing')
-      .map((card) => card.key === 'iconic-music'
-        ? { ...card, description: 'Music development, releases, placements and culture-led opportunities.' }
-        : card),
-  }));
+/** thekollectivehospitality.com copy differences. */
+export const kollectiveSalesFocusSections: FocusSection[] = salesFocusSections.map((section) => ({
+  ...section,
+  cards: section.cards.map((card) => card.key === 'iconic-music'
+    ? { ...card, description: 'Music development, releases, placements and culture-led opportunities.' }
+    : card),
+}));

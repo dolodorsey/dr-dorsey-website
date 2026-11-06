@@ -156,7 +156,7 @@ export default function AppForm({ params }: { params: { type: string } }) {
               <label>VIP occasion<select name="occasion" required><option value="">Choose one</option><option>VIP section purchase</option><option>Birthday celebration</option><option>Group celebration</option><option>Other</option></select></label>
               <label>Celebration name<input name="celebration_name" placeholder="Name on the section" /></label>
               <label className={styles.full}>Table package<select name="package" value={query.package} onChange={(event) => setQuery({ ...query, package: event.target.value })}><option value="">Choose a package or use confirmed total</option>{[575, 800, 1250, 1500, 1600, 1800, 2500].map((value) => <option key={`opium-${value}`} value={`opium-${value}`}>Opium · ${value.toLocaleString()}</option>)}{[1000, 1250, 1500, 1800, 2100].map((value) => <option key={`revel-${value}`} value={`revel-${value}`}>Revel · ${value.toLocaleString()}</option>)}</select></label>
-              <label>Confirmed table total<input name="total" type="number" min="100" max="10000" step="1" placeholder="For custom tables" /></label>
+              <label>Confirmed table total<input name="total" type="number" min="100" max="10000" step="1" placeholder="Enter confirmed total" /></label>
               <label>Host or promoter<input name="reference" /></label>
             </>
           ) : null}
@@ -171,7 +171,7 @@ export default function AppForm({ params }: { params: { type: string } }) {
           {config.kind === "vendor" ? (
             <>
               <label>Business name<input name="business_name" required /></label>
-              <label>Vendor category<select name="vendor_category" required><option value="">Choose one</option><option>Food + beverage</option><option>Retail</option><option>Beauty + wellness</option><option>Art + culture</option><option>Event services</option><option>Other</option></select></label>
+              <label>Vendor category<select name="vendor_category" required><option value="">Choose one</option><option>Food + beverage</option><option>Retail</option><option>Beauty + wellness</option><option>Art + culture</option><option>Production + services</option><option>Other</option></select></label>
               <label className={styles.full}>Website or social link<input name="website" type="url" placeholder="https://" /></label>
             </>
           ) : null}

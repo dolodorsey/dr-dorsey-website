@@ -1,37 +1,36 @@
 'use client';
 
 import MotionCover from '@/components/MotionCover';
-import { roseMotion } from '@/lib/departments';
 import { eventMotion } from '@/lib/event-motion';
 
 const items = [
   {
-    name: 'Taste of Art',
-    eyebrow: 'FRIDAY · LABOR DAY WEEKEND',
-    description: 'Art, food, music, people, and experience design brought together in one cultural environment.',
-    href: 'https://111atl.com',
-    animation: eventMotion.tasteOfArt,
+    name: 'BLACK BALL',
+    eyebrow: 'SATURDAY · NOVEMBER 21, 2026',
+    description: 'The signature formal nightlife experience. All black. One night. Atlanta.',
+    href: 'https://black-ball.eventbrite.com',
+    animation: eventMotion.blackBall,
   },
   {
-    name: 'BLOW',
-    eyebrow: 'SUNDAY · ALL WHITE PARTY',
-    description: 'The Labor Day Weekend all-white nightlife experience at Seven Midtown.',
+    name: 'SNOW BALL',
+    eyebrow: 'SATURDAY · DECEMBER 19, 2026',
+    description: 'A winter formal built on elegance, atmosphere, and seasonal celebration.',
     href: 'https://111atl.com',
-    animation: eventMotion.blow,
+    animation: eventMotion.snowBall,
   },
   {
-    name: 'BRAVO',
-    eyebrow: 'NEW YEAR’S EVE',
-    description: 'The New Year’s Eve celebration built as a premium closing statement for the year.',
+    name: 'SANTA IN ATLANTA',
+    eyebrow: 'TUESDAY · DECEMBER 22, 2026',
+    description: 'Holiday nightlife and seasonal cultural programming in Atlanta.',
     href: 'https://111atl.com',
-    animation: eventMotion.bravo,
+    animation: eventMotion.winterWonderland,
   },
   {
-    name: 'Rose on Piedmont',
-    eyebrow: 'VENUE',
-    description: 'Weekly programming, tables, birthdays, and direct venue access.',
-    href: '/app/forms/rsvp?venue=Rose%20on%20Piedmont',
-    animation: roseMotion,
+    name: 'CHAMPAGNE BALL',
+    eyebrow: 'THURSDAY · DECEMBER 31, 2026 · ATLANTA',
+    description: 'The New Year’s Eve formal. Champagne, black tie, and a closing statement for the year.',
+    href: 'https://111atl.com',
+    animation: eventMotion.champagneBall,
   },
 ];
 
