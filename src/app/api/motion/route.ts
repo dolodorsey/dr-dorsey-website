@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { isKollectiveHost, isStaleListing } from '@/lib/kollective-scope';
 import { motionManifest } from '@/lib/motion';
 
 /**
@@ -11,14 +12,16 @@ import { motionManifest } from '@/lib/motion';
  * GET /api/motion            -> relative paths
  * GET /api/motion?absolute=1 -> absolute URLs against this deployment
  */
-export const dynamic = 'force-static';
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 export function GET(request: NextRequest) {
   const absolute = request.nextUrl.searchParams.get('absolute');
   const origin = absolute ? request.nextUrl.origin : '';
 
-  const assets = motionManifest(origin);
+  const kollectiveHost = isKollectiveHost(request.headers.get('host'));
+  const assets = motionManifest(origin).filter(
+    (asset) => !kollectiveHost || !isStaleListing(asset.slug, asset.video, ...asset.matches),
+  );
 
   return NextResponse.json(
     { count: assets.length, assets },

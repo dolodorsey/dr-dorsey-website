@@ -39,7 +39,7 @@ const definitions: Record<string, { title: string; eyebrow: string; intro: strin
   },
   approvals: { title: "Approval Command", eyebrow: "DECISIONS THAT UNBLOCK WORK", intro: "Review creative and copy, then approve, reject, or return it with a clear revision note." },
   "content-studio": {
-    title: "Content Studio", eyebrow: "BRIEF • GENERATE • REVIEW • DELIVER", intro: "Turn creative briefs into trackable generation requests and production-ready assets.",
+    title: "Content Studio", eyebrow: "BRIEF • GENERATE • REVIEW • DELIVER", intro: "Turn creative briefs into trackable generation requests and ready-to-use assets.",
     operation: "creative_request", submit: "Create request",
     fields: [
       { name: "brand_key", label: "Brand", required: true }, { name: "title", label: "Asset title", required: true },
