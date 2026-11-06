@@ -7,12 +7,9 @@ import {
 } from '@/lib/kollective-public';
 
 export type BallSlug =
-  | 'greek-ball'
-  | 'monsters-ball'
   | 'black-ball'
   | 'snow-ball'
-  | 'champagne-ball'
-  | 'rose-ball';
+  | 'champagne-ball';
 
 export type BallConfig = {
   slug: BallSlug;
@@ -32,12 +29,9 @@ export type BallConfig = {
 };
 
 export const BALLS: readonly BallConfig[] = [
-  { slug:'greek-ball',chapter:'01',brandKey:'greek_ball',name:'Greek Ball',title:'BEAUTY & THE BEAST',dateIso:'2026-10-17T21:00:00-04:00',date:'OCT 17',year:'2026',day:'SATURDAY',eyebrow:'DIVINE NINE · HOMECOMING',dress:'FORMAL · GREEK CULTURE',accent:'#d8b04c',description:'Greek-letter culture, alumni and undergraduate community meet formal style, celebration and a premium Atlanta social experience.',animation:eventMotion.greekBall },
-  { slug:'monsters-ball',chapter:'02',brandKey:'monsters_ball',name:'Monster’s Ball',title:'AFTER DARK',dateIso:'2026-10-31T20:00:00-04:00',date:'OCT 31',year:'2026',day:'SATURDAY',eyebrow:'HALLOWEEN · THEATRICAL NIGHTLIFE',dress:'COSTUME FORMAL · DARK GLAMOUR',accent:'#d4682a',description:'A Halloween gala where costume excellence meets formal nightlife — cinematic, theatrical and intentionally over the top.',animation:eventMotion.monstersBall },
-  { slug:'black-ball',chapter:'03',brandKey:'black_ball',name:'Black Ball',title:'BLACK ON BLACK',dateIso:'2026-11-21T21:00:00-05:00',date:'NOV 21',year:'2026',day:'SATURDAY',eyebrow:'ALL BLACK · FORMAL',dress:'ALL BLACK · NO EXCEPTIONS',accent:'#c9b27f',description:'One palette. Maximum presence. An all-black formal night built around intentional elegance, sharp silhouettes and collective visual impact.',animation:eventMotion.blackBall },
-  { slug:'snow-ball',chapter:'04',brandKey:'snow_ball',name:'Snow Ball',title:'WINTER WHITE',dateIso:'2026-12-19T21:00:00-05:00',date:'DEC 19',year:'2026',day:'SATURDAY',eyebrow:'HOLIDAY · WINTER FANTASY',dress:'ALL WHITE · ELEVATED',accent:'#dceaf4',description:'A glowing winter-white world built for elevated dress, holiday energy and a grown social experience that feels transported.',animation:eventMotion.snowBall },
-  { slug:'champagne-ball',chapter:'05',brandKey:'champagne_ball',name:'Champagne Ball',title:'THE TOAST',dateIso:'2026-12-31T21:00:00-05:00',date:'DEC 31',year:'2026',day:'THURSDAY',eyebrow:'NEW YEAR’S EVE · BLACK TIE',dress:'BLACK TIE · CHAMPAGNE TONES',accent:'#e1c57a',description:'The last toast of the year — black-tie energy, champagne hospitality and a polished chapter designed to close 2026 correctly.',animation:eventMotion.champagneBall },
-  { slug:'rose-ball',chapter:'06',brandKey:'rose_ball',name:'Rose Ball',title:'LOVE IN COLOR',dateIso:'2027-02-13T21:00:00-05:00',date:'FEB 13',year:'2027',day:'SATURDAY',eyebrow:'VALENTINE’S WEEKEND · ROMANCE',dress:'SHADES OF RED · FORMAL',accent:'#e2495b',description:'A Valentine’s-weekend world in shades of red — romance, style, dramatic rooms and elevated nightlife without the cliché.',animation:{src:'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/motion/111atl/rose-ball.mp4',poster:'https://dzlmtvodpyhetvektfuo.supabase.co/storage/v1/object/public/brand-graphics/motion/111atl/rose-ball.jpg',orientation:'landscape'} },
+  { slug:'black-ball',chapter:'01',brandKey:'black_ball',name:'Black Ball',title:'BLACK ON BLACK',dateIso:'2026-11-21T21:00:00-05:00',date:'NOV 21',year:'2026',day:'SATURDAY',eyebrow:'ALL BLACK · FORMAL',dress:'ALL BLACK · NO EXCEPTIONS',accent:'#c9b27f',description:'One palette. Maximum presence. An all-black formal night built around intentional elegance, sharp silhouettes and collective visual impact.',animation:eventMotion.blackBall },
+  { slug:'snow-ball',chapter:'02',brandKey:'snow_ball',name:'Snow Ball',title:'WINTER WHITE',dateIso:'2026-12-19T21:00:00-05:00',date:'DEC 19',year:'2026',day:'SATURDAY',eyebrow:'HOLIDAY · WINTER FANTASY',dress:'ALL WHITE · ELEVATED',accent:'#dceaf4',description:'A glowing winter-white world built for elevated dress, holiday energy and a grown social experience that feels transported.',animation:eventMotion.snowBall },
+  { slug:'champagne-ball',chapter:'03',brandKey:'champagne_ball',name:'Champagne Ball',title:'THE TOAST',dateIso:'2026-12-31T21:00:00-05:00',date:'DEC 31',year:'2026',day:'THURSDAY',eyebrow:"NEW YEAR'S EVE · BLACK TIE",dress:'BLACK TIE · CHAMPAGNE TONES',accent:'#e1c57a',description:"The last toast of the year — black-tie energy, champagne hospitality and a polished chapter designed to close 2026 correctly.",animation:eventMotion.champagneBall },
 ] as const;
 
 export type TicketTier = { tier_key:string;tier_label:string;display_order:number;price_cents:number;capacity:number|null;is_vip:boolean;is_section:boolean;section_capacity:number|null;bottles_included:number;description:string|null; };

@@ -1,7 +1,6 @@
 import MotionCover from '@/components/MotionCover';
 import { formatPrice, getBallLiveState, type BallConfig } from '@/lib/ball-series';
 import BallLiveClient from './BallLiveClient';
-import GreekBallConversion from './GreekBallConversion';
 import styles from './page.module.css';
 
 function venueLabel(ball: BallConfig, venueName: string | null) {
@@ -29,7 +28,6 @@ export default async function BallDetail({
         <div>
           <a href="/ball-series">All Balls</a>
           <a href="#tickets">Tickets</a>
-          {ball.slug === 'greek-ball' ? <a href="#greek-sales">Group Sales</a> : null}
         </div>
       </nav>
 
@@ -116,17 +114,13 @@ export default async function BallDetail({
                 <article key={tier.tier_key}>
                   <div><small>{tier.section_capacity ? `UP TO ${tier.section_capacity} PEOPLE` : 'VIP SECTION'}</small><b>{tier.tier_label}</b></div>
                   <div><strong>{formatPrice(tier.price_cents)}</strong><span>{tier.bottles_included ? `${tier.bottles_included} bottle${tier.bottles_included === 1 ? '' : 's'} included` : 'Package details at checkout'}</span></div>
-                  {ball.slug === 'greek-ball' ? <a href="#greek-sales">Request this package ↗</a> : ticketAccess ? <a href={ticketAccess}>View package ↗</a> : null}
+                  {ticketAccess ? <a href={ticketAccess}>View package ↗</a> : null}
                 </article>
               ))}
             </div>
           </div>
         ) : null}
       </section>
-
-      {ball.slug === 'greek-ball' ? (
-        <GreekBallConversion pageUrl="https://thekollectivehospitality.com/ball-series/greek-ball" />
-      ) : null}
 
       <section className={styles.shareStrip}>
         <div><small>SHARE THE CHAPTER</small><b>{ball.title}: {ball.name}</b></div>

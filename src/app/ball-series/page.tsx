@@ -11,18 +11,18 @@ export const revalidate = 300;
 export const metadata: Metadata = {
   title: 'The Ball Series — The Kollective',
   description:
-    'Six signature formal event chapters across Atlanta: Greek Ball, Monster’s Ball, Black Ball, Snow Ball, Champagne Ball and Rose Ball.',
+    'Three signature formal event chapters across Atlanta: Black Ball, Snow Ball and Champagne Ball.',
   alternates: { canonical: 'https://thekollectivehospitality.com/ball-series' },
   openGraph: {
     title: 'The Ball Series — The Kollective',
-    description: 'Dress up. Show out. Come correct. Six formal worlds across the 2026–27 season.',
-    images: [{ url: eventMotion.greekBall.poster }],
+    description: 'Dress up. Show out. Come correct. Three formal worlds across the 2026 season.',
+    images: [{ url: eventMotion.blackBall.poster }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'The Ball Series — The Kollective',
-    description: 'Six formal worlds. One premium event standard.',
-    images: [eventMotion.greekBall.poster],
+    description: 'Three formal worlds. One premium event standard.',
+    images: [eventMotion.blackBall.poster],
   },
 };
 
@@ -45,12 +45,12 @@ export default async function BallSeriesPage() {
 
       <header className={styles.hero}>
         <div className={styles.heroMedia} aria-hidden="true">
-          <MotionCover animation={eventMotion.greekBall} alt="" fill />
+          <MotionCover animation={eventMotion.blackBall} alt="" fill />
         </div>
         <div className={styles.heroShade} />
         <div className={styles.heroTopline}>
           <span>THE KOLLECTIVE PRESENTS</span>
-          <span>ATLANTA · 2026—27</span>
+          <span>ATLANTA · 2026</span>
         </div>
         <div className={styles.heroTitle}>
           <p>SIGNATURE FORMAL EVENT SERIES</p>
@@ -59,10 +59,10 @@ export default async function BallSeriesPage() {
         <div className={styles.heroBottom}>
           <div>
             <strong>Dress up. Show out. Come correct.</strong>
-            <p>Six distinct formal worlds. Six reasons to change the room. Every chapter keeps its own culture, dress code and atmosphere.</p>
+            <p>Three distinct formal worlds. Three reasons to change the room. Every chapter keeps its own culture, dress code and atmosphere.</p>
           </div>
           <div className={styles.heroActions}>
-            <a className={styles.primaryButton} href="/ball-series/greek-ball">Enter Greek Ball ↗</a>
+            <a className={styles.primaryButton} href="/ball-series/black-ball">Enter Black Ball ↗</a>
             {featuredTickets ? <a className={styles.textButton} href={featuredTickets}>Tickets live ↗</a> : null}
           </div>
         </div>
@@ -120,7 +120,7 @@ export default async function BallSeriesPage() {
         <div className={styles.standardLead}>
           <p>THE BALL SERIES STANDARD</p>
           <h2>DRESS IS PART<br />OF THE <em>EXPERIENCE.</em></h2>
-          <span>This is not six versions of the same party. The room, the music, the look and the cultural language change every chapter. The standard does not.</span>
+          <span>This is not three versions of the same party. The room, the music, the look and the cultural language change every chapter. The standard does not.</span>
         </div>
         <div className={styles.principles}>
           <article><span>01</span><h3>FORMAL,<br />NOT STIFF.</h3><p>Elevated presentation with enough energy to actually live in the room.</p></article>
@@ -130,18 +130,18 @@ export default async function BallSeriesPage() {
       </section>
 
       <section className={styles.finalCta}>
-        <p>THE FIRST CHAPTER IS LIVE</p>
-        <h2>BEAUTY & THE BEAST:<br /><em>GREEK BALL.</em></h2>
+        <p>THE NEXT CHAPTER</p>
+        <h2>BLACK ON BLACK:<br /><em>BLACK BALL.</em></h2>
         <div>
-          <span>Saturday · October 17 · Atlanta</span>
-          <a className={styles.primaryButton} href="/ball-series/greek-ball">Open Greek Ball ↗</a>
+          <span>Saturday · November 21 · Atlanta</span>
+          <a className={styles.primaryButton} href="https://black-ball.eventbrite.com">Get tickets ↗</a>
           <a className={styles.textButton} href={EVENT_HUB}>View all current events ↗</a>
         </div>
       </section>
 
       <footer className={styles.footer}>
         <b>THE KOLLECTIVE</b>
-        <span>THE BALL SERIES · ATLANTA · 2026—27</span>
+        <span>THE BALL SERIES · ATLANTA · 2026</span>
         <a href={EVENT_HUB}>EVENT ACCESS ↗</a>
       </footer>
     </main>
