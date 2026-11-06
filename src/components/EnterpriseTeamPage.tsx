@@ -70,7 +70,7 @@ const ownerOperators: TeamMember[] = [
     name: 'Tay',
     title: 'Products, Retail & Sports Owner-Operator',
     division: 'Products / Sports',
-    focus: 'FĚNYX · STUSH · SOLE EXCHANGE · MEMBER’S ELITE · PULSE / BARE',
+    focus: "FĚNYX · STUSH · SOLE EXCHANGE · MEMBER'S ELITE · PULSE / BARE",
   },
   {
     name: 'Kenny',
@@ -80,9 +80,9 @@ const ownerOperators: TeamMember[] = [
   },
   {
     name: 'Justin',
-    title: 'Member’s Elite Operator',
+    title: "Member's Elite Operator",
     division: 'Sports / Membership',
-    focus: 'MEMBER’S ELITE',
+    focus: "MEMBER'S ELITE",
   },
 ];
 

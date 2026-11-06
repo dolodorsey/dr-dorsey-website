@@ -55,7 +55,7 @@ export default function SalesFocusDirectory({ featured, sections }: { featured: 
       <section className={styles.featured} aria-labelledby="sales-focus-title">
         <header className={styles.featuredHead}>
           <span>CURRENT SALES FOCUS</span>
-          <h2 id="sales-focus-title">THE FRONT DOOR TO WHAT WE’RE SELLING NOW.</h2>
+          <h2 id="sales-focus-title">THE FRONT DOOR TO WHAT WE&apos;RE SELLING NOW.</h2>
           <p>Independent companies. Independent identities. One clean directory into the active sales focus.</p>
         </header>
         <div className={styles.featuredGrid}>

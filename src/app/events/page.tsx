@@ -28,7 +28,7 @@ const items = [
   {
     name: 'CHAMPAGNE BALL',
     eyebrow: 'THURSDAY · DECEMBER 31, 2026 · ATLANTA',
-    description: 'The New Year’s Eve formal. Champagne, black tie, and a closing statement for the year.',
+    description: "The New Year's Eve formal. Champagne, black tie, and a closing statement for the year.",
     href: 'https://111atl.com',
     animation: eventMotion.champagneBall,
   },
