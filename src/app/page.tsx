@@ -185,6 +185,7 @@ export default function HomePage() {
           <div className={styles.architectActions}>
             <a href="/forms/consultation">Private strategy ↗</a>
             <a href="/forms/speaking">Speaking & appearances ↗</a>
+            <a href="/author/dr-dorsey">Official biography ↗</a>
           </div>
         </div>
         <div className={styles.architectVisual}>
