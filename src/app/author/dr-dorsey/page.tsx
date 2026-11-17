@@ -26,13 +26,14 @@ export default function AuthorProfilePage() {
       '@id': 'https://doctordorsey.com/author/dr-dorsey#person',
       '@type': 'Person',
       name: 'Dr. DoLo Dorsey',
-      alternateName: ['Dr. Dorsey', 'DoLo Dorsey'],
+      alternateName: ['Dr. Dolo Dorsey', 'Dr. Dorsey', 'DoLo Dorsey', 'Bryan "Dolo" Dorsey'],
       url: 'https://doctordorsey.com',
       jobTitle: 'Founder & CEO',
+      mainEntityOfPage: 'https://doctordorsey.com/author/dr-dorsey',
       description: 'Founder, author, operator and enterprise architect behind The Kollective.',
       worksFor: {
         '@type': 'Organization',
-        name: 'The Kollective',
+        name: 'The Kollective Hospitality Group',
         url: 'https://thekollectivehospitality.com',
       },
       sameAs: [
@@ -57,6 +58,22 @@ export default function AuthorProfilePage() {
         <p className={styles.lead}>Founder, author, operator and enterprise architect behind The Kollective. This page is the canonical identity source for bylines, published ideas and media attribution across the Dr. Dorsey platform.</p>
         <div className={styles.actions}><a href="/insights">Read insights</a><a href="/forms/speaking">Speaking & appearances</a><a href="/press">Media center</a></div>
       </header>
+
+      <section className={styles.section}>
+        <div className={styles.sectionInner}>
+          <div className={styles.sectionHeader}><p>Official biography</p><div><h2>About Dr. Dolo Dorsey.</h2><span>Dr. Dolo Dorsey is an Atlanta-based entrepreneur, founder, and author. He founded The Kollective Hospitality Group, an enterprise connecting distinct operating brands across hospitality, cultural experiences, technology, consumer products, and community initiatives. His work focuses on building individual brand identities supported by repeatable operating systems and shared infrastructure.</span></div></div>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <div className={styles.sectionInner}>
+          <div className={styles.sectionHeader}><p>Published third-party references</p><div><h2>Reporting and profiles.</h2><span>External published references are linked for historical context and identity verification. These are not representations of Google endorsement or independent certification.</span></div></div>
+          <div className={styles.grid}>
+            <article className={styles.card}><small>What Now Atlanta · October 2020</small><h3>GoodFellas Grand Re-Opening in Midtown</h3><p>Coverage identifying Bryan “Dolo” Dorsey among the restaurant's owners at the time.</p><a href="https://whatnow.com/atlanta/restaurants/goodfellas-grand-re-opening-in-midtown-includes-new-home-park-pizzeria/" target="_blank" rel="noopener noreferrer">Read the article ↗</a></article>
+            <article className={styles.card}><small>HipHopSince1987 · 2023</small><h3>How Dolo Dorsey Became Atlanta’s Ultimate Entrepreneurial Success Story</h3><p>A published profile covering Dorsey's entrepreneurial work and cultural presence.</p><a href="https://hiphopsince1987.com/2023/community/how-dolo-dorsey-became-atlantas-ultimate-entrepreneurial-success-story-with-the-culture-behind-his-back/" target="_blank" rel="noopener noreferrer">Read the profile ↗</a></article>
+          </div>
+        </div>
+      </section>
 
       <section className={styles.section}>
         <div className={styles.sectionInner}>
